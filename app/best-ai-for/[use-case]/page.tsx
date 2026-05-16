@@ -21,21 +21,21 @@ const USE_CASES: Record<string, {
   },
   "video": {
     title: "Best AI Tools for Video Creation",
-    description: "Create, edit, and produce professional videos with AI — no camera or editing experience needed.",
+    description: "Create, edit, and produce professional videos with AI,no camera or editing experience needed.",
     tools: [
       { name: "HeyGen", domain: "heygen.com", url: "https://heygen.com", pricing: "Freemium", description: "Create AI avatar videos with realistic lip-sync in 100+ languages.", why: "Best for AI avatar videos" },
       { name: "Synthesia", domain: "synthesia.io", url: "https://synthesia.io", pricing: "Paid", description: "Professional AI video platform used by 50,000+ companies worldwide.", why: "Best for corporate training videos" },
       { name: "Runway", domain: "runwayml.com", url: "https://runwayml.com", pricing: "Freemium", description: "AI video generation and editing with text-to-video capabilities.", why: "Best for creative video generation" },
-      { name: "Descript", domain: "descript.com", url: "https://descript.com", pricing: "Freemium", description: "Edit video by editing text — the easiest video editor ever made.", why: "Best for podcast & interview videos" },
+      { name: "Descript", domain: "descript.com", url: "https://descript.com", pricing: "Freemium", description: "Edit video by editing text,the easiest video editor ever made.", why: "Best for podcast & interview videos" },
       { name: "Pictory", domain: "pictory.ai", url: "https://pictory.ai", pricing: "Paid", description: "Turn blog posts and scripts into short videos automatically.", why: "Best for repurposing content" },
       { name: "Lumen5", domain: "lumen5.com", url: "https://lumen5.com", pricing: "Freemium", description: "Transform articles into engaging social media videos with AI.", why: "Best for social media videos" },
     ],
   },
   "image-generation": {
     title: "Best AI Tools for Image Generation",
-    description: "Generate stunning, unique images from text descriptions. From art to product photos — no design skills needed.",
+    description: "Generate stunning, unique images from text descriptions. From art to product photos,no design skills needed.",
     tools: [
-      { name: "Midjourney", domain: "midjourney.com", url: "https://midjourney.com", pricing: "Paid", description: "The gold standard for AI art — produces the most visually stunning results.", why: "Best image quality" },
+      { name: "Midjourney", domain: "midjourney.com", url: "https://midjourney.com", pricing: "Paid", description: "The gold standard for AI art,produces the most visually stunning results.", why: "Best image quality" },
       { name: "DALL-E 3", domain: "openai.com", url: "https://labs.openai.com", pricing: "Freemium", description: "OpenAI's image generator, integrated directly into ChatGPT.", why: "Best for following text prompts exactly" },
       { name: "Adobe Firefly", domain: "adobe.com", url: "https://firefly.adobe.com", pricing: "Freemium", description: "Commercially safe AI images built into Adobe's creative suite.", why: "Best for commercial use" },
       { name: "Leonardo.ai", domain: "leonardo.ai", url: "https://leonardo.ai", pricing: "Freemium", description: "Fine-tuned models for game art, product images, and consistent characters.", why: "Best for game & product assets" },
@@ -57,7 +57,7 @@ const USE_CASES: Record<string, {
   },
   "music": {
     title: "Best AI Tools for Music Creation",
-    description: "Create original music, beats, and sound effects with AI — no musical experience required.",
+    description: "Create original music, beats, and sound effects with AI,no musical experience required.",
     tools: [
       { name: "Suno", domain: "suno.ai", url: "https://suno.ai", pricing: "Freemium", description: "Generate full songs with vocals, lyrics, and production from a text prompt.", why: "Best for full song generation" },
       { name: "Udio", domain: "udio.com", url: "https://udio.com", pricing: "Freemium", description: "Create studio-quality music in any genre from text descriptions.", why: "Best audio quality" },
@@ -71,7 +71,7 @@ const USE_CASES: Record<string, {
     title: "Best AI Tools for Productivity",
     description: "Work smarter with AI tools that automate tasks, organize your work, and save you hours every day.",
     tools: [
-      { name: "Notion AI", domain: "notion.so", url: "https://notion.so", pricing: "Freemium", description: "AI built into your workspace — summarize, write, and organize without switching tabs.", why: "Best all-in-one workspace" },
+      { name: "Notion AI", domain: "notion.so", url: "https://notion.so", pricing: "Freemium", description: "AI built into your workspace,summarize, write, and organize without switching tabs.", why: "Best all-in-one workspace" },
       { name: "Otter.ai", domain: "otter.ai", url: "https://otter.ai", pricing: "Freemium", description: "Transcribe meetings in real time and generate automatic summaries.", why: "Best for meeting notes" },
       { name: "Motion", domain: "usemotion.com", url: "https://usemotion.com", pricing: "Paid", description: "AI that automatically schedules your tasks around your meetings.", why: "Best for scheduling" },
       { name: "Zapier", domain: "zapier.com", url: "https://zapier.com", pricing: "Freemium", description: "Connect 5,000+ apps and automate workflows without code.", why: "Best for automation" },
@@ -137,7 +137,7 @@ export async function generateMetadata({ params }: { params: Promise<{ "use-case
   const data = USE_CASES[key];
   if (!data) return { title: "Not Found" };
   return {
-    title: `${data.title} (2025) — HowToUseMyAI`,
+    title: `${data.title} (2025),HowToUseMyAI`,
     description: data.description,
   };
 }

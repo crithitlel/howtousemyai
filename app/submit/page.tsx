@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import Logo from "../components/Logo";
 
 const CATEGORIES = [
-  "Writing", "Image Generation", "Coding", "Video", "Music",
-  "Research", "Productivity", "Marketing", "Data Analysis", "Presentations", "Customer Support",
+  "Writing", "Images", "Coding", "Video", "Music",
+  "Research", "Productivity", "Marketing", "Analytics", "Presentations", "Support",
+  "Design", "HR", "Finance",
 ];
 
 export default function SubmitPage() {
@@ -36,18 +37,13 @@ export default function SubmitPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* Dark navy header */}
-      <header className="sticky top-0 z-20 bg-[#0a0f1e] border-b border-white/5 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <button onClick={() => router.push("/")} className="flex items-center gap-2.5">
-            <Logo size={32} />
-            <span className="font-semibold text-white text-base tracking-tight">HowToUseMyAI</span>
-          </button>
-          <nav className="hidden md:flex items-center gap-7 text-sm">
-            <a href="/#tools" className="text-white/50 hover:text-white transition-colors">Browse</a>
-            <a href="/recommend?q=what+is+the+best+AI+tool+for+me" className="text-white/50 hover:text-white transition-colors">Recommend Me</a>
-            <a href="/submit" className="text-[#e41e3f] font-medium hover:opacity-80 transition-opacity">+ Submit a Tool</a>
-          </nav>
+      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-[#e4e6ea] px-6 py-3">
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+          <a href="/" className="flex items-center gap-2 flex-shrink-0">
+            <Logo size={24} />
+            <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
+          </a>
+          <a href="/" className="text-xs text-[#65676b] hover:text-[#1877F2] font-medium transition-colors whitespace-nowrap">← Back</a>
         </div>
       </header>
 
@@ -165,18 +161,17 @@ export default function SubmitPage() {
         </div>
       </main>
 
-      {/* Dark navy footer */}
-      <footer className="bg-[#0a0f1e] border-t border-white/5 px-6 py-6">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/30">
+      <footer className="border-t border-[#e4e6ea] px-6 py-4 bg-white">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65676b]">
           <div className="flex items-center gap-2">
-            <Logo size={20} />
-            <span className="font-medium text-white/60">HowToUseMyAI</span>
+            <Logo size={18} />
+            <span className="font-medium text-[#1877F2]">HowToUseMyAI</span>
           </div>
-          <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} HowToUseMyAI</p>
           <div className="flex gap-5">
-            <a href="/privacy" className="hover:text-white/60 transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-white/60 transition-colors">Terms</a>
-            <a href="/submit" className="hover:text-white/60 transition-colors">Submit a Tool</a>
+            <a href="/" className="hover:text-[#1877F2] transition-colors">Home</a>
+            <a href="/privacy" className="hover:text-[#1877F2] transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-[#1877F2] transition-colors">Terms</a>
           </div>
         </div>
       </footer>
