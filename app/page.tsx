@@ -191,11 +191,6 @@ export default function HomePage() {
       <section className="bg-white px-4 sm:px-6 pt-12 sm:pt-16 pb-10 text-center">
         <div className="max-w-2xl mx-auto">
 
-          {/* Logo + tagline */}
-          <div className="flex items-center justify-center gap-2.5 mb-5">
-            <Logo size={34} />
-            <span className="font-semibold text-[#1877F2] text-xl tracking-tight">HowToUseMyAI</span>
-          </div>
           <div className="mb-8" />
 
           {/* Inline search bar */}
