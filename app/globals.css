@@ -1,26 +1,80 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --fb-blue: #1877F2;
+  --fb-blue-dark: #166FE5;
+  --fb-blue-light: #E7F3FF;
+  --fb-red: #e41e3f;
+  --navy: #0a0f1e;
+  --navy-mid: #111827;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #1c1e21;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
+
+
+/* Card glow on hover */
+.tool-card {
+  transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+}
+.tool-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px -4px rgba(24, 119, 242, 0.2), 0 2px 8px -2px rgba(24, 119, 242, 0.1);
+  border-color: #1877F2;
+}
+
+/* Search bar with animated red corner glow */
+.search-glow {
+  position: relative;
+  border: 1.5px solid #e4e6ea;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.search-glow:focus-within {
+  border-color: #e41e3f;
+  box-shadow:
+    0 0 0 3px rgba(228, 30, 63, 0.08),
+    0 4px 20px rgba(228, 30, 63, 0.12);
+}
+
+.badge-free, .badge-freemium {
+  background-color: #E7F3FF;
+  color: #1877F2;
+}
+
+.badge-paid {
+  background-color: #fff0f3;
+  color: #e41e3f;
+}
+
+/* Shimmer on card hover */
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+.tool-card:hover::before {
+  left: 150%;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fadeInUp 0.4s ease forwards; }
+.stagger-1 { animation-delay: 0.05s; opacity: 0; }
+.stagger-2 { animation-delay: 0.10s; opacity: 0; }
+.stagger-3 { animation-delay: 0.15s; opacity: 0; }
+.stagger-4 { animation-delay: 0.20s; opacity: 0; }
+.stagger-5 { animation-delay: 0.25s; opacity: 0; }
