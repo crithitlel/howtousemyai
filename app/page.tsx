@@ -176,23 +176,36 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
 
-      {/* Hero — Google-style, no header */}
-      <section className="bg-white px-4 sm:px-6 pt-16 sm:pt-24 pb-8 text-center">
+      {/* Sticky nav */}
+      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-[#e4e6ea] px-6 py-3">
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+          <a href="/" className="flex items-center gap-2 flex-shrink-0">
+            <Logo size={24} />
+            <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
+          </a>
+<a href="/submit" className="text-xs text-[#e41e3f] font-semibold hover:opacity-80 transition-opacity whitespace-nowrap">+ Submit a Tool</a>
+        </div>
+      </header>
+
+      {/* Hero — Google-style */}
+      <section className="bg-white px-4 sm:px-6 pt-12 sm:pt-16 pb-10 text-center">
         <div className="max-w-2xl mx-auto">
 
-          {/* Centered logo + wordmark */}
-          <div className="flex items-center justify-center gap-2.5 mb-10">
-            <Logo size={36} />
-            <span className="font-semibold text-[#1877F2] text-xl tracking-tight">
-              HowToUseMyAI
-            </span>
+          {/* Logo + tagline */}
+          <div className="flex items-center justify-center gap-2.5 mb-5">
+            <Logo size={34} />
+            <span className="font-semibold text-[#1877F2] text-xl tracking-tight">HowToUseMyAI</span>
           </div>
+          <div className="mb-8" />
 
-          {/* Search bar with red glow border */}
-          <div className="search-glow flex flex-col sm:flex-row gap-2 bg-white rounded-xl p-1.5">
+          {/* Inline search bar */}
+          <div className="search-glow flex items-center bg-white rounded-full px-4 py-2 gap-2">
+            <svg className="w-4 h-4 text-[#bcc0c4] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
             <input
               type="text"
-              className="flex-1 text-sm text-[#1c1e21] bg-transparent px-3 py-2 placeholder-[#bcc0c4] focus:outline-none"
+              className="flex-1 text-sm text-[#1c1e21] bg-transparent placeholder-[#bcc0c4] focus:outline-none"
               placeholder='e.g. "I want to create a YouTube video"'
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -201,63 +214,36 @@ export default function HomePage() {
             <button
               onClick={() => handleSubmit(query)}
               disabled={!query.trim()}
-              className="bg-[#1877F2] hover:bg-[#166FE5] disabled:opacity-30 disabled:cursor-not-allowed text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors whitespace-nowrap"
+              className="bg-[#1877F2] hover:bg-[#166FE5] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors whitespace-nowrap flex-shrink-0"
             >
               Find My AI →
             </button>
           </div>
 
-          {/* Trending searches */}
-          <div className="mt-4 flex items-center gap-2 justify-center flex-wrap">
-            <span className="text-xs text-[#65676b] font-medium flex-shrink-0">Popular:</span>
-            <div className="flex gap-2 flex-wrap justify-center">
-              {TRENDING.map((term) => (
-                <button
-                  key={term}
-                  onClick={() => handleSubmit(term)}
-                  className="text-xs px-3 py-1 rounded-full border border-[#dddfe2] text-[#65676b] hover:border-[#1877F2] hover:text-[#1877F2] transition-all whitespace-nowrap"
-                >
-                  {term}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="bg-[#f7f8fa] px-6 py-10 border-y border-[#e4e6ea]">
-        <div className="max-w-3xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4">
-            {HOW_IT_WORKS.map(({ icon, step, title, desc }) => (
-              <div key={step} className="flex flex-col items-center text-center gap-3">
-                <div className="flex items-center justify-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-[#1877F2] text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0">
-                    {step}
-                  </div>
-                  <span className="text-xl">{icon}</span>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-[#1c1e21] mb-1">{title}</p>
-                  <p className="text-xs text-[#65676b] leading-relaxed">{desc}</p>
-                </div>
-              </div>
+          {/* Trending chips — scrollable single row */}
+          <div className="mt-5 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide" style={{ scrollbarWidth: "none" }}>
+            <span className="text-xs text-[#bcc0c4] flex-shrink-0">Try:</span>
+            {TRENDING.map((term) => (
+              <button
+                key={term}
+                onClick={() => handleSubmit(term)}
+                className="text-xs px-3 py-1.5 rounded-full border border-[#e4e6ea] text-[#65676b] hover:border-[#1877F2] hover:text-[#1877F2] transition-all bg-white whitespace-nowrap flex-shrink-0"
+              >
+                {term}
+              </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Thin gradient divider */}
-      <div className="h-px bg-gradient-to-r from-transparent via-[#1877F2]/30 to-transparent" />
-
       {/* Category chips */}
       <section id="tools" className="px-6 pt-5 pb-3 bg-white border-b border-[#f0f2f5]">
-        <div className="max-w-6xl mx-auto flex gap-2 flex-wrap justify-center">
+        <div className="max-w-6xl mx-auto flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all ${
+              className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all whitespace-nowrap flex-shrink-0 ${
                 activeCategory === cat
                   ? "bg-[#1877F2] text-white border-[#1877F2] shadow-sm shadow-[#1877F2]/20"
                   : "bg-white text-[#65676b] border-[#dddfe2] hover:border-[#1877F2] hover:text-[#1877F2]"
@@ -269,12 +255,12 @@ export default function HomePage() {
         </div>
 
         {/* Pricing filter */}
-        <div className="max-w-6xl mx-auto flex gap-2 flex-wrap mt-3 pb-2 justify-center">
+        <div className="max-w-6xl mx-auto flex gap-2 mt-3 pb-2 overflow-x-auto" style={{ scrollbarWidth: "none" }}>
           {PRICING_OPTIONS.map((p) => (
             <button
               key={p}
               onClick={() => setActivePricing(p)}
-              className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all ${
+              className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all whitespace-nowrap flex-shrink-0 ${
                 activePricing === p
                   ? "bg-[#e41e3f] text-white border-[#e41e3f] shadow-sm shadow-[#e41e3f]/20"
                   : "bg-white text-[#65676b] border-[#dddfe2] hover:border-[#e41e3f] hover:text-[#e41e3f]"
@@ -287,22 +273,24 @@ export default function HomePage() {
       </section>
 
       {/* Tool cards */}
-      <section className="px-6 py-8 flex-1 bg-[#f7f8fa]">
+      <section className="px-4 sm:px-6 py-8 flex-1 bg-[#f7f8fa]">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs text-[#65676b] mb-5">{filtered.length} tools available</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             {filtered.map((tool) => (
-              <div
+              <a
                 key={tool.name}
-                className="tool-card relative group bg-white border border-[#e4e6ea] rounded-xl p-4 flex flex-col gap-3 overflow-hidden"
+                href={`/tools/${slugify(tool.name)}`}
+                className="tool-card relative group bg-white border border-[#e4e6ea] rounded-xl p-4 flex flex-col gap-2 overflow-hidden hover:shadow-md transition-all"
               >
-                <div className="flex items-start justify-between">
-                  <div className="w-10 h-10 rounded-lg bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden">
+                {/* Top row: logo + badges */}
+                <div className="flex items-center justify-between">
+                  <div className="w-9 h-9 rounded-lg bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0">
                     <img
                       src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
                       alt={tool.name}
-                      width={28}
-                      height={28}
+                      width={24}
+                      height={24}
                       className="rounded object-contain"
                       onError={(e) => {
                         const t = e.currentTarget;
@@ -310,22 +298,21 @@ export default function HomePage() {
                         if (t.nextElementSibling) (t.nextElementSibling as HTMLElement).style.display = "flex";
                       }}
                     />
-                    <span className="text-xl hidden items-center justify-center w-full h-full">{tool.icon}</span>
+                    <span className="text-lg hidden items-center justify-center w-full h-full">{tool.icon}</span>
                   </div>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1">
                     {tool.isNew && (
-                      <span className="text-[10px] font-semibold bg-[#fff0f3] text-[#e41e3f] px-2 py-0.5 rounded-full">
-                        NEW
-                      </span>
+                      <span className="text-[9px] font-bold bg-[#fff0f3] text-[#e41e3f] px-1.5 py-0.5 rounded-full">NEW</span>
                     )}
-                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${PRICING_STYLES[tool.pricing]}`}>
+                    <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${PRICING_STYLES[tool.pricing]}`}>
                       {tool.pricing.toUpperCase()}
                     </span>
                   </div>
                 </div>
 
+                {/* Name + description */}
                 <div>
-                  <h3 className="text-sm font-semibold text-[#1c1e21] group-hover:text-[#1877F2] transition-colors">
+                  <h3 className="text-sm font-semibold text-[#1c1e21] group-hover:text-[#1877F2] transition-colors leading-tight">
                     {tool.name}
                   </h3>
                   <p className="text-xs text-[#65676b] mt-1 leading-relaxed line-clamp-2">
@@ -333,42 +320,24 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                <div className="mt-auto flex items-center justify-between">
-                  <span className="text-[10px] text-[#1877F2] bg-[#E7F3FF] px-2 py-0.5 rounded-full">
-                    {tool.category}
+                {/* Visit link */}
+                <div className="mt-auto pt-1">
+                  <span className="text-[11px] font-medium text-[#1877F2] group-hover:underline">
+                    Visit tool →
                   </span>
-                  <div className="flex items-center gap-2">
-                    <a
-                      href={`/tools/${slugify(tool.name)}`}
-                      className="text-[10px] text-[#65676b] hover:text-[#1877F2] transition-colors"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      Learn more
-                    </a>
-                    <a
-                      href={tool.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[10px] text-white bg-[#1877F2] hover:bg-[#166FE5] px-2 py-0.5 rounded-full transition-colors"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      Visit →
-                    </a>
-                  </div>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Newsletter signup section */}
-      <section className="bg-white px-6 py-16">
-        <div className="max-w-xl mx-auto text-center">
+      {/* Newsletter */}
+      <section className="bg-white border-t border-[#e4e6ea] px-6 py-10">
+        <div className="max-w-md mx-auto text-center">
+          <p className="text-xs text-[#65676b] mb-4">Get the best new AI tools in your inbox every week.</p>
           {subscribed ? (
-            <div className="bg-[#E7F3FF] border border-[#1877F2]/20 rounded-xl px-6 py-4 text-sm text-[#1877F2] font-medium">
-              You&apos;re in! Check your inbox. 🎉
-            </div>
+            <p className="text-sm text-[#1877F2] font-medium">You&apos;re in!</p>
           ) : (
             <form
               onSubmit={async (e) => {
@@ -382,19 +351,19 @@ export default function HomePage() {
                   setSubscribed(true);
                 }
               }}
-              className="flex flex-col sm:flex-row gap-2"
+              className="search-glow flex items-center bg-white rounded-full px-4 py-2 gap-2"
             >
               <input
                 type="email"
                 required
-                placeholder="you@example.com"
+                placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 bg-white text-[#1c1e21] text-sm px-4 py-3 rounded-lg placeholder-[#bcc0c4] focus:outline-none search-glow"
+                className="flex-1 text-sm text-[#1c1e21] bg-transparent placeholder-[#bcc0c4] focus:outline-none"
               />
               <button
                 type="submit"
-                className="bg-[#1877F2] hover:bg-[#166FE5] text-white text-sm font-semibold px-6 py-3 rounded-lg transition-colors whitespace-nowrap"
+                className="bg-[#1877F2] hover:bg-[#166FE5] text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors whitespace-nowrap flex-shrink-0"
               >
                 Subscribe
               </button>
@@ -403,38 +372,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Rich footer */}
-      <footer className="bg-white border-t border-[#e4e6ea] px-6 py-12">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-10">
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-2.5">
-                <Logo size={28} />
-                <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
-              </div>
-              <p className="text-xs text-[#65676b] leading-relaxed">Making AI accessible to everyone.</p>
-            </div>
-            <div className="flex flex-col gap-3">
-              <p className="text-[10px] font-semibold text-[#65676b] uppercase tracking-widest mb-1">Quick Links</p>
-              <a href="/" className="text-xs text-[#65676b] hover:text-[#1877F2] transition-colors">Home</a>
-              <a href="/#tools" className="text-xs text-[#65676b] hover:text-[#1877F2] transition-colors">Browse Tools</a>
-              <a href="/recommend?q=what+is+the+best+AI+tool+for+me" className="text-xs text-[#65676b] hover:text-[#1877F2] transition-colors">Recommend Me</a>
-              <a href="/submit" className="text-xs text-[#e41e3f] hover:opacity-80 transition-colors font-medium">+ Submit a Tool</a>
-            </div>
-            <div className="flex flex-col gap-3">
-              <p className="text-[10px] font-semibold text-[#65676b] uppercase tracking-widest mb-1">Categories</p>
-              {FOOTER_CATEGORIES.map((cat) => (
-                <a key={cat} href={`/recommend?q=best AI tools for ${cat.toLowerCase()}`} className="text-xs text-[#65676b] hover:text-[#1877F2] transition-colors">{cat}</a>
-              ))}
-            </div>
+      {/* Footer */}
+      <footer className="border-t border-[#e4e6ea] px-6 py-6">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#65676b]">
+          <div className="flex items-center gap-2">
+            <Logo size={18} />
+            <span className="font-medium text-[#1877F2]">HowToUseMyAI</span>
           </div>
-          <div className="border-t border-[#e4e6ea] pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65676b]">
-            <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
-            <div className="flex gap-5">
-              <a href="/privacy" className="hover:text-[#1877F2] transition-colors">Privacy</a>
-              <a href="/terms" className="hover:text-[#1877F2] transition-colors">Terms</a>
-            </div>
+          <div className="flex gap-5">
+            <a href="/" className="hover:text-[#1877F2] transition-colors">Home</a>
+            <a href="/submit" className="hover:text-[#e41e3f] transition-colors text-[#e41e3f]">Submit a Tool</a>
+            <a href="/privacy" className="hover:text-[#1877F2] transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-[#1877F2] transition-colors">Terms</a>
           </div>
+          <p>© {new Date().getFullYear()} HowToUseMyAI</p>
         </div>
       </footer>
     </div>
