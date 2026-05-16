@@ -24,8 +24,13 @@ export default function SubmitPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    await fetch("https://formspree.io/f/mbdwnbqb", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ ...form, _replyto: form.email }),
+    });
     setSubmitted(true);
   };
 
