@@ -417,7 +417,7 @@ export default function HomePage() {
             <div className="flex flex-col gap-3">
               <p className="text-[10px] font-semibold text-[#65676b] uppercase tracking-widest mb-1">Categories</p>
               {FOOTER_CATEGORIES.map((cat) => (
-                <a key={cat} href="/" className="text-xs text-[#65676b] hover:text-[#1877F2] transition-colors">{cat}</a>
+                <a key={cat} href={`/recommend?q=best AI tools for ${cat.toLowerCase()}`} className="text-xs text-[#65676b] hover:text-[#1877F2] transition-colors">{cat}</a>
               ))}
             </div>
           </div>

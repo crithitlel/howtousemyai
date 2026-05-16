@@ -14,7 +14,7 @@
 - **Framework:** Next.js 15 (App Router) + TypeScript
 - **Styling:** Tailwind CSS + custom CSS (globals.css)
 - **Fonts:** Inter + Playfair Display (Google Fonts)
-- **Logos:** Clearbit API (`https://logo.clearbit.com/{domain}`)
+- **Logos:** Google Favicon API (`https://www.google.com/s2/favicons?domain={domain}&sz=64`)
 - **Hosting:** Vercel (free tier)
 - **No database** — all data is static in code
 
