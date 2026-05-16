@@ -252,7 +252,7 @@ export default function HomePage() {
 
       {/* Category chips */}
       <section id="tools" className="px-6 pt-5 pb-3 bg-white border-b border-[#f0f2f5]">
-        <div className="max-w-6xl mx-auto flex gap-2 flex-wrap">
+        <div className="max-w-6xl mx-auto flex gap-2 flex-wrap justify-center">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
@@ -269,7 +269,7 @@ export default function HomePage() {
         </div>
 
         {/* Pricing filter */}
-        <div className="max-w-6xl mx-auto flex gap-2 flex-wrap mt-3 pb-2">
+        <div className="max-w-6xl mx-auto flex gap-2 flex-wrap mt-3 pb-2 justify-center">
           {PRICING_OPTIONS.map((p) => (
             <button
               key={p}
