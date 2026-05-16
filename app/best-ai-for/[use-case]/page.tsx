@@ -211,7 +211,7 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
             href={`/recommend?q=${encodeURIComponent(data.title.replace("Best AI Tools for ", "I want to "))}`}
             className="bg-[#1877F2] text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[#166FE5] transition-colors inline-block"
           >
-            Get a personalized recommendation →
+            Get a personalized recommendation
           </Link>
         </div>
       </main>

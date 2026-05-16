@@ -157,7 +157,7 @@ export default function SubmitPage() {
                   type="submit"
                   className="mt-2 bg-[#1877F2] hover:bg-[#166FE5] text-white text-sm font-semibold px-6 py-3 rounded-lg transition-colors"
                 >
-                  Submit Tool →
+                  Submit Tool
                 </button>
               </form>
             </div>

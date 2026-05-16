@@ -1286,7 +1286,7 @@ export default function ToolPage() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white text-sm font-semibold px-8 py-3.5 rounded-xl transition-colors"
         >
-          Visit {tool.name} →
+          Visit {tool.name}
         </a>
       </div>
 

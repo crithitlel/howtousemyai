@@ -365,7 +365,7 @@ function RecommendResults() {
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-colors"
                   >
-                    Open {tool.name} →
+                    Open {tool.name}
                   </a>
                 </div>
               </div>
