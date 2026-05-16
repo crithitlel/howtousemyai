@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import Logo from "./components/Logo";
 
 const CATEGORIES = [
-  "All", "Writing", "Image Generation",
+  "All", "Writing", "Images",
   "Coding", "Video", "Music",
   "Research", "Productivity", "Marketing",
-  "Data Analysis", "Presentations", "Design",
-  "Customer Support", "HR & Recruiting", "Finance",
+  "Analytics", "Presentations", "Design",
+  "Support", "HR", "Finance",
 ];
 
 const PRICING_OPTIONS = ["All", "Free", "Freemium", "Paid"] as const;
@@ -53,20 +53,20 @@ const TOOLS: Tool[] = [
   { name: "Notion AI", description: "AI built into Notion for writing, summarizing and organizing.", category: "Writing", pricing: "Freemium", isNew: false, icon: "🗂️", domain: "notion.so", url: "https://notion.so/product/ai", isFeatured: false, isNewThisWeek: false },
   { name: "ProWritingAid", description: "In-depth grammar and style checker for authors.", category: "Writing", pricing: "Freemium", isNew: false, icon: "📋", domain: "prowritingaid.com", url: "https://prowritingaid.com", isFeatured: false, isNewThisWeek: false },
   // Image Generation
-  { name: "Midjourney", description: "Generate stunning, artistic images from text prompts.", category: "Image Generation", pricing: "Paid", isNew: false, icon: "🎨", domain: "midjourney.com", url: "https://midjourney.com", isFeatured: true, isNewThisWeek: false },
+  { name: "Midjourney", description: "Generate stunning, artistic images from text prompts.", category: "Images", pricing: "Paid", isNew: false, icon: "🎨", domain: "midjourney.com", url: "https://midjourney.com", isFeatured: true, isNewThisWeek: false },
   { name: "Canva AI", description: "Design platform with AI image generation built in.", category: "Design", pricing: "Freemium", isNew: false, icon: "🖌️", domain: "canva.com", url: "https://canva.com", isFeatured: true, isNewThisWeek: false },
-  { name: "DALL-E 3", description: "OpenAI's image generation model integrated into ChatGPT.", category: "Image Generation", pricing: "Freemium", isNew: false, icon: "🖼️", domain: "openai.com", url: "https://labs.openai.com", isFeatured: false, isNewThisWeek: false },
+  { name: "DALL-E 3", description: "OpenAI's image generation model integrated into ChatGPT.", category: "Images", pricing: "Freemium", isNew: false, icon: "🖼️", domain: "openai.com", url: "https://labs.openai.com", isFeatured: false, isNewThisWeek: false },
   { name: "Adobe Firefly", description: "Commercially safe AI image generation built into Adobe tools.", category: "Design", pricing: "Freemium", isNew: false, icon: "🔥", domain: "adobe.com", url: "https://firefly.adobe.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Leonardo.ai", description: "Fine-tuned image generation for game art and product design.", category: "Image Generation", pricing: "Freemium", isNew: true, icon: "🎭", domain: "leonardo.ai", url: "https://leonardo.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "Stable Diffusion", description: "Open-source image model with no usage limits.", category: "Image Generation", pricing: "Free", isNew: false, icon: "⚡", domain: "stability.ai", url: "https://dreamstudio.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "Ideogram", description: "AI image generator great for text in images.", category: "Image Generation", pricing: "Freemium", isNew: true, icon: "🔤", domain: "ideogram.ai", url: "https://ideogram.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "Playground AI", description: "Free AI image generator with powerful controls.", category: "Image Generation", pricing: "Free", isNew: false, icon: "🎮", domain: "playground.com", url: "https://playground.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Leonardo.ai", description: "Fine-tuned image generation for game art and product design.", category: "Images", pricing: "Freemium", isNew: true, icon: "🎭", domain: "leonardo.ai", url: "https://leonardo.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "Stable Diffusion", description: "Open-source image model with no usage limits.", category: "Images", pricing: "Free", isNew: false, icon: "⚡", domain: "stability.ai", url: "https://dreamstudio.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "Ideogram", description: "AI image generator great for text in images.", category: "Images", pricing: "Freemium", isNew: true, icon: "🔤", domain: "ideogram.ai", url: "https://ideogram.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "Playground AI", description: "Free AI image generator with powerful controls.", category: "Images", pricing: "Free", isNew: false, icon: "🎮", domain: "playground.com", url: "https://playground.com", isFeatured: false, isNewThisWeek: false },
   { name: "Remove.bg", description: "Remove image backgrounds instantly with AI.", category: "Design", pricing: "Freemium", isNew: false, icon: "✂️", domain: "remove.bg", url: "https://remove.bg", isFeatured: false, isNewThisWeek: false },
   { name: "Clipdrop", description: "Suite of AI image editing tools by Stability AI.", category: "Design", pricing: "Freemium", isNew: false, icon: "📷", domain: "clipdrop.co", url: "https://clipdrop.co", isFeatured: false, isNewThisWeek: false },
-  { name: "Flux", description: "State-of-the-art open-source image generation model by Black Forest Labs.", category: "Image Generation", pricing: "Free", isNew: true, icon: "🌊", domain: "blackforestlabs.ai", url: "https://blackforestlabs.ai", isFeatured: false, isNewThisWeek: true },
-  { name: "Imagen 3", description: "Google's highest quality text-to-image model.", category: "Image Generation", pricing: "Freemium", isNew: true, icon: "🖼️", domain: "deepmind.google", url: "https://deepmind.google/technologies/imagen-3", isFeatured: false, isNewThisWeek: false },
-  { name: "NightCafe", description: "AI art generator with multiple style algorithms.", category: "Image Generation", pricing: "Freemium", isNew: false, icon: "🌙", domain: "nightcafe.studio", url: "https://nightcafe.studio", isFeatured: false, isNewThisWeek: false },
-  { name: "Artbreeder", description: "Blend and explore AI-generated artwork collaboratively.", category: "Image Generation", pricing: "Freemium", isNew: false, icon: "🌿", domain: "artbreeder.com", url: "https://artbreeder.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Flux", description: "State-of-the-art open-source image generation model by Black Forest Labs.", category: "Images", pricing: "Free", isNew: true, icon: "🌊", domain: "blackforestlabs.ai", url: "https://blackforestlabs.ai", isFeatured: false, isNewThisWeek: true },
+  { name: "Imagen 3", description: "Google's highest quality text-to-image model.", category: "Images", pricing: "Freemium", isNew: true, icon: "🖼️", domain: "deepmind.google", url: "https://deepmind.google/technologies/imagen-3", isFeatured: false, isNewThisWeek: false },
+  { name: "NightCafe", description: "AI art generator with multiple style algorithms.", category: "Images", pricing: "Freemium", isNew: false, icon: "🌙", domain: "nightcafe.studio", url: "https://nightcafe.studio", isFeatured: false, isNewThisWeek: false },
+  { name: "Artbreeder", description: "Blend and explore AI-generated artwork collaboratively.", category: "Images", pricing: "Freemium", isNew: false, icon: "🌿", domain: "artbreeder.com", url: "https://artbreeder.com", isFeatured: false, isNewThisWeek: false },
   // Coding
   { name: "GitHub Copilot", description: "AI pair programmer that suggests code completions in real time.", category: "Coding", pricing: "Freemium", isNew: false, icon: "💻", domain: "github.com", url: "https://github.com/features/copilot", isFeatured: true, isNewThisWeek: false },
   { name: "Cursor", description: "AI-first code editor that understands your entire codebase.", category: "Coding", pricing: "Freemium", isNew: true, icon: "⌨️", domain: "cursor.sh", url: "https://cursor.sh", isFeatured: false, isNewThisWeek: false },
@@ -149,16 +149,16 @@ const TOOLS: Tool[] = [
   { name: "Clearscope", description: "AI content optimization tool for better SEO rankings.", category: "Marketing", pricing: "Paid", isNew: false, icon: "📈", domain: "clearscope.io", url: "https://clearscope.io", isFeatured: false, isNewThisWeek: false },
   { name: "Brand24", description: "AI media monitoring and social listening tool.", category: "Marketing", pricing: "Freemium", isNew: false, icon: "👁️", domain: "brand24.com", url: "https://brand24.com", isFeatured: false, isNewThisWeek: false },
   // Data Analysis
-  { name: "Julius AI", description: "Chat with your data — upload spreadsheets and get instant analysis.", category: "Data Analysis", pricing: "Freemium", isNew: true, icon: "📊", domain: "julius.ai", url: "https://julius.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "Akkio", description: "No-code AI analytics for predictions and dashboards.", category: "Data Analysis", pricing: "Freemium", isNew: false, icon: "🔢", domain: "akkio.com", url: "https://akkio.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Tableau AI", description: "AI-powered business intelligence and visualization.", category: "Data Analysis", pricing: "Paid", isNew: false, icon: "📉", domain: "tableau.com", url: "https://tableau.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Obviously AI", description: "No-code AI predictions from any dataset.", category: "Data Analysis", pricing: "Freemium", isNew: false, icon: "💡", domain: "obviously.ai", url: "https://obviously.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "MonkeyLearn", description: "AI text analysis and classification.", category: "Data Analysis", pricing: "Freemium", isNew: false, icon: "🐒", domain: "monkeylearn.com", url: "https://monkeylearn.com", isFeatured: false, isNewThisWeek: false },
-  { name: "DataRobot", description: "Enterprise AI platform for predictive analytics.", category: "Data Analysis", pricing: "Paid", isNew: false, icon: "🤖", domain: "datarobot.com", url: "https://datarobot.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Polymer", description: "Turn spreadsheets into interactive AI-powered dashboards.", category: "Data Analysis", pricing: "Freemium", isNew: false, icon: "📊", domain: "polymersearch.com", url: "https://polymersearch.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Hex", description: "Collaborative AI data science notebook and app builder.", category: "Data Analysis", pricing: "Freemium", isNew: false, icon: "🔷", domain: "hex.tech", url: "https://hex.tech", isFeatured: false, isNewThisWeek: false },
-  { name: "Equals", description: "AI-powered spreadsheet with live data connections.", category: "Data Analysis", pricing: "Freemium", isNew: true, icon: "🔢", domain: "equals.com", url: "https://equals.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Deepnote", description: "AI-enhanced collaborative data science notebooks.", category: "Data Analysis", pricing: "Freemium", isNew: false, icon: "📓", domain: "deepnote.com", url: "https://deepnote.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Julius AI", description: "Chat with your data — upload spreadsheets and get instant analysis.", category: "Analytics", pricing: "Freemium", isNew: true, icon: "📊", domain: "julius.ai", url: "https://julius.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "Akkio", description: "No-code AI analytics for predictions and dashboards.", category: "Analytics", pricing: "Freemium", isNew: false, icon: "🔢", domain: "akkio.com", url: "https://akkio.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Tableau AI", description: "AI-powered business intelligence and visualization.", category: "Analytics", pricing: "Paid", isNew: false, icon: "📉", domain: "tableau.com", url: "https://tableau.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Obviously AI", description: "No-code AI predictions from any dataset.", category: "Analytics", pricing: "Freemium", isNew: false, icon: "💡", domain: "obviously.ai", url: "https://obviously.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "MonkeyLearn", description: "AI text analysis and classification.", category: "Analytics", pricing: "Freemium", isNew: false, icon: "🐒", domain: "monkeylearn.com", url: "https://monkeylearn.com", isFeatured: false, isNewThisWeek: false },
+  { name: "DataRobot", description: "Enterprise AI platform for predictive analytics.", category: "Analytics", pricing: "Paid", isNew: false, icon: "🤖", domain: "datarobot.com", url: "https://datarobot.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Polymer", description: "Turn spreadsheets into interactive AI-powered dashboards.", category: "Analytics", pricing: "Freemium", isNew: false, icon: "📊", domain: "polymersearch.com", url: "https://polymersearch.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Hex", description: "Collaborative AI data science notebook and app builder.", category: "Analytics", pricing: "Freemium", isNew: false, icon: "🔷", domain: "hex.tech", url: "https://hex.tech", isFeatured: false, isNewThisWeek: false },
+  { name: "Equals", description: "AI-powered spreadsheet with live data connections.", category: "Analytics", pricing: "Freemium", isNew: true, icon: "🔢", domain: "equals.com", url: "https://equals.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Deepnote", description: "AI-enhanced collaborative data science notebooks.", category: "Analytics", pricing: "Freemium", isNew: false, icon: "📓", domain: "deepnote.com", url: "https://deepnote.com", isFeatured: false, isNewThisWeek: false },
   // Presentations
   { name: "Gamma", description: "AI presentation builder that generates beautiful decks instantly.", category: "Presentations", pricing: "Freemium", isNew: false, icon: "🖥️", domain: "gamma.app", url: "https://gamma.app", isFeatured: false, isNewThisWeek: false },
   { name: "Beautiful.ai", description: "Smart slide designer that auto-formats as you type.", category: "Presentations", pricing: "Freemium", isNew: false, icon: "✨", domain: "beautiful.ai", url: "https://beautiful.ai", isFeatured: false, isNewThisWeek: false },
@@ -170,28 +170,28 @@ const TOOLS: Tool[] = [
   { name: "Presentations.ai", description: "AI that generates complete slide decks from a prompt.", category: "Presentations", pricing: "Freemium", isNew: true, icon: "🤖", domain: "presentations.ai", url: "https://presentations.ai", isFeatured: false, isNewThisWeek: false },
   { name: "Slidesgo", description: "AI-generated Google Slides and PowerPoint templates.", category: "Presentations", pricing: "Freemium", isNew: false, icon: "🖼️", domain: "slidesgo.com", url: "https://slidesgo.com", isFeatured: false, isNewThisWeek: false },
   // Customer Support
-  { name: "Intercom AI", description: "AI support agent trained on your docs, resolves queries 24/7.", category: "Customer Support", pricing: "Paid", isNew: false, icon: "💬", domain: "intercom.com", url: "https://intercom.com/fin", isFeatured: false, isNewThisWeek: false },
-  { name: "Tidio", description: "AI chatbot for e-commerce that qualifies leads and supports customers.", category: "Customer Support", pricing: "Freemium", isNew: false, icon: "🤝", domain: "tidio.com", url: "https://tidio.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Drift", description: "AI chatbot that qualifies leads and books meetings automatically.", category: "Customer Support", pricing: "Freemium", isNew: false, icon: "💼", domain: "drift.com", url: "https://drift.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Zendesk AI", description: "AI-powered customer support with smart ticket routing.", category: "Customer Support", pricing: "Paid", isNew: false, icon: "🎫", domain: "zendesk.com", url: "https://zendesk.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Freshdesk AI", description: "AI customer support with smart routing.", category: "Customer Support", pricing: "Freemium", isNew: false, icon: "🌿", domain: "freshdesk.com", url: "https://freshdesk.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Forethought", description: "AI that resolves support tickets automatically.", category: "Customer Support", pricing: "Paid", isNew: false, icon: "🧠", domain: "forethought.ai", url: "https://forethought.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "Ada", description: "AI customer service automation platform.", category: "Customer Support", pricing: "Paid", isNew: false, icon: "🤖", domain: "ada.cx", url: "https://ada.cx", isFeatured: false, isNewThisWeek: false },
-  { name: "Kustomer", description: "AI-driven CRM platform for customer service teams.", category: "Customer Support", pricing: "Paid", isNew: false, icon: "💁", domain: "kustomer.com", url: "https://kustomer.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Gladly", description: "AI customer service platform centered around people, not tickets.", category: "Customer Support", pricing: "Paid", isNew: false, icon: "😊", domain: "gladly.com", url: "https://gladly.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Chaindesk", description: "Build custom AI chatbots trained on your data.", category: "Customer Support", pricing: "Freemium", isNew: true, icon: "🔗", domain: "chaindesk.ai", url: "https://chaindesk.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "Botpress", description: "Open-source AI chatbot platform for developers.", category: "Customer Support", pricing: "Freemium", isNew: false, icon: "🤖", domain: "botpress.com", url: "https://botpress.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Intercom AI", description: "AI support agent trained on your docs, resolves queries 24/7.", category: "Support", pricing: "Paid", isNew: false, icon: "💬", domain: "intercom.com", url: "https://intercom.com/fin", isFeatured: false, isNewThisWeek: false },
+  { name: "Tidio", description: "AI chatbot for e-commerce that qualifies leads and supports customers.", category: "Support", pricing: "Freemium", isNew: false, icon: "🤝", domain: "tidio.com", url: "https://tidio.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Drift", description: "AI chatbot that qualifies leads and books meetings automatically.", category: "Support", pricing: "Freemium", isNew: false, icon: "💼", domain: "drift.com", url: "https://drift.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Zendesk AI", description: "AI-powered customer support with smart ticket routing.", category: "Support", pricing: "Paid", isNew: false, icon: "🎫", domain: "zendesk.com", url: "https://zendesk.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Freshdesk AI", description: "AI customer support with smart routing.", category: "Support", pricing: "Freemium", isNew: false, icon: "🌿", domain: "freshdesk.com", url: "https://freshdesk.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Forethought", description: "AI that resolves support tickets automatically.", category: "Support", pricing: "Paid", isNew: false, icon: "🧠", domain: "forethought.ai", url: "https://forethought.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "Ada", description: "AI customer service automation platform.", category: "Support", pricing: "Paid", isNew: false, icon: "🤖", domain: "ada.cx", url: "https://ada.cx", isFeatured: false, isNewThisWeek: false },
+  { name: "Kustomer", description: "AI-driven CRM platform for customer service teams.", category: "Support", pricing: "Paid", isNew: false, icon: "💁", domain: "kustomer.com", url: "https://kustomer.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Gladly", description: "AI customer service platform centered around people, not tickets.", category: "Support", pricing: "Paid", isNew: false, icon: "😊", domain: "gladly.com", url: "https://gladly.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Chaindesk", description: "Build custom AI chatbots trained on your data.", category: "Support", pricing: "Freemium", isNew: true, icon: "🔗", domain: "chaindesk.ai", url: "https://chaindesk.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "Botpress", description: "Open-source AI chatbot platform for developers.", category: "Support", pricing: "Freemium", isNew: false, icon: "🤖", domain: "botpress.com", url: "https://botpress.com", isFeatured: false, isNewThisWeek: false },
   // HR & Recruiting
-  { name: "Workday AI", description: "AI-powered HR and workforce management.", category: "HR & Recruiting", pricing: "Paid", isNew: false, icon: "👔", domain: "workday.com", url: "https://workday.com", isFeatured: false, isNewThisWeek: false },
-  { name: "HireVue", description: "AI video interviewing and assessment platform.", category: "HR & Recruiting", pricing: "Paid", isNew: false, icon: "🎥", domain: "hirevue.com", url: "https://hirevue.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Paradox", description: "AI recruiting assistant named Olivia.", category: "HR & Recruiting", pricing: "Paid", isNew: false, icon: "🤖", domain: "paradox.ai", url: "https://paradox.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "Fetcher", description: "AI talent sourcing and outreach automation.", category: "HR & Recruiting", pricing: "Paid", isNew: false, icon: "🎣", domain: "fetcher.ai", url: "https://fetcher.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "Beamery", description: "AI talent lifecycle management platform.", category: "HR & Recruiting", pricing: "Paid", isNew: false, icon: "🌟", domain: "beamery.com", url: "https://beamery.com", isFeatured: false, isNewThisWeek: false },
-  { name: "Eightfold AI", description: "AI talent intelligence platform for hiring and retention.", category: "HR & Recruiting", pricing: "Paid", isNew: false, icon: "🔮", domain: "eightfold.ai", url: "https://eightfold.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "Greenhouse AI", description: "AI-enhanced applicant tracking and hiring platform.", category: "HR & Recruiting", pricing: "Paid", isNew: false, icon: "🌱", domain: "greenhouse.io", url: "https://greenhouse.io", isFeatured: false, isNewThisWeek: false },
-  { name: "Findem", description: "AI talent search with attribute-based candidate discovery.", category: "HR & Recruiting", pricing: "Paid", isNew: false, icon: "🔍", domain: "findem.ai", url: "https://findem.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "Leena AI", description: "AI employee experience and HR helpdesk platform.", category: "HR & Recruiting", pricing: "Paid", isNew: false, icon: "👥", domain: "leena.ai", url: "https://leena.ai", isFeatured: false, isNewThisWeek: false },
-  { name: "Manatal", description: "AI recruitment software for agencies and HR teams.", category: "HR & Recruiting", pricing: "Paid", isNew: false, icon: "📋", domain: "manatal.com", url: "https://manatal.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Workday AI", description: "AI-powered HR and workforce management.", category: "HR", pricing: "Paid", isNew: false, icon: "👔", domain: "workday.com", url: "https://workday.com", isFeatured: false, isNewThisWeek: false },
+  { name: "HireVue", description: "AI video interviewing and assessment platform.", category: "HR", pricing: "Paid", isNew: false, icon: "🎥", domain: "hirevue.com", url: "https://hirevue.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Paradox", description: "AI recruiting assistant named Olivia.", category: "HR", pricing: "Paid", isNew: false, icon: "🤖", domain: "paradox.ai", url: "https://paradox.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "Fetcher", description: "AI talent sourcing and outreach automation.", category: "HR", pricing: "Paid", isNew: false, icon: "🎣", domain: "fetcher.ai", url: "https://fetcher.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "Beamery", description: "AI talent lifecycle management platform.", category: "HR", pricing: "Paid", isNew: false, icon: "🌟", domain: "beamery.com", url: "https://beamery.com", isFeatured: false, isNewThisWeek: false },
+  { name: "Eightfold AI", description: "AI talent intelligence platform for hiring and retention.", category: "HR", pricing: "Paid", isNew: false, icon: "🔮", domain: "eightfold.ai", url: "https://eightfold.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "Greenhouse AI", description: "AI-enhanced applicant tracking and hiring platform.", category: "HR", pricing: "Paid", isNew: false, icon: "🌱", domain: "greenhouse.io", url: "https://greenhouse.io", isFeatured: false, isNewThisWeek: false },
+  { name: "Findem", description: "AI talent search with attribute-based candidate discovery.", category: "HR", pricing: "Paid", isNew: false, icon: "🔍", domain: "findem.ai", url: "https://findem.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "Leena AI", description: "AI employee experience and HR helpdesk platform.", category: "HR", pricing: "Paid", isNew: false, icon: "👥", domain: "leena.ai", url: "https://leena.ai", isFeatured: false, isNewThisWeek: false },
+  { name: "Manatal", description: "AI recruitment software for agencies and HR teams.", category: "HR", pricing: "Paid", isNew: false, icon: "📋", domain: "manatal.com", url: "https://manatal.com", isFeatured: false, isNewThisWeek: false },
   // Finance
   { name: "Zest AI", description: "AI credit underwriting platform.", category: "Finance", pricing: "Paid", isNew: false, icon: "💳", domain: "zest.ai", url: "https://zest.ai", isFeatured: false, isNewThisWeek: false },
   { name: "Domo", description: "AI business intelligence platform.", category: "Finance", pricing: "Paid", isNew: false, icon: "📊", domain: "domo.com", url: "https://domo.com", isFeatured: false, isNewThisWeek: false },
@@ -218,12 +218,12 @@ const PRICING_STYLES: Record<string, string> = {
 };
 
 const TRENDING = [
-  "Create a YouTube video",
+  "YouTube video",
   "Generate images",
-  "Write a cover letter",
+  "Cover letter",
   "Fix my code",
   "Make a song",
-  "Research a topic",
+  "Research topic",
 ];
 
 const HOW_IT_WORKS = [
@@ -232,7 +232,7 @@ const HOW_IT_WORKS = [
   { icon: "⚡", step: "3", title: "Get started instantly", desc: "Each result comes with step-by-step instructions so you can start in minutes." },
 ];
 
-const FOOTER_CATEGORIES = ["Writing", "Image Generation", "Video", "Coding", "Music"];
+const FOOTER_CATEGORIES = ["Writing", "Images", "Video", "Coding", "Music"];
 
 function MiniToolCard({ tool }: { tool: Tool }) {
   return (
@@ -309,7 +309,7 @@ export default function HomePage() {
       </header>
 
       {/* Hero — Google-style */}
-      <section className="bg-white px-4 sm:px-6 pt-12 sm:pt-16 pb-10 text-center">
+      <section className="bg-white px-4 sm:px-6 pt-6 sm:pt-8 pb-6 text-center">
         <div className="max-w-2xl mx-auto">
 
 
@@ -343,7 +343,7 @@ export default function HomePage() {
               <button
                 key={term}
                 onClick={() => handleSubmit(term)}
-                className="text-xs px-3 py-1.5 rounded-full border border-[#e4e6ea] text-[#65676b] hover:border-[#1877F2] hover:text-[#1877F2] transition-all bg-white text-center"
+                className="text-xs px-3 h-10 rounded-full border border-[#e4e6ea] text-[#65676b] hover:border-[#1877F2] hover:text-[#1877F2] transition-all bg-white text-center flex items-center justify-center leading-tight"
               >
                 {term}
               </button>
@@ -360,7 +360,7 @@ export default function HomePage() {
             <button
               key={cat}
               onClick={() => { setActiveCategory(cat); scrollToTools(); }}
-              className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all text-center ${
+              className={`text-xs px-3 h-10 rounded-full border font-medium transition-all text-center flex items-center justify-center leading-tight ${
                 activeCategory === cat
                   ? "bg-[#1877F2] text-white border-[#1877F2] shadow-sm shadow-[#1877F2]/20"
                   : "bg-white text-[#65676b] border-[#dddfe2] hover:border-[#1877F2] hover:text-[#1877F2]"
@@ -426,7 +426,7 @@ export default function HomePage() {
       <section id="tool-grid" className="px-4 sm:px-6 py-8 flex-1 bg-[#f7f8fa]">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs text-[#65676b] mb-5">{filtered.length} tools available</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
             {filtered.map((tool) => (
               <a
                 key={tool.name}
