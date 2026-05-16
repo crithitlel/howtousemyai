@@ -161,7 +161,7 @@ function RecommendResults() {
             <span className="font-semibold text-white text-base tracking-tight">HowToUseMyAI</span>
           </button>
           <nav className="hidden md:flex items-center gap-7 text-sm">
-            <a href="#" onClick={() => router.push("/")} className="text-white/50 hover:text-white transition-colors">Browse</a>
+            <a href="/" className="text-white/50 hover:text-white transition-colors">Browse</a>
             <a href="/recommend?q=what+is+the+best+AI+tool+for+me" className="text-white/50 hover:text-white transition-colors">Recommend Me</a>
             <a href="/submit" className="text-[#e41e3f] font-medium hover:opacity-80 transition-opacity">+ Submit a Tool</a>
           </nav>
@@ -196,16 +196,33 @@ function RecommendResults() {
                 className={`tool-card relative bg-white border border-[#e4e6ea] rounded-xl overflow-hidden animate-fade-in-up stagger-${Math.min(i + 1, 5) as 1 | 2 | 3 | 4 | 5} flex flex-col`}
               >
                 <div className="p-5 flex-1">
-                  {/* Badges row */}
-                  <div className="flex items-center gap-2 mb-3">
-                    {i === 0 && (
-                      <span className="text-[10px] font-semibold bg-[#fff0f3] text-[#e41e3f] px-2 py-0.5 rounded-full uppercase tracking-wide">
-                        Top Pick
+                  {/* Logo + Badges row */}
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-9 h-9 rounded-lg bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0">
+                      <img
+                        src={`https://logo.clearbit.com/${tool.url.replace(/^https?:\/\//, "").split("/")[0]}`}
+                        alt={tool.name}
+                        width={24}
+                        height={24}
+                        className="rounded object-contain"
+                        onError={(e) => {
+                          const el = e.currentTarget;
+                          el.style.display = "none";
+                          if (el.nextElementSibling) (el.nextElementSibling as HTMLElement).style.display = "flex";
+                        }}
+                      />
+                      <span className="text-lg hidden items-center justify-center w-full h-full">🤖</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {i === 0 && (
+                        <span className="text-[10px] font-semibold bg-[#fff0f3] text-[#e41e3f] px-2 py-0.5 rounded-full uppercase tracking-wide">
+                          Top Pick
+                        </span>
+                      )}
+                      <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide ${PRICING_BADGE[tool.pricing]}`}>
+                        {tool.pricing}
                       </span>
-                    )}
-                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide ${PRICING_BADGE[tool.pricing]}`}>
-                      {tool.pricing}
-                    </span>
+                    </div>
                   </div>
 
                   {/* Tool name & description */}
@@ -268,8 +285,8 @@ function RecommendResults() {
           </div>
           <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
           <div className="flex gap-5">
-            <a href="#" className="hover:text-white/60 transition-colors">Privacy</a>
-            <a href="#" className="hover:text-white/60 transition-colors">Terms</a>
+            <a href="/privacy" className="hover:text-white/60 transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white/60 transition-colors">Terms</a>
             <a href="/submit" className="hover:text-white/60 transition-colors">Submit a Tool</a>
           </div>
         </div>

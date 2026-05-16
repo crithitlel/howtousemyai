@@ -169,8 +169,8 @@ export default function SubmitPage() {
           </div>
           <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
           <div className="flex gap-5">
-            <a href="#" className="hover:text-white/60 transition-colors">Privacy</a>
-            <a href="#" className="hover:text-white/60 transition-colors">Terms</a>
+            <a href="/privacy" className="hover:text-white/60 transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white/60 transition-colors">Terms</a>
             <a href="/submit" className="hover:text-white/60 transition-colors">Submit a Tool</a>
           </div>
         </div>
