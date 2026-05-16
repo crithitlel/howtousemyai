@@ -1211,7 +1211,7 @@ export default function ToolPage() {
         <div className="flex items-center gap-4 mb-6">
           <div className="w-16 h-16 rounded-2xl bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0">
             <img
-              src={`https://logo.clearbit.com/${tool.domain}`}
+              src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
               alt={tool.name}
               width={48}
               height={48}
@@ -1309,7 +1309,7 @@ export default function ToolPage() {
                 >
                   <div className="w-9 h-9 rounded-lg bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden">
                     <img
-                      src={`https://logo.clearbit.com/${t.domain}`}
+                      src={`https://www.google.com/s2/favicons?domain=${t.domain}&sz=64`}
                       alt={t.name}
                       width={24}
                       height={24}

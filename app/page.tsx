@@ -299,7 +299,7 @@ export default function HomePage() {
                 <div className="flex items-start justify-between">
                   <div className="w-10 h-10 rounded-lg bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden">
                     <img
-                      src={`https://logo.clearbit.com/${tool.domain}`}
+                      src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
                       alt={tool.name}
                       width={28}
                       height={28}

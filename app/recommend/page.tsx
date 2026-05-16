@@ -200,7 +200,7 @@ function RecommendResults() {
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-9 h-9 rounded-lg bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0">
                       <img
-                        src={`https://logo.clearbit.com/${tool.url.replace(/^https?:\/\//, "").split("/")[0]}`}
+                        src={`https://www.google.com/s2/favicons?domain=${tool.url.replace(/^https?:\/\//, "").split("/")[0]}&sz=64`}
                         alt={tool.name}
                         width={24}
                         height={24}
