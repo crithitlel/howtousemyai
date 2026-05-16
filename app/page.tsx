@@ -371,9 +371,16 @@ export default function HomePage() {
             </div>
           ) : (
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                if (email.trim()) setSubscribed(true);
+                if (email.trim()) {
+                  await fetch("https://formspree.io/f/mbdwnbqb", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json", Accept: "application/json" },
+                    body: JSON.stringify({ email, _subject: "New newsletter subscriber" }),
+                  });
+                  setSubscribed(true);
+                }
               }}
               className="flex flex-col sm:flex-row gap-2"
             >

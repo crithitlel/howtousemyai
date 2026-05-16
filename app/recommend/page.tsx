@@ -79,58 +79,165 @@ const TOOLS: AITool[] = [
   { name: "Tidio", description: "AI chatbot for e-commerce — responds to queries, qualifies leads, escalates to humans.", bestFor: "E-commerce support, lead capture, small business chat", steps: ["Install Tidio at tidio.com by pasting a snippet on your site.", "Enable Lyro AI and connect your FAQ — it learns common questions.", "Set escalation rules so complex queries route to live agents."], url: "https://www.tidio.com", pricing: "Freemium", category: "support" },
 ];
 
-const CATEGORY_RULES = [
-  { keywords: ["write", "writing", "blog", "article", "essay", "email", "letter", "cover letter", "resume", "cv", "content", "copy", "draft", "paragraph", "story", "caption", "post", "grammar", "proofread"], categories: ["writing"] },
-  { keywords: ["image", "picture", "photo", "illustration", "draw", "art", "logo", "design", "graphic", "visual", "generate image", "paint", "portrait", "background", "banner"], categories: ["image"] },
-  { keywords: ["code", "coding", "program", "programming", "debug", "bug", "script", "develop", "software", "app", "javascript", "python", "react", "api", "sql", "html", "css", "fix my code"], categories: ["coding"] },
-  { keywords: ["video", "film", "clip", "animation", "animate", "youtube", "reel", "tiktok", "short", "footage", "avatar video", "talking head", "record", "edit video", "creator", "channel"], categories: ["video"] },
-  { keywords: ["music", "song", "audio", "sound", "melody", "beat", "track", "compose", "jingle", "instrumental", "lyrics", "podcast", "background music", "make a song"], categories: ["music"] },
-  { keywords: ["research", "find information", "learn about", "summarise", "summarize", "facts", "study", "academic", "paper", "literature", "investigate", "search", "meeting notes", "transcribe"], categories: ["research"] },
-  { keywords: ["presentation", "slide", "deck", "powerpoint", "keynote", "pitch", "slideshow", "investor deck"], categories: ["presentations"] },
-  { keywords: ["data", "spreadsheet", "excel", "csv", "analyse", "analyze", "chart", "graph", "dashboard", "forecast", "predict", "report", "numbers", "statistics"], categories: ["data"] },
-  { keywords: ["seo", "search engine", "rank", "google", "keyword", "traffic", "marketing", "social media", "ads", "advertising", "campaign", "ad creative"], categories: ["seo", "writing"] },
-  { keywords: ["customer", "support", "chatbot", "helpdesk", "service", "chat", "respond", "faq"], categories: ["support"] },
-  { keywords: ["productivity", "schedule", "calendar", "task", "plan", "time management", "organize", "organise", "to-do", "deadline"], categories: ["productivity"] },
+// --- Improved recommendation engine ---
+
+// Normalize a string: lowercase, strip punctuation, collapse spaces
+function normalize(s: string): string {
+  return s.toLowerCase().replace(/[^\w\s]/g, " ").replace(/\s+/g, " ").trim();
+}
+
+// Simple stemmer: strip common suffixes so "editing" matches "edit", "logos" matches "logo", etc.
+function stem(word: string): string {
+  return word
+    .replace(/ing$/, "")
+    .replace(/ings$/, "")
+    .replace(/tion$/, "")
+    .replace(/tions$/, "")
+    .replace(/ers?$/, "")
+    .replace(/ies$/, "y")
+    .replace(/s$/, "");
+}
+
+function tokenize(s: string): string[] {
+  return normalize(s).split(" ").filter(Boolean).map(stem);
+}
+
+// Action verbs mapped to the categories they signal most strongly
+const ACTION_INTENT_MAP: Array<{ actions: string[]; categories: string[]; weight: number }> = [
+  { actions: ["write", "draft", "writ", "proofread", "edit", "rewrite", "rewrit"], categories: ["writing"], weight: 2 },
+  { actions: ["draw", "design", "generat", "creat", "paint", "illustrat", "make"], categories: ["image"], weight: 1 },
+  { actions: ["code", "program", "debug", "build", "develop", "fix", "script"], categories: ["coding"], weight: 2 },
+  { actions: ["film", "record", "animat", "produc"], categories: ["video"], weight: 2 },
+  { actions: ["compos", "generat", "creat", "make"], categories: ["music"], weight: 1 },
+  { actions: ["research", "find", "summaris", "summariz", "translat", "analys", "analyz", "transcrib"], categories: ["research"], weight: 2 },
+  { actions: ["present", "pitch", "creat", "build", "make"], categories: ["presentations"], weight: 1 },
+  { actions: ["analys", "analyz", "visualis", "visualiz", "forecast", "predict", "chart"], categories: ["data"], weight: 2 },
+  { actions: ["rank", "optimis", "optimiz", "market", "advertis", "promot"], categories: ["seo"], weight: 2 },
+  { actions: ["schedul", "organis", "organiz", "plan", "manag"], categories: ["productivity"], weight: 2 },
+  { actions: ["automat", "respond", "support"], categories: ["support"], weight: 2 },
+];
+
+// Intent phrases: map common user intent patterns to categories with explicit weights
+const INTENT_MAP: Array<{ phrases: string[]; categories: string[]; weight: number }> = [
+  // Writing
+  { phrases: ["blog post", "blog article", "write a", "write an", "draft a", "draft an", "cover letter", "email", "essay", "proofread", "grammar check", "caption"], categories: ["writing"], weight: 3 },
+  // Image / visual
+  { phrases: ["logo", "icon", "banner", "poster", "illustration", "artwork", "generate image", "create image", "make image", "make a logo", "design a", "visual", "graphic design", "product photo", "hero image"], categories: ["image"], weight: 3 },
+  // Coding
+  { phrases: ["fix my code", "write code", "build an app", "build a website", "debug", "autocompletion", "boilerplate", "refactor", "write a script", "write a function"], categories: ["coding"], weight: 3 },
+  // Video
+  { phrases: ["edit video", "edit a video", "make a video", "create a video", "youtube video", "tiktok video", "short video", "reels", "add captions", "add subtitles", "ai avatar", "talking head", "video voiceover"], categories: ["video"], weight: 3 },
+  // Audio / Music — catches "edit podcast", "make a podcast", "background music"
+  { phrases: ["podcast", "edit audio", "edit podcast", "record podcast", "transcribe audio", "transcribe podcast", "background music", "make a song", "write a song", "create music", "generate music", "jingle", "royalty free music", "royalty-free music", "soundtrack"], categories: ["music"], weight: 3 },
+  { phrases: ["transcribe", "transcription", "meeting notes", "meeting transcript", "record meeting"], categories: ["research"], weight: 3 },
+  // Research / knowledge
+  { phrases: ["research", "find information", "literature review", "academic paper", "scientific evidence", "fact check", "summarize article", "summarise article"], categories: ["research"], weight: 3 },
+  // Presentations
+  { phrases: ["presentation", "slide deck", "pitch deck", "powerpoint", "keynote", "slideshow", "investor deck"], categories: ["presentations"], weight: 3 },
+  // Data
+  { phrases: ["analyze data", "analyse data", "upload dataset", "csv analysis", "excel analysis", "data chart", "data visualization", "predictive model", "forecast", "spreadsheet analysis"], categories: ["data"], weight: 3 },
+  // SEO / Marketing
+  { phrases: ["seo", "rank on google", "ad creative", "facebook ad", "google ad", "content brief", "keyword research", "social media marketing"], categories: ["seo"], weight: 3 },
+  // Productivity
+  { phrases: ["manage my calendar", "schedule tasks", "time management", "focus blocks", "to-do", "daily plan", "task manager"], categories: ["productivity"], weight: 3 },
+  // Support
+  { phrases: ["customer support", "chatbot", "help desk", "helpdesk", "faq bot", "support agent", "live chat"], categories: ["support"], weight: 3 },
+];
+
+// Category keyword lists (subject nouns, not verbs — actions handled above)
+const CATEGORY_KEYWORDS: Array<{ keywords: string[]; categories: string[]; weight: number }> = [
+  { keywords: ["blog", "article", "essay", "letter", "email", "resume", "cv", "story", "caption", "post", "copy", "content", "grammar", "paragraph", "newsletter", "report"], categories: ["writing"], weight: 2 },
+  { keywords: ["image", "picture", "photo", "photo", "illustration", "art", "logo", "design", "graphic", "visual", "portrait", "background", "banner", "icon", "branding", "concept art"], categories: ["image"], weight: 2 },
+  { keywords: ["code", "coding", "program", "programming", "bug", "script", "software", "app", "javascript", "python", "react", "api", "sql", "html", "css", "function", "repository"], categories: ["coding"], weight: 2 },
+  { keywords: ["video", "film", "clip", "animation", "youtube", "reel", "tiktok", "short", "footage", "caption", "subtitle", "channel", "vlog", "creator"], categories: ["video"], weight: 2 },
+  { keywords: ["music", "song", "audio", "sound", "melody", "beat", "track", "jingle", "instrumental", "lyric", "podcast", "episode", "recording", "voice", "voiceover"], categories: ["music"], weight: 2 },
+  { keywords: ["research", "information", "fact", "study", "academic", "paper", "literature", "source", "citation", "evidence", "meeting", "transcript", "note"], categories: ["research"], weight: 2 },
+  { keywords: ["presentation", "slide", "deck", "powerpoint", "keynote", "pitch", "slideshow", "investor"], categories: ["presentations"], weight: 2 },
+  { keywords: ["data", "spreadsheet", "excel", "csv", "chart", "graph", "dashboard", "forecast", "statistic", "number", "metric", "dataset"], categories: ["data"], weight: 2 },
+  { keywords: ["seo", "search engine", "ranking", "google", "keyword", "traffic", "marketing", "ad", "advertising", "campaign", "social media", "brand"], categories: ["seo"], weight: 2 },
+  { keywords: ["customer", "support", "chatbot", "helpdesk", "service", "faq", "ticket"], categories: ["support"], weight: 2 },
+  { keywords: ["productivity", "schedule", "calendar", "task", "plan", "habit", "deadline", "focus", "time"], categories: ["productivity"], weight: 2 },
 ];
 
 function getRecommendations(query: string): AITool[] {
-  const lower = query.toLowerCase();
+  const lower = normalize(query);
+  const tokens = tokenize(query);
   const categoryScores: Record<string, number> = {};
 
-  for (const rule of CATEGORY_RULES) {
-    const matchCount = rule.keywords.filter((kw) => lower.includes(kw)).length;
+  function addScore(cats: string[], amount: number) {
+    for (const cat of cats) {
+      categoryScores[cat] = (categoryScores[cat] ?? 0) + amount;
+    }
+  }
+
+  // 1. Intent phrase matching (highest weight — multi-word phrases beat single keywords)
+  for (const rule of INTENT_MAP) {
+    for (const phrase of rule.phrases) {
+      if (lower.includes(phrase)) {
+        addScore(rule.categories, rule.weight);
+      }
+    }
+  }
+
+  // 2. Action-verb intent matching on stemmed tokens
+  for (const rule of ACTION_INTENT_MAP) {
+    const queryTokens = tokens;
+    const matchedActions = rule.actions.filter((action) =>
+      queryTokens.some((t) => t === action || t.startsWith(action))
+    );
+    if (matchedActions.length > 0) {
+      addScore(rule.categories, rule.weight * matchedActions.length);
+    }
+  }
+
+  // 3. Category keyword matching on stemmed tokens
+  for (const rule of CATEGORY_KEYWORDS) {
+    const stemmedKeywords = rule.keywords.map(stem);
+    const matchCount = stemmedKeywords.filter((kw) =>
+      tokens.some((t) => t === kw || t.startsWith(kw) || kw.startsWith(t))
+    ).length;
     if (matchCount > 0) {
-      for (const cat of rule.categories) {
-        categoryScores[cat] = (categoryScores[cat] ?? 0) + matchCount;
-      }
+      addScore(rule.categories, rule.weight * matchCount);
     }
   }
 
-  const topCategories = Object.entries(categoryScores)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 3)
-    .map(([cat]) => cat);
+  // 4. Per-tool scoring: match query against tool name, description, bestFor
+  const toolScores: Array<{ tool: AITool; score: number }> = TOOLS.map((tool) => {
+    const catScore = categoryScores[tool.category] ?? 0;
+    const toolText = normalize(`${tool.name} ${tool.description} ${tool.bestFor}`);
+    const toolTokens = tokenize(`${tool.name} ${tool.description} ${tool.bestFor}`);
 
-  if (topCategories.length === 0) topCategories.push("writing", "research");
+    // Bonus for direct name match
+    let directBonus = 0;
+    if (toolText.includes(lower)) directBonus += 5;
 
-  const seen = new Set<string>();
-  const results: AITool[] = [];
+    // Token overlap bonus
+    const overlapCount = tokens.filter((t) =>
+      t.length > 2 && toolTokens.some((tt) => tt === t || tt.startsWith(t) || t.startsWith(tt))
+    ).length;
+    directBonus += overlapCount * 0.5;
 
-  for (const cat of topCategories) {
-    for (const tool of TOOLS) {
-      if (tool.category === cat && !seen.has(tool.name)) {
-        seen.add(tool.name);
-        results.push(tool);
-      }
-    }
+    return { tool, score: catScore + directBonus };
+  });
+
+  // Sort by score descending, break ties by preserving original TOOLS order
+  toolScores.sort((a, b) => b.score - a.score);
+
+  // If nothing matched, fall back to writing + research
+  const hasAnyScore = toolScores.some((ts) => ts.score > 0);
+  if (!hasAnyScore) {
+    return TOOLS.filter((t) => t.category === "writing" || t.category === "research").slice(0, 8);
   }
 
-  // Fill remaining spots with writing tools if needed
-  if (results.length < 6) {
+  // Take top 8 tools with a score > 0; if fewer than 4, pad with writing tools
+  const results = toolScores.filter((ts) => ts.score > 0).slice(0, 8).map((ts) => ts.tool);
+
+  if (results.length < 4) {
+    const seen = new Set(results.map((t) => t.name));
     for (const tool of TOOLS) {
       if (tool.category === "writing" && !seen.has(tool.name)) {
-        seen.add(tool.name);
         results.push(tool);
+        seen.add(tool.name);
         if (results.length >= 8) break;
       }
     }
