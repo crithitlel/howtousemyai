@@ -55,8 +55,7 @@ export default function SubmitPage() {
                 🎉
               </div>
               <h2
-                className="text-xl font-medium text-[#1877F2] mb-2"
-                style={{ fontFamily: "var(--font-playfair), serif", fontStyle: "italic" }}
+                className="text-xl font-semibold text-[#1877F2] mb-2"
               >
                 Thanks for your submission!
               </h2>
@@ -73,8 +72,7 @@ export default function SubmitPage() {
           ) : (
             <div className="bg-white border border-[#e4e6ea] rounded-2xl p-8">
               <h1
-                className="text-2xl font-medium text-[#1877F2] mb-1 leading-snug"
-                style={{ fontFamily: "var(--font-playfair), serif", fontStyle: "italic" }}
+                className="text-2xl font-semibold text-[#1877F2] mb-1 leading-snug"
               >
                 Submit a Tool
               </h1>

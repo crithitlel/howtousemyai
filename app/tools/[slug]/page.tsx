@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { TOOLS, slugify as libSlugify } from "@/lib/tools";
 
 interface ToolData {
   name: string;
@@ -1176,6 +1177,49 @@ export default function ToolPage() {
   const slug = typeof params.slug === "string" ? params.slug : "";
 
   const tool = TOOLS_DATA.find((t) => slugify(t.name) === slug);
+
+  // Fallback: look up basic info from the shared tools list
+  const basicTool = !tool ? TOOLS.find((t) => libSlugify(t.name) === slug) : null;
+
+  if (!tool && basicTool) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
+          <button onClick={() => router.push("/")} className="text-sm text-[#1877F2] hover:underline">
+            ← Back to all tools
+          </button>
+        </div>
+        <div className="max-w-3xl mx-auto px-6 py-10">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-14 h-14 rounded-2xl bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center text-3xl flex-shrink-0">
+              <img
+                src={`https://www.google.com/s2/favicons?domain=${basicTool.domain}&sz=64`}
+                alt={basicTool.name}
+                className="w-8 h-8 object-contain"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+              />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-[#1c1e21]">{basicTool.name}</h1>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-xs px-2 py-0.5 rounded-full bg-[#f0f2f5] text-[#65676b] font-medium">{basicTool.category}</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${basicTool.pricing === "Paid" ? "bg-[#fff0f3] text-[#e41e3f]" : "bg-[#E7F3FF] text-[#1877F2]"}`}>{basicTool.pricing}</span>
+              </div>
+            </div>
+          </div>
+          <p className="text-[#444] text-base leading-relaxed mb-8">{basicTool.description}</p>
+          <a
+            href={basicTool.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-[#1877F2] hover:bg-[#166FE5] text-white text-sm font-semibold px-6 py-3 rounded-lg transition-colors"
+          >
+            Visit {basicTool.name}
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   if (!tool) {
     return (
