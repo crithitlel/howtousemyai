@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "./components/Logo";
 import { TOOLS, slugify, type Tool } from "@/lib/tools";
+import { getToolUrl } from "@/lib/affiliates";
 
 const CATEGORIES = [
   "All", "Writing", "Images",

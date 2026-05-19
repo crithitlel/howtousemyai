@@ -3,6 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { TOOLS, slugify as libSlugify } from "@/lib/tools";
+import { getToolUrl } from "@/lib/affiliates";
 
 interface ToolData {
   name: string;
@@ -1209,7 +1210,7 @@ export default function ToolPage() {
           </div>
           <p className="text-[#444] text-base leading-relaxed mb-8">{basicTool.description}</p>
           <a
-            href={basicTool.url}
+            href={getToolUrl(basicTool.name, basicTool.url)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-[#1877F2] hover:bg-[#166FE5] text-white text-sm font-semibold px-6 py-3 rounded-lg transition-colors"
@@ -1325,7 +1326,7 @@ export default function ToolPage() {
 
         {/* CTA */}
         <a
-          href={tool.url}
+          href={getToolUrl(tool.name, tool.url)}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white text-sm font-semibold px-8 py-3.5 rounded-xl transition-colors"
