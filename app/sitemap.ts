@@ -4,9 +4,25 @@ import { TOOLS, slugify } from "@/lib/tools";
 const BASE_URL = "https://howtousemyai.com";
 
 const USE_CASES = [
-  "writing", "video", "image-generation", "coding", "music",
-  "research", "productivity", "marketing", "analytics", "presentations",
-  "design", "customer-support", "hr", "finance",
+  "writing", "coding", "image-generation", "video", "music",
+  "research", "productivity", "marketing", "seo", "social-media",
+  "design", "presentations", "data-analysis", "automation", "customer-support",
+  "education", "translation", "audio", "sales", "email", "resume", "legal",
+];
+
+const COMPARE_SLUGS = [
+  "chatgpt-vs-claude",
+  "chatgpt-vs-gemini",
+  "midjourney-vs-dall-e-3",
+  "github-copilot-vs-cursor",
+  "jasper-vs-copy-ai",
+  "perplexity-vs-chatgpt",
+  "heygen-vs-synthesia",
+  "suno-vs-udio",
+  "midjourney-vs-stable-diffusion",
+  "notion-ai-vs-chatgpt",
+  "surfer-seo-vs-clearscope",
+  "grammarly-vs-prowritingaid",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -19,6 +35,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const useCasePages = USE_CASES.map((useCase) => ({
     url: `${BASE_URL}/best-ai-for/${useCase}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  const comparePages = COMPARE_SLUGS.map((slug) => ({
+    url: `${BASE_URL}/compare/${slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.8,
@@ -38,12 +61,43 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
+      url: `${BASE_URL}/best-ai-for`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/tools`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/compare`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${BASE_URL}/submit`,
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.4,
     },
+    {
+      url: `${BASE_URL}/about`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.5,
+    },
+    {
+      url: `${BASE_URL}/disclosure`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
     ...useCasePages,
+    ...comparePages,
     ...toolPages,
   ];
 }

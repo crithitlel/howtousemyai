@@ -33,14 +33,6 @@ const TRENDING = [
   "Research topic",
 ];
 
-const HOW_IT_WORKS = [
-  { icon: "💬", step: "1", title: "Describe your goal", desc: "Type what you want to do in plain English. No technical knowledge needed." },
-  { icon: "🔍", step: "2", title: "We match the tools", desc: "Our system finds the best AI tools for your exact use case from 100+ options." },
-  { icon: "⚡", step: "3", title: "Get started instantly", desc: "Each result comes with step-by-step instructions so you can start in minutes." },
-];
-
-const FOOTER_CATEGORIES = ["Writing", "Images", "Video", "Coding", "Music"];
-
 function MiniToolCard({ tool }: { tool: Tool }) {
   return (
     <a
@@ -76,6 +68,7 @@ export default function HomePage() {
   const [activePricing, setActivePricing] = useState<PricingFilter>("All");
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const router = useRouter();
 
   const handleSubmit = (q: string) => {
@@ -111,14 +104,24 @@ export default function HomePage() {
             <Logo size={24} />
             <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
           </a>
-<a href="/submit" className="text-xs text-[#e41e3f] font-semibold hover:opacity-80 transition-opacity whitespace-nowrap">+ Submit a Tool</a>
+          <nav className="flex items-center gap-5">
+            <a href="/compare" className="text-xs text-[#65676b] font-medium hover:text-[#1877F2] transition-colors whitespace-nowrap">Comparisons</a>
+            <a href="/best-ai-for" className="text-xs text-[#65676b] font-medium hover:text-[#1877F2] transition-colors whitespace-nowrap hidden sm:inline">Use Cases</a>
+            <a href="/submit" className="text-xs text-[#1877F2] font-semibold hover:opacity-80 transition-opacity whitespace-nowrap">+ Submit a Tool</a>
+          </nav>
         </div>
       </header>
 
       {/* Hero — Google-style */}
-      <section className="bg-white px-4 sm:px-6 pt-6 sm:pt-8 pb-6 text-center">
+      <section className="bg-white px-4 sm:px-6 pt-8 sm:pt-12 pb-6 text-center">
         <div className="max-w-2xl mx-auto">
 
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#1c1e21] tracking-tight mb-2">
+            Find the right AI tool in seconds
+          </h1>
+          <p className="text-sm text-[#65676b] mb-6">
+            Describe what you want to do. We match you with the best of {TOOLS.length} hand-picked tools, each with step-by-step instructions.
+          </p>
 
           {/* Inline search bar */}
           <div className="search-glow flex items-center bg-white rounded-full px-4 py-2 gap-2">
@@ -145,12 +148,12 @@ export default function HomePage() {
           {/* Trending chips — scrollable single row */}
           <div className="mt-5 pb-1">
             <span className="text-xs text-[#bcc0c4] block mb-2">Try:</span>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="flex flex-wrap gap-2">
             {TRENDING.map((term) => (
               <button
                 key={term}
                 onClick={() => handleSubmit(term)}
-                className="text-xs px-3 h-10 rounded-full border border-[#e4e6ea] text-[#65676b] hover:border-[#1877F2] hover:text-[#1877F2] transition-all bg-white text-center flex items-center justify-center leading-tight"
+                className="text-xs px-3 py-1.5 rounded-full border border-[#e4e6ea] text-[#65676b] hover:border-[#1877F2] hover:text-[#1877F2] transition-all bg-white whitespace-nowrap"
               >
                 {term}
               </button>
@@ -162,12 +165,12 @@ export default function HomePage() {
 
       {/* Category chips */}
       <section id="tools" className="px-6 pt-5 pb-3 bg-white border-b border-[#f0f2f5]">
-        <div className="max-w-6xl mx-auto grid grid-cols-3 gap-2 pb-1">
+        <div className="max-w-6xl mx-auto flex flex-wrap gap-2 pb-1">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => { setActiveCategory(cat); scrollToTools(); }}
-              className={`text-xs px-3 h-10 rounded-full border font-medium transition-all text-center flex items-center justify-center leading-tight ${
+              className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all whitespace-nowrap ${
                 activeCategory === cat
                   ? "bg-[#1877F2] text-white border-[#1877F2] shadow-sm shadow-[#1877F2]/20"
                   : "bg-white text-[#65676b] border-[#dddfe2] hover:border-[#1877F2] hover:text-[#1877F2]"
@@ -186,8 +189,8 @@ export default function HomePage() {
               onClick={() => { setActivePricing(p); scrollToTools(); }}
               className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all whitespace-nowrap flex-shrink-0 ${
                 activePricing === p
-                  ? "bg-[#e41e3f] text-white border-[#e41e3f] shadow-sm shadow-[#e41e3f]/20"
-                  : "bg-white text-[#65676b] border-[#dddfe2] hover:border-[#e41e3f] hover:text-[#e41e3f]"
+                  ? "bg-[#1877F2] text-white border-[#1877F2] shadow-sm shadow-[#1877F2]/20"
+                  : "bg-white text-[#65676b] border-[#dddfe2] hover:border-[#1877F2] hover:text-[#1877F2]"
               }`}
             >
               {p}
@@ -203,8 +206,8 @@ export default function HomePage() {
           {/* New This Week */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-[10px] font-bold bg-[#fff0f3] text-[#e41e3f] px-2 py-0.5 rounded-full">NEW</span>
-              <h2 className="text-sm font-semibold text-[#1c1e21]">New This Week</h2>
+              <span className="text-[10px] font-bold bg-[#fff0f3] text-[#e41e3f] px-2 py-0.5 rounded-full">HOT</span>
+              <h2 className="text-sm font-semibold text-[#1c1e21]">Trending Now</h2>
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
               {newThisWeekTools.map((tool) => (
@@ -232,22 +235,47 @@ export default function HomePage() {
       {/* Tool cards */}
       <section id="tool-grid" className="px-4 sm:px-6 py-8 flex-1 bg-[#f7f8fa]">
         <div className="max-w-6xl mx-auto">
-          <p className="text-xs text-[#65676b] mb-5">{filtered.length} tools available</p>
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-            {filtered.map((tool) => (
-              <a
-                key={tool.name}
-                href={`/tools/${slugify(tool.name)}`}
-                className="tool-card relative group bg-white border border-[#e4e6ea] rounded-xl p-4 flex flex-col gap-2 overflow-hidden hover:shadow-md transition-all"
+          {/* Header row: count + view toggle */}
+          <div className="flex items-center justify-between mb-5">
+            <p className="text-xs text-[#65676b]">{filtered.length} tools available</p>
+            <div className="flex items-center gap-1 bg-white border border-[#e4e6ea] rounded-lg p-0.5">
+              <button
+                onClick={() => setViewMode("grid")}
+                className={`p-1.5 rounded-md transition-colors ${viewMode === "grid" ? "bg-[#1877F2] text-white" : "text-[#65676b] hover:text-[#1877F2]"}`}
+                title="Grid view"
               >
-                {/* Top row: logo + badges */}
-                <div className="flex items-center justify-between">
-                  <div className="w-9 h-9 rounded-lg bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0">
+                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16">
+                  <rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/>
+                </svg>
+              </button>
+              <button
+                onClick={() => setViewMode("list")}
+                className={`p-1.5 rounded-md transition-colors ${viewMode === "list" ? "bg-[#1877F2] text-white" : "text-[#65676b] hover:text-[#1877F2]"}`}
+                title="List view"
+              >
+                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16">
+                  <rect x="1" y="2" width="14" height="2.5" rx="1"/><rect x="1" y="6.75" width="14" height="2.5" rx="1"/><rect x="1" y="11.5" width="14" height="2.5" rx="1"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* GRID VIEW */}
+          {viewMode === "grid" && (
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+              {filtered.map((tool) => (
+                <a
+                  key={tool.name}
+                  href={`/tools/${slugify(tool.name)}`}
+                  className="tool-card relative group bg-white border border-[#e4e6ea] rounded-xl p-4 flex flex-col items-center text-center gap-2 overflow-hidden hover:shadow-md transition-all"
+                >
+                  {/* Large centered favicon */}
+                  <div className="w-12 h-12 rounded-xl bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0 mt-1">
                     <img
                       src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
                       alt={tool.name}
-                      width={24}
-                      height={24}
+                      width={32}
+                      height={32}
                       className="rounded object-contain"
                       onError={(e) => {
                         const t = e.currentTarget;
@@ -255,9 +283,11 @@ export default function HomePage() {
                         if (t.nextElementSibling) (t.nextElementSibling as HTMLElement).style.display = "flex";
                       }}
                     />
-                    <span className="text-lg hidden items-center justify-center w-full h-full">{tool.icon}</span>
+                    <span className="text-xl hidden items-center justify-center w-full h-full">{tool.icon}</span>
                   </div>
-                  <div className="flex items-center gap-1">
+
+                  {/* Badges */}
+                  <div className="flex items-center gap-1 flex-wrap justify-center">
                     {tool.isFeatured && (
                       <span className="text-[9px] font-bold bg-[#E7F3FF] text-[#1877F2] px-1.5 py-0.5 rounded-full">⭐</span>
                     )}
@@ -268,24 +298,125 @@ export default function HomePage() {
                       {tool.pricing.toUpperCase()}
                     </span>
                   </div>
-                </div>
 
-                {/* Name + description */}
-                <div>
-                  <h3 className="text-sm font-semibold text-[#1c1e21] group-hover:text-[#1877F2] transition-colors leading-tight">
-                    {tool.name}
-                  </h3>
-                  <p className="text-xs text-[#65676b] mt-1 leading-relaxed line-clamp-2">
-                    {tool.description}
-                  </p>
-                </div>
+                  {/* Name + description */}
+                  <div>
+                    <h3 className="text-sm font-semibold text-[#1c1e21] group-hover:text-[#1877F2] transition-colors leading-tight">
+                      {tool.name}
+                    </h3>
+                    <p className="text-xs text-[#65676b] mt-1 leading-relaxed line-clamp-2">
+                      {tool.description}
+                    </p>
+                  </div>
 
-                {/* Visit link */}
-                <div className="mt-auto pt-1">
-                  <span className="text-[11px] font-medium text-[#1877F2] group-hover:underline">
-                    Visit tool
-                  </span>
-                </div>
+                  {/* Visit link */}
+                  <div className="mt-auto pt-1">
+                    <span className="text-[11px] font-medium text-[#1877F2] group-hover:underline">
+                      Visit tool
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          )}
+
+          {/* LIST VIEW */}
+          {viewMode === "list" && (
+            <div className="flex flex-col gap-2">
+              {filtered.map((tool) => (
+                <a
+                  key={tool.name}
+                  href={`/tools/${slugify(tool.name)}`}
+                  className="group bg-white border border-[#e4e6ea] rounded-xl px-4 py-3 flex items-center gap-4 hover:shadow-md hover:border-[#1877F2] transition-all"
+                >
+                  {/* Favicon */}
+                  <div className="w-10 h-10 rounded-xl bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0">
+                    <img
+                      src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
+                      alt={tool.name}
+                      width={28}
+                      height={28}
+                      className="rounded object-contain"
+                      onError={(e) => {
+                        const t = e.currentTarget;
+                        t.style.display = "none";
+                        if (t.nextElementSibling) (t.nextElementSibling as HTMLElement).style.display = "flex";
+                      }}
+                    />
+                    <span className="text-lg hidden items-center justify-center w-full h-full">{tool.icon}</span>
+                  </div>
+
+                  {/* Name + description */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-semibold text-[#1c1e21] group-hover:text-[#1877F2] transition-colors leading-tight">
+                      {tool.name}
+                    </h3>
+                    <p className="text-xs text-[#65676b] mt-0.5 leading-relaxed truncate">
+                      {tool.description}
+                    </p>
+                  </div>
+
+                  {/* Badges */}
+                  <div className="flex items-center gap-1 flex-shrink-0">
+                    {tool.isFeatured && (
+                      <span className="text-[9px] font-bold bg-[#E7F3FF] text-[#1877F2] px-1.5 py-0.5 rounded-full">⭐</span>
+                    )}
+                    {tool.isNew && (
+                      <span className="text-[9px] font-bold bg-[#fff0f3] text-[#e41e3f] px-1.5 py-0.5 rounded-full">NEW</span>
+                    )}
+                    <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${PRICING_STYLES[tool.pricing]}`}>
+                      {tool.pricing.toUpperCase()}
+                    </span>
+                  </div>
+
+                  {/* Arrow */}
+                  <svg className="w-4 h-4 text-[#bcc0c4] group-hover:text-[#1877F2] flex-shrink-0 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Browse by Category */}
+      <section className="bg-white border-t border-[#e4e6ea] px-6 py-10">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-sm font-semibold text-[#1c1e21] mb-1">Browse by use case</h2>
+          <p className="text-xs text-[#65676b] mb-5">Find the best AI tool for exactly what you need to do.</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {[
+              { slug: "writing", label: "Writing", icon: "✍️" },
+              { slug: "coding", label: "Coding", icon: "💻" },
+              { slug: "image-generation", label: "Image Generation", icon: "🎨" },
+              { slug: "video", label: "Video Creation", icon: "🎬" },
+              { slug: "music", label: "Music", icon: "🎵" },
+              { slug: "research", label: "Research", icon: "🔍" },
+              { slug: "productivity", label: "Productivity", icon: "⚡" },
+              { slug: "marketing", label: "Marketing", icon: "📣" },
+              { slug: "seo", label: "SEO", icon: "📈" },
+              { slug: "social-media", label: "Social Media", icon: "📱" },
+              { slug: "design", label: "Design", icon: "🖌️" },
+              { slug: "presentations", label: "Presentations", icon: "🖥️" },
+              { slug: "data-analysis", label: "Data Analysis", icon: "📊" },
+              { slug: "automation", label: "Automation", icon: "🔧" },
+              { slug: "customer-support", label: "Customer Support", icon: "💬" },
+              { slug: "education", label: "Education", icon: "🎓" },
+              { slug: "translation", label: "Translation", icon: "🌐" },
+              { slug: "audio", label: "Audio & Podcasts", icon: "🎙️" },
+              { slug: "sales", label: "Sales", icon: "💼" },
+              { slug: "email", label: "Email", icon: "📧" },
+              { slug: "resume", label: "Resume & Jobs", icon: "📄" },
+              { slug: "legal", label: "Legal", icon: "⚖️" },
+            ].map(({ slug, label, icon }) => (
+              <a
+                key={slug}
+                href={`/best-ai-for/${slug}`}
+                className="flex items-center gap-2.5 bg-[#f7f8fa] border border-[#e4e6ea] rounded-xl px-3 py-2.5 hover:border-[#1877F2] hover:bg-white transition-all group"
+              >
+                <span className="text-base flex-shrink-0">{icon}</span>
+                <span className="text-xs font-medium text-[#1c1e21] group-hover:text-[#1877F2] transition-colors leading-tight">{label}</span>
               </a>
             ))}
           </div>
@@ -339,9 +470,12 @@ export default function HomePage() {
             <Logo size={18} />
             <span className="font-medium text-[#1877F2]">HowToUseMyAI</span>
           </div>
-          <div className="flex gap-5">
+          <div className="flex flex-wrap justify-center gap-5">
             <a href="/" className="hover:text-[#1877F2] transition-colors">Home</a>
-            <a href="/submit" className="hover:text-[#e41e3f] transition-colors text-[#e41e3f]">Submit a Tool</a>
+            <a href="/about" className="hover:text-[#1877F2] transition-colors">About</a>
+            <a href="/compare" className="hover:text-[#1877F2] transition-colors">Comparisons</a>
+            <a href="/submit" className="text-[#1877F2] hover:opacity-80 transition-opacity font-medium">Submit a Tool</a>
+            <a href="/disclosure" className="hover:text-[#1877F2] transition-colors">Disclosure</a>
             <a href="/privacy" className="hover:text-[#1877F2] transition-colors">Privacy</a>
             <a href="/terms" className="hover:text-[#1877F2] transition-colors">Terms</a>
           </div>

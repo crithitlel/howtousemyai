@@ -6,11 +6,13 @@
 - After EVERY change, automatically include http://localhost:3000 so the user can preview without asking
 
 ## Design — Minimalist (like Google)
-- No logo, tagline, or text above the search bar in the hero — search bar only
+- Hero: one H1 headline + one-line subline above the search bar (added June 2026 for SEO/clarity). Nothing else above it
 - No arrows (→) on buttons or action links. Back-nav (← Back) is fine
 - No em dashes in copy — they look AI-generated
-- No "how it works" sections, no verbose footers, no generic taglines
+- No "how it works" sections, no generic taglines
+- Footer links: Home, About, Comparisons, Submit a Tool (blue), Disclosure, Privacy, Terms
 - Cards: clean, no category badge, simple "Visit tool" text link at bottom
+- Playfair Display headings: regular style, never italic
 
 ## Tools Array
 - Before adding any tool, grep for its name to check for duplicates
@@ -19,8 +21,8 @@
 - Logos use Google Favicon API: `https://www.google.com/s2/favicons?domain=${domain}&sz=64`
 
 ## Colors
-- Primary blue: #1877F2 — buttons, active states, search glow on focus
-- Red: #e41e3f — "Submit a Tool" link only
+- Primary blue: #1877F2 — buttons, active states, links (including "Submit a Tool"), search glow on focus
+- Red: #e41e3f — accent badges only (HOT/NEW/Top Pick), never links or buttons
 - Search bar glows blue (#1877F2) on focus, not red
 
 ## Symmetry Rules — Check Before Every Edit

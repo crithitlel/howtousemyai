@@ -14,7 +14,7 @@ export default function NotFound() {
           <nav className="hidden md:flex items-center gap-7 text-sm">
             <Link href="/#tools" className="text-white/50 hover:text-white transition-colors">Browse</Link>
             <Link href="/recommend?q=what+is+the+best+AI+tool+for+me" className="text-white/50 hover:text-white transition-colors">Recommend Me</Link>
-            <Link href="/submit" className="text-[#e41e3f] font-medium hover:opacity-80 transition-opacity">+ Submit a Tool</Link>
+            <Link href="/submit" className="text-[#1877F2] font-medium hover:opacity-80 transition-opacity">+ Submit a Tool</Link>
           </nav>
         </div>
       </header>
@@ -23,7 +23,7 @@ export default function NotFound() {
         <div className="text-center">
           <p
             className="text-[96px] font-medium leading-none text-[#1877F2] mb-4"
-            style={{ fontFamily: "var(--font-playfair), serif", fontStyle: "italic" }}
+            style={{ fontFamily: "var(--font-playfair), serif" }}
           >
             404
           </p>

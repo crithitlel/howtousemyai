@@ -1,7 +1,14 @@
 import Link from "next/link";
 import Logo from "../components/Logo";
+import { TOOLS } from "@/lib/tools";
 
-export default function PrivacyPage() {
+export const metadata = {
+  title: "About — HowToUseMyAI",
+  description:
+    "HowToUseMyAI is a hand-picked directory of AI tools with plain-English instructions, honest pricing labels, and step-by-step guides.",
+};
+
+export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <main className="flex-1 px-6 py-12">
@@ -31,61 +38,58 @@ export default function PrivacyPage() {
             className="text-3xl font-medium text-[#1877F2] text-center mb-2"
             style={{ fontFamily: "var(--font-playfair), serif" }}
           >
-            Privacy Policy
+            About
           </h1>
-          <p className="text-sm text-[#65676b] text-center mb-14">Last updated: May 2026</p>
+          <p className="text-sm text-[#65676b] text-center mb-14">
+            Why this site exists and how we pick tools.
+          </p>
 
           {/* Sections */}
           <div className="flex flex-col gap-12 text-[#1c1e21]">
 
             <section>
-              <h2 className="text-lg font-semibold mb-3">What We Collect</h2>
+              <h2 className="text-lg font-semibold mb-3">What This Site Is</h2>
               <p className="text-sm text-[#65676b] leading-relaxed">
-                We collect your email address when you sign up for our newsletter. If you submit a tool
-                to our directory, we also collect your name and the information you provide in the
-                submission form. We do not collect any other personal information without your knowledge.
+                There are thousands of AI tools, and most directories just dump them all in a giant
+                list. HowToUseMyAI is different: we keep a hand-picked catalog of {TOOLS.length} tools
+                that actually work, and for each one we explain what it is best at, what it costs, and
+                exactly how to get started in three steps. Describe what you want to do, and we match
+                you with the right tool.
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold mb-3">How We Use It</h2>
+              <h2 className="text-lg font-semibold mb-3">How We Pick Tools</h2>
               <p className="text-sm text-[#65676b] leading-relaxed">
-                Your email is used solely to send you our newsletter about new AI tools and updates.
-                You can unsubscribe at any time using the link in any email we send. We use basic
-                analytics (page views, referral sources) to understand how people find and use the
-                site so we can improve it. We do not sell your data to anyone.
+                Every tool in the directory is reviewed before it goes live. We look for tools that
+                are actively maintained, have a real free tier or transparent pricing, and solve a
+                problem better than the alternatives in their category. We remove tools that shut
+                down, get abandoned, or fall behind. Listings are not paid placements: nobody can buy
+                a spot in the directory or in our Editor&apos;s Picks.
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold mb-3">Cookies</h2>
+              <h2 className="text-lg font-semibold mb-3">How We Make Money</h2>
               <p className="text-sm text-[#65676b] leading-relaxed">
-                We use minimal cookies necessary to operate the site — for example, to remember your
-                preferences between visits. We may also use analytics cookies (such as those set by
-                Google Analytics or similar services) to understand site traffic. You can disable
-                cookies in your browser settings at any time.
+                Some outbound links are affiliate links, which means we may earn a commission if you
+                sign up for a paid plan. This never affects which tools we list or how we rank them.
+                You can read the full details on our{" "}
+                <Link href="/disclosure" className="text-[#1877F2] hover:underline">
+                  affiliate disclosure
+                </Link>{" "}
+                page.
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold mb-3">Third Party Links</h2>
+              <h2 className="text-lg font-semibold mb-3">Suggest a Tool</h2>
               <p className="text-sm text-[#65676b] leading-relaxed">
-                HowToUseMyAI is a directory — we link to external AI tools and services. When you
-                click through to a third-party site, their own privacy policy applies. We have no
-                control over and take no responsibility for the content or practices of those sites.
-                We recommend reviewing their policies before providing any personal information.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-lg font-semibold mb-3">Contact Us</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
-                If you have any questions about this Privacy Policy or how we handle your data,
-                please reach out to us via the{" "}
+                Found an AI tool we should know about? Submit it through the{" "}
                 <Link href="/submit" className="text-[#1877F2] hover:underline">
                   Submit a Tool
                 </Link>{" "}
-                page or email us directly. We will respond as promptly as we can.
+                page and we will review it. We read every submission.
               </p>
             </section>
 
@@ -97,6 +101,7 @@ export default function PrivacyPage() {
         <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65676b]">
           <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
           <div className="flex gap-5">
+            <Link href="/disclosure" className="hover:text-[#1877F2] transition-colors">Disclosure</Link>
             <Link href="/privacy" className="hover:text-[#1877F2] transition-colors">Privacy</Link>
             <Link href="/terms" className="hover:text-[#1877F2] transition-colors">Terms</Link>
           </div>
