@@ -3,7 +3,7 @@ import Logo from "../components/Logo";
 
 export default function PrivacyPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[#101b32]">
       <main className="flex-1 px-6 py-12">
         <div className="max-w-3xl mx-auto">
 
@@ -33,14 +33,14 @@ export default function PrivacyPage() {
           >
             Privacy Policy
           </h1>
-          <p className="text-sm text-[#65676b] text-center mb-14">Last updated: May 2026</p>
+          <p className="text-sm text-[#93a4c3] text-center mb-14">Last updated: May 2026</p>
 
           {/* Sections */}
-          <div className="flex flex-col gap-12 text-[#1c1e21]">
+          <div className="flex flex-col gap-12 text-[#e9eef8]">
 
             <section>
               <h2 className="text-lg font-semibold mb-3">What We Collect</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 We collect your email address when you sign up for our newsletter. If you submit a tool
                 to our directory, we also collect your name and the information you provide in the
                 submission form. We do not collect any other personal information without your knowledge.
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">How We Use It</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 Your email is used solely to send you our newsletter about new AI tools and updates.
                 You can unsubscribe at any time using the link in any email we send. We use basic
                 analytics (page views, referral sources) to understand how people find and use the
@@ -59,7 +59,7 @@ export default function PrivacyPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">Cookies</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 We use minimal cookies necessary to operate the site — for example, to remember your
                 preferences between visits. We may also use analytics cookies (such as those set by
                 Google Analytics or similar services) to understand site traffic. You can disable
@@ -69,7 +69,7 @@ export default function PrivacyPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">Third Party Links</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 HowToUseMyAI is a directory — we link to external AI tools and services. When you
                 click through to a third-party site, their own privacy policy applies. We have no
                 control over and take no responsibility for the content or practices of those sites.
@@ -79,7 +79,7 @@ export default function PrivacyPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">Contact Us</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 If you have any questions about this Privacy Policy or how we handle your data,
                 please reach out to us via the{" "}
                 <Link href="/submit" className="text-[#1877F2] hover:underline">
@@ -93,8 +93,8 @@ export default function PrivacyPage() {
         </div>
       </main>
 
-      <footer className="border-t border-[#e4e6ea] px-6 py-8 mt-10">
-        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65676b]">
+      <footer className="border-t border-[#233150] px-6 py-8 mt-10">
+        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#93a4c3]">
           <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
           <div className="flex gap-5">
             <Link href="/privacy" className="hover:text-[#1877F2] transition-colors">Privacy</Link>

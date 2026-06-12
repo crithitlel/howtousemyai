@@ -190,9 +190,9 @@ function getRecommendations(query: string): Tool[] {
 }
 
 const PRICING_BADGE: Record<string, string> = {
-  Free: "bg-[#E7F3FF] text-[#1877F2]",
-  Freemium: "bg-[#E7F3FF] text-[#1877F2]",
-  Paid: "bg-[#fff0f3] text-[#e41e3f]",
+  Free: "bg-[#142a4d] text-[#1877F2]",
+  Freemium: "bg-[#142a4d] text-[#1877F2]",
+  Paid: "bg-[#3a1524] text-[#ff6b85]",
 };
 
 function RecommendResults() {
@@ -202,8 +202,8 @@ function RecommendResults() {
   const tools = getRecommendations(query);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-[#e4e6ea] px-6 py-3">
+    <div className="flex flex-col min-h-screen bg-[#101b32]">
+      <header className="sticky top-0 z-30 bg-[#0a0f1e]/85 backdrop-blur border-b border-[#233150] px-6 py-3">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
           <a href="/" className="flex items-center gap-2 flex-shrink-0">
             <Logo size={24} />
@@ -211,25 +211,25 @@ function RecommendResults() {
           </a>
           <button
             onClick={() => router.push("/")}
-            className="text-xs text-[#65676b] hover:text-[#1877F2] font-medium transition-colors whitespace-nowrap"
+            className="text-xs text-[#93a4c3] hover:text-[#1877F2] font-medium transition-colors whitespace-nowrap"
           >
             ← Try another
           </button>
         </div>
       </header>
 
-      <main className="flex-1 px-6 py-10 bg-[#f7f8fa]">
+      <main className="flex-1 px-6 py-10 bg-[#0d1729]">
         <div className="max-w-5xl mx-auto">
           {/* Query header */}
-          <div className="mb-8 bg-white rounded-xl p-6 border border-[#e4e6ea]">
+          <div className="mb-8 bg-[#101b32] rounded-xl p-6 border border-[#233150]">
             <p className="text-[10px] font-semibold text-[#1877F2] uppercase tracking-widest mb-2">Results for</p>
             <h1
-              className="text-xl font-medium text-[#0a0f1e] leading-snug"
+              className="text-xl font-medium text-[#e9eef8] leading-snug"
               style={{ fontFamily: "var(--font-playfair), serif" }}
             >
               &ldquo;{query}&rdquo;
             </h1>
-            <p className="text-xs text-[#65676b] mt-2">{tools.length} AI tools matched your request</p>
+            <p className="text-xs text-[#93a4c3] mt-2">{tools.length} AI tools matched your request</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -248,12 +248,12 @@ function RecommendResults() {
                 <a
                   key={tool.name}
                   href={`/tools/${toolSlug}`}
-                  className={`tool-card relative bg-white border border-[#e4e6ea] rounded-xl overflow-hidden animate-fade-in-up stagger-${Math.min(i + 1, 5) as 1 | 2 | 3 | 4 | 5} flex flex-col hover:border-[#1877F2] hover:shadow-md transition-all`}
+                  className={`tool-card relative bg-[#101b32] border border-[#233150] rounded-xl overflow-hidden animate-fade-in-up stagger-${Math.min(i + 1, 5) as 1 | 2 | 3 | 4 | 5} flex flex-col hover:border-[#1877F2] hover:shadow-md transition-all`}
                 >
                   <div className="p-5 flex-1">
                     {/* Logo + Badges row */}
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-9 h-9 rounded-lg bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0">
+                      <div className="w-9 h-9 rounded-lg bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
                         <img
                           src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
                           alt={tool.name}
@@ -270,7 +270,7 @@ function RecommendResults() {
                       </div>
                       <div className="flex items-center gap-2 flex-wrap">
                         {i === 0 && (
-                          <span className="text-[10px] font-semibold bg-[#fff0f3] text-[#e41e3f] px-2 py-0.5 rounded-full uppercase tracking-wide">
+                          <span className="text-[10px] font-semibold bg-[#3a1524] text-[#ff6b85] px-2 py-0.5 rounded-full uppercase tracking-wide">
                             Top Pick
                           </span>
                         )}
@@ -278,34 +278,34 @@ function RecommendResults() {
                           {tool.pricing}
                         </span>
                         {tool.isNew && (
-                          <span className="text-[10px] font-semibold bg-[#fff0f3] text-[#e41e3f] px-2 py-0.5 rounded-full uppercase tracking-wide">New</span>
+                          <span className="text-[10px] font-semibold bg-[#3a1524] text-[#ff6b85] px-2 py-0.5 rounded-full uppercase tracking-wide">New</span>
                         )}
                       </div>
                     </div>
 
                     {/* Tool name & description */}
-                    <h2 className="text-base font-semibold text-[#1c1e21] mb-1">{tool.name}</h2>
-                    <p className="text-xs text-[#65676b] leading-relaxed mb-3">{tool.description}</p>
+                    <h2 className="text-base font-semibold text-[#e9eef8] mb-1">{tool.name}</h2>
+                    <p className="text-xs text-[#93a4c3] leading-relaxed mb-3">{tool.description}</p>
 
                     {details && (
-                      <p className="text-xs text-[#65676b]">
-                        <span className="font-semibold text-[#1c1e21]">Best for:</span> {details.bestFor}
+                      <p className="text-xs text-[#93a4c3]">
+                        <span className="font-semibold text-[#e9eef8]">Best for:</span> {details.bestFor}
                       </p>
                     )}
 
                     {/* Steps — only for detailed tools */}
                     {details && (
-                      <div className="mt-4 pt-4 border-t border-[#f0f2f5]">
-                        <p className="text-[10px] font-semibold text-[#65676b] uppercase tracking-wider mb-3">
+                      <div className="mt-4 pt-4 border-t border-[#1b2742]">
+                        <p className="tech-label !text-[10px] mb-3">
                           How to get started
                         </p>
                         <ol className="flex flex-col gap-2.5">
                           {details.steps.map((step, si) => (
                             <li key={si} className="flex gap-2.5 items-start">
-                              <span className="flex-shrink-0 w-4 h-4 rounded-full bg-[#E7F3FF] text-[#1877F2] text-[9px] font-bold flex items-center justify-center mt-0.5">
+                              <span className="flex-shrink-0 w-4 h-4 rounded-full bg-[#142a4d] text-[#1877F2] text-[9px] font-bold flex items-center justify-center mt-0.5">
                                 {si + 1}
                               </span>
-                              <p className="text-xs text-[#65676b] leading-relaxed">{step}</p>
+                              <p className="text-xs text-[#93a4c3] leading-relaxed">{step}</p>
                             </li>
                           ))}
                         </ol>
@@ -319,11 +319,11 @@ function RecommendResults() {
                       onClick={(e) => { e.preventDefault(); window.open(getToolUrl(tool.name, tool.url), "_blank", "noopener,noreferrer"); }}
                       className="flex-1 flex items-center justify-center gap-1 bg-[#1877F2] hover:bg-[#166FE5] text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
                     >
-                      Open {tool.name} ↗
+                      Open {tool.name}
                     </span>
                     {!hasGuide && (
                       <span className="flex items-center justify-center text-xs font-medium text-[#1877F2] border border-[#1877F2]/20 hover:border-[#1877F2]/50 px-3 py-2.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap">
-                        Full guide →
+                        Full guide
                       </span>
                     )}
                   </div>
@@ -343,8 +343,8 @@ function RecommendResults() {
         </div>
       </main>
 
-      <footer className="border-t border-[#e4e6ea] px-6 py-4 bg-white">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65676b]">
+      <footer className="border-t border-[#233150] px-6 py-4 bg-[#101b32]">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#93a4c3]">
           <div className="flex items-center gap-2">
             <Logo size={18} />
             <span className="font-medium text-[#1877F2]">HowToUseMyAI</span>
@@ -366,10 +366,10 @@ export default function RecommendPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#f7f8fa] flex items-center justify-center">
+        <div className="min-h-screen bg-[#0d1729] flex items-center justify-center">
           <div className="text-center">
             <div className="w-8 h-8 border-2 border-[#1877F2] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-xs text-[#65676b]">Finding the best AI tools...</p>
+            <p className="text-xs text-[#93a4c3]">Finding the best AI tools...</p>
           </div>
         </div>
       }

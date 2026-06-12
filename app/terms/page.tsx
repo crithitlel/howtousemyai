@@ -3,7 +3,7 @@ import Logo from "../components/Logo";
 
 export default function TermsPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[#101b32]">
       <main className="flex-1 px-6 py-12">
         <div className="max-w-3xl mx-auto">
 
@@ -33,14 +33,14 @@ export default function TermsPage() {
           >
             Terms of Service
           </h1>
-          <p className="text-sm text-[#65676b] text-center mb-14">Last updated: May 2026</p>
+          <p className="text-sm text-[#93a4c3] text-center mb-14">Last updated: May 2026</p>
 
           {/* Sections */}
-          <div className="flex flex-col gap-12 text-[#1c1e21]">
+          <div className="flex flex-col gap-12 text-[#e9eef8]">
 
             <section>
               <h2 className="text-lg font-semibold mb-3">Use of Service</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 HowToUseMyAI is a free-to-use AI tool directory. By accessing this site, you agree
                 to use it for lawful purposes only. You must not attempt to scrape, reverse engineer,
                 or otherwise misuse this site or its content. We reserve the right to restrict access
@@ -50,7 +50,7 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">Intellectual Property</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 The content on HowToUseMyAI — including descriptions, guides, and the site design —
                 is our original work and is protected by copyright. The AI tools listed in our
                 directory are the property of their respective owners. We do not claim any ownership
@@ -60,7 +60,7 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">Disclaimer</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 HowToUseMyAI is a directory service. We list and describe AI tools to help people
                 discover them — we do not build, operate, or officially endorse any of the tools
                 featured. Tool availability, pricing, and features may change without notice. Always
@@ -71,7 +71,7 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">Limitation of Liability</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 To the fullest extent permitted by law, HowToUseMyAI shall not be liable for any
                 direct, indirect, incidental, or consequential damages arising from your use of this
                 site or any of the tools we link to. Your use of any AI tool listed here is at your
@@ -81,7 +81,7 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">Changes to Terms</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 We may update these Terms of Service from time to time. Changes will be reflected
                 by the &quot;Last updated&quot; date at the top of this page. Continued use of the site
                 after any changes constitutes your acceptance of the updated terms.
@@ -90,7 +90,7 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">Contact</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 If you have questions about these Terms, please reach out via the{" "}
                 <Link href="/submit" className="text-[#1877F2] hover:underline">
                   Submit a Tool
@@ -103,8 +103,8 @@ export default function TermsPage() {
         </div>
       </main>
 
-      <footer className="border-t border-[#e4e6ea] px-6 py-8 mt-10">
-        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65676b]">
+      <footer className="border-t border-[#233150] px-6 py-8 mt-10">
+        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#93a4c3]">
           <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
           <div className="flex gap-5">
             <Link href="/privacy" className="hover:text-[#1877F2] transition-colors">Privacy</Link>

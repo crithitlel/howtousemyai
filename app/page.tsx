@@ -19,9 +19,9 @@ type PricingFilter = typeof PRICING_OPTIONS[number];
 
 
 const PRICING_STYLES: Record<string, string> = {
-  Free:     "bg-[#E7F3FF] text-[#1877F2]",
-  Freemium: "bg-[#E7F3FF] text-[#1877F2]",
-  Paid:     "bg-[#fff0f3] text-[#e41e3f]",
+  Free:     "bg-[#142a4d] text-[#1877F2]",
+  Freemium: "bg-[#142a4d] text-[#1877F2]",
+  Paid:     "bg-[#3a1524] text-[#ff6b85]",
 };
 
 const TRENDING = [
@@ -37,10 +37,10 @@ function MiniToolCard({ tool }: { tool: Tool }) {
   return (
     <a
       href={`/tools/${slugify(tool.name)}`}
-      className="bg-white border border-[#e4e6ea] rounded-xl p-3 flex flex-col gap-2 hover:shadow-md hover:border-[#1877F2] transition-all"
+      className="bg-[#101b32] border border-[#233150] rounded-xl p-3 flex flex-col gap-2 hover:shadow-md hover:border-[#1877F2] transition-all"
     >
       <div className="flex items-center gap-2">
-        <div className="w-7 h-7 rounded-lg bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0">
+        <div className="w-7 h-7 rounded-lg bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
           <img
             src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
             alt={tool.name}
@@ -55,9 +55,9 @@ function MiniToolCard({ tool }: { tool: Tool }) {
           />
           <span className="text-sm hidden items-center justify-center w-full h-full">{tool.icon}</span>
         </div>
-        <span className="text-xs font-semibold text-[#1c1e21] leading-tight">{tool.name}</span>
+        <span className="text-xs font-semibold text-[#e9eef8] leading-tight">{tool.name}</span>
       </div>
-      <p className="text-[10px] text-[#65676b] leading-relaxed line-clamp-2">{tool.description}</p>
+      <p className="text-[10px] text-[#93a4c3] leading-relaxed line-clamp-2">{tool.description}</p>
     </a>
   );
 }
@@ -95,42 +95,43 @@ export default function HomePage() {
   const featuredTools = TOOLS.filter((t) => t.isFeatured);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[#101b32]">
 
       {/* Sticky nav */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-[#e4e6ea] px-6 py-3">
+      <header className="sticky top-0 z-30 bg-[#0a0f1e]/85 backdrop-blur border-b border-[#233150] px-6 py-3">
+        <div className="header-glow-line absolute bottom-0 left-0 right-0" />
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
           <a href="/" className="flex items-center gap-2 flex-shrink-0">
             <Logo size={24} />
             <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
           </a>
           <nav className="flex items-center gap-5">
-            <a href="/compare" className="text-xs text-[#65676b] font-medium hover:text-[#1877F2] transition-colors whitespace-nowrap">Comparisons</a>
-            <a href="/best-ai-for" className="text-xs text-[#65676b] font-medium hover:text-[#1877F2] transition-colors whitespace-nowrap hidden sm:inline">Use Cases</a>
+            <a href="/compare" className="text-xs text-[#93a4c3] font-medium hover:text-[#1877F2] transition-colors whitespace-nowrap">Comparisons</a>
+            <a href="/best-ai-for" className="text-xs text-[#93a4c3] font-medium hover:text-[#1877F2] transition-colors whitespace-nowrap hidden sm:inline">Use Cases</a>
             <a href="/submit" className="text-xs text-[#1877F2] font-semibold hover:opacity-80 transition-opacity whitespace-nowrap">+ Submit a Tool</a>
           </nav>
         </div>
       </header>
 
       {/* Hero — Google-style */}
-      <section className="bg-white px-4 sm:px-6 pt-8 sm:pt-12 pb-6 text-center">
+      <section className="bg-[#101b32] px-4 sm:px-6 pt-8 sm:pt-12 pb-6 text-center">
         <div className="max-w-2xl mx-auto">
 
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#1c1e21] tracking-tight mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#e9eef8] tracking-tight mb-2">
             Find the right AI tool in seconds
           </h1>
-          <p className="text-sm text-[#65676b] mb-6">
+          <p className="text-sm text-[#93a4c3] mb-6">
             Describe what you want to do. We match you with the best of {TOOLS.length} hand-picked tools, each with step-by-step instructions.
           </p>
 
           {/* Inline search bar */}
-          <div className="search-glow flex items-center bg-white rounded-full px-4 py-2 gap-2">
-            <svg className="w-4 h-4 text-[#bcc0c4] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="search-glow flex items-center bg-[#101b32] rounded-full px-4 py-2 gap-2">
+            <svg className="w-4 h-4 text-[#5d6f93] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
               type="text"
-              className="flex-1 text-sm text-[#1c1e21] bg-transparent placeholder-[#bcc0c4] focus:outline-none"
+              className="flex-1 text-sm text-[#e9eef8] bg-transparent placeholder-[#566586] focus:outline-none"
               placeholder='e.g. "I want to create a YouTube video"'
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -147,13 +148,13 @@ export default function HomePage() {
 
           {/* Trending chips — scrollable single row */}
           <div className="mt-5 pb-1">
-            <span className="text-xs text-[#bcc0c4] block mb-2">Try:</span>
+            <span className="text-xs text-[#5d6f93] block mb-2">Try:</span>
             <div className="flex flex-wrap gap-2">
             {TRENDING.map((term) => (
               <button
                 key={term}
                 onClick={() => handleSubmit(term)}
-                className="text-xs px-3 py-1.5 rounded-full border border-[#e4e6ea] text-[#65676b] hover:border-[#1877F2] hover:text-[#1877F2] transition-all bg-white whitespace-nowrap"
+                className="text-xs px-3 py-1.5 rounded-full border border-[#233150] text-[#93a4c3] hover:border-[#1877F2] hover:text-[#1877F2] transition-all bg-[#101b32] whitespace-nowrap"
               >
                 {term}
               </button>
@@ -164,7 +165,7 @@ export default function HomePage() {
       </section>
 
       {/* Category chips */}
-      <section id="tools" className="px-6 pt-5 pb-3 bg-white border-b border-[#f0f2f5]">
+      <section id="tools" className="px-6 pt-5 pb-3 bg-[#101b32] border-b border-[#1b2742]">
         <div className="max-w-6xl mx-auto flex flex-wrap gap-2 pb-1">
           {CATEGORIES.map((cat) => (
             <button
@@ -173,7 +174,7 @@ export default function HomePage() {
               className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all whitespace-nowrap ${
                 activeCategory === cat
                   ? "bg-[#1877F2] text-white border-[#1877F2] shadow-sm shadow-[#1877F2]/20"
-                  : "bg-white text-[#65676b] border-[#dddfe2] hover:border-[#1877F2] hover:text-[#1877F2]"
+                  : "bg-[#101b32] text-[#93a4c3] border-[#2b3a5c] hover:border-[#1877F2] hover:text-[#1877F2]"
               }`}
             >
               {cat}
@@ -190,7 +191,7 @@ export default function HomePage() {
               className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all whitespace-nowrap flex-shrink-0 ${
                 activePricing === p
                   ? "bg-[#1877F2] text-white border-[#1877F2] shadow-sm shadow-[#1877F2]/20"
-                  : "bg-white text-[#65676b] border-[#dddfe2] hover:border-[#1877F2] hover:text-[#1877F2]"
+                  : "bg-[#101b32] text-[#93a4c3] border-[#2b3a5c] hover:border-[#1877F2] hover:text-[#1877F2]"
               }`}
             >
               {p}
@@ -200,14 +201,14 @@ export default function HomePage() {
       </section>
 
       {/* New This Week + Editor's Picks horizontal scroll sections */}
-      <section className="px-4 sm:px-6 pt-6 pb-2 bg-white border-b border-[#f0f2f5]">
+      <section className="px-4 sm:px-6 pt-6 pb-2 bg-[#101b32] border-b border-[#1b2742]">
         <div className="max-w-6xl mx-auto space-y-6">
 
           {/* New This Week */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-[10px] font-bold bg-[#fff0f3] text-[#e41e3f] px-2 py-0.5 rounded-full">HOT</span>
-              <h2 className="text-sm font-semibold text-[#1c1e21]">Trending Now</h2>
+              <h2 className="tech-label">Trending Now</h2>
+              <span className="text-[10px] font-bold bg-[#3a1524] text-[#ff6b85] px-2 py-0.5 rounded-full">HOT</span>
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
               {newThisWeekTools.map((tool) => (
@@ -219,8 +220,8 @@ export default function HomePage() {
           {/* Editor's Picks */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-[10px] font-bold bg-[#E7F3FF] text-[#1877F2] px-2 py-0.5 rounded-full">⭐ PICKS</span>
-              <h2 className="text-sm font-semibold text-[#1c1e21]">Editor&apos;s Picks</h2>
+              <h2 className="tech-label">Editor&apos;s Picks</h2>
+              <span className="text-[10px] font-bold bg-[#142a4d] text-[#1877F2] px-2 py-0.5 rounded-full">⭐ PICKS</span>
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
               {featuredTools.map((tool) => (
@@ -233,15 +234,15 @@ export default function HomePage() {
       </section>
 
       {/* Tool cards */}
-      <section id="tool-grid" className="px-4 sm:px-6 py-8 flex-1 bg-[#f7f8fa]">
+      <section id="tool-grid" className="px-4 sm:px-6 py-8 flex-1 bg-[#0d1729]">
         <div className="max-w-6xl mx-auto">
           {/* Header row: count + view toggle */}
           <div className="flex items-center justify-between mb-5">
-            <p className="text-xs text-[#65676b]">{filtered.length} tools available</p>
-            <div className="flex items-center gap-1 bg-white border border-[#e4e6ea] rounded-lg p-0.5">
+            <p className="text-xs text-[#93a4c3]">{filtered.length} tools available</p>
+            <div className="flex items-center gap-1 bg-[#101b32] border border-[#233150] rounded-lg p-0.5">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-1.5 rounded-md transition-colors ${viewMode === "grid" ? "bg-[#1877F2] text-white" : "text-[#65676b] hover:text-[#1877F2]"}`}
+                className={`p-1.5 rounded-md transition-colors ${viewMode === "grid" ? "bg-[#1877F2] text-white" : "text-[#93a4c3] hover:text-[#1877F2]"}`}
                 title="Grid view"
               >
                 <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16">
@@ -250,7 +251,7 @@ export default function HomePage() {
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`p-1.5 rounded-md transition-colors ${viewMode === "list" ? "bg-[#1877F2] text-white" : "text-[#65676b] hover:text-[#1877F2]"}`}
+                className={`p-1.5 rounded-md transition-colors ${viewMode === "list" ? "bg-[#1877F2] text-white" : "text-[#93a4c3] hover:text-[#1877F2]"}`}
                 title="List view"
               >
                 <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 16 16">
@@ -267,10 +268,10 @@ export default function HomePage() {
                 <a
                   key={tool.name}
                   href={`/tools/${slugify(tool.name)}`}
-                  className="tool-card relative group bg-white border border-[#e4e6ea] rounded-xl p-4 flex flex-col items-center text-center gap-2 overflow-hidden hover:shadow-md transition-all"
+                  className="tool-card relative group bg-[#101b32] border border-[#233150] rounded-xl p-4 flex flex-col items-center text-center gap-2 overflow-hidden hover:shadow-md transition-all"
                 >
                   {/* Large centered favicon */}
-                  <div className="w-12 h-12 rounded-xl bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0 mt-1">
+                  <div className="w-12 h-12 rounded-xl bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0 mt-1">
                     <img
                       src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
                       alt={tool.name}
@@ -289,10 +290,10 @@ export default function HomePage() {
                   {/* Badges */}
                   <div className="flex items-center gap-1 flex-wrap justify-center">
                     {tool.isFeatured && (
-                      <span className="text-[9px] font-bold bg-[#E7F3FF] text-[#1877F2] px-1.5 py-0.5 rounded-full">⭐</span>
+                      <span className="text-[9px] font-bold bg-[#142a4d] text-[#1877F2] px-1.5 py-0.5 rounded-full">⭐</span>
                     )}
                     {tool.isNew && (
-                      <span className="text-[9px] font-bold bg-[#fff0f3] text-[#e41e3f] px-1.5 py-0.5 rounded-full">NEW</span>
+                      <span className="text-[9px] font-bold bg-[#3a1524] text-[#ff6b85] px-1.5 py-0.5 rounded-full">NEW</span>
                     )}
                     <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${PRICING_STYLES[tool.pricing]}`}>
                       {tool.pricing.toUpperCase()}
@@ -301,10 +302,10 @@ export default function HomePage() {
 
                   {/* Name + description */}
                   <div>
-                    <h3 className="text-sm font-semibold text-[#1c1e21] group-hover:text-[#1877F2] transition-colors leading-tight">
+                    <h3 className="text-sm font-semibold text-[#e9eef8] group-hover:text-[#1877F2] transition-colors leading-tight">
                       {tool.name}
                     </h3>
-                    <p className="text-xs text-[#65676b] mt-1 leading-relaxed line-clamp-2">
+                    <p className="text-xs text-[#93a4c3] mt-1 leading-relaxed line-clamp-2">
                       {tool.description}
                     </p>
                   </div>
@@ -327,10 +328,10 @@ export default function HomePage() {
                 <a
                   key={tool.name}
                   href={`/tools/${slugify(tool.name)}`}
-                  className="group bg-white border border-[#e4e6ea] rounded-xl px-4 py-3 flex items-center gap-4 hover:shadow-md hover:border-[#1877F2] transition-all"
+                  className="group bg-[#101b32] border border-[#233150] rounded-xl px-4 py-3 flex items-center gap-4 hover:shadow-md hover:border-[#1877F2] transition-all"
                 >
                   {/* Favicon */}
-                  <div className="w-10 h-10 rounded-xl bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
                     <img
                       src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
                       alt={tool.name}
@@ -348,10 +349,10 @@ export default function HomePage() {
 
                   {/* Name + description */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-semibold text-[#1c1e21] group-hover:text-[#1877F2] transition-colors leading-tight">
+                    <h3 className="text-sm font-semibold text-[#e9eef8] group-hover:text-[#1877F2] transition-colors leading-tight">
                       {tool.name}
                     </h3>
-                    <p className="text-xs text-[#65676b] mt-0.5 leading-relaxed truncate">
+                    <p className="text-xs text-[#93a4c3] mt-0.5 leading-relaxed truncate">
                       {tool.description}
                     </p>
                   </div>
@@ -359,10 +360,10 @@ export default function HomePage() {
                   {/* Badges */}
                   <div className="flex items-center gap-1 flex-shrink-0">
                     {tool.isFeatured && (
-                      <span className="text-[9px] font-bold bg-[#E7F3FF] text-[#1877F2] px-1.5 py-0.5 rounded-full">⭐</span>
+                      <span className="text-[9px] font-bold bg-[#142a4d] text-[#1877F2] px-1.5 py-0.5 rounded-full">⭐</span>
                     )}
                     {tool.isNew && (
-                      <span className="text-[9px] font-bold bg-[#fff0f3] text-[#e41e3f] px-1.5 py-0.5 rounded-full">NEW</span>
+                      <span className="text-[9px] font-bold bg-[#3a1524] text-[#ff6b85] px-1.5 py-0.5 rounded-full">NEW</span>
                     )}
                     <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${PRICING_STYLES[tool.pricing]}`}>
                       {tool.pricing.toUpperCase()}
@@ -370,7 +371,7 @@ export default function HomePage() {
                   </div>
 
                   {/* Arrow */}
-                  <svg className="w-4 h-4 text-[#bcc0c4] group-hover:text-[#1877F2] flex-shrink-0 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-[#5d6f93] group-hover:text-[#1877F2] flex-shrink-0 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </a>
@@ -381,10 +382,10 @@ export default function HomePage() {
       </section>
 
       {/* Browse by Category */}
-      <section className="bg-white border-t border-[#e4e6ea] px-6 py-10">
+      <section className="bg-[#101b32] border-t border-[#233150] px-6 py-10">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-sm font-semibold text-[#1c1e21] mb-1">Browse by use case</h2>
-          <p className="text-xs text-[#65676b] mb-5">Find the best AI tool for exactly what you need to do.</p>
+          <h2 className="tech-label mb-1">Browse by use case</h2>
+          <p className="text-xs text-[#93a4c3] mb-5">Find the best AI tool for exactly what you need to do.</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {[
               { slug: "writing", label: "Writing", icon: "✍️" },
@@ -413,10 +414,10 @@ export default function HomePage() {
               <a
                 key={slug}
                 href={`/best-ai-for/${slug}`}
-                className="flex items-center gap-2.5 bg-[#f7f8fa] border border-[#e4e6ea] rounded-xl px-3 py-2.5 hover:border-[#1877F2] hover:bg-white transition-all group"
+                className="flex items-center gap-2.5 bg-[#0d1729] border border-[#233150] rounded-xl px-3 py-2.5 hover:border-[#1877F2] hover:bg-[#16233f] transition-all group"
               >
                 <span className="text-base flex-shrink-0">{icon}</span>
-                <span className="text-xs font-medium text-[#1c1e21] group-hover:text-[#1877F2] transition-colors leading-tight">{label}</span>
+                <span className="text-xs font-medium text-[#e9eef8] group-hover:text-[#1877F2] transition-colors leading-tight">{label}</span>
               </a>
             ))}
           </div>
@@ -424,9 +425,10 @@ export default function HomePage() {
       </section>
 
       {/* Newsletter */}
-      <section className="bg-white border-t border-[#e4e6ea] px-6 py-10">
+      <section className="bg-[#101b32] border-t border-[#233150] px-6 py-10">
         <div className="max-w-md mx-auto text-center">
-          <p className="text-xs text-[#65676b] mb-4">Get the best new AI tools in your inbox every week.</p>
+          <h2 className="tech-label justify-center mb-2">Newsletter</h2>
+          <p className="text-xs text-[#93a4c3] mb-4">Get the best new AI tools in your inbox every week.</p>
           {subscribed ? (
             <p className="text-sm text-[#1877F2] font-medium">You&apos;re in!</p>
           ) : (
@@ -442,7 +444,7 @@ export default function HomePage() {
                   setSubscribed(true);
                 }
               }}
-              className="search-glow flex items-center bg-white rounded-full px-4 py-2 gap-2"
+              className="search-glow flex items-center bg-[#101b32] rounded-full px-4 py-2 gap-2"
             >
               <input
                 type="email"
@@ -450,7 +452,7 @@ export default function HomePage() {
                 placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 text-sm text-[#1c1e21] bg-transparent placeholder-[#bcc0c4] focus:outline-none"
+                className="flex-1 text-sm text-[#e9eef8] bg-transparent placeholder-[#566586] focus:outline-none"
               />
               <button
                 type="submit"
@@ -464,8 +466,8 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-[#e4e6ea] px-6 py-6">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#65676b]">
+      <footer className="border-t border-[#233150] px-6 py-6">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#93a4c3]">
           <div className="flex items-center gap-2">
             <Logo size={18} />
             <span className="font-medium text-[#1877F2]">HowToUseMyAI</span>

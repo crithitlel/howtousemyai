@@ -36,22 +36,22 @@ export default function SubmitPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-[#e4e6ea] px-6 py-3">
+    <div className="flex flex-col min-h-screen bg-[#101b32]">
+      <header className="sticky top-0 z-30 bg-[#0a0f1e]/85 backdrop-blur border-b border-[#233150] px-6 py-3">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
           <a href="/" className="flex items-center gap-2 flex-shrink-0">
             <Logo size={24} />
             <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
           </a>
-          <a href="/" className="text-xs text-[#65676b] hover:text-[#1877F2] font-medium transition-colors whitespace-nowrap">← Back</a>
+          <a href="/" className="text-xs text-[#93a4c3] hover:text-[#1877F2] font-medium transition-colors whitespace-nowrap">← Back</a>
         </div>
       </header>
 
-      <main className="flex-1 px-4 sm:px-6 py-14 bg-[#f7f8fa] flex items-start justify-center">
+      <main className="flex-1 px-4 sm:px-6 py-14 bg-[#0d1729] flex items-start justify-center">
         <div className="w-full max-w-lg">
           {submitted ? (
-            <div className="bg-white border border-[#e4e6ea] rounded-2xl p-10 text-center">
-              <div className="w-12 h-12 rounded-full bg-[#E7F3FF] flex items-center justify-center mx-auto mb-4 text-2xl">
+            <div className="bg-[#101b32] border border-[#233150] rounded-2xl p-10 text-center">
+              <div className="w-12 h-12 rounded-full bg-[#142a4d] flex items-center justify-center mx-auto mb-4 text-2xl">
                 🎉
               </div>
               <h2
@@ -59,7 +59,7 @@ export default function SubmitPage() {
               >
                 Thanks for your submission!
               </h2>
-              <p className="text-xs text-[#65676b] mb-6 leading-relaxed">
+              <p className="text-xs text-[#93a4c3] mb-6 leading-relaxed">
                 We&apos;ll review your tool and add it to the directory if it&apos;s a good fit. We&apos;ll be in touch!
               </p>
               <button
@@ -70,17 +70,17 @@ export default function SubmitPage() {
               </button>
             </div>
           ) : (
-            <div className="bg-white border border-[#e4e6ea] rounded-2xl p-8">
+            <div className="bg-[#101b32] border border-[#233150] rounded-2xl p-8">
               <h1
                 className="text-2xl font-semibold text-[#1877F2] mb-1 leading-snug"
               >
                 Submit a Tool
               </h1>
-              <p className="text-xs text-[#65676b] mb-7">Know a great AI tool? Let us know and we&apos;ll add it to the directory.</p>
+              <p className="text-xs text-[#93a4c3] mb-7">Know a great AI tool? Let us know and we&apos;ll add it to the directory.</p>
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#1c1e21]">Tool Name</label>
+                  <label className="text-xs font-semibold text-[#e9eef8]">Tool Name</label>
                   <input
                     name="toolName"
                     type="text"
@@ -88,12 +88,12 @@ export default function SubmitPage() {
                     placeholder="e.g. ChatGPT"
                     value={form.toolName}
                     onChange={handleChange}
-                    className="border border-[#dddfe2] rounded-lg px-3 py-2.5 text-sm text-[#1c1e21] placeholder-[#bcc0c4] focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-[#1877F2]/10 transition-all"
+                    className="border border-[#2b3a5c] rounded-lg px-3 py-2.5 text-sm text-[#e9eef8] placeholder-[#566586] focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-[#1877F2]/10 transition-all"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#1c1e21]">Website URL</label>
+                  <label className="text-xs font-semibold text-[#e9eef8]">Website URL</label>
                   <input
                     name="websiteUrl"
                     type="url"
@@ -101,18 +101,18 @@ export default function SubmitPage() {
                     placeholder="https://example.com"
                     value={form.websiteUrl}
                     onChange={handleChange}
-                    className="border border-[#dddfe2] rounded-lg px-3 py-2.5 text-sm text-[#1c1e21] placeholder-[#bcc0c4] focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-[#1877F2]/10 transition-all"
+                    className="border border-[#2b3a5c] rounded-lg px-3 py-2.5 text-sm text-[#e9eef8] placeholder-[#566586] focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-[#1877F2]/10 transition-all"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#1c1e21]">Category</label>
+                  <label className="text-xs font-semibold text-[#e9eef8]">Category</label>
                   <select
                     name="category"
                     required
                     value={form.category}
                     onChange={handleChange}
-                    className="border border-[#dddfe2] rounded-lg px-3 py-2.5 text-sm text-[#1c1e21] focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-[#1877F2]/10 transition-all bg-white"
+                    className="border border-[#2b3a5c] rounded-lg px-3 py-2.5 text-sm text-[#e9eef8] focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-[#1877F2]/10 transition-all bg-[#101b32]"
                   >
                     <option value="" disabled>Select a category</option>
                     {CATEGORIES.map((cat) => (
@@ -122,7 +122,7 @@ export default function SubmitPage() {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#1c1e21]">Description</label>
+                  <label className="text-xs font-semibold text-[#e9eef8]">Description</label>
                   <textarea
                     name="description"
                     required
@@ -130,12 +130,12 @@ export default function SubmitPage() {
                     placeholder="What does this tool do? Who is it best for?"
                     value={form.description}
                     onChange={handleChange}
-                    className="border border-[#dddfe2] rounded-lg px-3 py-2.5 text-sm text-[#1c1e21] placeholder-[#bcc0c4] focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-[#1877F2]/10 transition-all resize-none"
+                    className="border border-[#2b3a5c] rounded-lg px-3 py-2.5 text-sm text-[#e9eef8] placeholder-[#566586] focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-[#1877F2]/10 transition-all resize-none"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#1c1e21]">Your Email</label>
+                  <label className="text-xs font-semibold text-[#e9eef8]">Your Email</label>
                   <input
                     name="email"
                     type="email"
@@ -143,7 +143,7 @@ export default function SubmitPage() {
                     placeholder="you@example.com"
                     value={form.email}
                     onChange={handleChange}
-                    className="border border-[#dddfe2] rounded-lg px-3 py-2.5 text-sm text-[#1c1e21] placeholder-[#bcc0c4] focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-[#1877F2]/10 transition-all"
+                    className="border border-[#2b3a5c] rounded-lg px-3 py-2.5 text-sm text-[#e9eef8] placeholder-[#566586] focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-[#1877F2]/10 transition-all"
                   />
                 </div>
 
@@ -159,8 +159,8 @@ export default function SubmitPage() {
         </div>
       </main>
 
-      <footer className="border-t border-[#e4e6ea] px-6 py-4 bg-white">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65676b]">
+      <footer className="border-t border-[#233150] px-6 py-4 bg-[#101b32]">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#93a4c3]">
           <div className="flex items-center gap-2">
             <Logo size={18} />
             <span className="font-medium text-[#1877F2]">HowToUseMyAI</span>

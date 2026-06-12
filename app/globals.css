@@ -2,22 +2,52 @@
 
 :root {
   --fb-blue: #1877F2;
+  --fb-blue-bright: #4da3ff;
   --fb-blue-dark: #166FE5;
-  --fb-blue-light: #E7F3FF;
-  --fb-red: #e41e3f;
+  --fb-blue-light: #142a4d;
+  --fb-red: #ff6b85;
   --navy: #0a0f1e;
-  --navy-mid: #111827;
+  --navy-mid: #101b32;
+  --panel: #101b32;
+  --panel-alt: #0d1729;
+  --line: #233150;
+  --line-strong: #2b3a5c;
+  --ink: #e9eef8;
+  --ink-mid: #93a4c3;
+  --ink-dim: #5d6f93;
 }
 
 body {
-  background: #ffffff;
-  color: #1c1e21;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(77, 163, 255, 0.05) 1px, transparent 0) 0 0 / 22px 22px,
+    linear-gradient(180deg, #0a0f1e 0%, #0b1226 100%);
+  background-attachment: fixed;
+  color: #e9eef8;
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.01em;
 }
 
+/* Technical section label */
+.tech-label {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 600;
+  color: #93a4c3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tech-label::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #1877F2, #4da3ff);
+  box-shadow: 0 0 8px rgba(77, 163, 255, 0.6);
+  flex-shrink: 0;
+}
 
 /* Card glow on hover */
 .tool-card {
@@ -25,32 +55,32 @@ body {
 }
 .tool-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 32px -4px rgba(24, 119, 242, 0.2), 0 2px 8px -2px rgba(24, 119, 242, 0.1);
+  box-shadow: 0 8px 32px -4px rgba(24, 119, 242, 0.35), 0 2px 8px -2px rgba(24, 119, 242, 0.2);
   border-color: #1877F2;
 }
 
-/* Search bar with animated red corner glow */
+/* Search bar with animated corner glow */
 .search-glow {
   position: relative;
-  border: 1.5px solid #e4e6ea;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1.5px solid #2b3a5c;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .search-glow:focus-within {
   border-color: #1877F2;
   box-shadow:
-    0 0 0 3px rgba(24, 119, 242, 0.08),
-    0 4px 20px rgba(24, 119, 242, 0.12);
+    0 0 0 3px rgba(24, 119, 242, 0.15),
+    0 4px 28px rgba(24, 119, 242, 0.3);
 }
 
 .badge-free, .badge-freemium {
-  background-color: #E7F3FF;
-  color: #1877F2;
+  background-color: #142a4d;
+  color: #4da3ff;
 }
 
 .badge-paid {
-  background-color: #fff0f3;
-  color: #e41e3f;
+  background-color: #3a1524;
+  color: #ff6b85;
 }
 
 /* Shimmer on card hover */
@@ -60,12 +90,18 @@ body {
   top: 0; left: -100%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  background: linear-gradient(90deg, transparent, rgba(124, 178, 255, 0.07), transparent);
   transition: left 0.5s ease;
   pointer-events: none;
 }
 .tool-card:hover::before {
   left: 150%;
+}
+
+/* Thin glowing divider under sticky header */
+.header-glow-line {
+  background: linear-gradient(90deg, transparent, rgba(77, 163, 255, 0.55), transparent);
+  height: 1px;
 }
 
 @keyframes fadeInUp {
@@ -78,3 +114,4 @@ body {
 .stagger-3 { animation-delay: 0.15s; opacity: 0; }
 .stagger-4 { animation-delay: 0.20s; opacity: 0; }
 .stagger-5 { animation-delay: 0.25s; opacity: 0; }
+

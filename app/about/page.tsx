@@ -10,7 +10,7 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[#101b32]">
       <main className="flex-1 px-6 py-12">
         <div className="max-w-3xl mx-auto">
 
@@ -40,16 +40,16 @@ export default function AboutPage() {
           >
             About
           </h1>
-          <p className="text-sm text-[#65676b] text-center mb-14">
+          <p className="text-sm text-[#93a4c3] text-center mb-14">
             Why this site exists and how we pick tools.
           </p>
 
           {/* Sections */}
-          <div className="flex flex-col gap-12 text-[#1c1e21]">
+          <div className="flex flex-col gap-12 text-[#e9eef8]">
 
             <section>
               <h2 className="text-lg font-semibold mb-3">What This Site Is</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 There are thousands of AI tools, and most directories just dump them all in a giant
                 list. HowToUseMyAI is different: we keep a hand-picked catalog of {TOOLS.length} tools
                 that actually work, and for each one we explain what it is best at, what it costs, and
@@ -60,7 +60,7 @@ export default function AboutPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">How We Pick Tools</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 Every tool in the directory is reviewed before it goes live. We look for tools that
                 are actively maintained, have a real free tier or transparent pricing, and solve a
                 problem better than the alternatives in their category. We remove tools that shut
@@ -71,7 +71,7 @@ export default function AboutPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">How We Make Money</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 Some outbound links are affiliate links, which means we may earn a commission if you
                 sign up for a paid plan. This never affects which tools we list or how we rank them.
                 You can read the full details on our{" "}
@@ -84,7 +84,7 @@ export default function AboutPage() {
 
             <section>
               <h2 className="text-lg font-semibold mb-3">Suggest a Tool</h2>
-              <p className="text-sm text-[#65676b] leading-relaxed">
+              <p className="text-sm text-[#93a4c3] leading-relaxed">
                 Found an AI tool we should know about? Submit it through the{" "}
                 <Link href="/submit" className="text-[#1877F2] hover:underline">
                   Submit a Tool
@@ -97,8 +97,8 @@ export default function AboutPage() {
         </div>
       </main>
 
-      <footer className="border-t border-[#e4e6ea] px-6 py-8 mt-10">
-        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#65676b]">
+      <footer className="border-t border-[#233150] px-6 py-8 mt-10">
+        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#93a4c3]">
           <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
           <div className="flex gap-5">
             <Link href="/disclosure" className="hover:text-[#1877F2] transition-colors">Disclosure</Link>

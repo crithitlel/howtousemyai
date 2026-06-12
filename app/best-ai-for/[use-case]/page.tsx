@@ -21,19 +21,19 @@ const USE_CASES: Record<string, {
   },
   "video": {
     title: "Best AI Tools for Video Creation",
-    description: "Create, edit, and produce professional videos with AI,no camera or editing experience needed.",
+    description: "Create, edit, and produce professional videos with AI, no camera or editing experience needed.",
     tools: [
       { name: "HeyGen", domain: "heygen.com", url: "https://heygen.com", pricing: "Freemium", description: "Create AI avatar videos with realistic lip-sync in 100+ languages.", why: "Best for AI avatar videos" },
       { name: "Synthesia", domain: "synthesia.io", url: "https://synthesia.io", pricing: "Paid", description: "Professional AI video platform used by 50,000+ companies worldwide.", why: "Best for corporate training videos" },
       { name: "Runway", domain: "runwayml.com", url: "https://runwayml.com", pricing: "Freemium", description: "AI video generation and editing with text-to-video capabilities.", why: "Best for creative video generation" },
-      { name: "Descript", domain: "descript.com", url: "https://descript.com", pricing: "Freemium", description: "Edit video by editing text,the easiest video editor ever made.", why: "Best for podcast & interview videos" },
+      { name: "Descript", domain: "descript.com", url: "https://descript.com", pricing: "Freemium", description: "Edit video by editing text, the easiest video editor ever made.", why: "Best for podcast & interview videos" },
       { name: "Pictory", domain: "pictory.ai", url: "https://pictory.ai", pricing: "Paid", description: "Turn blog posts and scripts into short videos automatically.", why: "Best for repurposing content" },
       { name: "Lumen5", domain: "lumen5.com", url: "https://lumen5.com", pricing: "Freemium", description: "Transform articles into engaging social media videos with AI.", why: "Best for social media videos" },
     ],
   },
   "image-generation": {
     title: "Best AI Tools for Image Generation",
-    description: "Generate stunning, unique images from text descriptions. From art to product photos,no design skills needed.",
+    description: "Generate stunning, unique images from text descriptions. From art to product photos, no design skills needed.",
     tools: [
       { name: "Midjourney", domain: "midjourney.com", url: "https://midjourney.com", pricing: "Paid", description: "The gold standard for AI art,produces the most visually stunning results.", why: "Best image quality" },
       { name: "DALL-E 3", domain: "openai.com", url: "https://chatgpt.com", pricing: "Freemium", description: "OpenAI's image generator, integrated directly into ChatGPT.", why: "Best for following text prompts exactly" },
@@ -57,7 +57,7 @@ const USE_CASES: Record<string, {
   },
   "music": {
     title: "Best AI Tools for Music Creation",
-    description: "Create original music, beats, and sound effects with AI,no musical experience required.",
+    description: "Create original music, beats, and sound effects with AI, no musical experience required.",
     tools: [
       { name: "Suno", domain: "suno.ai", url: "https://suno.ai", pricing: "Freemium", description: "Generate full songs with vocals, lyrics, and production from a text prompt.", why: "Best for full song generation" },
       { name: "Udio", domain: "udio.com", url: "https://udio.com", pricing: "Freemium", description: "Create studio-quality music in any genre from text descriptions.", why: "Best audio quality" },
@@ -327,8 +327,8 @@ const SLUG_MAP: Record<string, string> = {
 
 const PRICING_STYLES: Record<string, string> = {
   Free: "bg-green-50 text-green-700",
-  Freemium: "bg-[#E7F3FF] text-[#1877F2]",
-  Paid: "bg-[#fff0f3] text-[#e41e3f]",
+  Freemium: "bg-[#142a4d] text-[#1877F2]",
+  Paid: "bg-[#3a1524] text-[#ff6b85]",
 };
 
 export function generateStaticParams() {
@@ -398,24 +398,24 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[#101b32]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <header className="sticky top-0 z-20 bg-white border-b border-[#e4e6ea] px-6 py-4">
+      <header className="sticky top-0 z-20 bg-[#101b32] border-b border-[#233150] px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={28} />
             <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
           </Link>
-          <Link href="/submit" className="text-xs text-[#e41e3f] font-medium hover:opacity-80">+ Submit a Tool</Link>
+          <Link href="/submit" className="text-xs text-[#1877F2] font-medium hover:opacity-80">+ Submit a Tool</Link>
         </div>
       </header>
 
       <main className="flex-1 px-4 sm:px-6 py-12 max-w-4xl mx-auto w-full">
         <div className="mb-10">
-          <h1 className="text-3xl font-semibold text-[#1c1e21] mb-3" style={{ fontFamily: "var(--font-playfair), serif" }}>
+          <h1 className="text-3xl font-semibold text-[#e9eef8] mb-3" style={{ fontFamily: "var(--font-playfair), serif" }}>
             {data.title}
           </h1>
-          <p className="text-[#65676b] text-sm leading-relaxed max-w-2xl">{data.description}</p>
+          <p className="text-[#93a4c3] text-sm leading-relaxed max-w-2xl">{data.description}</p>
         </div>
 
         <div className="flex flex-col gap-5">
@@ -425,14 +425,14 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
               href={tool.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="tool-card relative bg-white border border-[#e4e6ea] rounded-xl p-5 flex items-start gap-4 hover:border-[#1877F2] transition-all overflow-hidden"
+              className="tool-card relative bg-[#101b32] border border-[#233150] rounded-xl p-5 flex items-start gap-4 hover:border-[#1877F2] transition-all overflow-hidden"
             >
               {i === 0 && (
                 <span className="absolute top-3 right-3 text-[10px] font-bold bg-[#e41e3f] text-white px-2 py-0.5 rounded-full">
                   TOP PICK
                 </span>
               )}
-              <div className="w-12 h-12 rounded-xl bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
                 <img
                   src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
                   alt={tool.name}
@@ -443,20 +443,20 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="font-semibold text-[#1c1e21] text-sm">{tool.name}</span>
+                  <span className="font-semibold text-[#e9eef8] text-sm">{tool.name}</span>
                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${PRICING_STYLES[tool.pricing]}`}>
                     {tool.pricing.toUpperCase()}
                   </span>
                 </div>
-                <p className="text-xs text-[#65676b] leading-relaxed mb-2">{tool.description}</p>
+                <p className="text-xs text-[#93a4c3] leading-relaxed mb-2">{tool.description}</p>
                 <span className="text-xs font-medium text-[#1877F2]">✓ {tool.why}</span>
               </div>
             </a>
           ))}
         </div>
 
-        <div className="mt-12 bg-[#f7f8fa] rounded-xl p-6 text-center">
-          <p className="text-sm text-[#65676b] mb-3">Not sure which one to pick?</p>
+        <div className="mt-12 bg-[#0d1729] rounded-xl p-6 text-center">
+          <p className="text-sm text-[#93a4c3] mb-3">Not sure which one to pick?</p>
           <Link
             href={`/recommend?q=${encodeURIComponent(data.title.replace("Best AI Tools for ", "I want to "))}`}
             className="bg-[#1877F2] text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[#166FE5] transition-colors inline-block"
@@ -466,8 +466,8 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
         </div>
       </main>
 
-      <footer className="border-t border-[#e4e6ea] px-6 py-6">
-        <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-between items-center text-xs text-[#65676b]">
+      <footer className="border-t border-[#233150] px-6 py-6">
+        <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-between items-center text-xs text-[#93a4c3]">
           <Link href="/" className="flex items-center gap-2">
             <Logo size={18} />
             <span>HowToUseMyAI</span>

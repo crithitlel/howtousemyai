@@ -1997,9 +1997,9 @@ function slugify(name: string) {
 }
 
 const PRICING_STYLES: Record<string, { badge: string; label: string }> = {
-  Free: { badge: "bg-[#E7F3FF] text-[#1877F2]", label: "FREE" },
-  Freemium: { badge: "bg-[#E7F3FF] text-[#1877F2]", label: "FREEMIUM" },
-  Paid: { badge: "bg-[#fff0f3] text-[#e41e3f]", label: "PAID" },
+  Free: { badge: "bg-[#142a4d] text-[#1877F2]", label: "FREE" },
+  Freemium: { badge: "bg-[#142a4d] text-[#1877F2]", label: "FREEMIUM" },
+  Paid: { badge: "bg-[#3a1524] text-[#ff6b85]", label: "PAID" },
 };
 
 export default function ToolPage() {
@@ -2014,7 +2014,7 @@ export default function ToolPage() {
 
   if (!tool && basicTool) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-[#101b32]">
         <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
           <button onClick={() => router.push("/")} className="text-sm text-[#1877F2] hover:underline">
             ← Back to all tools
@@ -2022,7 +2022,7 @@ export default function ToolPage() {
         </div>
         <div className="max-w-3xl mx-auto px-6 py-10">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-2xl bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center text-3xl flex-shrink-0">
+            <div className="w-14 h-14 rounded-2xl bg-[#0d1729] border border-[#233150] flex items-center justify-center text-3xl flex-shrink-0">
               <img
                 src={`https://www.google.com/s2/favicons?domain=${basicTool.domain}&sz=64`}
                 alt={basicTool.name}
@@ -2031,14 +2031,14 @@ export default function ToolPage() {
               />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-[#1c1e21]">{basicTool.name}</h1>
+              <h1 className="text-2xl font-bold text-[#e9eef8]">{basicTool.name}</h1>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-xs px-2 py-0.5 rounded-full bg-[#f0f2f5] text-[#65676b] font-medium">{basicTool.category}</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${basicTool.pricing === "Paid" ? "bg-[#fff0f3] text-[#e41e3f]" : "bg-[#E7F3FF] text-[#1877F2]"}`}>{basicTool.pricing}</span>
+                <span className="text-xs px-2 py-0.5 rounded-full bg-[#0d1729] text-[#93a4c3] font-medium">{basicTool.category}</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${basicTool.pricing === "Paid" ? "bg-[#3a1524] text-[#ff6b85]" : "bg-[#142a4d] text-[#1877F2]"}`}>{basicTool.pricing}</span>
               </div>
             </div>
           </div>
-          <p className="text-[#444] text-base leading-relaxed mb-8">{basicTool.description}</p>
+          <p className="text-[#c6d2e6] text-base leading-relaxed mb-8">{basicTool.description}</p>
           <a
             href={getToolUrl(basicTool.name, basicTool.url)}
             target="_blank"
@@ -2054,8 +2054,8 @@ export default function ToolPage() {
 
   if (!tool) {
     return (
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center gap-4 px-6">
-        <h1 className="text-2xl font-semibold text-[#1c1e21]">Tool not found</h1>
+      <div className="min-h-screen bg-[#101b32] flex flex-col items-center justify-center gap-4 px-6">
+        <h1 className="text-2xl font-semibold text-[#e9eef8]">Tool not found</h1>
         <Link href="/" className="text-[#1877F2] text-sm hover:underline">
           ← Back to all tools
         </Link>
@@ -2104,7 +2104,7 @@ export default function ToolPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#101b32]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       {/* Top nav */}
       <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
@@ -2119,7 +2119,7 @@ export default function ToolPage() {
       {/* Hero section */}
       <div className="px-6 pt-6 pb-10 max-w-3xl mx-auto">
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-16 h-16 rounded-2xl bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden flex-shrink-0">
+          <div className="w-16 h-16 rounded-2xl bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
             <img
               src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
               alt={tool.name}
@@ -2145,29 +2145,29 @@ export default function ToolPage() {
               <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${pricing.badge}`}>
                 {pricing.label}
               </span>
-              <span className="text-[11px] text-[#65676b] bg-[#f7f8fa] border border-[#e4e6ea] px-2.5 py-0.5 rounded-full">
+              <span className="text-[11px] text-[#93a4c3] bg-[#0d1729] border border-[#233150] px-2.5 py-0.5 rounded-full">
                 {tool.category}
               </span>
             </div>
-            <p className="text-[11px] text-[#8a8d91] mt-1.5">
+            <p className="text-[11px] text-[#6b7c9c] mt-1.5">
               Last verified {new Date().toLocaleString("en-US", { month: "long", year: "numeric" })}
             </p>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-base text-[#1c1e21] leading-relaxed mb-8">
+        <p className="text-base text-[#e9eef8] leading-relaxed mb-8">
           {tool.fullDescription}
         </p>
 
         {/* Best for */}
         <div className="mb-8">
-          <h2 className="text-sm font-semibold text-[#1c1e21] uppercase tracking-wider mb-3">
+          <h2 className="tech-label mb-3">
             Best for
           </h2>
           <ul className="flex flex-col gap-2">
             {tool.bestFor.map((item) => (
-              <li key={item} className="flex items-start gap-2 text-sm text-[#65676b]">
+              <li key={item} className="flex items-start gap-2 text-sm text-[#93a4c3]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#1877F2] mt-2 flex-shrink-0" />
                 {item}
               </li>
@@ -2177,16 +2177,16 @@ export default function ToolPage() {
 
         {/* How to get started */}
         <div className="mb-8">
-          <h2 className="text-sm font-semibold text-[#1c1e21] uppercase tracking-wider mb-3">
+          <h2 className="tech-label mb-3">
             How to get started
           </h2>
           <ol className="flex flex-col gap-3">
             {tool.steps.map((step, i) => (
               <li key={i} className="flex gap-3 items-start">
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#E7F3FF] text-[#1877F2] text-xs font-bold flex items-center justify-center mt-0.5">
+                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#142a4d] text-[#1877F2] text-xs font-bold flex items-center justify-center mt-0.5">
                   {i + 1}
                 </span>
-                <p className="text-sm text-[#65676b] leading-relaxed">{step}</p>
+                <p className="text-sm text-[#93a4c3] leading-relaxed">{step}</p>
               </li>
             ))}
           </ol>
@@ -2205,10 +2205,10 @@ export default function ToolPage() {
 
       {/* Similar tools */}
       {similar.length > 0 && (
-        <div className="bg-[#f7f8fa] border-t border-[#e4e6ea] px-6 py-10">
+        <div className="bg-[#0d1729] border-t border-[#233150] px-6 py-10">
           <div className="max-w-3xl mx-auto">
             <h2
-              className="text-lg font-semibold text-[#1c1e21] mb-5"
+              className="text-lg font-semibold text-[#e9eef8] mb-5"
               style={{ fontFamily: "var(--font-playfair), serif" }}
             >
               Similar tools
@@ -2218,9 +2218,9 @@ export default function ToolPage() {
                 <button
                   key={t.name}
                   onClick={() => router.push(`/tools/${slugify(t.name)}`)}
-                  className="tool-card text-left bg-white border border-[#e4e6ea] rounded-xl p-4 flex flex-col gap-3 overflow-hidden"
+                  className="tool-card text-left bg-[#101b32] border border-[#233150] rounded-xl p-4 flex flex-col gap-3 overflow-hidden"
                 >
-                  <div className="w-9 h-9 rounded-lg bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden">
+                  <div className="w-9 h-9 rounded-lg bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden">
                     <img
                       src={`https://www.google.com/s2/favicons?domain=${t.domain}&sz=64`}
                       alt={t.name}
@@ -2236,10 +2236,10 @@ export default function ToolPage() {
                     <span className="text-lg hidden items-center justify-center w-full h-full">{t.icon}</span>
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-[#1c1e21] group-hover:text-[#1877F2]">
+                    <h3 className="text-sm font-semibold text-[#e9eef8] group-hover:text-[#1877F2]">
                       {t.name}
                     </h3>
-                    <p className="text-xs text-[#65676b] mt-1 leading-relaxed line-clamp-2">
+                    <p className="text-xs text-[#93a4c3] mt-1 leading-relaxed line-clamp-2">
                       {t.shortDescription}
                     </p>
                   </div>

@@ -173,7 +173,7 @@ export default function Image() {
             marginTop: 4,
           }}>
             <span style={{ color: "white", fontSize: 15, fontWeight: 700 }}>
-              Find My AI Tool — Free →
+              Find My AI Tool — Free
             </span>
           </div>
         </div>

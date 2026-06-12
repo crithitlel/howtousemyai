@@ -293,8 +293,8 @@ const COMPARISONS: Record<string, Comparison> = {
 
 const PRICING_STYLES: Record<string, string> = {
   Free: "bg-green-50 text-green-700",
-  Freemium: "bg-[#E7F3FF] text-[#1877F2]",
-  Paid: "bg-[#fff0f3] text-[#e41e3f]",
+  Freemium: "bg-[#142a4d] text-[#1877F2]",
+  Paid: "bg-[#3a1524] text-[#ff6b85]",
 };
 
 export function generateStaticParams() {
@@ -361,35 +361,35 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[#101b32]">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      <header className="sticky top-0 z-20 bg-white border-b border-[#e4e6ea] px-6 py-4">
+      <header className="sticky top-0 z-20 bg-[#101b32] border-b border-[#233150] px-6 py-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={28} />
             <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
           </Link>
-          <span className="text-xs text-[#65676b] bg-[#f7f8fa] border border-[#e4e6ea] px-3 py-1 rounded-full">{data.category}</span>
+          <span className="text-xs text-[#93a4c3] bg-[#0d1729] border border-[#233150] px-3 py-1 rounded-full">{data.category}</span>
         </div>
       </header>
 
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 py-10">
 
         {/* Breadcrumb */}
-        <div className="text-xs text-[#65676b] mb-6 flex items-center gap-1.5">
+        <div className="text-xs text-[#93a4c3] mb-6 flex items-center gap-1.5">
           <Link href="/" className="hover:text-[#1877F2]">Home</Link>
           <span>›</span>
           <Link href="/compare" className="hover:text-[#1877F2]">Compare</Link>
           <span>›</span>
-          <span className="text-[#1c1e21]">{tool1.name} vs {tool2.name}</span>
+          <span className="text-[#e9eef8]">{tool1.name} vs {tool2.name}</span>
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-semibold text-[#1c1e21] mb-2" style={{ fontFamily: "var(--font-playfair), serif" }}>
+        <h1 className="text-3xl font-semibold text-[#e9eef8] mb-2" style={{ fontFamily: "var(--font-playfair), serif" }}>
           {tool1.name} vs {tool2.name}
         </h1>
-        <p className="text-[#65676b] text-sm mb-10">
+        <p className="text-[#93a4c3] text-sm mb-10">
           A complete side-by-side comparison to help you pick the right tool.
         </p>
 
@@ -398,30 +398,30 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
           {[tool1, tool2].map((tool, i) => {
             const isWinner = (i === 0 && verdictWinner === "tool1") || (i === 1 && verdictWinner === "tool2");
             return (
-              <div key={tool.name} className={`relative bg-white border-2 rounded-2xl p-6 ${isWinner ? "border-[#1877F2]" : "border-[#e4e6ea]"}`}>
+              <div key={tool.name} className={`relative bg-[#101b32] border-2 rounded-2xl p-6 ${isWinner ? "border-[#1877F2]" : "border-[#233150]"}`}>
                 {isWinner && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#1877F2] text-white text-[10px] font-bold px-3 py-1 rounded-full">
                     OUR PICK
                   </div>
                 )}
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#f7f8fa] border border-[#e4e6ea] flex items-center justify-center overflow-hidden">
+                  <div className="w-12 h-12 rounded-xl bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden">
                     <img src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`} alt={tool.name} width={32} height={32} className="rounded object-contain" />
                   </div>
                   <div>
-                    <h2 className="text-base font-bold text-[#1c1e21]">{tool.name}</h2>
+                    <h2 className="text-base font-bold text-[#e9eef8]">{tool.name}</h2>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${PRICING_STYLES[tool.pricing]}`}>
                       {tool.pricing.toUpperCase()}
                     </span>
                   </div>
                 </div>
-                <p className="text-xs text-[#65676b] mb-4 leading-relaxed">{tool.tagline}</p>
+                <p className="text-xs text-[#93a4c3] mb-4 leading-relaxed">{tool.tagline}</p>
 
                 <div className="mb-4">
-                  <p className="text-[10px] font-bold text-[#1c1e21] uppercase tracking-wider mb-2">Pros</p>
+                  <p className="text-[10px] font-bold text-[#e9eef8] uppercase tracking-wider mb-2">Pros</p>
                   <ul className="flex flex-col gap-1.5">
                     {tool.pros.map((p) => (
-                      <li key={p} className="flex items-start gap-1.5 text-xs text-[#65676b]">
+                      <li key={p} className="flex items-start gap-1.5 text-xs text-[#93a4c3]">
                         <span className="text-green-500 mt-0.5 flex-shrink-0">✓</span>{p}
                       </li>
                     ))}
@@ -429,28 +429,28 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
                 </div>
 
                 <div className="mb-5">
-                  <p className="text-[10px] font-bold text-[#1c1e21] uppercase tracking-wider mb-2">Cons</p>
+                  <p className="text-[10px] font-bold text-[#e9eef8] uppercase tracking-wider mb-2">Cons</p>
                   <ul className="flex flex-col gap-1.5">
                     {tool.cons.map((c) => (
-                      <li key={c} className="flex items-start gap-1.5 text-xs text-[#65676b]">
-                        <span className="text-[#e41e3f] mt-0.5 flex-shrink-0">✕</span>{c}
+                      <li key={c} className="flex items-start gap-1.5 text-xs text-[#93a4c3]">
+                        <span className="text-[#ff6b85] mt-0.5 flex-shrink-0">✕</span>{c}
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="bg-[#f7f8fa] rounded-lg p-3 mb-5">
-                  <p className="text-[10px] font-bold text-[#1c1e21] uppercase tracking-wider mb-1">Best for</p>
-                  <p className="text-xs text-[#65676b] leading-relaxed">{tool.bestFor}</p>
+                <div className="bg-[#0d1729] rounded-lg p-3 mb-5">
+                  <p className="text-[10px] font-bold text-[#e9eef8] uppercase tracking-wider mb-1">Best for</p>
+                  <p className="text-xs text-[#93a4c3] leading-relaxed">{tool.bestFor}</p>
                 </div>
 
                 <a
                   href={tool.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`block text-center text-xs font-semibold py-2.5 rounded-lg transition-colors ${isWinner ? "bg-[#1877F2] text-white hover:bg-[#166FE5]" : "bg-white border border-[#e4e6ea] text-[#1c1e21] hover:border-[#1877F2] hover:text-[#1877F2]"}`}
+                  className={`block text-center text-xs font-semibold py-2.5 rounded-lg transition-colors ${isWinner ? "bg-[#1877F2] text-white hover:bg-[#166FE5]" : "bg-[#101b32] border border-[#233150] text-[#e9eef8] hover:border-[#1877F2] hover:text-[#1877F2]"}`}
                 >
-                  Try {tool.name} →
+                  Try {tool.name}
                 </a>
               </div>
             );
@@ -458,17 +458,17 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
         </div>
 
         {/* Verdict */}
-        <div className="bg-[#f0f7ff] border border-[#dde8ff] rounded-2xl p-6 mb-10">
+        <div className="bg-[#10213d] border border-[#23406e] rounded-2xl p-6 mb-10">
           <p className="text-xs font-bold text-[#1877F2] uppercase tracking-wider mb-2">Our Verdict</p>
-          <h2 className="text-lg font-bold text-[#1c1e21] mb-3">
+          <h2 className="text-lg font-bold text-[#e9eef8] mb-3">
             {verdictWinner === "tie" ? "It\'s a tie — depends on your use case" : `${verdict} wins for most users`}
           </h2>
-          <p className="text-sm text-[#65676b] leading-relaxed">{verdictDetail}</p>
+          <p className="text-sm text-[#93a4c3] leading-relaxed">{verdictDetail}</p>
         </div>
 
         {/* More comparisons */}
         <div className="mb-10">
-          <h2 className="text-sm font-semibold text-[#1c1e21] mb-4">More comparisons</h2>
+          <h2 className="text-sm font-semibold text-[#e9eef8] mb-4">More comparisons</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {Object.entries(COMPARISONS)
               .filter(([s]) => s !== slug)
@@ -477,7 +477,7 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
                 <Link
                   key={s}
                   href={`/compare/${s}`}
-                  className="bg-[#f7f8fa] border border-[#e4e6ea] rounded-xl px-4 py-3 text-xs font-medium text-[#65676b] hover:border-[#1877F2] hover:text-[#1877F2] transition-all"
+                  className="bg-[#0d1729] border border-[#233150] rounded-xl px-4 py-3 text-xs font-medium text-[#93a4c3] hover:border-[#1877F2] hover:text-[#1877F2] transition-all"
                 >
                   {c.tool1.name} vs {c.tool2.name}
                 </Link>
@@ -486,8 +486,8 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
         </div>
       </main>
 
-      <footer className="border-t border-[#e4e6ea] px-6 py-6">
-        <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-between items-center text-xs text-[#65676b]">
+      <footer className="border-t border-[#233150] px-6 py-6">
+        <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-between items-center text-xs text-[#93a4c3]">
           <Link href="/" className="flex items-center gap-2">
             <Logo size={18} />
             <span>HowToUseMyAI</span>

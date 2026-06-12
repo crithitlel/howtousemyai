@@ -3,7 +3,7 @@ import Logo from "./components/Logo";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-[#101b32]">
       {/* Dark navy header */}
       <header className="sticky top-0 z-20 bg-[#0a0f1e] border-b border-white/5 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
@@ -19,7 +19,7 @@ export default function NotFound() {
         </div>
       </header>
 
-      <main className="flex-1 flex items-center justify-center px-6 py-20 bg-white">
+      <main className="flex-1 flex items-center justify-center px-6 py-20 bg-[#101b32]">
         <div className="text-center">
           <p
             className="text-[96px] font-medium leading-none text-[#1877F2] mb-4"
@@ -27,7 +27,7 @@ export default function NotFound() {
           >
             404
           </p>
-          <p className="text-sm text-[#65676b] mb-8">This page doesn&apos;t exist.</p>
+          <p className="text-sm text-[#93a4c3] mb-8">This page doesn&apos;t exist.</p>
           <Link
             href="/"
             className="inline-block bg-[#1877F2] hover:bg-[#166FE5] text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors"

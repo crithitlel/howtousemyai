@@ -65,7 +65,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </>
         )}
       </head>
-      <body className="min-h-full flex flex-col bg-white" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+      <body className="min-h-full flex flex-col bg-[#101b32]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
         {children}
       </body>
     </html>
