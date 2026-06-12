@@ -36,6 +36,51 @@ body {
   letter-spacing: 0.01em;
 }
 
+/* Hero display headline — Space Grotesk, gradient ink, soft blue aura */
+.hero-title {
+  font-family: var(--font-grotesk), var(--font-inter), sans-serif;
+  letter-spacing: -0.025em;
+  background: linear-gradient(180deg, #ffffff 25%, #8fbcff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 22px rgba(24, 119, 242, 0.3));
+}
+
+/* Hero kicker — mono system line with hairline wings */
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-family: ui-monospace, "SF Mono", Menlo, "Roboto Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #4da3ff;
+}
+.hero-kicker::before,
+.hero-kicker::after {
+  content: '';
+  height: 1px;
+  width: 56px;
+  background: linear-gradient(90deg, transparent, rgba(77, 163, 255, 0.6));
+}
+.hero-kicker::after {
+  background: linear-gradient(90deg, rgba(77, 163, 255, 0.6), transparent);
+}
+
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.cursor-blink {
+  display: inline-block;
+  width: 6px;
+  height: 11px;
+  background: #4da3ff;
+  margin-left: 2px;
+  animation: blink 1.1s steps(1) infinite;
+  box-shadow: 0 0 6px rgba(77, 163, 255, 0.8);
+}
+
 /* Mono "system" type */
 .mono {
   font-family: ui-monospace, "SF Mono", Menlo, "Roboto Mono", monospace;

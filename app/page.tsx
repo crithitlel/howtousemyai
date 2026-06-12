@@ -212,10 +212,13 @@ export default function HomePage() {
       <section className="px-4 sm:px-6 pt-8 sm:pt-12 pb-6 text-center">
         <div className="max-w-2xl mx-auto">
 
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#e9eef8] tracking-tight mb-2">
+          <div className="hero-kicker mb-3">
+            <span>AI Tool Index<span className="cursor-blink" /></span>
+          </div>
+          <h1 className="hero-title text-3xl sm:text-4xl font-bold mb-2">
             Find the right AI tool in seconds
           </h1>
-          <p className="text-sm text-[#93a4c3] mb-6">
+          <p className="text-[13px] text-[#93a4c3] mb-6 max-w-lg mx-auto">
             Describe what you want to do. We match you with the best of <span className="mono font-semibold text-[#4da3ff]">{toolCount}</span> hand-picked tools, each with step-by-step instructions.
           </p>
 
