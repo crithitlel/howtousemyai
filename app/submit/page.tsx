@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "../components/Logo";
 
@@ -20,6 +20,9 @@ export default function SubmitPage() {
     description: "",
     email: "",
   });
+  // Spam traps: honeypot field + page-load timestamp
+  const [honeypot, setHoneypot] = useState("");
+  const loadedAt = useRef(Date.now());
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -27,6 +30,12 @@ export default function SubmitPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Bot checks: honeypot filled, or submitted under 3s after page load.
+    // Silently "succeed" so the bot doesn't retry.
+    if (honeypot || Date.now() - loadedAt.current < 3000) {
+      setSubmitted(true);
+      return;
+    }
     await fetch("https://formspree.io/f/mbdwnbqb", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -79,6 +88,20 @@ export default function SubmitPage() {
               <p className="text-xs text-[#93a4c3] mb-7">Know a great AI tool? Let us know and we&apos;ll add it to the directory.</p>
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                {/* Honeypot — hidden from humans, bots fill it in */}
+                <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", top: "auto", width: "1px", height: "1px", overflow: "hidden" }}>
+                  <label htmlFor="company_website">Company Website</label>
+                  <input
+                    id="company_website"
+                    name="company_website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
+
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-[#e9eef8]">Tool Name</label>
                   <input
