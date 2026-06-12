@@ -2017,7 +2017,7 @@ export default function ToolPage() {
       <div className="min-h-screen">
         <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
           <button onClick={() => router.push("/")} className="back-link">
-            ← Back to all tools
+            ‹ Return.To.Index
           </button>
         </div>
         <div className="max-w-3xl mx-auto px-6 py-10">
@@ -2057,7 +2057,7 @@ export default function ToolPage() {
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-6">
         <h1 className="text-2xl font-semibold text-[#e9eef8]">Tool not found</h1>
         <Link href="/" className="back-link">
-          ← Back to all tools
+          ‹ Return.To.Index
         </Link>
       </div>
     );
@@ -2123,7 +2123,7 @@ export default function ToolPage() {
       {/* Top nav */}
       <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
         <button onClick={() => router.push("/")} className="back-link">
-          ← All Tools
+          ‹ Return.To.Index
         </button>
       </div>
 

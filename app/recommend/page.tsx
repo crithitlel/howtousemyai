@@ -211,9 +211,9 @@ function RecommendResults() {
           </a>
           <button
             onClick={() => router.push("/")}
-            className="text-xs text-[#93a4c3] hover:text-[#1877F2] font-medium transition-colors whitespace-nowrap"
+            className="back-link whitespace-nowrap"
           >
-            ← Try another
+            ‹ Return.To.Index
           </button>
         </div>
       </header>

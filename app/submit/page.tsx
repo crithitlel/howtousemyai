@@ -43,7 +43,7 @@ export default function SubmitPage() {
             <Logo size={24} />
             <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
           </a>
-          <a href="/" className="back-link whitespace-nowrap">← Back</a>
+          <a href="/" className="back-link whitespace-nowrap">‹ Return.To.Index</a>
         </div>
       </header>
 

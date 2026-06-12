@@ -16,9 +16,9 @@ export default function DisclosurePage() {
           {/* Back link */}
           <Link
             href="/"
-            className="inline-block text-sm text-[#1877F2] hover:text-[#166FE5] transition-colors mb-10"
+            className="back-link inline-block mb-10"
           >
-            ← Home
+            ‹ Return.To.Index
           </Link>
 
           {/* Logo + brand heading */}

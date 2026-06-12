@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "./components/Logo";
 import { TOOLS, slugify, type Tool } from "@/lib/tools";
@@ -34,6 +34,21 @@ const TRENDING = [
 ];
 
 const HERO_TEXT = "Find the right AI tool in seconds";
+
+const USE_CASES = [
+  { slug: "writing", label: "Writing" },
+  { slug: "coding", label: "Coding" },
+  { slug: "image-generation", label: "Images" },
+  { slug: "video", label: "Video" },
+  { slug: "music", label: "Music" },
+  { slug: "research", label: "Research" },
+  { slug: "productivity", label: "Productivity" },
+  { slug: "marketing", label: "Marketing" },
+  { slug: "design", label: "Design" },
+  { slug: "data-analysis", label: "Data" },
+  { slug: "automation", label: "Automation" },
+  { slug: "education", label: "Education" },
+];
 
 const PLACEHOLDER_QUERIES = [
   "I want to create a YouTube video",
@@ -83,7 +98,86 @@ export default function HomePage() {
   const [typedPlaceholder, setTypedPlaceholder] = useState("");
   const [heroText, setHeroText] = useState(HERO_TEXT);
   const [toolCount, setToolCount] = useState(0);
+  const [heroTab, setHeroTab] = useState<"search" | "trending" | "categories">("search");
+  const [featIdx, setFeatIdx] = useState(0);
+  const [booting, setBooting] = useState<"off" | "on" | "fading">("off");
+  const [sndOn, setSndOn] = useState(false);
+  const audioCtxRef = useRef<AudioContext | null>(null);
   const router = useRouter();
+
+  // Boot loader — once per session
+  useEffect(() => {
+    if (sessionStorage.getItem("htumai-boot")) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      sessionStorage.setItem("htumai-boot", "1");
+      return;
+    }
+    setBooting("on");
+    sessionStorage.setItem("htumai-boot", "1");
+    const t1 = setTimeout(() => setBooting("fading"), 1400);
+    const t2 = setTimeout(() => setBooting("off"), 1900);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+
+  const skipBoot = () => {
+    setBooting("fading");
+    setTimeout(() => setBooting("off"), 450);
+  };
+
+  // Featured carousel auto-advance
+  useEffect(() => {
+    const n = TOOLS.filter((t) => t.isFeatured).length;
+    if (n < 2) return;
+    const iv = setInterval(() => setFeatIdx((i) => (i + 1) % n), 5000);
+    return () => clearInterval(iv);
+  }, [featIdx]);
+
+  // UI sounds — WebAudio blips on interactive elements
+  useEffect(() => {
+    setSndOn(localStorage.getItem("htumai-snd") === "1");
+  }, []);
+
+  useEffect(() => {
+    if (!sndOn) return;
+    const SELECTOR = ".seg-cell, .filter-chip, .mod-link, .nav-link, .submit-chip, .tool-card, .sub-tab, .car-btn, .glass-card";
+    const blip = (freq: number, dur: number, gain: number) => {
+      try {
+        if (!audioCtxRef.current) audioCtxRef.current = new AudioContext();
+        const ctx = audioCtxRef.current;
+        if (ctx.state === "suspended") ctx.resume();
+        const osc = ctx.createOscillator();
+        const g = ctx.createGain();
+        osc.type = "square";
+        osc.frequency.value = freq;
+        g.gain.setValueAtTime(gain, ctx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + dur);
+      } catch { /* audio unavailable */ }
+    };
+    const onOver = (e: MouseEvent) => {
+      const el = (e.target as HTMLElement).closest(SELECTOR);
+      const rel = (e as MouseEvent & { relatedTarget: EventTarget | null }).relatedTarget as HTMLElement | null;
+      if (el && (!rel || rel.closest(SELECTOR) !== el)) blip(1400, 0.05, 0.012);
+    };
+    const onClick = (e: MouseEvent) => {
+      if ((e.target as HTMLElement).closest(SELECTOR)) blip(740, 0.09, 0.025);
+    };
+    document.addEventListener("mouseover", onOver);
+    document.addEventListener("click", onClick);
+    return () => {
+      document.removeEventListener("mouseover", onOver);
+      document.removeEventListener("click", onClick);
+    };
+  }, [sndOn]);
+
+  const toggleSnd = () => {
+    const next = !sndOn;
+    setSndOn(next);
+    localStorage.setItem("htumai-snd", next ? "1" : "0");
+  };
 
   // Decode scramble-in for the headline
   useEffect(() => {
@@ -192,6 +286,20 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
 
+      {/* Boot loader overlay — once per session */}
+      {booting !== "off" && (
+        <div className={`boot-overlay ${booting === "fading" ? "boot-done" : ""}`} onClick={skipBoot} role="presentation">
+          <div className="boot-lines">
+            <div>HTUMAI.SYS <span className="dim">// V1.2026</span></div>
+            <div className="dim">INITIALIZING INDEX ... <span className="text-[#4da3ff]">OK</span></div>
+            <div className="dim">{TOOLS.length} TOOLS VERIFIED ... <span className="text-[#4da3ff]">OK</span></div>
+            <div>INTERFACE READY<span className="cursor-blink" /></div>
+          </div>
+          <div className="boot-bar" />
+          <span className="boot-skip">Click to skip</span>
+        </div>
+      )}
+
       {/* ── First screen: 2A console viewport ── */}
       <div className="flex flex-col lg:h-svh">
 
@@ -229,6 +337,14 @@ export default function HomePage() {
             <span><span className="text-[#4da3ff]">{CATEGORIES.length - 1}</span> categories</span>
             <span className="hidden sm:inline text-[#233150]">|</span>
             <span className="hidden sm:inline">Verified {new Date().toLocaleString("en-US", { month: "long", year: "numeric" })}</span>
+            <span className="text-[#233150]">|</span>
+            <button
+              onClick={toggleSnd}
+              className={`uppercase tracking-[0.18em] transition-colors ${sndOn ? "text-[#4da3ff]" : "text-[#5d6f93] hover:text-[#93a4c3]"}`}
+              title="Toggle interface sounds"
+            >
+              SND: {sndOn ? "ON" : "OFF"}
+            </button>
           </div>
         </div>
 
@@ -243,55 +359,91 @@ export default function HomePage() {
               <span className="ph-fill" />
               <span className="text-[#4da3ff]">V1.2026</span>
             </div>
-            <div className="panel-body relative flex flex-col items-center justify-center text-center px-4 py-8 overflow-hidden">
-              <span className="absolute top-2.5 left-3.5 mono text-[9px] tracking-[0.24em] text-[#3d4f75] uppercase hidden sm:block">Sys.Search.Module</span>
-              <span className="absolute bottom-2.5 right-3.5 mono text-[9px] tracking-[0.24em] text-[#3d4f75] uppercase hidden sm:block">New.Methods.Of.Discovery</span>
-
-              <div className="hero-kicker mb-3">
-                <span>AI Tool Index<span className="cursor-blink" /></span>
-              </div>
-              <h1 className="hero-title text-2xl sm:text-4xl font-bold mb-2">
-                {heroText}
-              </h1>
-              <p className="text-[13px] text-[#93a4c3] mb-5 max-w-lg mx-auto">
-                Describe what you want to do. We match you with the best of <span className="mono font-semibold text-[#4da3ff]">{toolCount}</span> hand-picked tools, each with step-by-step instructions.
-              </p>
-
-              {/* Inline search bar */}
-              <div className="hud-corners search-glow flex items-center bg-[#101b32] rounded-full px-4 py-2 gap-2 w-full max-w-2xl">
-                <svg className="w-4 h-4 text-[#5d6f93] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <input
-                  type="text"
-                  className="flex-1 text-sm text-[#e9eef8] bg-transparent placeholder-[#566586] focus:outline-none"
-                  placeholder={typedPlaceholder || " "}
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === "Enter") handleSubmit(query); }}
-                />
-                <button
-                  onClick={() => handleSubmit(query)}
-                  disabled={!query.trim()}
-                  className="bg-[#1877F2] hover:bg-[#166FE5] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors whitespace-nowrap flex-shrink-0"
-                >
-                  Find My AI
-                </button>
+            <div className="panel-body relative flex flex-col min-h-0 overflow-hidden">
+              {/* In-panel sub-tabs (2A viewport switcher) */}
+              <div className="sub-tabs flex-shrink-0">
+                <button className={`sub-tab ${heroTab === "search" ? "active" : ""}`} onClick={() => setHeroTab("search")}>Search</button>
+                <button className={`sub-tab ${heroTab === "trending" ? "active" : ""}`} onClick={() => setHeroTab("trending")}>Trending</button>
+                <button className={`sub-tab ${heroTab === "categories" ? "active" : ""}`} onClick={() => setHeroTab("categories")}>Categories</button>
               </div>
 
-              {/* Trending chips — compact single row */}
-              <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
-                <span className="mono text-[10px] tracking-[0.2em] text-[#5d6f93] uppercase mr-1">Try //</span>
-                {TRENDING.map((term) => (
+              {heroTab === "search" && (
+              <div className="relative flex-1 min-h-0 flex flex-col items-center justify-center text-center px-4 py-8">
+                <span className="absolute top-2.5 left-3.5 mono text-[9px] tracking-[0.24em] text-[#3d4f75] uppercase hidden sm:block">Sys.Search.Module</span>
+                <span className="absolute bottom-2.5 right-3.5 mono text-[9px] tracking-[0.24em] text-[#3d4f75] uppercase hidden sm:block">New.Methods.Of.Discovery</span>
+
+                <div className="hero-kicker mb-3">
+                  <span>AI Tool Index<span className="cursor-blink" /></span>
+                </div>
+                <h1 className="hero-title text-2xl sm:text-4xl font-bold mb-2">
+                  {heroText}
+                </h1>
+                <p className="text-[13px] text-[#93a4c3] mb-5 max-w-lg mx-auto">
+                  Describe what you want to do. We match you with the best of <span className="mono font-semibold text-[#4da3ff]">{toolCount}</span> hand-picked tools, each with step-by-step instructions.
+                </p>
+
+                {/* Inline search bar */}
+                <div className="hud-corners search-glow flex items-center bg-[#101b32] rounded-full px-4 py-2 gap-2 w-full max-w-2xl">
+                  <svg className="w-4 h-4 text-[#5d6f93] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <input
+                    type="text"
+                    className="flex-1 text-sm text-[#e9eef8] bg-transparent placeholder-[#566586] focus:outline-none"
+                    placeholder={typedPlaceholder || " "}
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter") handleSubmit(query); }}
+                  />
                   <button
-                    key={term}
-                    onClick={() => handleSubmit(term)}
-                    className="filter-chip"
+                    onClick={() => handleSubmit(query)}
+                    disabled={!query.trim()}
+                    className="bg-[#1877F2] hover:bg-[#166FE5] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors whitespace-nowrap flex-shrink-0"
                   >
-                    {term}
+                    Find My AI
                   </button>
-                ))}
+                </div>
+
+                {/* Trending chips — compact single row */}
+                <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
+                  <span className="mono text-[10px] tracking-[0.2em] text-[#5d6f93] uppercase mr-1">Try //</span>
+                  {TRENDING.map((term) => (
+                    <button
+                      key={term}
+                      onClick={() => handleSubmit(term)}
+                      className="filter-chip"
+                    >
+                      {term}
+                    </button>
+                  ))}
+                </div>
               </div>
+              )}
+
+              {heroTab === "trending" && (
+              <div className="flex-1 min-h-0 overflow-y-auto px-4 py-5">
+                <p className="mono text-[10px] tracking-[0.22em] text-[#5d6f93] uppercase mb-3">&gt; Trending.Now // Latest verified additions</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-3xl mx-auto">
+                  {newThisWeekTools.slice(0, 6).map((tool) => (
+                    <MiniToolCard key={tool.name} tool={tool} />
+                  ))}
+                </div>
+              </div>
+              )}
+
+              {heroTab === "categories" && (
+              <div className="flex-1 min-h-0 overflow-y-auto px-4 py-5">
+                <p className="mono text-[10px] tracking-[0.22em] text-[#5d6f93] uppercase mb-3">&gt; Browse.Index // Select use case</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-w-3xl mx-auto">
+                  {USE_CASES.map(({ slug, label }) => (
+                    <a key={slug} href={`/best-ai-for/${slug}`} className="mod-link border border-[#1b2742] bg-[#0a1124]/60 px-3 py-2 hover:border-[#1877F2] hover:bg-[#16233f] transition-all">{label}</a>
+                  ))}
+                </div>
+                <p className="text-center mt-4">
+                  <a href="/best-ai-for" className="mono text-[10px] tracking-[0.18em] text-[#4da3ff] uppercase hover:underline">View All Use Cases →</a>
+                </p>
+              </div>
+              )}
             </div>
           </div>
 
@@ -308,14 +460,33 @@ export default function HomePage() {
             </div>
 
             <div className="panel">
-              <div className="panel-head"><span className="ph-icon">B</span>Browse.Index<span className="ph-fill" /></div>
-              <div className="panel-body px-3 py-2 grid grid-cols-2 gap-x-3">
-                <a href="/best-ai-for/writing" className="mod-link">Writing</a>
-                <a href="/best-ai-for/coding" className="mod-link">Coding</a>
-                <a href="/best-ai-for/image-generation" className="mod-link">Images</a>
-                <a href="/best-ai-for/video" className="mod-link">Video</a>
-                <a href="/best-ai-for/research" className="mod-link">Research</a>
-                <a href="/best-ai-for/marketing" className="mod-link">Marketing</a>
+              <div className="panel-head"><span className="ph-icon">F</span>Featured.Tool<span className="ph-fill" /><span className="text-[#4da3ff]">{String(featIdx + 1).padStart(2, "0")}/{String(featuredTools.length).padStart(2, "0")}</span></div>
+              <div className="panel-body px-3 py-2 flex items-center gap-2.5">
+                {featuredTools.length > 0 && (() => {
+                  const ft = featuredTools[featIdx % featuredTools.length];
+                  return (
+                    <>
+                      <button className="car-btn" aria-label="Previous featured tool" onClick={() => setFeatIdx((featIdx - 1 + featuredTools.length) % featuredTools.length)}>‹</button>
+                      <a href={`/tools/${slugify(ft.name)}`} className="flex-1 min-w-0 flex items-center gap-2.5 group">
+                        <div className="w-9 h-9 rounded-lg bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
+                          <img
+                            src={`https://www.google.com/s2/favicons?domain=${ft.domain}&sz=64`}
+                            alt={ft.name}
+                            width={22}
+                            height={22}
+                            className="rounded object-contain"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-[#e9eef8] group-hover:text-[#4da3ff] transition-colors truncate">{ft.name}</p>
+                          <p className="text-[10px] text-[#93a4c3] leading-snug line-clamp-2">{ft.description}</p>
+                        </div>
+                        <span className="mono text-[9px] tracking-[0.18em] text-[#4da3ff] uppercase border border-[#233150] px-2 py-1 flex-shrink-0 group-hover:border-[#1877F2] transition-colors">View</span>
+                      </a>
+                      <button className="car-btn" aria-label="Next featured tool" onClick={() => setFeatIdx((featIdx + 1) % featuredTools.length)}>›</button>
+                    </>
+                  );
+                })()}
               </div>
             </div>
 
