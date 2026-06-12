@@ -192,99 +192,182 @@ export default function HomePage() {
   return (
     <div className="flex flex-col min-h-screen">
 
-      {/* Sticky nav */}
-      <header className="sticky top-0 z-30 bg-[#0a0f1e]/85 backdrop-blur border-b border-[#233150] px-6 py-3">
-        <div className="header-glow-line absolute bottom-0 left-0 right-0" />
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-          <a href="/" className="flex items-center gap-2 flex-shrink-0">
-            <Logo size={24} />
-            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
-          </a>
-          <nav className="flex items-center gap-5">
-            <a href="/compare" className="nav-link whitespace-nowrap">Comparisons</a>
-            <a href="/best-ai-for" className="nav-link whitespace-nowrap hidden sm:inline">Use Cases</a>
-            <a href="/submit" className="submit-chip">+ Submit a Tool</a>
-          </nav>
-        </div>
-      </header>
+      {/* ── First screen: 2A console viewport ── */}
+      <div className="flex flex-col lg:h-svh">
 
-      {/* Status bar — static HUD readout */}
-      <div className="border-b border-[#1b2742] bg-[#070d1a]/80 py-1.5 select-none">
-        <div className="max-w-6xl mx-auto px-4 flex items-center justify-center gap-3 sm:gap-5 mono text-[9px] sm:text-[10px] tracking-[0.18em] text-[#5d6f93] uppercase whitespace-nowrap overflow-hidden">
-          <span className="flex items-center gap-1.5"><span className="status-dot" />System online</span>
-          <span className="text-[#233150]">|</span>
-          <span><span className="text-[#4da3ff]">{TOOLS.length}</span> tools indexed</span>
-          <span className="text-[#233150]">|</span>
-          <span><span className="text-[#4da3ff]">{CATEGORIES.length - 1}</span> categories</span>
-          <span className="hidden sm:inline text-[#233150]">|</span>
-          <span className="hidden sm:inline">Verified {new Date().toLocaleString("en-US", { month: "long", year: "numeric" })}</span>
+        {/* Sticky nav */}
+        <header className="sticky top-0 z-30 bg-[#0a0f1e]/85 backdrop-blur border-b border-[#233150] px-6 py-3">
+          <div className="header-glow-line absolute bottom-0 left-0 right-0" />
+          <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+            <a href="/" className="flex items-center gap-2 flex-shrink-0">
+              <Logo size={24} />
+              <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
+            </a>
+            <nav className="flex items-center gap-5">
+              <a href="/submit" className="submit-chip">+ Submit a Tool</a>
+            </nav>
+          </div>
+        </header>
+
+        {/* Segmented nav bar */}
+        <nav className="seg-nav select-none">
+          <span className="seg-bc">→ HTUMAI.V1_2026 // Index</span>
+          <a href="#tools" className="seg-cell">Tools</a>
+          <a href="/compare" className="seg-cell">Compare</a>
+          <a href="/best-ai-for" className="seg-cell">Use Cases</a>
+          <a href="/about" className="seg-cell">About</a>
+          <a href="/submit" className="seg-cell accent">+ Submit</a>
+        </nav>
+
+        {/* Status bar — static HUD readout */}
+        <div className="border-b border-[#1b2742] bg-[#070d1a]/80 py-1.5 select-none">
+          <div className="max-w-6xl mx-auto px-4 flex items-center justify-center gap-3 sm:gap-5 mono text-[9px] sm:text-[10px] tracking-[0.18em] text-[#5d6f93] uppercase whitespace-nowrap overflow-hidden">
+            <span className="flex items-center gap-1.5"><span className="status-dot" />System online</span>
+            <span className="text-[#233150]">|</span>
+            <span><span className="text-[#4da3ff]">{TOOLS.length}</span> tools indexed</span>
+            <span className="text-[#233150]">|</span>
+            <span><span className="text-[#4da3ff]">{CATEGORIES.length - 1}</span> categories</span>
+            <span className="hidden sm:inline text-[#233150]">|</span>
+            <span className="hidden sm:inline">Verified {new Date().toLocaleString("en-US", { month: "long", year: "numeric" })}</span>
+          </div>
+        </div>
+
+        {/* Console area */}
+        <section className="flex-1 min-h-0 flex flex-col gap-3 px-3 sm:px-5 py-4">
+
+          {/* Hero viewport panel */}
+          <div className="panel flex-1 min-h-0">
+            <div className="panel-head">
+              <span className="ph-icon">H</span>
+              Htumai // Find.Your.Tool
+              <span className="ph-fill" />
+              <span className="text-[#4da3ff]">V1.2026</span>
+            </div>
+            <div className="panel-body relative flex flex-col items-center justify-center text-center px-4 py-8 overflow-hidden">
+              <span className="absolute top-2.5 left-3.5 mono text-[9px] tracking-[0.24em] text-[#3d4f75] uppercase hidden sm:block">Sys.Search.Module</span>
+              <span className="absolute bottom-2.5 right-3.5 mono text-[9px] tracking-[0.24em] text-[#3d4f75] uppercase hidden sm:block">New.Methods.Of.Discovery</span>
+
+              <div className="hero-kicker mb-3">
+                <span>AI Tool Index<span className="cursor-blink" /></span>
+              </div>
+              <h1 className="hero-title text-2xl sm:text-4xl font-bold mb-2">
+                {heroText}
+              </h1>
+              <p className="text-[13px] text-[#93a4c3] mb-5 max-w-lg mx-auto">
+                Describe what you want to do. We match you with the best of <span className="mono font-semibold text-[#4da3ff]">{toolCount}</span> hand-picked tools, each with step-by-step instructions.
+              </p>
+
+              {/* Inline search bar */}
+              <div className="hud-corners search-glow flex items-center bg-[#101b32] rounded-full px-4 py-2 gap-2 w-full max-w-2xl">
+                <svg className="w-4 h-4 text-[#5d6f93] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input
+                  type="text"
+                  className="flex-1 text-sm text-[#e9eef8] bg-transparent placeholder-[#566586] focus:outline-none"
+                  placeholder={typedPlaceholder || " "}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") handleSubmit(query); }}
+                />
+                <button
+                  onClick={() => handleSubmit(query)}
+                  disabled={!query.trim()}
+                  className="bg-[#1877F2] hover:bg-[#166FE5] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors whitespace-nowrap flex-shrink-0"
+                >
+                  Find My AI
+                </button>
+              </div>
+
+              {/* Trending chips — compact single row */}
+              <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
+                <span className="mono text-[10px] tracking-[0.2em] text-[#5d6f93] uppercase mr-1">Try //</span>
+                {TRENDING.map((term) => (
+                  <button
+                    key={term}
+                    onClick={() => handleSubmit(term)}
+                    className="filter-chip"
+                  >
+                    {term}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Module row — Trending / Browse / Mailing list */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 flex-shrink-0">
+
+            <div className="panel">
+              <div className="panel-head"><span className="ph-icon">T</span>Trending.Now<span className="ph-fill" /><span className="text-[#ff6b85]">Hot</span></div>
+              <div className="panel-body px-3 py-2 grid grid-cols-2 gap-x-3">
+                {newThisWeekTools.slice(0, 6).map((tool) => (
+                  <a key={tool.name} href={`/tools/${slugify(tool.name)}`} className="mod-link truncate">{tool.name}</a>
+                ))}
+              </div>
+            </div>
+
+            <div className="panel">
+              <div className="panel-head"><span className="ph-icon">B</span>Browse.Index<span className="ph-fill" /></div>
+              <div className="panel-body px-3 py-2 grid grid-cols-2 gap-x-3">
+                <a href="/best-ai-for/writing" className="mod-link">Writing</a>
+                <a href="/best-ai-for/coding" className="mod-link">Coding</a>
+                <a href="/best-ai-for/image-generation" className="mod-link">Images</a>
+                <a href="/best-ai-for/video" className="mod-link">Video</a>
+                <a href="/best-ai-for/research" className="mod-link">Research</a>
+                <a href="/best-ai-for/marketing" className="mod-link">Marketing</a>
+              </div>
+            </div>
+
+            <div className="panel sm:col-span-2 lg:col-span-1">
+              <div className="panel-head"><span className="ph-icon">M</span>Mailing.List<span className="ph-fill" /><span>Weekly</span></div>
+              <div className="panel-body px-3 py-2 flex flex-col justify-center gap-1.5">
+                {subscribed ? (
+                  <p className="mono text-xs text-[#4da3ff] tracking-[0.08em]">&gt; SUBSCRIBED // YOU&apos;RE IN</p>
+                ) : (
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      if (email.trim()) {
+                        await fetch("https://formspree.io/f/mbdwnbqb", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json", Accept: "application/json" },
+                          body: JSON.stringify({ email, _subject: "New newsletter subscriber" }),
+                        });
+                        setSubscribed(true);
+                      }
+                    }}
+                    className="flex items-center bg-[#070d1a] border border-[#2b3a5c] rounded px-3 py-1.5 gap-2"
+                  >
+                    <span className="mono text-xs text-[#4da3ff] flex-shrink-0">&gt;_</span>
+                    <input
+                      type="email"
+                      required
+                      placeholder="ENTER EMAIL"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="mono flex-1 min-w-0 text-xs text-[#e9eef8] bg-transparent placeholder-[#3d4f75] tracking-[0.08em] focus:outline-none"
+                    />
+                    <button
+                      type="submit"
+                      className="mono bg-[#1877F2] hover:bg-[#166FE5] text-white text-[10px] font-semibold tracking-[0.14em] uppercase px-3 py-1.5 rounded transition-colors whitespace-nowrap flex-shrink-0"
+                    >
+                      Subscribe
+                    </button>
+                  </form>
+                )}
+                <p className="mono text-[9px] tracking-[0.18em] text-[#5d6f93] uppercase">Best new AI tools // every week</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Scroll hint divider */}
+        <div className="divider-bar flex-shrink-0">
+          <span className="flex items-center gap-2">↓ Scroll.Extended.Content</span>
+          <span className="hidden sm:inline">Full index // {TOOLS.length} tools</span>
         </div>
       </div>
-
-      {/* Hero — Google-style */}
-      <section className="px-4 sm:px-6 pt-8 sm:pt-12 pb-6 text-center">
-        <div className="max-w-2xl mx-auto">
-
-          <div className="hero-kicker mb-3">
-            <span>AI Tool Index<span className="cursor-blink" /></span>
-          </div>
-          <h1 className="hero-title text-3xl sm:text-5xl font-bold mb-2">
-            {heroText}
-          </h1>
-          <p className="text-[13px] text-[#93a4c3] mb-6 max-w-lg mx-auto">
-            Describe what you want to do. We match you with the best of <span className="mono font-semibold text-[#4da3ff]">{toolCount}</span> hand-picked tools, each with step-by-step instructions.
-          </p>
-
-          {/* Inline search bar */}
-          <div className="hud-corners search-glow flex items-center bg-[#101b32] rounded-full px-4 py-2 gap-2">
-            <svg className="w-4 h-4 text-[#5d6f93] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              type="text"
-              className="flex-1 text-sm text-[#e9eef8] bg-transparent placeholder-[#566586] focus:outline-none"
-              placeholder={typedPlaceholder || " "}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") handleSubmit(query); }}
-            />
-            <button
-              onClick={() => handleSubmit(query)}
-              disabled={!query.trim()}
-              className="bg-[#1877F2] hover:bg-[#166FE5] disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors whitespace-nowrap flex-shrink-0"
-            >
-              Find My AI
-            </button>
-          </div>
-
-          {/* Hero stats strip */}
-          <div className="mt-5 flex items-center justify-center gap-2 sm:gap-3">
-            <div className="border border-[#233150] bg-[#0d1729]/60 rounded px-3 py-1.5 mono text-[10px] tracking-[0.16em] uppercase text-[#93a4c3]">
-              <span className="text-[#4da3ff] font-semibold">{toolCount}</span> Tools
-            </div>
-            <div className="border border-[#233150] bg-[#0d1729]/60 rounded px-3 py-1.5 mono text-[10px] tracking-[0.16em] uppercase text-[#93a4c3]">
-              <span className="text-[#4da3ff] font-semibold">{CATEGORIES.length - 1}</span> Categories
-            </div>
-            <div className="border border-[#233150] bg-[#0d1729]/60 rounded px-3 py-1.5 mono text-[10px] tracking-[0.16em] uppercase text-[#93a4c3]">
-              Updated <span className="text-[#4da3ff] font-semibold">Weekly</span>
-            </div>
-          </div>
-
-          {/* Trending chips — compact single row */}
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-1.5">
-            <span className="mono text-[10px] tracking-[0.2em] text-[#5d6f93] uppercase mr-1">Try //</span>
-            {TRENDING.map((term) => (
-              <button
-                key={term}
-                onClick={() => handleSubmit(term)}
-                className="filter-chip"
-              >
-                {term}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Filter console — compact HUD panel */}
       <section id="tools" className="px-4 sm:px-6 py-4 border-b border-[#1b2742]">
@@ -317,27 +400,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* New This Week + Editor's Picks horizontal scroll sections */}
+      {/* Editor's Picks */}
       <section className="px-4 sm:px-6 pt-6 pb-2 border-b border-[#1b2742]">
-        <div className="max-w-6xl mx-auto space-y-6">
-
-          {/* New This Week */}
+        <div className="max-w-6xl mx-auto">
           <div className="reveal">
             <div className="flex items-center gap-2 mb-3">
-              <h2 className="tech-label"><span className="mono text-[#4da3ff]">01 /</span> Trending Now</h2>
-              <span className="text-[10px] font-bold bg-[#3a1524] text-[#ff6b85] px-2 py-0.5 rounded-full">HOT</span>
-            </div>
-            <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-              {newThisWeekTools.map((tool) => (
-                <MiniToolCard key={tool.name} tool={tool} />
-              ))}
-            </div>
-          </div>
-
-          {/* Editor's Picks */}
-          <div className="reveal">
-            <div className="flex items-center gap-2 mb-3">
-              <h2 className="tech-label"><span className="mono text-[#4da3ff]">02 /</span> Editor&apos;s Picks</h2>
+              <h2 className="tech-label"><span className="mono text-[#4da3ff]">01 /</span> Editor&apos;s Picks</h2>
               <span className="text-[10px] font-bold bg-[#142a4d] text-[#1877F2] px-2 py-0.5 rounded-full">⭐ PICKS</span>
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
@@ -346,7 +414,6 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
@@ -501,7 +568,7 @@ export default function HomePage() {
       {/* Browse by Category */}
       <section className="border-t border-[#233150] px-6 py-10">
         <div className="max-w-6xl mx-auto reveal">
-          <h2 className="tech-label mb-1"><span className="mono text-[#4da3ff]">03 /</span> Browse by use case</h2>
+          <h2 className="tech-label mb-1"><span className="mono text-[#4da3ff]">02 /</span> Browse by use case</h2>
           <p className="text-xs text-[#93a4c3] mb-5">Find the best AI tool for exactly what you need to do.</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {[
@@ -541,65 +608,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Newsletter */}
-      <section className="border-t border-[#233150] px-6 py-10">
-        <div className="max-w-md mx-auto text-center reveal">
-          <h2 className="tech-label justify-center mb-2"><span className="mono text-[#4da3ff]">04 /</span> Newsletter</h2>
-          <p className="text-xs text-[#93a4c3] mb-4">Get the best new AI tools in your inbox every week.</p>
-          {subscribed ? (
-            <p className="mono text-sm text-[#4da3ff] tracking-[0.08em]">&gt; SUBSCRIBED // YOU&apos;RE IN</p>
-          ) : (
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-                if (email.trim()) {
-                  await fetch("https://formspree.io/f/mbdwnbqb", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json", Accept: "application/json" },
-                    body: JSON.stringify({ email, _subject: "New newsletter subscriber" }),
-                  });
-                  setSubscribed(true);
-                }
-              }}
-              className="hud-corners search-glow flex items-center bg-[#070d1a] rounded-lg px-4 py-2.5 gap-2"
-            >
-              <span className="mono text-xs text-[#4da3ff] flex-shrink-0">&gt;_</span>
-              <input
-                type="email"
-                required
-                placeholder="ENTER EMAIL"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mono flex-1 text-sm text-[#e9eef8] bg-transparent placeholder-[#3d4f75] tracking-[0.08em] focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="mono bg-[#1877F2] hover:bg-[#166FE5] text-white text-[11px] font-semibold tracking-[0.14em] uppercase px-4 py-2 rounded transition-colors whitespace-nowrap flex-shrink-0"
-              >
-                Subscribe
-              </button>
-            </form>
-          )}
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-[#233150] px-6 py-6">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#93a4c3]">
+      {/* Footer — 2A bottom bar */}
+      <footer className="border-t border-[#233150] px-4 sm:px-6 py-4 bg-[#0a1124]">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <Logo size={18} />
-            <span className="brand-mark brand-mark-sm">HowToUseMy<span className="brand-ai">AI</span></span>
+            <Logo size={16} />
+            <span className="footer-meta">(C) {new Date().getFullYear()} HowToUseMyAI</span>
           </div>
-          <div className="flex flex-wrap justify-center gap-5">
+          <div className="flex flex-wrap justify-center items-center gap-x-2 gap-y-1 mono text-[10px]">
             <a href="/" className="nav-link">Home</a>
+            <span className="text-[#233150]">//</span>
             <a href="/about" className="nav-link">About</a>
-            <a href="/compare" className="nav-link">Comparisons</a>
-            <a href="/submit" className="submit-chip">+ Submit a Tool</a>
+            <span className="text-[#233150]">//</span>
+            <a href="/compare" className="nav-link">Compare</a>
+            <span className="text-[#233150]">//</span>
             <a href="/disclosure" className="nav-link">Disclosure</a>
+            <span className="text-[#233150]">//</span>
             <a href="/privacy" className="nav-link">Privacy</a>
+            <span className="text-[#233150]">//</span>
             <a href="/terms" className="nav-link">Terms</a>
           </div>
-          <p className="footer-meta">© {new Date().getFullYear()} HowToUseMyAI</p>
+          <a href="/submit" className="submit-chip">+ Submit a Tool</a>
         </div>
       </footer>
     </div>
