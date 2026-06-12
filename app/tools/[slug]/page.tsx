@@ -2146,23 +2146,19 @@ export default function ToolPage() {
             <span className="text-3xl hidden items-center justify-center w-full h-full">{tool.icon}</span>
           </div>
           <div>
-            <h1
-              className="text-[32px] font-semibold text-[#1877F2] leading-tight"
-              style={{ fontFamily: "var(--font-playfair), serif" }}
-            >
+            <h1 className="display-head text-[32px] font-semibold text-[#1877F2] leading-tight">
               {tool.name}
             </h1>
-            <div className="flex items-center gap-2 mt-1">
-              <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${pricing.badge}`}>
-                {pricing.label}
-              </span>
-              <span className="text-[11px] text-[#93a4c3] bg-[#0d1729] border border-[#233150] px-2.5 py-0.5 rounded-full">
-                {tool.category}
-              </span>
+            <div className="hud-corners inline-block border border-[#233150] bg-[#0d1729]/70 rounded px-3 py-2 mt-2">
+              <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5 mono text-[10px] tracking-[0.14em] uppercase">
+                <span className="text-[#5d6f93]">Category</span>
+                <span className="text-[#4da3ff]">{tool.category}</span>
+                <span className="text-[#5d6f93]">Pricing</span>
+                <span className={pricing.label === "Paid" ? "text-[#ff6b85]" : "text-[#4da3ff]"}>{pricing.label}</span>
+                <span className="text-[#5d6f93]">Verified</span>
+                <span className="text-[#93a4c3]">{new Date().toLocaleString("en-US", { month: "long", year: "numeric" })}</span>
+              </div>
             </div>
-            <p className="text-[11px] text-[#6b7c9c] mt-1.5">
-              Last verified {new Date().toLocaleString("en-US", { month: "long", year: "numeric" })}
-            </p>
           </div>
         </div>
 

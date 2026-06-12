@@ -72,7 +72,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         )}
       </head>
       <body className="min-h-full flex flex-col bg-[#101b32]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
-        {children}
+        <div className="starfield" aria-hidden="true" />
+        <div className="relative z-[1] flex flex-col flex-1 min-h-full">
+          {children}
+        </div>
       </body>
     </html>
   );

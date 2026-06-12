@@ -48,7 +48,7 @@ function MiniToolCard({ tool }: { tool: Tool }) {
   return (
     <a
       href={`/tools/${slugify(tool.name)}`}
-      className="bg-[#101b32] border border-[#233150] rounded-xl p-3 flex flex-col gap-2 hover:shadow-md hover:border-[#1877F2] transition-all"
+      className="glass-card bg-[#101b32] border border-[#233150] rounded-xl p-3 flex flex-col gap-2 hover:shadow-md hover:border-[#1877F2] transition-all"
     >
       <div className="flex items-center gap-2">
         <div className="w-7 h-7 rounded-lg bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
@@ -257,6 +257,19 @@ export default function HomePage() {
             </button>
           </div>
 
+          {/* Hero stats strip */}
+          <div className="mt-5 flex items-center justify-center gap-2 sm:gap-3">
+            <div className="border border-[#233150] bg-[#0d1729]/60 rounded px-3 py-1.5 mono text-[10px] tracking-[0.16em] uppercase text-[#93a4c3]">
+              <span className="text-[#4da3ff] font-semibold">{toolCount}</span> Tools
+            </div>
+            <div className="border border-[#233150] bg-[#0d1729]/60 rounded px-3 py-1.5 mono text-[10px] tracking-[0.16em] uppercase text-[#93a4c3]">
+              <span className="text-[#4da3ff] font-semibold">{CATEGORIES.length - 1}</span> Categories
+            </div>
+            <div className="border border-[#233150] bg-[#0d1729]/60 rounded px-3 py-1.5 mono text-[10px] tracking-[0.16em] uppercase text-[#93a4c3]">
+              Updated <span className="text-[#4da3ff] font-semibold">Weekly</span>
+            </div>
+          </div>
+
           {/* Trending chips — compact single row */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-1.5">
             <span className="mono text-[10px] tracking-[0.2em] text-[#5d6f93] uppercase mr-1">Try //</span>
@@ -372,7 +385,7 @@ export default function HomePage() {
                 <a
                   key={tool.name}
                   href={`/tools/${slugify(tool.name)}`}
-                  className="tool-card relative group bg-[#101b32] border border-[#233150] rounded-xl p-4 flex flex-col items-center text-center gap-2 overflow-hidden hover:shadow-md transition-all"
+                  className="tool-card glass-card relative group bg-[#101b32] border border-[#233150] rounded-xl p-4 flex flex-col items-center text-center gap-2 overflow-hidden hover:shadow-md transition-all"
                 >
                   {/* Large centered favicon */}
                   <div className="w-12 h-12 rounded-xl bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0 mt-1">
@@ -432,7 +445,7 @@ export default function HomePage() {
                 <a
                   key={tool.name}
                   href={`/tools/${slugify(tool.name)}`}
-                  className="group bg-[#101b32] border border-[#233150] rounded-xl px-4 py-3 flex items-center gap-4 hover:shadow-md hover:border-[#1877F2] transition-all"
+                  className="glass-card group bg-[#101b32] border border-[#233150] rounded-xl px-4 py-3 flex items-center gap-4 hover:shadow-md hover:border-[#1877F2] transition-all"
                 >
                   {/* Favicon */}
                   <div className="w-10 h-10 rounded-xl bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
@@ -518,7 +531,7 @@ export default function HomePage() {
               <a
                 key={slug}
                 href={`/best-ai-for/${slug}`}
-                className="flex items-center gap-2.5 bg-[#0d1729] border border-[#233150] rounded-xl px-3 py-2.5 hover:border-[#1877F2] hover:bg-[#16233f] transition-all group"
+                className="glass-card flex items-center gap-2.5 bg-[#0d1729] border border-[#233150] rounded-xl px-3 py-2.5 hover:border-[#1877F2] hover:bg-[#16233f] transition-all group"
               >
                 <span className="text-base flex-shrink-0">{icon}</span>
                 <span className="text-xs font-medium text-[#e9eef8] group-hover:text-[#1877F2] transition-colors leading-tight">{label}</span>
@@ -534,7 +547,7 @@ export default function HomePage() {
           <h2 className="tech-label justify-center mb-2"><span className="mono text-[#4da3ff]">04 /</span> Newsletter</h2>
           <p className="text-xs text-[#93a4c3] mb-4">Get the best new AI tools in your inbox every week.</p>
           {subscribed ? (
-            <p className="text-sm text-[#1877F2] font-medium">You&apos;re in!</p>
+            <p className="mono text-sm text-[#4da3ff] tracking-[0.08em]">&gt; SUBSCRIBED // YOU&apos;RE IN</p>
           ) : (
             <form
               onSubmit={async (e) => {
@@ -548,19 +561,20 @@ export default function HomePage() {
                   setSubscribed(true);
                 }
               }}
-              className="search-glow flex items-center bg-[#101b32] rounded-full px-4 py-2 gap-2"
+              className="hud-corners search-glow flex items-center bg-[#070d1a] rounded-lg px-4 py-2.5 gap-2"
             >
+              <span className="mono text-xs text-[#4da3ff] flex-shrink-0">&gt;_</span>
               <input
                 type="email"
                 required
-                placeholder="your@email.com"
+                placeholder="ENTER EMAIL"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 text-sm text-[#e9eef8] bg-transparent placeholder-[#566586] focus:outline-none"
+                className="mono flex-1 text-sm text-[#e9eef8] bg-transparent placeholder-[#3d4f75] tracking-[0.08em] focus:outline-none"
               />
               <button
                 type="submit"
-                className="bg-[#1877F2] hover:bg-[#166FE5] text-white text-xs font-semibold px-4 py-2 rounded-full transition-colors whitespace-nowrap flex-shrink-0"
+                className="mono bg-[#1877F2] hover:bg-[#166FE5] text-white text-[11px] font-semibold tracking-[0.14em] uppercase px-4 py-2 rounded transition-colors whitespace-nowrap flex-shrink-0"
               >
                 Subscribe
               </button>

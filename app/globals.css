@@ -17,6 +17,18 @@
   --ink-dim: #5d6f93;
 }
 
+/* Selection + scrollbar polish */
+::selection { background: rgba(24, 119, 242, 0.45); color: #fff; }
+* { scrollbar-width: thin; scrollbar-color: #1d3156 #060a14; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #060a14; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #1d3156, #1877F2);
+  border-radius: 5px;
+  border: 2px solid #060a14;
+}
+::-webkit-scrollbar-thumb:hover { background: #1877F2; }
+
 body {
   background:
     /* fine tech grid */
@@ -243,16 +255,102 @@ body {
 }
 .reveal.is-visible { opacity: 1; transform: none; }
 
-/* Technical section label */
+/* Technical section label — Rajdhani */
 .tech-label {
+  font-family: var(--font-tech), var(--font-inter), sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 11px;
+  letter-spacing: 0.24em;
+  font-size: 13px;
   font-weight: 600;
   color: #93a4c3;
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+/* Display headings — Rajdhani */
+.display-head {
+  font-family: var(--font-tech), var(--font-inter), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Glass card surface */
+.glass-card {
+  background: linear-gradient(160deg, rgba(23, 37, 68, 0.55), rgba(9, 15, 30, 0.5));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-color: rgba(77, 163, 255, 0.16);
+}
+
+/* Starfield drift */
+.starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.starfield::before, .starfield::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: transparent;
+  animation: star-drift linear infinite;
+}
+.starfield::before {
+  animation-duration: 160s;
+  box-shadow:
+    6vw 8vh 0 0 rgba(159,200,255,0.5), 16vw 62vh 0 0 rgba(159,200,255,0.4),
+    24vw 30vh 0 0 rgba(159,200,255,0.5), 33vw 84vh 0 0 rgba(159,200,255,0.35),
+    42vw 15vh 0 0 rgba(159,200,255,0.45), 51vw 48vh 0 0 rgba(159,200,255,0.5),
+    60vw 72vh 0 0 rgba(159,200,255,0.4), 68vw 22vh 0 0 rgba(159,200,255,0.5),
+    76vw 55vh 0 0 rgba(159,200,255,0.35), 84vw 90vh 0 0 rgba(159,200,255,0.45),
+    91vw 35vh 0 0 rgba(159,200,255,0.5), 97vw 68vh 0 0 rgba(159,200,255,0.4),
+    12vw 92vh 0 0 rgba(159,200,255,0.4), 47vw 95vh 0 0 rgba(159,200,255,0.45),
+    6vw 108vh 0 0 rgba(159,200,255,0.5), 16vw 162vh 0 0 rgba(159,200,255,0.4),
+    24vw 130vh 0 0 rgba(159,200,255,0.5), 33vw 184vh 0 0 rgba(159,200,255,0.35),
+    42vw 115vh 0 0 rgba(159,200,255,0.45), 51vw 148vh 0 0 rgba(159,200,255,0.5),
+    60vw 172vh 0 0 rgba(159,200,255,0.4), 68vw 122vh 0 0 rgba(159,200,255,0.5),
+    76vw 155vh 0 0 rgba(159,200,255,0.35), 84vw 190vh 0 0 rgba(159,200,255,0.45),
+    91vw 135vh 0 0 rgba(159,200,255,0.5), 97vw 168vh 0 0 rgba(159,200,255,0.4),
+    12vw 192vh 0 0 rgba(159,200,255,0.4), 47vw 195vh 0 0 rgba(159,200,255,0.45);
+}
+.starfield::after {
+  width: 1.5px;
+  height: 1.5px;
+  animation-duration: 240s;
+  box-shadow:
+    3vw 40vh 0 0 rgba(147,164,195,0.35), 10vw 18vh 0 0 rgba(147,164,195,0.3),
+    20vw 75vh 0 0 rgba(147,164,195,0.35), 29vw 52vh 0 0 rgba(147,164,195,0.3),
+    38vw 5vh 0 0 rgba(147,164,195,0.35), 45vw 66vh 0 0 rgba(147,164,195,0.3),
+    55vw 28vh 0 0 rgba(147,164,195,0.35), 63vw 88vh 0 0 rgba(147,164,195,0.3),
+    71vw 10vh 0 0 rgba(147,164,195,0.35), 80vw 44vh 0 0 rgba(147,164,195,0.3),
+    88vw 78vh 0 0 rgba(147,164,195,0.35), 94vw 20vh 0 0 rgba(147,164,195,0.3),
+    58vw 58vh 0 0 rgba(147,164,195,0.3), 26vw 12vh 0 0 rgba(147,164,195,0.35),
+    3vw 140vh 0 0 rgba(147,164,195,0.35), 10vw 118vh 0 0 rgba(147,164,195,0.3),
+    20vw 175vh 0 0 rgba(147,164,195,0.35), 29vw 152vh 0 0 rgba(147,164,195,0.3),
+    38vw 105vh 0 0 rgba(147,164,195,0.35), 45vw 166vh 0 0 rgba(147,164,195,0.3),
+    55vw 128vh 0 0 rgba(147,164,195,0.35), 63vw 188vh 0 0 rgba(147,164,195,0.3),
+    71vw 110vh 0 0 rgba(147,164,195,0.35), 80vw 144vh 0 0 rgba(147,164,195,0.3),
+    88vw 178vh 0 0 rgba(147,164,195,0.35), 94vw 120vh 0 0 rgba(147,164,195,0.3),
+    58vw 158vh 0 0 rgba(147,164,195,0.3), 26vw 112vh 0 0 rgba(147,164,195,0.35);
+}
+@keyframes star-drift {
+  to { transform: translateY(-100vh); }
+}
+
+/* Route-change fade */
+.page-fade {
+  animation: pageFade 0.35s ease both;
+}
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
 }
 .tech-label::before {
   content: '';
@@ -346,7 +444,8 @@ body {
 .tool-card:hover::after { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-  .status-dot, .header-glow-line::after, .hero-title, .cursor-blink, .submit-chip { animation: none; }
+  .status-dot, .header-glow-line::after, .hero-title, .cursor-blink, .submit-chip,
+  .starfield::before, .starfield::after, .page-fade { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
 
