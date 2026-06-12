@@ -2014,7 +2014,7 @@ export default function ToolPage() {
 
   if (!tool && basicTool) {
     return (
-      <div className="min-h-screen bg-[#101b32]">
+      <div className="min-h-screen">
         <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
           <button onClick={() => router.push("/")} className="text-sm text-[#1877F2] hover:underline">
             ← Back to all tools
@@ -2054,7 +2054,7 @@ export default function ToolPage() {
 
   if (!tool) {
     return (
-      <div className="min-h-screen bg-[#101b32] flex flex-col items-center justify-center gap-4 px-6">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-6">
         <h1 className="text-2xl font-semibold text-[#e9eef8]">Tool not found</h1>
         <Link href="/" className="text-[#1877F2] text-sm hover:underline">
           ← Back to all tools
@@ -2104,7 +2104,7 @@ export default function ToolPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#101b32]">
+    <div className="min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       {/* Top nav */}
       <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">

@@ -202,7 +202,7 @@ function RecommendResults() {
   const tools = getRecommendations(query);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#101b32]">
+    <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-30 bg-[#0a0f1e]/85 backdrop-blur border-b border-[#233150] px-6 py-3">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
           <a href="/" className="flex items-center gap-2 flex-shrink-0">
@@ -366,7 +366,7 @@ export default function RecommendPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#0d1729] flex items-center justify-center">
+        <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <div className="w-8 h-8 border-2 border-[#1877F2] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             <p className="text-xs text-[#93a4c3]">Finding the best AI tools...</p>

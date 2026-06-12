@@ -19,8 +19,15 @@
 
 body {
   background:
-    radial-gradient(circle at 1px 1px, rgba(77, 163, 255, 0.05) 1px, transparent 0) 0 0 / 22px 22px,
-    linear-gradient(180deg, #0a0f1e 0%, #0b1226 100%);
+    /* fine tech grid */
+    linear-gradient(rgba(77, 163, 255, 0.07) 1px, transparent 1px) 0 0 / 100% 44px,
+    linear-gradient(90deg, rgba(77, 163, 255, 0.07) 1px, transparent 1px) 0 0 / 44px 100%,
+    /* blue horizon glow at the bottom */
+    radial-gradient(ellipse 85% 55% at 50% 110%, rgba(24, 119, 242, 0.32), transparent 65%),
+    /* faint glow from the top */
+    radial-gradient(ellipse 70% 40% at 50% -12%, rgba(24, 119, 242, 0.14), transparent 60%),
+    /* deep space base */
+    linear-gradient(180deg, #04060c 0%, #060a14 55%, #050810 100%);
   background-attachment: fixed;
   color: #e9eef8;
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -28,6 +35,73 @@ body {
   font-weight: 400;
   letter-spacing: 0.01em;
 }
+
+/* Mono "system" type */
+.mono {
+  font-family: ui-monospace, "SF Mono", Menlo, "Roboto Mono", monospace;
+}
+
+/* Status ticker bar */
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 45s linear infinite;
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-bar:hover .ticker-track { animation-play-state: paused; }
+
+/* HUD corner brackets */
+.hud-corners { position: relative; }
+.hud-corners::before {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  pointer-events: none;
+  opacity: 0.6;
+  background:
+    linear-gradient(#4da3ff, #4da3ff) top left / 14px 1.5px,
+    linear-gradient(#4da3ff, #4da3ff) top left / 1.5px 14px,
+    linear-gradient(#4da3ff, #4da3ff) top right / 14px 1.5px,
+    linear-gradient(#4da3ff, #4da3ff) top right / 1.5px 14px,
+    linear-gradient(#4da3ff, #4da3ff) bottom left / 14px 1.5px,
+    linear-gradient(#4da3ff, #4da3ff) bottom left / 1.5px 14px,
+    linear-gradient(#4da3ff, #4da3ff) bottom right / 14px 1.5px,
+    linear-gradient(#4da3ff, #4da3ff) bottom right / 1.5px 14px;
+  background-repeat: no-repeat;
+}
+
+/* Compact HUD filter chips */
+.filter-chip {
+  font-family: ui-monospace, "SF Mono", Menlo, "Roboto Mono", monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 3px 9px;
+  border: 1px solid #233150;
+  border-radius: 4px;
+  color: #93a4c3;
+  background: #101b32;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.filter-chip:hover { border-color: #1877F2; color: #4da3ff; }
+.filter-chip.active {
+  border-color: #1877F2;
+  color: #fff;
+  background: rgba(24, 119, 242, 0.28);
+  box-shadow: 0 0 10px rgba(24, 119, 242, 0.35), inset 0 0 8px rgba(24, 119, 242, 0.15);
+}
+
+/* Boot-up scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.is-visible { opacity: 1; transform: none; }
 
 /* Technical section label */
 .tech-label {
@@ -102,6 +176,38 @@ body {
 .header-glow-line {
   background: linear-gradient(90deg, transparent, rgba(77, 163, 255, 0.55), transparent);
   height: 1px;
+  overflow: hidden;
+}
+/* Scanline pulse traveling along the divider */
+.header-glow-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -18%;
+  width: 16%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(160, 208, 255, 0.95), transparent);
+  animation: scanline 5.5s linear infinite;
+}
+@keyframes scanline {
+  to { left: 118%; }
+}
+
+/* Spotlight that follows the mouse on tool cards */
+.tool-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: radial-gradient(180px circle at var(--mx, 50%) var(--my, 50%), rgba(77, 163, 255, 0.13), transparent 70%);
+}
+.tool-card:hover::after { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track, .header-glow-line::after { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
 }
 
 @keyframes fadeInUp {

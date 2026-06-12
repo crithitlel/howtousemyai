@@ -52,7 +52,7 @@ const websiteSchema = {
 
 export default function BestAIForIndexPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#101b32]">
+    <div className="flex flex-col min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
 
       <header className="sticky top-0 z-20 bg-[#101b32] border-b border-[#233150] px-6 py-4">

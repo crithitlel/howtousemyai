@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "./components/Logo";
 import { TOOLS, slugify, type Tool } from "@/lib/tools";
@@ -31,6 +31,15 @@ const TRENDING = [
   "Fix my code",
   "Make a song",
   "Research topic",
+];
+
+const PLACEHOLDER_QUERIES = [
+  "I want to create a YouTube video",
+  "Write a cover letter for me",
+  "Generate images for my brand",
+  "Fix a bug in my code",
+  "Make a song from my lyrics",
+  "Research a topic in depth",
 ];
 
 function MiniToolCard({ tool }: { tool: Tool }) {
@@ -69,7 +78,71 @@ export default function HomePage() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [typedPlaceholder, setTypedPlaceholder] = useState("");
+  const [toolCount, setToolCount] = useState(0);
   const router = useRouter();
+
+  // Cycling typewriter placeholder
+  useEffect(() => {
+    let i = 0;        // query index
+    let pos = 0;      // char position
+    let deleting = false;
+    let timer: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      const text = PLACEHOLDER_QUERIES[i];
+      if (!deleting) {
+        pos++;
+        setTypedPlaceholder(text.slice(0, pos));
+        if (pos === text.length) { deleting = true; timer = setTimeout(tick, 2000); return; }
+        timer = setTimeout(tick, 45);
+      } else {
+        pos--;
+        setTypedPlaceholder(text.slice(0, pos));
+        if (pos === 0) { deleting = false; i = (i + 1) % PLACEHOLDER_QUERIES.length; timer = setTimeout(tick, 350); return; }
+        timer = setTimeout(tick, 18);
+      }
+    };
+    timer = setTimeout(tick, 600);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Count-up for the tool total
+  useEffect(() => {
+    const target = TOOLS.length;
+    const duration = 1200;
+    const start = performance.now();
+    let raf: number;
+    const step = (now: number) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setToolCount(Math.round(eased * target));
+      if (t < 1) raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // Boot-up reveals on scroll
+  useEffect(() => {
+    const els = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((en) => {
+        if (en.isIntersecting) { en.target.classList.add("is-visible"); io.unobserve(en.target); }
+      }),
+      { threshold: 0.08 }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  // Spotlight position on tool cards
+  const handleSpotlight = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = (e.target as HTMLElement).closest(".tool-card") as HTMLElement | null;
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    card.style.setProperty("--my", `${e.clientY - r.top}px`);
+  };
 
   const handleSubmit = (q: string) => {
     const trimmed = q.trim();
@@ -95,7 +168,7 @@ export default function HomePage() {
   const featuredTools = TOOLS.filter((t) => t.isFeatured);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#101b32]">
+    <div className="flex flex-col min-h-screen">
 
       {/* Sticky nav */}
       <header className="sticky top-0 z-30 bg-[#0a0f1e]/85 backdrop-blur border-b border-[#233150] px-6 py-3">
@@ -113,26 +186,48 @@ export default function HomePage() {
         </div>
       </header>
 
+      {/* Status ticker */}
+      <div className="ticker-bar overflow-hidden border-b border-[#1b2742] bg-[#070d1a]/80 py-1.5 select-none">
+        <div className="ticker-track mono text-[10px] tracking-[0.2em] text-[#5d6f93] uppercase">
+          {[0, 1].map((copy) => (
+            <span key={copy} className="flex items-center whitespace-nowrap">
+              {[
+                `${TOOLS.length} tools indexed`,
+                "verified june 2026",
+                `${newThisWeekTools.length} new this week`,
+                "step-by-step guides included",
+                "system online",
+              ].map((item) => (
+                <span key={item} className="flex items-center">
+                  <span className="px-6">{item}</span>
+                  <span className="text-[#1877F2]">·</span>
+                </span>
+              ))}
+            </span>
+          ))}
+        </div>
+      </div>
+
       {/* Hero — Google-style */}
-      <section className="bg-[#101b32] px-4 sm:px-6 pt-8 sm:pt-12 pb-6 text-center">
+      <section className="px-4 sm:px-6 pt-8 sm:pt-12 pb-6 text-center">
         <div className="max-w-2xl mx-auto">
 
           <h1 className="text-2xl sm:text-3xl font-bold text-[#e9eef8] tracking-tight mb-2">
             Find the right AI tool in seconds
           </h1>
           <p className="text-sm text-[#93a4c3] mb-6">
-            Describe what you want to do. We match you with the best of {TOOLS.length} hand-picked tools, each with step-by-step instructions.
+            Describe what you want to do. We match you with the best of <span className="mono font-semibold text-[#4da3ff]">{toolCount}</span> hand-picked tools, each with step-by-step instructions.
           </p>
 
           {/* Inline search bar */}
-          <div className="search-glow flex items-center bg-[#101b32] rounded-full px-4 py-2 gap-2">
+          <div className="hud-corners search-glow flex items-center bg-[#101b32] rounded-full px-4 py-2 gap-2">
             <svg className="w-4 h-4 text-[#5d6f93] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
               type="text"
               className="flex-1 text-sm text-[#e9eef8] bg-transparent placeholder-[#566586] focus:outline-none"
-              placeholder='e.g. "I want to create a YouTube video"'
+              placeholder={typedPlaceholder || " "}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") handleSubmit(query); }}
@@ -146,68 +241,61 @@ export default function HomePage() {
             </button>
           </div>
 
-          {/* Trending chips — scrollable single row */}
-          <div className="mt-5 pb-1">
-            <span className="text-xs text-[#5d6f93] block mb-2">Try:</span>
-            <div className="flex flex-wrap gap-2">
+          {/* Trending chips — compact single row */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-1.5">
+            <span className="mono text-[10px] tracking-[0.2em] text-[#5d6f93] uppercase mr-1">Try //</span>
             {TRENDING.map((term) => (
               <button
                 key={term}
                 onClick={() => handleSubmit(term)}
-                className="text-xs px-3 py-1.5 rounded-full border border-[#233150] text-[#93a4c3] hover:border-[#1877F2] hover:text-[#1877F2] transition-all bg-[#101b32] whitespace-nowrap"
+                className="filter-chip"
               >
                 {term}
               </button>
             ))}
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Category chips */}
-      <section id="tools" className="px-6 pt-5 pb-3 bg-[#101b32] border-b border-[#1b2742]">
-        <div className="max-w-6xl mx-auto flex flex-wrap gap-2 pb-1">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => { setActiveCategory(cat); scrollToTools(); }}
-              className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all whitespace-nowrap ${
-                activeCategory === cat
-                  ? "bg-[#1877F2] text-white border-[#1877F2] shadow-sm shadow-[#1877F2]/20"
-                  : "bg-[#101b32] text-[#93a4c3] border-[#2b3a5c] hover:border-[#1877F2] hover:text-[#1877F2]"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Pricing filter */}
-        <div className="max-w-6xl mx-auto flex flex-wrap gap-2 mt-3 pb-2">
-          {PRICING_OPTIONS.map((p) => (
-            <button
-              key={p}
-              onClick={() => { setActivePricing(p); scrollToTools(); }}
-              className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all whitespace-nowrap flex-shrink-0 ${
-                activePricing === p
-                  ? "bg-[#1877F2] text-white border-[#1877F2] shadow-sm shadow-[#1877F2]/20"
-                  : "bg-[#101b32] text-[#93a4c3] border-[#2b3a5c] hover:border-[#1877F2] hover:text-[#1877F2]"
-              }`}
-            >
-              {p}
-            </button>
-          ))}
+      {/* Filter console — compact HUD panel */}
+      <section id="tools" className="px-4 sm:px-6 py-4 border-b border-[#1b2742]">
+        <div className="max-w-6xl mx-auto border border-[#233150] bg-[#0d1729]/70 rounded-lg px-3 py-2.5">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="mono text-[10px] tracking-[0.18em] text-[#5d6f93] uppercase w-[74px] flex-shrink-0">Category</span>
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => { setActiveCategory(cat); scrollToTools(); }}
+                className={`filter-chip ${activeCategory === cat ? "active" : ""}`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+          <div className="flex flex-wrap items-center gap-1.5 mt-2 pt-2 border-t border-[#1b2742]">
+            <span className="mono text-[10px] tracking-[0.18em] text-[#5d6f93] uppercase w-[74px] flex-shrink-0">Pricing</span>
+            {PRICING_OPTIONS.map((p) => (
+              <button
+                key={p}
+                onClick={() => { setActivePricing(p); scrollToTools(); }}
+                className={`filter-chip ${activePricing === p ? "active" : ""}`}
+              >
+                {p}
+              </button>
+            ))}
+            <span className="mono text-[10px] text-[#4da3ff] ml-auto hidden sm:block">{filtered.length} / {TOOLS.length}</span>
+          </div>
         </div>
       </section>
 
       {/* New This Week + Editor's Picks horizontal scroll sections */}
-      <section className="px-4 sm:px-6 pt-6 pb-2 bg-[#101b32] border-b border-[#1b2742]">
+      <section className="px-4 sm:px-6 pt-6 pb-2 border-b border-[#1b2742]">
         <div className="max-w-6xl mx-auto space-y-6">
 
           {/* New This Week */}
-          <div>
+          <div className="reveal">
             <div className="flex items-center gap-2 mb-3">
-              <h2 className="tech-label">Trending Now</h2>
+              <h2 className="tech-label"><span className="mono text-[#4da3ff]">01 /</span> Trending Now</h2>
               <span className="text-[10px] font-bold bg-[#3a1524] text-[#ff6b85] px-2 py-0.5 rounded-full">HOT</span>
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
@@ -218,9 +306,9 @@ export default function HomePage() {
           </div>
 
           {/* Editor's Picks */}
-          <div>
+          <div className="reveal">
             <div className="flex items-center gap-2 mb-3">
-              <h2 className="tech-label">Editor&apos;s Picks</h2>
+              <h2 className="tech-label"><span className="mono text-[#4da3ff]">02 /</span> Editor&apos;s Picks</h2>
               <span className="text-[10px] font-bold bg-[#142a4d] text-[#1877F2] px-2 py-0.5 rounded-full">⭐ PICKS</span>
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
@@ -234,11 +322,11 @@ export default function HomePage() {
       </section>
 
       {/* Tool cards */}
-      <section id="tool-grid" className="px-4 sm:px-6 py-8 flex-1 bg-[#0d1729]">
+      <section id="tool-grid" className="px-4 sm:px-6 py-8 flex-1">
         <div className="max-w-6xl mx-auto">
           {/* Header row: count + view toggle */}
           <div className="flex items-center justify-between mb-5">
-            <p className="text-xs text-[#93a4c3]">{filtered.length} tools available</p>
+            <p className="mono text-xs text-[#93a4c3]"><span className="text-[#4da3ff]">{filtered.length}</span> tools available</p>
             <div className="flex items-center gap-1 bg-[#101b32] border border-[#233150] rounded-lg p-0.5">
               <button
                 onClick={() => setViewMode("grid")}
@@ -263,7 +351,7 @@ export default function HomePage() {
 
           {/* GRID VIEW */}
           {viewMode === "grid" && (
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3" onMouseMove={handleSpotlight}>
               {filtered.map((tool) => (
                 <a
                   key={tool.name}
@@ -382,9 +470,9 @@ export default function HomePage() {
       </section>
 
       {/* Browse by Category */}
-      <section className="bg-[#101b32] border-t border-[#233150] px-6 py-10">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="tech-label mb-1">Browse by use case</h2>
+      <section className="border-t border-[#233150] px-6 py-10">
+        <div className="max-w-6xl mx-auto reveal">
+          <h2 className="tech-label mb-1"><span className="mono text-[#4da3ff]">03 /</span> Browse by use case</h2>
           <p className="text-xs text-[#93a4c3] mb-5">Find the best AI tool for exactly what you need to do.</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {[
@@ -425,9 +513,9 @@ export default function HomePage() {
       </section>
 
       {/* Newsletter */}
-      <section className="bg-[#101b32] border-t border-[#233150] px-6 py-10">
-        <div className="max-w-md mx-auto text-center">
-          <h2 className="tech-label justify-center mb-2">Newsletter</h2>
+      <section className="border-t border-[#233150] px-6 py-10">
+        <div className="max-w-md mx-auto text-center reveal">
+          <h2 className="tech-label justify-center mb-2"><span className="mono text-[#4da3ff]">04 /</span> Newsletter</h2>
           <p className="text-xs text-[#93a4c3] mb-4">Get the best new AI tools in your inbox every week.</p>
           {subscribed ? (
             <p className="text-sm text-[#1877F2] font-medium">You&apos;re in!</p>

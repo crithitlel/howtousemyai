@@ -3,7 +3,7 @@ import Logo from "./components/Logo";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#101b32]">
+    <div className="flex flex-col min-h-screen">
       {/* Dark navy header */}
       <header className="sticky top-0 z-20 bg-[#0a0f1e] border-b border-white/5 px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
