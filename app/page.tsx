@@ -215,9 +215,9 @@ export default function HomePage() {
           <span className="text-[#233150]">|</span>
           <span><span className="text-[#4da3ff]">{TOOLS.length}</span> tools indexed</span>
           <span className="text-[#233150]">|</span>
-          <span><span className="text-[#4da3ff]">{newThisWeekTools.length}</span> new this week</span>
+          <span><span className="text-[#4da3ff]">{CATEGORIES.length - 1}</span> categories</span>
           <span className="hidden sm:inline text-[#233150]">|</span>
-          <span className="hidden sm:inline">Verified June 2026</span>
+          <span className="hidden sm:inline">Verified {new Date().toLocaleString("en-US", { month: "long", year: "numeric" })}</span>
         </div>
       </div>
 
