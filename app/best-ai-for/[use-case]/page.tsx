@@ -404,9 +404,9 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={28} />
-            <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
+            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
           </Link>
-          <Link href="/submit" className="text-xs text-[#1877F2] font-medium hover:opacity-80">+ Submit a Tool</Link>
+          <Link href="/submit" className="submit-chip">+ Submit a Tool</Link>
         </div>
       </header>
 

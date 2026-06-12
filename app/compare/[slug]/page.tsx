@@ -368,7 +368,7 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={28} />
-            <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
+            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
           </Link>
           <span className="text-xs text-[#93a4c3] bg-[#0d1729] border border-[#233150] px-3 py-1 rounded-full">{data.category}</span>
         </div>

@@ -198,12 +198,12 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
           <a href="/" className="flex items-center gap-2 flex-shrink-0">
             <Logo size={24} />
-            <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
+            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
           </a>
           <nav className="flex items-center gap-5">
-            <a href="/compare" className="text-xs text-[#93a4c3] font-medium hover:text-[#1877F2] transition-colors whitespace-nowrap">Comparisons</a>
-            <a href="/best-ai-for" className="text-xs text-[#93a4c3] font-medium hover:text-[#1877F2] transition-colors whitespace-nowrap hidden sm:inline">Use Cases</a>
-            <a href="/submit" className="text-xs text-[#1877F2] font-semibold hover:opacity-80 transition-opacity whitespace-nowrap">+ Submit a Tool</a>
+            <a href="/compare" className="nav-link whitespace-nowrap">Comparisons</a>
+            <a href="/best-ai-for" className="nav-link whitespace-nowrap hidden sm:inline">Use Cases</a>
+            <a href="/submit" className="submit-chip">+ Submit a Tool</a>
           </nav>
         </div>
       </header>

@@ -41,9 +41,9 @@ export default function SubmitPage() {
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
           <a href="/" className="flex items-center gap-2 flex-shrink-0">
             <Logo size={24} />
-            <span className="font-semibold text-[#1877F2] text-sm tracking-tight">HowToUseMyAI</span>
+            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
           </a>
-          <a href="/" className="text-xs text-[#93a4c3] hover:text-[#1877F2] font-medium transition-colors whitespace-nowrap">← Back</a>
+          <a href="/" className="back-link whitespace-nowrap">← Back</a>
         </div>
       </header>
 

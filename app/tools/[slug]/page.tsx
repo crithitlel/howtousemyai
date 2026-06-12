@@ -2016,7 +2016,7 @@ export default function ToolPage() {
     return (
       <div className="min-h-screen">
         <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
-          <button onClick={() => router.push("/")} className="text-sm text-[#1877F2] hover:underline">
+          <button onClick={() => router.push("/")} className="back-link">
             ← Back to all tools
           </button>
         </div>
@@ -2056,7 +2056,7 @@ export default function ToolPage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-6">
         <h1 className="text-2xl font-semibold text-[#e9eef8]">Tool not found</h1>
-        <Link href="/" className="text-[#1877F2] text-sm hover:underline">
+        <Link href="/" className="back-link">
           ← Back to all tools
         </Link>
       </div>
@@ -2106,12 +2106,23 @@ export default function ToolPage() {
   return (
     <div className="min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      {/* Sticky site header */}
+      <header className="sticky top-0 z-30 bg-[#0a0f1e]/85 backdrop-blur border-b border-[#233150] px-6 py-3">
+        <div className="header-glow-line absolute bottom-0 left-0 right-0" />
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+          <a href="/" className="flex items-center gap-2 flex-shrink-0">
+            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
+          </a>
+          <nav className="flex items-center gap-5">
+            <a href="/compare" className="nav-link whitespace-nowrap">Comparisons</a>
+            <a href="/best-ai-for" className="nav-link whitespace-nowrap hidden sm:inline">Use Cases</a>
+            <a href="/submit" className="submit-chip">+ Submit a Tool</a>
+          </nav>
+        </div>
+      </header>
       {/* Top nav */}
       <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
-        <button
-          onClick={() => router.push("/")}
-          className="text-sm text-[#1877F2] hover:underline"
-        >
+        <button onClick={() => router.push("/")} className="back-link">
           ← All Tools
         </button>
       </div>
