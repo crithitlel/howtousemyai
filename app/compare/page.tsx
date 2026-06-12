@@ -58,7 +58,7 @@ export default function CompareIndexPage() {
       <main className="flex-1 px-4 sm:px-6 py-12 max-w-4xl mx-auto w-full">
         <div className="mb-10">
           <div className="flex items-center gap-2 text-xs text-[#93a4c3] mb-4">
-            <Link href="/" className="hover:text-[#1877F2]">Home</Link>
+            <Link href="/" className="nav-link">Home</Link>
             <span>/</span>
             <span>Compare</span>
           </div>
@@ -110,14 +110,14 @@ export default function CompareIndexPage() {
         <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-between items-center text-xs text-[#93a4c3]">
           <Link href="/" className="flex items-center gap-2">
             <Logo size={18} />
-            <span>HowToUseMyAI</span>
+            <span className="brand-mark brand-mark-sm">HowToUseMy<span className="brand-ai">AI</span></span>
           </Link>
           <div className="flex gap-4 flex-wrap">
-            <Link href="/best-ai-for" className="hover:text-[#1877F2]">Browse by Use Case</Link>
-            <Link href="/tools" className="hover:text-[#1877F2]">All Tools</Link>
-            <Link href="/compare" className="hover:text-[#1877F2]">Comparisons</Link>
+            <Link href="/best-ai-for" className="nav-link">Browse by Use Case</Link>
+            <Link href="/tools" className="nav-link">All Tools</Link>
+            <Link href="/compare" className="nav-link">Comparisons</Link>
           </div>
-          <Link href="/privacy" className="hover:text-[#1877F2]">Privacy</Link>
+          <Link href="/privacy" className="nav-link">Privacy</Link>
         </div>
       </footer>
     </div>

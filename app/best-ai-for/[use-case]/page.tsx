@@ -470,16 +470,16 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
         <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-between items-center text-xs text-[#93a4c3]">
           <Link href="/" className="flex items-center gap-2">
             <Logo size={18} />
-            <span>HowToUseMyAI</span>
+            <span className="brand-mark brand-mark-sm">HowToUseMy<span className="brand-ai">AI</span></span>
           </Link>
           <div className="flex gap-4">
-            <Link href="/best-ai-for/writing" className="hover:text-[#1877F2]">Writing</Link>
-            <Link href="/best-ai-for/video" className="hover:text-[#1877F2]">Video</Link>
-            <Link href="/best-ai-for/coding" className="hover:text-[#1877F2]">Coding</Link>
-            <Link href="/best-ai-for/image-generation" className="hover:text-[#1877F2]">Images</Link>
-            <Link href="/best-ai-for/music" className="hover:text-[#1877F2]">Music</Link>
+            <Link href="/best-ai-for/writing" className="nav-link">Writing</Link>
+            <Link href="/best-ai-for/video" className="nav-link">Video</Link>
+            <Link href="/best-ai-for/coding" className="nav-link">Coding</Link>
+            <Link href="/best-ai-for/image-generation" className="nav-link">Images</Link>
+            <Link href="/best-ai-for/music" className="nav-link">Music</Link>
           </div>
-          <Link href="/privacy" className="hover:text-[#1877F2]">Privacy</Link>
+          <Link href="/privacy" className="nav-link">Privacy</Link>
         </div>
       </footer>
     </div>

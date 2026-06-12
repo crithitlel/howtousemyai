@@ -583,18 +583,18 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#93a4c3]">
           <div className="flex items-center gap-2">
             <Logo size={18} />
-            <span className="font-medium text-[#1877F2]">HowToUseMyAI</span>
+            <span className="brand-mark brand-mark-sm">HowToUseMy<span className="brand-ai">AI</span></span>
           </div>
           <div className="flex flex-wrap justify-center gap-5">
-            <a href="/" className="hover:text-[#1877F2] transition-colors">Home</a>
-            <a href="/about" className="hover:text-[#1877F2] transition-colors">About</a>
-            <a href="/compare" className="hover:text-[#1877F2] transition-colors">Comparisons</a>
-            <a href="/submit" className="text-[#1877F2] hover:opacity-80 transition-opacity font-medium">Submit a Tool</a>
-            <a href="/disclosure" className="hover:text-[#1877F2] transition-colors">Disclosure</a>
-            <a href="/privacy" className="hover:text-[#1877F2] transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-[#1877F2] transition-colors">Terms</a>
+            <a href="/" className="nav-link">Home</a>
+            <a href="/about" className="nav-link">About</a>
+            <a href="/compare" className="nav-link">Comparisons</a>
+            <a href="/submit" className="submit-chip">+ Submit a Tool</a>
+            <a href="/disclosure" className="nav-link">Disclosure</a>
+            <a href="/privacy" className="nav-link">Privacy</a>
+            <a href="/terms" className="nav-link">Terms</a>
           </div>
-          <p>© {new Date().getFullYear()} HowToUseMyAI</p>
+          <p className="footer-meta">© {new Date().getFullYear()} HowToUseMyAI</p>
         </div>
       </footer>
     </div>

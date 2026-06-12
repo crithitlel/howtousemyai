@@ -111,14 +111,14 @@ export default function BestAIForIndexPage() {
         <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-between items-center text-xs text-[#93a4c3]">
           <Link href="/" className="flex items-center gap-2">
             <Logo size={18} />
-            <span>HowToUseMyAI</span>
+            <span className="brand-mark brand-mark-sm">HowToUseMy<span className="brand-ai">AI</span></span>
           </Link>
           <div className="flex gap-4 flex-wrap">
             {CATEGORIES.slice(0, 6).map(({ slug, label }) => (
-              <Link key={slug} href={`/best-ai-for/${slug}`} className="hover:text-[#1877F2]">{label}</Link>
+              <Link key={slug} href={`/best-ai-for/${slug}`} className="nav-link">{label}</Link>
             ))}
           </div>
-          <Link href="/privacy" className="hover:text-[#1877F2]">Privacy</Link>
+          <Link href="/privacy" className="nav-link">Privacy</Link>
         </div>
       </footer>
     </div>

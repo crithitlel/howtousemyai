@@ -105,6 +105,17 @@ body {
   text-shadow: 0 0 12px rgba(255, 107, 133, 0.65);
 }
 
+.brand-mark-sm { font-size: 13px; }
+
+/* Footer copyright — mono dim */
+.footer-meta {
+  font-family: ui-monospace, "SF Mono", Menlo, "Roboto Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #5d6f93;
+}
+
 /* Header nav links — mono system style */
 .nav-link {
   font-family: ui-monospace, "SF Mono", Menlo, "Roboto Mono", monospace;

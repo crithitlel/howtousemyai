@@ -9,7 +9,7 @@ export default function NotFound() {
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
             <Logo size={32} />
-            <span className="font-semibold text-white text-base tracking-tight">HowToUseMyAI</span>
+            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
           </Link>
           <nav className="hidden md:flex items-center gap-7 text-sm">
             <Link href="/#tools" className="text-white/50 hover:text-white transition-colors">Browse</Link>
@@ -42,7 +42,7 @@ export default function NotFound() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/30">
           <div className="flex items-center gap-2">
             <Logo size={20} />
-            <span className="font-medium text-white/60">HowToUseMyAI</span>
+            <span className="brand-mark brand-mark-sm">HowToUseMy<span className="brand-ai">AI</span></span>
           </div>
           <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
           <div className="flex gap-5">

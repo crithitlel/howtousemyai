@@ -378,9 +378,9 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
 
         {/* Breadcrumb */}
         <div className="text-xs text-[#93a4c3] mb-6 flex items-center gap-1.5">
-          <Link href="/" className="hover:text-[#1877F2]">Home</Link>
+          <Link href="/" className="nav-link">Home</Link>
           <span>›</span>
-          <Link href="/compare" className="hover:text-[#1877F2]">Compare</Link>
+          <Link href="/compare" className="nav-link">Compare</Link>
           <span>›</span>
           <span className="text-[#e9eef8]">{tool1.name} vs {tool2.name}</span>
         </div>
@@ -490,10 +490,10 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
         <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-between items-center text-xs text-[#93a4c3]">
           <Link href="/" className="flex items-center gap-2">
             <Logo size={18} />
-            <span>HowToUseMyAI</span>
+            <span className="brand-mark brand-mark-sm">HowToUseMy<span className="brand-ai">AI</span></span>
           </Link>
-          <Link href="/compare" className="hover:text-[#1877F2]">All Comparisons</Link>
-          <Link href="/privacy" className="hover:text-[#1877F2]">Privacy</Link>
+          <Link href="/compare" className="nav-link">All Comparisons</Link>
+          <Link href="/privacy" className="nav-link">Privacy</Link>
         </div>
       </footer>
     </div>

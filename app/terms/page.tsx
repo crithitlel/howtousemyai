@@ -107,8 +107,8 @@ export default function TermsPage() {
         <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#93a4c3]">
           <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
           <div className="flex gap-5">
-            <Link href="/privacy" className="hover:text-[#1877F2] transition-colors">Privacy</Link>
-            <Link href="/terms" className="hover:text-[#1877F2] transition-colors">Terms</Link>
+            <Link href="/privacy" className="nav-link">Privacy</Link>
+            <Link href="/terms" className="nav-link">Terms</Link>
           </div>
         </div>
       </footer>

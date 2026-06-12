@@ -163,13 +163,13 @@ export default function SubmitPage() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#93a4c3]">
           <div className="flex items-center gap-2">
             <Logo size={18} />
-            <span className="font-medium text-[#1877F2]">HowToUseMyAI</span>
+            <span className="brand-mark brand-mark-sm">HowToUseMy<span className="brand-ai">AI</span></span>
           </div>
-          <p>© {new Date().getFullYear()} HowToUseMyAI</p>
+          <p className="footer-meta">© {new Date().getFullYear()} HowToUseMyAI</p>
           <div className="flex gap-5">
-            <a href="/" className="hover:text-[#1877F2] transition-colors">Home</a>
-            <a href="/privacy" className="hover:text-[#1877F2] transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-[#1877F2] transition-colors">Terms</a>
+            <a href="/" className="nav-link">Home</a>
+            <a href="/privacy" className="nav-link">Privacy</a>
+            <a href="/terms" className="nav-link">Terms</a>
           </div>
         </div>
       </footer>
