@@ -88,6 +88,44 @@ function MiniToolCard({ tool }: { tool: Tool }) {
   );
 }
 
+function MatrixRain() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const parent = canvas.parentElement as HTMLElement;
+    const fit = () => { canvas.width = parent.clientWidth; canvas.height = parent.clientHeight; };
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(parent);
+    const chars = "アイウエオカキクケコ01<>/=+*#";
+    const fs = 14;
+    const gap = fs * 2.2; // sparse columns — minimalist
+    let drops: number[] = [];
+    const seed = () => { drops = Array.from({ length: Math.ceil(canvas.width / gap) }, () => Math.random() * -70); };
+    seed();
+    const iv = setInterval(() => {
+      if (document.hidden) return;
+      if (Math.ceil(canvas.width / gap) !== drops.length) seed();
+      ctx.fillStyle = "rgba(13, 23, 41, 0.1)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = `${fs}px monospace`;
+      for (let i = 0; i < drops.length; i++) {
+        const ch = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillStyle = Math.random() > 0.985 ? "rgba(125, 180, 255, 0.45)" : "rgba(77, 163, 255, 0.12)";
+        ctx.fillText(ch, i * gap, drops[i] * fs);
+        if (drops[i] * fs > canvas.height && Math.random() > 0.99) drops[i] = Math.random() * -20;
+        drops[i] += 0.3; // slow fall
+      }
+    }, 90);
+    return () => { clearInterval(iv); ro.disconnect(); };
+  }, []);
+  return <canvas ref={ref} className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" />;
+}
+
 export default function HomePage() {
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
@@ -99,6 +137,7 @@ export default function HomePage() {
   const [heroText, setHeroText] = useState(HERO_TEXT);
   const [toolCount, setToolCount] = useState(0);
   const [heroTab, setHeroTab] = useState<"search" | "trending" | "categories">("search");
+  const [feedText, setFeedText] = useState("");
   const [featIdx, setFeatIdx] = useState(0);
   const [booting, setBooting] = useState<"off" | "on" | "fading">("off");
   const [sndOn, setSndOn] = useState(false);
@@ -172,6 +211,35 @@ export default function HomePage() {
       document.removeEventListener("click", onClick);
     };
   }, [sndOn]);
+
+  // Typewriter index feed at the bottom of the hero panel
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setFeedText(`${TOOLS.length} TOOLS // ${CATEGORIES.length - 1} CATEGORIES`);
+      return;
+    }
+    const entries = TOOLS.map((t) => `${t.name.toUpperCase()} // ${t.category.toUpperCase()}`);
+    let i = Math.floor(Math.random() * entries.length);
+    let pos = 0;
+    let deleting = false;
+    let timer: ReturnType<typeof setTimeout>;
+    const tick = () => {
+      const text = entries[i];
+      if (!deleting) {
+        pos++;
+        setFeedText(text.slice(0, pos));
+        if (pos === text.length) { deleting = true; timer = setTimeout(tick, 2400); return; }
+        timer = setTimeout(tick, 50);
+      } else {
+        pos--;
+        setFeedText(text.slice(0, pos));
+        if (pos === 0) { deleting = false; i = (i + 1) % entries.length; timer = setTimeout(tick, 400); return; }
+        timer = setTimeout(tick, 16);
+      }
+    };
+    timer = setTimeout(tick, 1200);
+    return () => clearTimeout(timer);
+  }, []);
 
   const toggleSnd = () => {
     const next = !sndOn;
@@ -368,22 +436,22 @@ export default function HomePage() {
               </div>
 
               {heroTab === "search" && (
-              <div className="relative flex-1 min-h-0 flex flex-col items-center justify-center text-center px-4 py-8">
+              <div className="relative flex-1 min-h-0 flex flex-col items-center justify-center text-center px-4 pt-8 pb-12">
+                <MatrixRain />
                 <span className="absolute top-2.5 left-3.5 mono text-[9px] tracking-[0.24em] text-[#3d4f75] uppercase hidden sm:block">Sys.Search.Module</span>
-                <span className="absolute bottom-2.5 right-3.5 mono text-[9px] tracking-[0.24em] text-[#3d4f75] uppercase hidden sm:block">New.Methods.Of.Discovery</span>
 
-                <div className="hero-kicker mb-3">
-                  <span>AI Tool Index<span className="cursor-blink" /></span>
+                <div className="hero-kicker mb-3 relative">
+                  <span>AI Tool Index</span>
                 </div>
-                <h1 className="hero-title text-2xl sm:text-4xl font-bold mb-2">
+                <h1 className="hero-title relative text-2xl sm:text-4xl font-bold mb-2">
                   {heroText}
                 </h1>
-                <p className="text-[13px] text-[#93a4c3] mb-5 max-w-lg mx-auto">
+                <p className="relative text-[13px] text-[#93a4c3] mb-5 max-w-lg mx-auto">
                   Describe what you want to do. We match you with the best of <span className="mono font-semibold text-[#4da3ff]">{toolCount}</span> hand-picked tools, each with step-by-step instructions.
                 </p>
 
                 {/* Inline search bar */}
-                <div className="hud-corners search-glow flex items-center bg-[#101b32] rounded-full px-4 py-2 gap-2 w-full max-w-2xl">
+                <div className="hud-corners search-glow relative flex items-center bg-[#101b32] rounded-full px-4 py-2 gap-2 w-full max-w-2xl">
                   <svg className="w-4 h-4 text-[#5d6f93] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
@@ -405,7 +473,7 @@ export default function HomePage() {
                 </div>
 
                 {/* Trending chips — compact single row */}
-                <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
+                <div className="relative mt-4 flex flex-wrap items-center justify-center gap-1.5">
                   <span className="mono text-[10px] tracking-[0.2em] text-[#5d6f93] uppercase mr-1">Try //</span>
                   {TRENDING.map((term) => (
                     <button
@@ -416,6 +484,14 @@ export default function HomePage() {
                       {term}
                     </button>
                   ))}
+                </div>
+
+                {/* Typewriter index feed */}
+                <div className="absolute bottom-0 left-0 right-0 border-t border-[#1b2742] bg-[#0a1124]/90 px-4 py-1.5 text-left select-none">
+                  <span className="mono text-[9px] sm:text-[10px] tracking-[0.16em] uppercase">
+                    <span className="text-[#5d6f93]">&gt; Indexed: </span>
+                    <span className="text-[#4da3ff]">{feedText}</span>
+                  </span>
                 </div>
               </div>
               )}
