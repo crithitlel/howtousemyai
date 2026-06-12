@@ -178,17 +178,20 @@ body {
   font-family: ui-monospace, "SF Mono", Menlo, "Roboto Mono", monospace;
 }
 
-/* Status ticker bar */
-.ticker-track {
-  display: flex;
-  width: max-content;
-  animation: ticker 45s linear infinite;
+/* Status bar indicator light */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4da3ff;
+  box-shadow: 0 0 8px rgba(77, 163, 255, 0.9);
+  animation: dot-pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
 }
-@keyframes ticker {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
 }
-.ticker-bar:hover .ticker-track { animation-play-state: paused; }
 
 /* HUD corner brackets */
 .hud-corners { position: relative; }
@@ -343,7 +346,7 @@ body {
 .tool-card:hover::after { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-  .ticker-track, .header-glow-line::after, .hero-title, .cursor-blink, .submit-chip { animation: none; }
+  .status-dot, .header-glow-line::after, .hero-title, .cursor-blink, .submit-chip { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
 

@@ -208,25 +208,16 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Status ticker */}
-      <div className="ticker-bar overflow-hidden border-b border-[#1b2742] bg-[#070d1a]/80 py-1.5 select-none">
-        <div className="ticker-track mono text-[10px] tracking-[0.2em] text-[#5d6f93] uppercase">
-          {[0, 1].map((copy) => (
-            <span key={copy} className="flex items-center whitespace-nowrap">
-              {[
-                `${TOOLS.length} tools indexed`,
-                "verified june 2026",
-                `${newThisWeekTools.length} new this week`,
-                "step-by-step guides included",
-                "system online",
-              ].map((item) => (
-                <span key={item} className="flex items-center">
-                  <span className="px-6">{item}</span>
-                  <span className="text-[#1877F2]">·</span>
-                </span>
-              ))}
-            </span>
-          ))}
+      {/* Status bar — static HUD readout */}
+      <div className="border-b border-[#1b2742] bg-[#070d1a]/80 py-1.5 select-none">
+        <div className="max-w-6xl mx-auto px-4 flex items-center justify-center gap-3 sm:gap-5 mono text-[9px] sm:text-[10px] tracking-[0.18em] text-[#5d6f93] uppercase whitespace-nowrap overflow-hidden">
+          <span className="flex items-center gap-1.5"><span className="status-dot" />System online</span>
+          <span className="text-[#233150]">|</span>
+          <span><span className="text-[#4da3ff]">{TOOLS.length}</span> tools indexed</span>
+          <span className="text-[#233150]">|</span>
+          <span><span className="text-[#4da3ff]">{newThisWeekTools.length}</span> new this week</span>
+          <span className="hidden sm:inline text-[#233150]">|</span>
+          <span className="hidden sm:inline">Verified June 2026</span>
         </div>
       </div>
 
