@@ -25,8 +25,7 @@ export default function DisclosurePage() {
           <div className="flex flex-col items-center text-center mb-10">
             <Logo size={40} />
             <h2
-              className="mt-3 text-lg font-medium text-[#1877F2]"
-              style={{ fontFamily: "var(--font-playfair), serif" }}
+              className="display-head mt-3 text-lg font-medium text-[#1877F2]"
             >
               HowToUseMyAI
             </h2>
@@ -34,8 +33,7 @@ export default function DisclosurePage() {
 
           {/* Page title */}
           <h1
-            className="text-3xl font-medium text-[#1877F2] text-center mb-2"
-            style={{ fontFamily: "var(--font-playfair), serif" }}
+            className="display-head text-3xl font-medium text-[#1877F2] text-center mb-2"
           >
             Affiliate Disclosure
           </h1>

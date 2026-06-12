@@ -224,8 +224,7 @@ function RecommendResults() {
           <div className="mb-8 bg-[#101b32] rounded-xl p-6 border border-[#233150]">
             <p className="text-[10px] font-semibold text-[#1877F2] uppercase tracking-widest mb-2">Results for</p>
             <h1
-              className="text-xl font-medium text-[#e9eef8] leading-snug"
-              style={{ fontFamily: "var(--font-playfair), serif" }}
+              className="display-head text-xl font-medium text-[#e9eef8] leading-snug"
             >
               &ldquo;{query}&rdquo;
             </h1>

@@ -386,7 +386,7 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-semibold text-[#e9eef8] mb-2" style={{ fontFamily: "var(--font-playfair), serif" }}>
+        <h1 className="display-head text-3xl font-semibold text-[#e9eef8] mb-2">
           {tool1.name} vs {tool2.name}
         </h1>
         <p className="text-[#93a4c3] text-sm mb-10">

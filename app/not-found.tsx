@@ -22,8 +22,7 @@ export default function NotFound() {
       <main className="flex-1 flex items-center justify-center px-6 py-20 bg-[#101b32]">
         <div className="text-center">
           <p
-            className="text-[96px] font-medium leading-none text-[#1877F2] mb-4"
-            style={{ fontFamily: "var(--font-playfair), serif" }}
+            className="display-head text-[96px] font-medium leading-none text-[#1877F2] mb-4"
           >
             404
           </p>

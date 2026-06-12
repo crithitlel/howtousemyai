@@ -67,7 +67,7 @@ export default function BestAIForIndexPage() {
 
       <main className="flex-1 px-4 sm:px-6 py-12 max-w-4xl mx-auto w-full">
         <div className="mb-10">
-          <h1 className="text-3xl font-semibold text-[#e9eef8] mb-3" style={{ fontFamily: "var(--font-playfair), serif" }}>
+          <h1 className="display-head text-3xl font-semibold text-[#e9eef8] mb-3">
             Best AI Tools by Use Case
           </h1>
           <p className="text-[#93a4c3] text-sm leading-relaxed max-w-2xl">

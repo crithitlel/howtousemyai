@@ -62,7 +62,7 @@ export default function CompareIndexPage() {
             <span>/</span>
             <span>Compare</span>
           </div>
-          <h1 className="text-3xl font-semibold text-[#e9eef8] mb-3" style={{ fontFamily: "var(--font-playfair), serif" }}>
+          <h1 className="display-head text-3xl font-semibold text-[#e9eef8] mb-3">
             AI Tool Comparisons
           </h1>
           <p className="text-[#93a4c3] text-sm leading-relaxed max-w-2xl">

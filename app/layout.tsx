@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Rajdhani } from "next/font/google";
+import { Inter, Rajdhani } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -9,12 +9,6 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
 });
 
 const rajdhani = Rajdhani({
@@ -56,7 +50,7 @@ const websiteSchema = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} ${rajdhani.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} ${rajdhani.variable} h-full antialiased`}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         {(GA_ID as string) !== "G-XXXXXXXXXX" && (

@@ -73,7 +73,7 @@ export default function ToolsIndexPage() {
             <span>/</span>
             <span>All Tools</span>
           </div>
-          <h1 className="text-3xl font-semibold text-[#e9eef8] mb-3" style={{ fontFamily: "var(--font-playfair), serif" }}>
+          <h1 className="display-head text-3xl font-semibold text-[#e9eef8] mb-3">
             All AI Tools
           </h1>
           <p className="text-[#93a4c3] text-sm leading-relaxed max-w-2xl">

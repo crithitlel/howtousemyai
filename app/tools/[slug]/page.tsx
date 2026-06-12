@@ -2215,8 +2215,7 @@ export default function ToolPage() {
         <div className="bg-[#0d1729] border-t border-[#233150] px-6 py-10">
           <div className="max-w-3xl mx-auto">
             <h2
-              className="text-lg font-semibold text-[#e9eef8] mb-5"
-              style={{ fontFamily: "var(--font-playfair), serif" }}
+              className="display-head text-lg font-semibold text-[#e9eef8] mb-5"
             >
               Similar tools
             </h2>
