@@ -33,6 +33,8 @@ const TRENDING = [
   "Research topic",
 ];
 
+const HERO_TEXT = "Find the right AI tool in seconds";
+
 const PLACEHOLDER_QUERIES = [
   "I want to create a YouTube video",
   "Write a cover letter for me",
@@ -79,8 +81,28 @@ export default function HomePage() {
   const [subscribed, setSubscribed] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [typedPlaceholder, setTypedPlaceholder] = useState("");
+  const [heroText, setHeroText] = useState(HERO_TEXT);
   const [toolCount, setToolCount] = useState(0);
   const router = useRouter();
+
+  // Decode scramble-in for the headline
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>/\\|=+*#";
+    let frame = 0;
+    const total = 28;
+    const iv = setInterval(() => {
+      frame++;
+      const revealed = Math.floor(HERO_TEXT.length * (frame / total));
+      let out = HERO_TEXT.slice(0, revealed);
+      for (let j = revealed; j < HERO_TEXT.length; j++) {
+        out += HERO_TEXT[j] === " " ? " " : chars[Math.floor(Math.random() * chars.length)];
+      }
+      if (frame >= total) { setHeroText(HERO_TEXT); clearInterval(iv); }
+      else setHeroText(out);
+    }, 40);
+    return () => clearInterval(iv);
+  }, []);
 
   // Cycling typewriter placeholder
   useEffect(() => {
@@ -215,8 +237,8 @@ export default function HomePage() {
           <div className="hero-kicker mb-3">
             <span>AI Tool Index<span className="cursor-blink" /></span>
           </div>
-          <h1 className="hero-title text-3xl sm:text-4xl font-bold mb-2">
-            Find the right AI tool in seconds
+          <h1 className="hero-title text-3xl sm:text-5xl font-bold mb-2">
+            {heroText}
           </h1>
           <p className="text-[13px] text-[#93a4c3] mb-6 max-w-lg mx-auto">
             Describe what you want to do. We match you with the best of <span className="mono font-semibold text-[#4da3ff]">{toolCount}</span> hand-picked tools, each with step-by-step instructions.

@@ -36,15 +36,21 @@ body {
   letter-spacing: 0.01em;
 }
 
-/* Hero display headline — Space Grotesk, gradient ink, soft blue aura */
+/* Hero display headline — Rajdhani, animated gradient sheen, blue aura */
 .hero-title {
-  font-family: var(--font-grotesk), var(--font-inter), sans-serif;
-  letter-spacing: -0.025em;
-  background: linear-gradient(180deg, #ffffff 25%, #8fbcff 100%);
+  font-family: var(--font-tech), var(--font-inter), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: linear-gradient(100deg, #ffffff 20%, #4da3ff 38%, #ffffff 55%, #9cc4ff 80%, #ffffff 100%);
+  background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 22px rgba(24, 119, 242, 0.3));
+  animation: sheen 5.5s linear infinite;
+  filter: drop-shadow(0 0 22px rgba(24, 119, 242, 0.35));
+}
+@keyframes sheen {
+  to { background-position: -220% 0; }
 }
 
 /* Hero kicker — mono system line with hairline wings */
@@ -251,7 +257,7 @@ body {
 .tool-card:hover::after { opacity: 1; }
 
 @media (prefers-reduced-motion: reduce) {
-  .ticker-track, .header-glow-line::after { animation: none; }
+  .ticker-track, .header-glow-line::after, .hero-title, .cursor-blink { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
 
