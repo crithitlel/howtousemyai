@@ -19,16 +19,14 @@ export default function AboutPage() {
             href="/"
             className="back-link inline-block mb-10"
           >
-            ‹ Return.To.Index
+            ← Back to home
           </Link>
 
           {/* Logo + brand heading */}
           <div className="flex flex-col items-center text-center mb-10">
             <Logo size={40} />
-            <h2
-              className="display-head mt-3 text-lg font-medium text-[#1877F2]"
-            >
-              HowToUseMyAI
+            <h2 className="display-head mt-3 text-lg font-medium text-[#1877F2]">
+              HowToUseMy<span className="text-[#e41e3f]">AI</span>
             </h2>
           </div>
 
@@ -64,19 +62,6 @@ export default function AboutPage() {
                 problem better than the alternatives in their category. We remove tools that shut
                 down, get abandoned, or fall behind. Listings are not paid placements: nobody can buy
                 a spot in the directory or in our Editor&apos;s Picks.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-lg font-semibold mb-3">How We Make Money</h2>
-              <p className="text-sm text-[#93a4c3] leading-relaxed">
-                Some outbound links are affiliate links, which means we may earn a commission if you
-                sign up for a paid plan. This never affects which tools we list or how we rank them.
-                You can read the full details on our{" "}
-                <Link href="/disclosure" className="text-[#1877F2] hover:underline">
-                  affiliate disclosure
-                </Link>{" "}
-                page.
               </p>
             </section>
 

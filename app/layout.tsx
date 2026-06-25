@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Rajdhani } from "next/font/google";
+import { Inter, Space_Grotesk, Fraunces } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -11,10 +11,18 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
-const rajdhani = Rajdhani({
+const spaceGrotesk = Space_Grotesk({
   variable: "--font-tech",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
+});
+
+// Luxury editorial display serif — high-contrast, optical sizing.
+const fraunces = Fraunces({
+  variable: "--font-display",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT"],
 });
 
 export const metadata: Metadata = {
@@ -50,7 +58,7 @@ const websiteSchema = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${rajdhani.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${fraunces.variable} h-full antialiased`}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         {(GA_ID as string) !== "G-XXXXXXXXXX" && (

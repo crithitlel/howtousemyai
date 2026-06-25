@@ -213,7 +213,7 @@ function RecommendResults() {
             onClick={() => router.push("/")}
             className="back-link whitespace-nowrap"
           >
-            ‹ Return.To.Index
+            ← Back to home
           </button>
         </div>
       </header>

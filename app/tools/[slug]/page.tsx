@@ -2017,7 +2017,7 @@ export default function ToolPage() {
       <div className="min-h-screen">
         <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
           <button onClick={() => router.push("/")} className="back-link">
-            ‹ Return.To.Index
+            ← Back to home
           </button>
         </div>
         <div className="max-w-3xl mx-auto px-6 py-10">
@@ -2057,7 +2057,7 @@ export default function ToolPage() {
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-6">
         <h1 className="text-2xl font-semibold text-[#e9eef8]">Tool not found</h1>
         <Link href="/" className="back-link">
-          ‹ Return.To.Index
+          ← Back to home
         </Link>
       </div>
     );
@@ -2123,7 +2123,7 @@ export default function ToolPage() {
       {/* Top nav */}
       <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
         <button onClick={() => router.push("/")} className="back-link">
-          ‹ Return.To.Index
+          ← Back to home
         </button>
       </div>
 
@@ -2146,18 +2146,13 @@ export default function ToolPage() {
             <span className="text-3xl hidden items-center justify-center w-full h-full">{tool.icon}</span>
           </div>
           <div>
-            <h1 className="display-head text-[32px] font-semibold text-[#1877F2] leading-tight">
+            <h1 className="display-head text-[32px] font-bold text-[#0a1129] leading-tight">
               {tool.name}
             </h1>
-            <div className="hud-corners inline-block border border-[#233150] bg-[#0d1729]/70 rounded px-3 py-2 mt-2">
-              <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-0.5 mono text-[10px] tracking-[0.14em] uppercase">
-                <span className="text-[#5d6f93]">Category</span>
-                <span className="text-[#4da3ff]">{tool.category}</span>
-                <span className="text-[#5d6f93]">Pricing</span>
-                <span className={pricing.label === "Paid" ? "text-[#ff6b85]" : "text-[#4da3ff]"}>{pricing.label}</span>
-                <span className="text-[#5d6f93]">Verified</span>
-                <span className="text-[#93a4c3]">{new Date().toLocaleString("en-US", { month: "long", year: "numeric" })}</span>
-              </div>
+            <div className="flex flex-wrap items-center gap-2 mt-2.5">
+              <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#f0f4fc] text-[#4a6090] border border-[#e4ebf7]">{tool.category}</span>
+              <span className={`text-[11px] font-medium px-2.5 py-1 rounded-full border ${pricing.label === "Paid" ? "bg-[#fff0f3] text-[#e41e3f] border-[#fbdbe1]" : "bg-[#eef3ff] text-[#1877F2] border-[#d8e6ff]"}`}>{pricing.label}</span>
+              <span className="text-[11px] text-[#8a9bb8]">Verified {new Date().toLocaleString("en-US", { month: "long", year: "numeric" })}</span>
             </div>
           </div>
         </div>

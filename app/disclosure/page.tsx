@@ -18,16 +18,14 @@ export default function DisclosurePage() {
             href="/"
             className="back-link inline-block mb-10"
           >
-            ‹ Return.To.Index
+            ← Back to home
           </Link>
 
           {/* Logo + brand heading */}
           <div className="flex flex-col items-center text-center mb-10">
             <Logo size={40} />
-            <h2
-              className="display-head mt-3 text-lg font-medium text-[#1877F2]"
-            >
-              HowToUseMyAI
+            <h2 className="display-head mt-3 text-lg font-medium text-[#1877F2]">
+              HowToUseMy<span className="text-[#e41e3f]">AI</span>
             </h2>
           </div>
 
