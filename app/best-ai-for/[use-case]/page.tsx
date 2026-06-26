@@ -2,6 +2,22 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import SiteHeader from "../../components/SiteHeader";
 import SiteFooter from "../../components/SiteFooter";
+import { TOOLS, slugify } from "@/lib/tools";
+import { AFFILIATE_LINKS } from "@/lib/affiliates";
+
+// Canonical profile slugs (lib/tools.ts is the source of truth). A best-ai-for
+// tool only gets an internal /tools/[slug] link when its slug exists here.
+const LIB_SLUGS = new Set(TOOLS.map((t) => slugify(t.name)));
+
+// Build the outbound URL: affiliate link if configured (params preserved),
+// else the direct URL — then append best-ai-for UTM tracking without clobbering
+// any existing query string / affiliate params.
+function outboundUrl(toolName: string, directUrl: string, campaign: string): string {
+  const affiliate = AFFILIATE_LINKS[toolName];
+  const base = affiliate && affiliate.trim() !== "" ? affiliate : directUrl;
+  const sep = base.includes("?") ? "&" : "?";
+  return `${base}${sep}utm_source=howtousemyai&utm_medium=best-ai-for&utm_campaign=${encodeURIComponent(campaign)}`;
+}
 
 const USE_CASES: Record<string, {
   title: string;
@@ -419,31 +435,47 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
         </div>
 
         <div className="v2-stack">
-          {data.tools.map((tool, i) => (
-            <a
-              key={tool.name}
-              href={tool.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="v2-panel v2-trow"
-            >
-              <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
-              <span className="v2-trow-rank">{String(i + 1).padStart(2, "0")}</span>
-              <span className="v2-mark" style={{ width: 40, height: 40, flexShrink: 0 }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`} alt={tool.name} width={23} height={23} loading="lazy" />
-              </span>
-              <div className="v2-trow-body">
-                <div className="v2-trow-head">
-                  <span className="v2-trow-name">{tool.name}</span>
-                  {i === 0 && <span className="v2-toppick">TOP PICK</span>}
-                  <span className={`v2-pill v2-pill-${tool.pricing.toLowerCase()}`}>{tool.pricing}</span>
+          {data.tools.map((tool, i) => {
+            const toolSlug = slugify(tool.name);
+            const hasProfile = LIB_SLUGS.has(toolSlug);
+            const visitHref = outboundUrl(tool.name, tool.url, key);
+            return (
+              <div key={tool.name} className="v2-panel v2-trow">
+                <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
+                <span className="v2-trow-rank">{String(i + 1).padStart(2, "0")}</span>
+                <span className="v2-mark" style={{ width: 40, height: 40, flexShrink: 0 }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`} alt={tool.name} width={23} height={23} loading="lazy" />
+                </span>
+                <div className="v2-trow-body">
+                  <div className="v2-trow-head">
+                    {hasProfile ? (
+                      <Link href={`/tools/${toolSlug}`} className="v2-trow-name" style={{ textDecoration: "none" }}>
+                        {tool.name}
+                      </Link>
+                    ) : (
+                      <span className="v2-trow-name">{tool.name}</span>
+                    )}
+                    {i === 0 && <span className="v2-toppick">TOP PICK</span>}
+                    <span className={`v2-pill v2-pill-${tool.pricing.toLowerCase()}`}>{tool.pricing}</span>
+                  </div>
+                  <p className="v2-trow-desc">{tool.description}</p>
+                  <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+                    <span className="v2-trow-why"><i>▸</i> {tool.why}</span>
+                    <a
+                      href={visitHref}
+                      target="_blank"
+                      rel="noopener noreferrer sponsored"
+                      className="v2-trow-why"
+                      style={{ color: "var(--v2-dim)" }}
+                    >
+                      VISIT SITE <i>↗</i>
+                    </a>
+                  </div>
                 </div>
-                <p className="v2-trow-desc">{tool.description}</p>
-                <span className="v2-trow-why"><i>▸</i> {tool.why}</span>
               </div>
-            </a>
-          ))}
+            );
+          })}
         </div>
 
         <div className="v2-ctapanel v2-panel">
