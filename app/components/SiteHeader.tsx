@@ -46,7 +46,7 @@ export default function SiteHeader({ active }: { active?: string }) {
         <Logo size={22} />
         <span>HOWTOUSEMY<b>AI</b></span>
         <i className="v2-brand-sep" />
-        <em className="v2-brand-ver">v1.9</em>
+        <em className="v2-brand-ver">v2</em>
       </Link>
       <nav className="v2-nav">
         {NAV.map(([t, h]) => (
