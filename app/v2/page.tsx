@@ -379,10 +379,6 @@ export default function V2Page() {
           </h1>
           <span className="v2-hero-rule" aria-hidden="true" />
 
-          <p className="v2-lead">
-            For any task — and learn <b>exactly how to use it</b>. {count} tools, ranked and explained with step-by-step guides.
-          </p>
-
           <div className="v2-console-wrap" ref={wrapRef}>
             <Frame className="v2-console">
               <span className="v2-console-tag">DESCRIBE YOUR TASK</span>
