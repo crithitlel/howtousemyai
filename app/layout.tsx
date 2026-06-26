@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk, Fraunces } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import CommandPalette from "./components/CommandPalette";
+import CompareTray from "./components/CompareTray";
+import SystemBackdrop from "./components/SystemBackdrop";
 
 const GA_ID = "G-CHP8YLK0PE";
 
@@ -14,7 +17,7 @@ const inter = Inter({
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-tech",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 // Luxury editorial display serif — high-contrast, optical sizing.
@@ -26,6 +29,8 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://howtousemyai.com"),
+  alternates: { canonical: "/" },
   title: "HowToUseMyAI - Find the Perfect AI Tool",
   description: "Describe what you want to accomplish and instantly find the best AI tool for the job — with step-by-step instructions to get started.",
   openGraph: {
@@ -73,8 +78,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </>
         )}
       </head>
-      <body className="min-h-full flex flex-col bg-[#101b32]" style={{ fontFamily: "var(--font-inter), sans-serif" }}>
-        <div className="starfield" aria-hidden="true" />
+      <body className="min-h-full flex flex-col bg-[#070d20]" style={{ fontFamily: "var(--font-tech), var(--font-inter), sans-serif" }}>
+        <div className="site-bg" aria-hidden="true" />
+        <SystemBackdrop />
+        <CommandPalette />
+        <CompareTray />
         <div className="relative z-[1] flex flex-col flex-1 min-h-full">
           <div className="site-frame flex flex-col flex-1 min-h-full">
             {children}

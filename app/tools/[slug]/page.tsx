@@ -3,7 +3,12 @@
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { TOOLS, slugify as libSlugify } from "@/lib/tools";
+import { relatedByName, tagsForTool, tagLabel } from "@/lib/tags";
+import { workflowsUsingTool } from "@/lib/workflows";
 import { getToolUrl } from "@/lib/affiliates";
+import DossierActions from "../../components/DossierActions";
+import SiteHeader from "../../components/SiteHeader";
+import SiteFooter from "../../components/SiteFooter";
 
 interface ToolData {
   name: string;
@@ -183,7 +188,7 @@ export const TOOLS_DATA: ToolData[] = [
     domain: "adobe.com",
     icon: "🔥",
     pricing: "Freemium",
-    category: "Image Generation",
+    category: "Design",
     shortDescription: "Commercially safe AI image generation built into Adobe tools.",
     fullDescription: "Adobe Firefly is trained exclusively on licensed Adobe Stock images, making it the only major AI image generator that is completely commercially safe. It integrates natively into Photoshop, Illustrator, and Express for seamless professional workflows.",
     bestFor: ["Commercial-safe image generation", "Product photography backgrounds", "Design asset creation", "Integration with Adobe Creative Cloud"],
@@ -219,7 +224,7 @@ export const TOOLS_DATA: ToolData[] = [
     domain: "canva.com",
     icon: "🖌️",
     pricing: "Freemium",
-    category: "Image Generation",
+    category: "Design",
     shortDescription: "Design platform with AI image generation built in.",
     fullDescription: "Canva AI integrates powerful image generation directly into Canva's design platform, letting you create images, remove backgrounds, expand images, and generate entire design layouts with AI, all without leaving your design workflow.",
     bestFor: ["Social media graphics", "Presentations and documents", "Marketing materials", "Non-designers who need great visuals"],
@@ -255,7 +260,7 @@ export const TOOLS_DATA: ToolData[] = [
     domain: "remove.bg",
     icon: "✂️",
     pricing: "Freemium",
-    category: "Image Generation",
+    category: "Design",
     shortDescription: "Remove image backgrounds instantly with AI.",
     fullDescription: "Remove.bg uses AI to remove image backgrounds in seconds with exceptional edge accuracy, hair, fur, and complex shapes included. It's the fastest way to create transparent PNGs for product photos, headshots, and design work.",
     bestFor: ["Product photography backgrounds", "Headshot and portrait cutouts", "Design asset preparation", "E-commerce product images"],
@@ -267,7 +272,7 @@ export const TOOLS_DATA: ToolData[] = [
     domain: "clipdrop.co",
     icon: "📷",
     pricing: "Freemium",
-    category: "Image Generation",
+    category: "Design",
     shortDescription: "Suite of AI image editing tools by Stability AI.",
     fullDescription: "Clipdrop by Stability AI is a comprehensive suite of AI image editing tools including background removal, image upscaling, relighting, generative fill, and text-to-image, all in one web-based platform.",
     bestFor: ["Image background removal and replacement", "Photo relighting and enhancement", "Image upscaling", "Quick AI-powered edits"],
@@ -673,7 +678,7 @@ export const TOOLS_DATA: ToolData[] = [
     domain: "notion.so",
     icon: "🗂️",
     pricing: "Freemium",
-    category: "Productivity",
+    category: "Writing",
     shortDescription: "AI built into Notion for writing, summarizing and organizing.",
     fullDescription: "Notion AI is embedded directly into Notion's workspace, letting you draft content, summarize pages, translate text, extract action items from notes, and auto-fill databases, all within your existing Notion setup.",
     bestFor: ["Summarizing meeting notes", "Drafting documents in Notion", "Action item extraction", "Database auto-fill"],
@@ -1376,7 +1381,7 @@ export const TOOLS_DATA: ToolData[] = [
     name: "Sora",
     domain: "openai.com",
     icon: "🎬",
-    pricing: "Paid",
+    pricing: "Freemium",
     category: "Video",
     shortDescription: "OpenAI's text-to-video model that generates cinematic AI videos.",
     fullDescription: "Sora by OpenAI generates high-quality, up to 20-second video clips from text prompts or images. It understands physical motion, camera movement, and scene composition, making it one of the most capable text-to-video models available to consumers.",
@@ -1412,7 +1417,7 @@ export const TOOLS_DATA: ToolData[] = [
     name: "Pictory",
     domain: "pictory.ai",
     icon: "🎞️",
-    pricing: "Paid",
+    pricing: "Freemium",
     category: "Video",
     shortDescription: "Turn blog posts and scripts into branded videos automatically.",
     fullDescription: "Pictory converts long-form text — blog posts, scripts, or articles — into short, branded videos by matching content to stock footage, adding captions, and syncing a voiceover. Ideal for content marketers who want to repurpose written content into video.",
@@ -1498,15 +1503,15 @@ export const TOOLS_DATA: ToolData[] = [
   // Research — additional
   {
     name: "Grok",
-    domain: "x.ai",
+    domain: "grok.com",
     icon: "🤖",
     pricing: "Freemium",
     category: "Research",
     shortDescription: "xAI's AI assistant with real-time X/Twitter data access.",
     fullDescription: "Grok by xAI is an AI assistant with a distinct personality and real-time access to posts on X (formerly Twitter). It is particularly useful for researching current events, trending topics, and social discourse that other AI tools lack access to.",
     bestFor: ["Real-time news and trending topics", "X/Twitter data research", "Current events analysis", "Social sentiment research"],
-    steps: ["Access Grok at x.ai or via the X app on Premium+ plan.", "Ask about current events — Grok can search X in real time.", "Use DeepSearch mode for more thorough web and X research."],
-    url: "https://x.ai/grok",
+    steps: ["Access Grok at grok.com or via the X app on Premium+ plan.", "Ask about current events — Grok can search X in real time.", "Use DeepSearch mode for more thorough web and X research."],
+    url: "https://grok.com",
   },
   {
     name: "Gemini",
@@ -1561,7 +1566,7 @@ export const TOOLS_DATA: ToolData[] = [
     domain: "getmerlin.in",
     icon: "🧙",
     pricing: "Freemium",
-    category: "Research",
+    category: "Productivity",
     shortDescription: "AI browser extension for research and summarising web pages.",
     fullDescription: "Merlin is a browser extension that brings GPT-4, Claude, and Gemini directly into your browser. Summarise any web page, YouTube video, or PDF with one click, ask questions about what you're reading, and write AI-assisted responses in Gmail or LinkedIn.",
     bestFor: ["Summarising web pages instantly", "YouTube video summaries", "In-browser AI research", "Writing assistance in Gmail and LinkedIn"],
@@ -1573,7 +1578,7 @@ export const TOOLS_DATA: ToolData[] = [
     domain: "kagi.com",
     icon: "🔏",
     pricing: "Paid",
-    category: "Research",
+    category: "Productivity",
     shortDescription: "Privacy-first AI search engine with no ads.",
     fullDescription: "Kagi is a paid, ad-free search engine with powerful AI features including universal summaries for any URL, a research assistant, and personalised results that you control. Its FastGPT answers questions instantly with citations, and it never sells your data.",
     bestFor: ["Ad-free, private search", "Universal web page summaries", "Unbiased search results", "Power users who value privacy"],
@@ -1672,7 +1677,7 @@ export const TOOLS_DATA: ToolData[] = [
     name: "Brand24",
     domain: "brand24.com",
     icon: "📣",
-    pricing: "Paid",
+    pricing: "Freemium",
     category: "Marketing",
     shortDescription: "AI social listening and brand monitoring tool.",
     fullDescription: "Brand24 monitors millions of online sources — social media, news, blogs, forums, podcasts — for mentions of your brand, competitors, or keywords in real time. AI sentiment analysis and influence scoring help you prioritise which mentions to act on.",
@@ -1990,6 +1995,90 @@ export const TOOLS_DATA: ToolData[] = [
     steps: ["Apply for a Brex account at brex.com — no personal guarantee required.", "Issue cards to employees and set smart spending limits.", "Use the AI assistant to query your spending data and surface insights."],
     url: "https://brex.com",
   },
+  {
+    name: "Krea",
+    domain: "krea.ai",
+    icon: "🖍️",
+    pricing: "Freemium",
+    category: "Images",
+    shortDescription: "Real-time AI image generation and upscaling as you draw.",
+    fullDescription: "Krea is a real-time AI image tool that generates and transforms visuals as you sketch, type, or adjust a reference. Its live canvas updates instantly, and it includes high-quality upscaling and enhancement — making it popular with designers who want fast, iterative visual exploration.",
+    bestFor: ["Real-time image generation", "Upscaling and enhancing images", "Fast visual iteration and moodboards", "Turning rough sketches into renders"],
+    steps: ["Sign up at krea.ai and open the real-time canvas.", "Type a prompt or drop in a reference image and watch it render live.", "Adjust your prompt or sketch, then upscale and export the result."],
+    url: "https://krea.ai",
+  },
+  {
+    name: "Lovable",
+    domain: "lovable.dev",
+    icon: "💗",
+    pricing: "Freemium",
+    category: "Coding",
+    shortDescription: "Build full web apps from a text prompt, no coding required.",
+    fullDescription: "Lovable turns plain-English descriptions into working full-stack web apps. It generates the UI, wires up logic, and can connect a backend — letting non-developers and developers alike ship a functional app from a prompt and refine it conversationally.",
+    bestFor: ["Building web apps without code", "Rapid MVP and prototype creation", "Turning ideas into working software", "Non-developers shipping real apps"],
+    steps: ["Go to lovable.dev and describe the app you want to build.", "Review the generated app and refine it with follow-up prompts.", "Connect a backend if needed, then publish or export your code."],
+    url: "https://lovable.dev",
+  },
+  {
+    name: "ElevenLabs",
+    domain: "elevenlabs.io",
+    icon: "🗣️",
+    pricing: "Freemium",
+    category: "Music",
+    shortDescription: "Lifelike AI voice generation, text-to-speech, and voice cloning.",
+    fullDescription: "ElevenLabs is the leading AI voice platform, producing remarkably natural text-to-speech across many languages, plus voice cloning and dubbing. It's widely used for audiobooks, video narration, podcasts, and app voiceovers where realistic, emotive speech matters.",
+    bestFor: ["Realistic text-to-speech narration", "Voice cloning and custom voices", "Audiobook and video voiceover", "Multilingual dubbing"],
+    steps: ["Create a free account at elevenlabs.io.", "Pick or clone a voice, then paste the text you want spoken.", "Adjust stability and style settings, then generate and download the audio."],
+    url: "https://elevenlabs.io",
+  },
+  {
+    name: "NotebookLM",
+    domain: "notebooklm.google",
+    icon: "📓",
+    pricing: "Free",
+    category: "Research",
+    shortDescription: "Google's AI research notebook that answers questions from your own documents.",
+    fullDescription: "NotebookLM by Google is an AI research assistant grounded entirely in the sources you upload. It answers questions with citations back to your documents, summarises material, and can generate an audio overview that turns your sources into a podcast-style discussion.",
+    bestFor: ["Q&A grounded in your own documents", "Summarising research and PDFs", "Study guides and source-cited notes", "Audio overviews of your material"],
+    steps: ["Visit notebooklm.google and sign in with your Google account.", "Create a notebook and upload your sources (PDFs, docs, links).", "Ask questions, generate summaries, or create an audio overview."],
+    url: "https://notebooklm.google",
+  },
+  {
+    name: "Clio",
+    domain: "clio.so",
+    icon: "📋",
+    pricing: "Freemium",
+    category: "Productivity",
+    shortDescription: "AI-powered to-do list that prioritizes work for you.",
+    fullDescription: "Clio is an AI to-do app that does more than store tasks — it helps prioritise what to work on next based on deadlines and importance, so you spend less time managing your list and more time executing.",
+    bestFor: ["Daily task prioritisation", "Staying focused on what matters next", "Lightweight personal task management", "Reducing planning overhead"],
+    steps: ["Sign up at clio.so and add your tasks.", "Let Clio prioritise your list by deadline and importance.", "Work through your top suggestions and check items off as you go."],
+    url: "https://clio.so",
+  },
+  {
+    name: "Rays",
+    domain: "rays.so",
+    icon: "📧",
+    pricing: "Freemium",
+    category: "Productivity",
+    shortDescription: "AI email summarizer and action item extractor.",
+    fullDescription: "Rays helps you get through your inbox faster by summarising long email threads and pulling out the action items, so you can see what needs a response and what to do next without reading every message in full.",
+    bestFor: ["Summarising long email threads", "Extracting action items from email", "Clearing your inbox faster", "Staying on top of follow-ups"],
+    steps: ["Sign up at rays.so and connect your email inbox.", "Open a thread to see an instant summary and extracted action items.", "Act on the highlighted tasks and move through your inbox quickly."],
+    url: "https://rays.so",
+  },
+  {
+    name: "Granola",
+    domain: "granola.ai",
+    icon: "🥣",
+    pricing: "Freemium",
+    category: "Productivity",
+    shortDescription: "AI notepad that transcribes meetings and polishes your notes.",
+    fullDescription: "Granola is an AI notepad for meetings that listens in the background, transcribes the conversation, and combines it with your own typed notes to produce a clean, organised summary — no meeting bot required.",
+    bestFor: ["Transcribing meetings automatically", "Turning rough notes into clean summaries", "Capturing action items from calls", "Bot-free meeting notes"],
+    steps: ["Download Granola from granola.ai and grant microphone access.", "Type quick notes during your meeting while Granola transcribes in the background.", "Review the AI-polished summary and share or export it afterward."],
+    url: "https://granola.ai",
+  },
 ];
 
 function slugify(name: string) {
@@ -1997,9 +2086,9 @@ function slugify(name: string) {
 }
 
 const PRICING_STYLES: Record<string, { badge: string; label: string }> = {
-  Free: { badge: "bg-[#142a4d] text-[#1877F2]", label: "FREE" },
-  Freemium: { badge: "bg-[#142a4d] text-[#1877F2]", label: "FREEMIUM" },
-  Paid: { badge: "bg-[#3a1524] text-[#ff6b85]", label: "PAID" },
+  Free: { badge: "border border-[#e41e3f]/30 text-[#ff8095]", label: "FREE" },
+  Freemium: { badge: "border border-[#1877F2]/30 bg-[#1877F2]/10 text-[#4da3ff]", label: "FREEMIUM" },
+  Paid: { badge: "border border-[#e41e3f]/50 bg-[#e41e3f]/15 text-[#ff5c78]", label: "PAID" },
 };
 
 export default function ToolPage() {
@@ -2017,7 +2106,7 @@ export default function ToolPage() {
       <div className="min-h-screen">
         <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
           <button onClick={() => router.push("/")} className="back-link">
-            ← Back to home
+            ‹ Return.To.Index
           </button>
         </div>
         <div className="max-w-3xl mx-auto px-6 py-10">
@@ -2034,7 +2123,7 @@ export default function ToolPage() {
               <h1 className="text-2xl font-bold text-[#e9eef8]">{basicTool.name}</h1>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-xs px-2 py-0.5 rounded-full bg-[#0d1729] text-[#93a4c3] font-medium">{basicTool.category}</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${basicTool.pricing === "Paid" ? "bg-[#3a1524] text-[#ff6b85]" : "bg-[#142a4d] text-[#1877F2]"}`}>{basicTool.pricing}</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${basicTool.pricing === "Paid" ? "border border-[#e41e3f]/50 bg-[#e41e3f]/15 text-[#ff5c78]" : basicTool.pricing === "Free" ? "border border-[#e41e3f]/30 text-[#ff8095]" : "border border-[#1877F2]/30 bg-[#1877F2]/10 text-[#4da3ff]"}`}>{basicTool.pricing}</span>
               </div>
             </div>
           </div>
@@ -2057,15 +2146,29 @@ export default function ToolPage() {
       <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-6">
         <h1 className="text-2xl font-semibold text-[#e9eef8]">Tool not found</h1>
         <Link href="/" className="back-link">
-          ← Back to home
+          ‹ Return.To.Index
         </Link>
       </div>
     );
   }
 
-  const similar = TOOLS_DATA.filter(
-    (t) => t.category === tool.category && t.name !== tool.name
-  ).slice(0, 3);
+  const toolTags = tagsForTool(tool.name);
+  const usedInWorkflows = workflowsUsingTool(tool.name);
+
+  // Related by multi-tag overlap (capabilities + use-cases), not just same category.
+  // Falls back to same-category if a tool has no derived tags.
+  const relatedNames = relatedByName(tool.name, 8).map((t) => t.name);
+  const byName = new Map(TOOLS_DATA.map((t) => [t.name, t]));
+  let similar = relatedNames
+    .map((n) => byName.get(n))
+    .filter((t): t is ToolData => Boolean(t) && t!.name !== tool.name)
+    .slice(0, 3);
+  if (similar.length < 3) {
+    const extra = TOOLS_DATA.filter(
+      (t) => t.category === tool.category && t.name !== tool.name && !similar.includes(t)
+    );
+    similar = [...similar, ...extra].slice(0, 3);
+  }
 
   const pricing = PRICING_STYLES[tool.pricing];
 
@@ -2106,92 +2209,141 @@ export default function ToolPage() {
   return (
     <div className="min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      {/* Sticky site header */}
-      <header className="sticky top-0 z-30 bg-[#0a0f1e]/85 backdrop-blur border-b border-[#233150] px-6 py-3">
-        <div className="header-glow-line absolute bottom-0 left-0 right-0" />
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-          <a href="/" className="flex items-center gap-2 flex-shrink-0">
-            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
-          </a>
-          <nav className="flex items-center gap-5">
-            <a href="/compare" className="nav-link whitespace-nowrap">Comparisons</a>
-            <a href="/best-ai-for" className="nav-link whitespace-nowrap hidden sm:inline">Use Cases</a>
-            <a href="/submit" className="submit-chip">+ Submit a Tool</a>
-          </nav>
-        </div>
-      </header>
-      {/* Top nav */}
+      <SiteHeader active="/tools" />
+      {/* Breadcrumb */}
       <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
-        <button onClick={() => router.push("/")} className="back-link">
-          ← Back to home
-        </button>
+        <div className="v2-crumb">
+          <button onClick={() => router.push("/")}>NODE</button>
+          <i>//</i>
+          <button onClick={() => router.push("/tools")}>{tool.category}</button>
+          <i>//</i>
+          <span className="v2-crumb-cur">{tool.name}</span>
+        </div>
       </div>
 
-      {/* Hero section */}
-      <div className="px-6 pt-6 pb-10 max-w-3xl mx-auto">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="w-16 h-16 rounded-2xl bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
-            <img
-              src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
-              alt={tool.name}
-              width={48}
-              height={48}
-              className="rounded-lg object-contain"
-              onError={(e) => {
-                const el = e.currentTarget;
-                el.style.display = "none";
-                if (el.nextElementSibling) (el.nextElementSibling as HTMLElement).style.display = "flex";
-              }}
-            />
-            <span className="text-3xl hidden items-center justify-center w-full h-full">{tool.icon}</span>
+      {/* Dossier hero */}
+      <div className="px-6 pt-4 pb-10 max-w-3xl mx-auto">
+        <div className="dossier-card p-6 sm:p-8 mb-9">
+          <i className="v2-cb v2-cb-tl v2-hero-cb" /><i className="v2-cb v2-cb-tr v2-hero-cb" />
+          <i className="v2-cb v2-cb-bl v2-hero-cb" /><i className="v2-cb v2-cb-br v2-hero-cb" />
+
+          <div className="flex items-center gap-2 mb-5">
+            <span className="dossier-tag">Node Dossier</span>
+            <span className="dossier-tag dossier-tag-id">ID · {slugify(tool.name).slice(0, 10)}</span>
           </div>
-          <div>
-            <h1 className="display-head text-[32px] font-bold text-[#0a1129] leading-tight">
-              {tool.name}
-            </h1>
-            <div className="flex flex-wrap items-center gap-2 mt-2.5">
-              <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#f0f4fc] text-[#4a6090] border border-[#e4ebf7]">{tool.category}</span>
-              <span className={`text-[11px] font-medium px-2.5 py-1 rounded-full border ${pricing.label === "Paid" ? "bg-[#fff0f3] text-[#e41e3f] border-[#fbdbe1]" : "bg-[#eef3ff] text-[#1877F2] border-[#d8e6ff]"}`}>{pricing.label}</span>
-              <span className="text-[11px] text-[#8a9bb8]">Verified {new Date().toLocaleString("en-US", { month: "long", year: "numeric" })}</span>
+
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-16 h-16 rounded-2xl bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
+              <img
+                src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
+                alt={tool.name}
+                width={48}
+                height={48}
+                className="rounded-lg object-contain"
+                onError={(e) => {
+                  const el = e.currentTarget;
+                  el.style.display = "none";
+                  if (el.nextElementSibling) (el.nextElementSibling as HTMLElement).style.display = "flex";
+                }}
+              />
+              <span className="text-3xl hidden items-center justify-center w-full h-full">{tool.icon}</span>
+            </div>
+            <div>
+              <h1 className="display-head text-[30px] sm:text-[34px] font-semibold text-[#e9eef8] leading-tight">
+                {tool.name}
+              </h1>
+              <p className="text-sm text-[#93a4c3] mt-1 leading-snug">{tool.shortDescription}</p>
             </div>
           </div>
+
+          {/* Spec table — every field is sourced from real tool data, no auto-generated signals */}
+          <div className="dossier-spec">
+            <div className="dossier-srow"><span className="k">Designation</span><span className="v">{tool.name}</span></div>
+            <div className="dossier-srow"><span className="k">Primary use</span><span className="v">{tool.category}</span></div>
+            <div className="dossier-srow"><span className="k">Pricing</span><span className="v">{pricing.label}</span></div>
+            <div className="dossier-srow"><span className="k">Website</span><span className="v">{tool.domain}</span></div>
+          </div>
+
+          {/* Capability / use-case tags (multi-tag model) */}
+          {toolTags.length > 0 && (
+            <div className="dossier-tags">
+              {toolTags.map((id) => (
+                <Link key={id} href={`/tags/${id}`} className="dossier-tagchip">{tagLabel(id)}</Link>
+              ))}
+            </div>
+          )}
+
+          <DossierActions name={tool.name} />
         </div>
 
-        {/* Description */}
-        <p className="text-base text-[#e9eef8] leading-relaxed mb-8">
-          {tool.fullDescription}
-        </p>
+        {/* 01 Brief */}
+        <div className="mb-9">
+          <h2 className="dossier-h"><span className="dossier-h-no">01</span> Brief // Summary</h2>
+          <p className="text-base text-[#e9eef8] leading-relaxed">
+            {tool.fullDescription}
+          </p>
+        </div>
 
-        {/* Best for */}
-        <div className="mb-8">
-          <h2 className="tech-label mb-3">
-            Best for
-          </h2>
-          <ul className="flex flex-col gap-2">
+        {/* 02 Optimal deployment */}
+        <div className="mb-9">
+          <h2 className="dossier-h"><span className="dossier-h-no">02</span> Optimal Deployment</h2>
+          <ul className="flex flex-col gap-2.5">
             {tool.bestFor.map((item) => (
-              <li key={item} className="flex items-start gap-2 text-sm text-[#93a4c3]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#1877F2] mt-2 flex-shrink-0" />
+              <li key={item} className="flex items-start gap-2.5 text-sm text-[#93a4c3]">
+                <span className="dossier-bullet mt-0.5">▸</span>
                 {item}
               </li>
             ))}
           </ul>
         </div>
 
-        {/* How to get started */}
-        <div className="mb-8">
-          <h2 className="tech-label mb-3">
-            How to get started
-          </h2>
+        {/* 03 Initialization sequence */}
+        <div className="mb-9">
+          <h2 className="dossier-h"><span className="dossier-h-no">03</span> Initialization Sequence</h2>
           <ol className="flex flex-col gap-3">
             {tool.steps.map((step, i) => (
               <li key={i} className="flex gap-3 items-start">
-                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#142a4d] text-[#1877F2] text-xs font-bold flex items-center justify-center mt-0.5">
-                  {i + 1}
-                </span>
-                <p className="text-sm text-[#93a4c3] leading-relaxed">{step}</p>
+                <span className="dossier-step-no mt-0.5">{String(i + 1).padStart(2, "0")}</span>
+                <p className="text-sm text-[#93a4c3] leading-relaxed pt-1">{step}</p>
               </li>
             ))}
           </ol>
+        </div>
+
+        {/* 04 At a glance — strengths + honest considerations, all derived from real data */}
+        <div className="mb-9">
+          <h2 className="dossier-h"><span className="dossier-h-no">04</span> At a Glance</h2>
+          <div className="v2-pcgrid">
+            <div className="v2-pccol">
+              <h3>Strengths</h3>
+              <ul className="v2-pclist">
+                {tool.bestFor.slice(0, 4).map((s) => (
+                  <li key={s}><span className="mk mk-pro">+</span><span>{s}</span></li>
+                ))}
+                {tool.pricing !== "Paid" && (
+                  <li><span className="mk mk-pro">+</span><span>Free tier you can start with today</span></li>
+                )}
+              </ul>
+            </div>
+            <div className="v2-pccol">
+              <h3>Things to consider</h3>
+              <ul className="v2-pclist">
+                {tool.pricing === "Paid" && (
+                  <li><span className="mk mk-con">−</span><span>No free tier — a paid plan is required to use it.</span></li>
+                )}
+                {tool.pricing === "Freemium" && (
+                  <li><span className="mk mk-lim">!</span><span>The free plan has limits; advanced features need a paid plan.</span></li>
+                )}
+                <li><span className="mk mk-lim">!</span><span>Pricing and features change often — confirm current details on the official site.</span></li>
+                <li><span className="mk mk-lim">!</span><span>AI output should be reviewed before you rely on it.</span></li>
+              </ul>
+            </div>
+          </div>
+          <p className="dossier-rank-note">
+            Placement reflects our editorial assessment of fit for this use case, not paid placement.
+            Some links may be affiliate links — this never changes our rankings.{" "}
+            <Link href="/disclosure" className="dossier-rank-link">How we rank →</Link>
+          </p>
         </div>
 
         {/* CTA */}
@@ -2199,20 +2351,44 @@ export default function ToolPage() {
           href={getToolUrl(tool.name, tool.url)}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white text-sm font-semibold px-8 py-3.5 rounded-xl transition-colors"
+          className="dossier-launch"
         >
-          Visit {tool.name}
+          ▸ Initialize Uplink — {tool.name}
         </a>
       </div>
 
+      {/* Used in these workflows — positions the tool inside complete, multi-tool jobs */}
+      {usedInWorkflows.length > 0 && (
+        <div className="border-t border-[#233150] px-6 py-10">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="dossier-h mb-2">
+              <span className="dossier-h-no">◆</span> Used in these workflows
+            </h2>
+            <p className="text-sm text-[#93a4c3] mb-5 leading-relaxed">
+              {tool.name} is one step in these complete, multi-tool playbooks for real-world tasks.
+            </p>
+            <div className="wf-uselist">
+              {usedInWorkflows.map((w) => (
+                <Link key={w.slug} href={`/workflows/${w.slug}`} className="wf-usecard">
+                  <span className="wf-usecard-ico">{w.icon}</span>
+                  <span className="wf-usecard-body">
+                    <span className="wf-usecard-title">{w.title}</span>
+                    <span className="wf-usecard-meta">{w.difficulty} · {w.time} · {w.steps.length} steps</span>
+                  </span>
+                  <span className="wf-usecard-go">→</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Similar tools */}
       {similar.length > 0 && (
-        <div className="bg-[#0d1729] border-t border-[#233150] px-6 py-10">
+        <div className="border-t border-[#233150] px-6 py-10">
           <div className="max-w-3xl mx-auto">
-            <h2
-              className="display-head text-lg font-semibold text-[#e9eef8] mb-5"
-            >
-              Similar tools
+            <h2 className="dossier-h mb-5">
+              <span className="dossier-h-no">05</span> Alternatives &amp; Related
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {similar.map((t) => (
@@ -2253,6 +2429,7 @@ export default function ToolPage() {
           </div>
         </div>
       )}
+      <SiteFooter />
     </div>
   );
 }

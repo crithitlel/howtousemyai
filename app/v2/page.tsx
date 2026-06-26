@@ -1,9 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Logo from "../components/Logo";
+import HeroReadout from "../components/HeroReadout";
+import HeroFX from "../components/HeroFX";
+import PinnedStrip from "../components/PinnedStrip";
 import { TOOLS, slugify, type Tool } from "@/lib/tools";
+import { searchTools } from "@/lib/search";
+import { WORKFLOWS } from "@/lib/workflows";
 
 /* ── Real brand mark (unavatar → favicon fallback) ── */
 function Mark({ tool, size = 40 }: { tool: Tool; size?: number }) {
@@ -77,10 +82,9 @@ const PLACEHOLDERS = [
   "DEBUG MY SOURCE CODE",
 ];
 
-const TICKER = [
-  "SYSTEM ONLINE", "INDEX SYNCHRONISED", "164 NODES ACTIVE", "LATENCY 12MS",
-  "SECTORS 14 / 14 NOMINAL", "FEED LIVE", "ENCRYPTION AES-256", "UPLINK STABLE",
-];
+const SECTOR_COUNT = new Set(TOOLS.map((t) => t.category)).size;
+// Real, computed stat — tools with a free or freemium tier you can start without paying.
+const FREE_TO_TRY = TOOLS.filter((t) => t.pricing !== "Paid").length;
 
 export default function V2Page() {
   const [query, setQuery] = useState("");
@@ -97,19 +101,69 @@ export default function V2Page() {
 
   const featured = TOOLS.filter((t) => t.isFeatured).slice(0, 6);
 
+  // hero search typeahead
+  const [sugOpen, setSugOpen] = useState(false);
+  const [sugActive, setSugActive] = useState(-1);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const [sugRect, setSugRect] = useState<{ left: number; top: number; width: number; maxHeight: number } | null>(null);
+  const updateRect = () => {
+    const r = wrapRef.current?.getBoundingClientRect();
+    if (r) setSugRect({ left: r.left, top: r.bottom + 8, width: r.width, maxHeight: window.innerHeight - r.bottom - 24 });
+  };
+  // Intent-aware suggestions (synonyms, capabilities, use-cases) — not just substring.
+  const suggestions = useMemo(() => {
+    const term = query.trim();
+    if (!term) return [] as Tool[];
+    return searchTools(term, 6) as unknown as Tool[];
+  }, [query]);
+
   const submit = (q: string) => {
     const t = q.trim();
     if (t) router.push(`/recommend?q=${encodeURIComponent(t)}`);
   };
 
-  // count-up
+  const onSearchKey = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSugOpen(true);
+      setSugActive((a) => Math.min(a + 1, suggestions.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSugActive((a) => Math.max(a - 1, -1));
+    } else if (e.key === "Enter") {
+      if (sugOpen && sugActive >= 0 && suggestions[sugActive]) {
+        router.push(`/tools/${slugify(suggestions[sugActive].name)}`);
+      } else {
+        submit(query);
+      }
+    } else if (e.key === "Escape") {
+      setSugOpen(false);
+      setSugActive(-1);
+    }
+  };
+
+  // keep typeahead popover anchored to the search box
   useEffect(() => {
-    const target = TOOLS.length;
+    if (!sugOpen) return;
+    updateRect();
+    const on = () => updateRect();
+    window.addEventListener("scroll", on, true);
+    window.addEventListener("resize", on);
+    return () => {
+      window.removeEventListener("scroll", on, true);
+      window.removeEventListener("resize", on);
+    };
+  }, [sugOpen]);
+
+  // count-up for hero annotation + lead
+  useEffect(() => {
+    const nodeTarget = TOOLS.length;
     const start = performance.now();
     let raf = 0;
     const step = (now: number) => {
       const p = Math.min((now - start) / 1600, 1);
-      setCount(Math.round((1 - Math.pow(1 - p, 3)) * target));
+      const eased = 1 - Math.pow(1 - p, 3);
+      setCount(Math.round(eased * nodeTarget));
       if (p < 1) raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
@@ -128,12 +182,17 @@ export default function V2Page() {
     return () => clearTimeout(timer);
   }, []);
 
-  // live UTC clock
+  // live Eastern Time clock (auto EST/EDT)
   useEffect(() => {
     const fmt = () => {
-      const d = new Date();
       setClock(
-        `${String(d.getUTCHours()).padStart(2, "0")}:${String(d.getUTCMinutes()).padStart(2, "0")}:${String(d.getUTCSeconds()).padStart(2, "0")}`
+        new Date().toLocaleTimeString("en-US", {
+          timeZone: "America/New_York",
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })
       );
     };
     fmt();
@@ -229,17 +288,23 @@ export default function V2Page() {
           <Logo size={22} />
           <span>HOWTOUSEMY<b>AI</b></span>
           <i className="v2-brand-sep" />
-          <em className="v2-brand-ver">v1.0</em>
+          <em className="v2-brand-ver">v1.9</em>
         </a>
         <nav className="v2-nav">
-          {[["TOOLS", "/tools"], ["COMPARE", "/compare"], ["FREE", "/free"], ["USE CASES", "/best-ai-for"]].map(([t, h], i) => (
+          {[["TOOLS", "/tools"], ["WORKFLOWS", "/workflows"], ["COMPARE", "/compare"], ["FREE", "/free"], ["USE CASES", "/best-ai-for"]].map(([t, h], i) => (
             <a key={h} href={h}><span className="v2-nav-i">0{i + 1}</span>{t}</a>
           ))}
         </nav>
         <div className="v2-sysline">
-          <span className="v2-stat"><i className="v2-dot v2-dot-ok" />ONLINE</span>
-          <span className="v2-stat v2-mono">{clock} UTC</span>
-          <span className="v2-stat"><i className="v2-dot v2-dot-red" />LIVE</span>
+          <button
+            type="button"
+            className="v2-cmdk-trigger"
+            onClick={() => window.dispatchEvent(new Event("open-cmdk"))}
+            aria-label="Open command palette"
+          >
+            <span className="v2-cmdk-ico">⌘</span>K<span className="v2-cmdk-txt">SEARCH</span>
+          </button>
+          <span className="v2-stat v2-mono">{clock} ET</span>
         </div>
       </header>
 
@@ -247,15 +312,47 @@ export default function V2Page() {
       <section className="v2-hero" ref={heroRef}>
         <div className="v2-hero-grid" aria-hidden="true" />
         <div className="v2-hero-glow" aria-hidden="true" />
+
+        {/* deep-space blueprint circles extending beyond the hero */}
+        <div className="v2-deepspace" aria-hidden="true">
+          <span className="v2-bp v2-bp-1" />
+          <span className="v2-bp v2-bp-2" />
+          <span className="v2-bp v2-bp-3" />
+          <span className="v2-bp-coord v2-bp-coord-n">00°</span>
+          <span className="v2-bp-coord v2-bp-coord-e">90°</span>
+          <span className="v2-bp-coord v2-bp-coord-s">180°</span>
+          <span className="v2-bp-coord v2-bp-coord-w">270°</span>
+        </div>
+
         <div className="v2-rings" aria-hidden="true">
+          <span className="v2-breath" />
           <span className="v2-ring v2-ring-1" />
           <span className="v2-ring v2-ring-2" />
           <span className="v2-ring v2-ring-3" />
+          <span className="v2-measure" />
+          <span className="v2-sweep" />
           <span className="v2-ring-tick" />
+          {/* orbital satellite indicators */}
+          <span className="v2-orbit v2-orbit-1"><i className="v2-sat" /></span>
+          <span className="v2-orbit v2-orbit-2"><i className="v2-sat v2-sat-red" /></span>
+          <span className="v2-orbit v2-orbit-3"><i className="v2-sat" /></span>
+          {/* signal pulses traveling along circular paths */}
+          <span className="v2-signal" />
+          <span className="v2-signal v2-signal-red" />
+          {/* rotating compass around center reticle */}
+          <span className="v2-compass" />
         </div>
+
         <div className="v2-cross v2-cross-x" aria-hidden="true" />
         <div className="v2-cross v2-cross-y" aria-hidden="true" />
         <div className="v2-reticle" aria-hidden="true" />
+
+        {/* edge measurement rulers */}
+        <span className="v2-ruler v2-ruler-t" aria-hidden="true" />
+        <span className="v2-ruler v2-ruler-b" aria-hidden="true" />
+
+        {/* JS-driven layers: particles, neural net, telemetry, acquisition, status */}
+        <HeroFX />
 
         {/* hero corner brackets */}
         <i className="v2-cb v2-cb-tl v2-hero-cb" /><i className="v2-cb v2-cb-tr v2-hero-cb" />
@@ -264,7 +361,7 @@ export default function V2Page() {
         {/* floating annotations */}
         <span className="v2-anno v2-anno-tl" aria-hidden="true">▸ RENDER OK · 60FPS</span>
         <span className="v2-anno v2-anno-tr" aria-hidden="true">NODE.MAINFRAME // {count}</span>
-        <span className="v2-anno v2-anno-bl" aria-hidden="true">BUILD 1.0.{new Date().getFullYear()}</span>
+        <span className="v2-anno v2-anno-bl" aria-hidden="true">BUILD 1.9.{new Date().getFullYear()}</span>
 
         {/* rotating hex emblem */}
         <span className="v2-hex" aria-hidden="true">
@@ -283,53 +380,96 @@ export default function V2Page() {
           <span className="v2-dot v2-dot-ok" />NAV<span className="v2-dot v2-dot-ok" />IDX<span className="v2-dot v2-dot-red" />NET<span className="v2-dot v2-dot-ok" />PWR
         </div>
 
+        {/* corner HUD statistics (shown in compact / search-primary compositions) */}
+        <div className="v2-herostats" aria-hidden="true">
+          <span className="v2-hs-cell"><b>{count}</b><em>TOOLS</em></span>
+          <span className="v2-hs-sep" />
+          <span className="v2-hs-cell"><b>{SECTOR_COUNT}</b><em>CATEGORIES</em></span>
+          <span className="v2-hs-sep" />
+          <span className="v2-hs-cell"><b>{FREE_TO_TRY}</b><em>FREE TO TRY</em></span>
+        </div>
+
         <div className="v2-hero-inner">
           <div className="v2-eyebrow">
-            <i className="v2-haz" /><span>// SYSTEM ONLINE · AI DIRECTORY MAINFRAME</span><i className="v2-haz" />
+            <i className="v2-haz" /><span>// DISCOVER + LEARN · THE AI DIRECTORY THAT TEACHES</span><i className="v2-haz" />
           </div>
 
           <h1 className={`v2-display ${glitch ? "is-glitch" : ""}`} data-text="FIND THE RIGHT AI">
-            FIND THE<br /><span className="v2-display-blue">RIGHT AI</span><span className="v2-display-red">.</span>
+            FIND THE <span className="v2-display-blue">RIGHT AI</span><span className="v2-display-red">.</span>
           </h1>
+          <span className="v2-hero-rule" aria-hidden="true" />
 
           <p className="v2-lead">
-            A mainframe index of <b>{count}</b> tools — scanned, ranked, and decoded.
-            State your objective. The system returns the optimal instrument.
+            Find the right AI for any task — then learn <b>exactly how to use it</b>.
+            <br className="v2-lead-br" />
+            {count} tools, ranked and explained with step-by-step guides. State your objective below.
           </p>
 
-          <Frame className="v2-console">
-            <span className="v2-console-tag">TARGET ACQUISITION</span>
-            <div className="v2-console-row">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") submit(query); }}
-                placeholder={ph ? `> ${ph}_` : "> STATE YOUR OBJECTIVE_"}
-              />
-              <button ref={magnetRef} className="v2-cta" onClick={() => submit(query)}>
-                <span>EXECUTE</span><i className="v2-cta-arrow">▸</i>
-              </button>
-            </div>
-          </Frame>
+          <div className="v2-console-wrap" ref={wrapRef}>
+            <Frame className="v2-console">
+              <span className="v2-console-tag">DESCRIBE YOUR TASK</span>
+              <div className="v2-console-row">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                <input
+                  value={query}
+                  onChange={(e) => { setQuery(e.target.value); setSugOpen(true); setSugActive(-1); updateRect(); }}
+                  onKeyDown={onSearchKey}
+                  onFocus={() => { if (query.trim()) { setSugOpen(true); updateRect(); } }}
+                  onBlur={() => setTimeout(() => setSugOpen(false), 120)}
+                  placeholder={ph ? `> ${ph}_` : "> STATE YOUR OBJECTIVE_"}
+                  role="combobox"
+                  aria-expanded={sugOpen && suggestions.length > 0}
+                  aria-controls="v2-sug-list"
+                  autoComplete="off"
+                />
+                <button ref={magnetRef} className="v2-cta" onClick={() => submit(query)}>
+                  <span>EXECUTE</span><i className="v2-cta-arrow">▸</i>
+                </button>
+              </div>
+            </Frame>
 
-          <div className="v2-readout">
-            <span><b>{count}</b><em>NODES</em></span>
-            <i className="v2-readout-sep" />
-            <span><b>14</b><em>SECTORS</em></span>
-            <i className="v2-readout-sep" />
-            <span><b>WEEKLY</b><em>REFRESH</em></span>
+            {sugOpen && suggestions.length > 0 && (
+              <div
+                className="v2-sug"
+                id="v2-sug-list"
+                role="listbox"
+                style={sugRect ? { left: sugRect.left, top: sugRect.top, width: sugRect.width, maxHeight: sugRect.maxHeight } : undefined}
+              >
+                <div className="v2-sug-head">
+                  <span className="v2-sug-prompt">{">"}</span> MATCHING NODES
+                  <span className="v2-sug-count">{suggestions.length}</span>
+                </div>
+                {suggestions.map((t, i) => (
+                  <button
+                    key={t.name}
+                    role="option"
+                    aria-selected={i === sugActive}
+                    className={`v2-sug-row ${i === sugActive ? "is-active" : ""}`}
+                    onMouseEnter={() => setSugActive(i)}
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => router.push(`/tools/${slugify(t.name)}`)}
+                  >
+                    <span className="v2-sug-ico">{t.icon}</span>
+                    <span className="v2-sug-name">{t.name}</span>
+                    <span className="v2-sug-meta">{t.category} · {t.pricing}</span>
+                    <span className="v2-sug-go">↵</span>
+                  </button>
+                ))}
+                <button
+                  className="v2-sug-foot"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => submit(query)}
+                >
+                  <span className="v2-sug-prompt">▸</span> Get a recommendation for “{query.trim()}”
+                </button>
+              </div>
+            )}
           </div>
+
+          <HeroReadout />
+          <PinnedStrip />
         </div>
 
-        {/* hero ticker */}
-        <div className="v2-ticker" aria-hidden="true">
-          <div className="v2-ticker-track">
-            {[...TICKER, ...TICKER].map((t, i) => (
-              <span key={i}><i className="v2-dot v2-dot-red" />{t}</span>
-            ))}
-          </div>
-        </div>
       </section>
 
       <SectionBreak code="SEC.01" label="DATABASE INDEX // SECTOR MANIFEST" />
@@ -406,14 +546,53 @@ export default function V2Page() {
         </div>
       </section>
 
-      <SectionBreak code="SEC.03" label="COMBAT LOG // ENGAGEMENT RECORDS" />
+      <SectionBreak code="SEC.03" label="AI WORKFLOWS // COMPLETE MULTI-TOOL PLAYBOOKS" />
+
+      {/* ════ WORKFLOWS — the core differentiator: complete tool chains ════ */}
+      <section className="v2-sec">
+        <div className="v2-sechead v2-reveal">
+          <span className="v2-secnum">[ 03 ]</span>
+          <h2 className="v2-sectitle">AI<span className="v2-tred">.</span>WORKFLOWS</h2>
+          <span className="v2-secmeta">// MISSION PLAYBOOKS · THE WHOLE JOB, NOT JUST ONE TOOL · {WORKFLOWS.length} WORKFLOWS</span>
+        </div>
+
+        <div className="v2-grid v2-reveal" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))" }}>
+          {WORKFLOWS.slice(0, 4).map((w, i) => (
+            <a key={w.slug} href={`/workflows/${w.slug}`} className="v2-cell v2-reveal" style={{ transitionDelay: `${i * 45}ms` }}>
+              <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
+              <span className="v2-cell-top">
+                <span className="v2-cell-n" style={{ fontSize: 22 }}>{w.icon}</span>
+                <span className="v2-cell-id">{w.difficulty.toUpperCase()}</span>
+              </span>
+              <span className="v2-cell-name">{w.title}</span>
+              <span className="wf-card-flow" style={{ padding: "2px 0 4px" }}>
+                {w.steps.map((s, b) => (
+                  <span key={s.phase} className="wf-flow-step">
+                    <span className="wf-flow-ico">{s.icon}</span>
+                    {b < w.steps.length - 1 && <span className="wf-flow-arrow">→</span>}
+                  </span>
+                ))}
+              </span>
+              <span className="v2-cell-foot">
+                <span>{w.time} · {w.steps.length} STEPS</span>
+                <span className="v2-cell-go">RUN ▸</span>
+              </span>
+            </a>
+          ))}
+        </div>
+        <div className="v2-reveal" style={{ textAlign: "center", marginTop: 26 }}>
+          <a href="/workflows" className="v2-ctabtn" style={{ display: "inline-flex" }}>◆ ALL {WORKFLOWS.length} WORKFLOWS</a>
+        </div>
+      </section>
+
+      <SectionBreak code="SEC.04" label="COMPARISONS // TOOL VS TOOL" />
 
       {/* ════ VERSUS ════ */}
       <section className="v2-sec">
         <div className="v2-sechead v2-reveal">
-          <span className="v2-secnum">[ 03 ]</span>
+          <span className="v2-secnum">[ 04 ]</span>
           <h2 className="v2-sectitle">COMBAT<span className="v2-tred">.</span>LOG</h2>
-          <span className="v2-secmeta">// HEAD-TO-HEAD ENGAGEMENTS</span>
+          <span className="v2-secmeta">// COMPARISONS · TWO TOOLS, HEAD-TO-HEAD</span>
         </div>
 
         <div className="v2-duels">
@@ -429,65 +608,6 @@ export default function V2Page() {
               <span className="v2-duel-link">VIEW VERDICT ▸</span>
             </a>
           ))}
-        </div>
-      </section>
-
-      <SectionBreak code="SEC.04" label="SYSTEM TELEMETRY // LIVE DIAGNOSTICS" />
-
-      {/* ════ SYSTEM TELEMETRY ════ */}
-      <section className="v2-sec">
-        <div className="v2-sechead v2-reveal">
-          <span className="v2-secnum">[ 04 ]</span>
-          <h2 className="v2-sectitle">SYSTEM<span className="v2-tred">.</span>TELEMETRY</h2>
-          <span className="v2-secmeta">// REAL-TIME DIAGNOSTICS · ALL CHANNELS NOMINAL</span>
-        </div>
-
-        <div className="v2-tele v2-reveal">
-          {/* radar scope */}
-          <Frame className="v2-tpanel">
-            <span className="v2-tpanel-tag">SECTOR SCAN</span>
-            <div className="v2-radar">
-              <span className="v2-radar-ring" /><span className="v2-radar-ring v2-radar-ring-2" />
-              <span className="v2-radar-x" /><span className="v2-radar-y" />
-              <span className="v2-radar-sweep" />
-              <span className="v2-radar-blip" style={{ top: "32%", left: "60%" }} />
-              <span className="v2-radar-blip" style={{ top: "58%", left: "40%", animationDelay: "0.6s" }} />
-              <span className="v2-radar-blip" style={{ top: "44%", left: "72%", animationDelay: "1.1s" }} />
-            </div>
-            <span className="v2-tpanel-foot"><span>14 SECTORS</span><span className="v2-tok-b">TRACKING</span></span>
-          </Frame>
-
-          {/* throughput EQ */}
-          <Frame className="v2-tpanel">
-            <span className="v2-tpanel-tag">DATA THROUGHPUT</span>
-            <div className="v2-eq">{Array.from({ length: 28 }).map((_, i) => <i key={i} style={{ animationDelay: `${(i % 7) * 0.12}s` }} />)}</div>
-            <span className="v2-tpanel-foot"><span>12MS LATENCY</span><span className="v2-tok-b">164 NODES</span></span>
-          </Frame>
-
-          {/* health gauge */}
-          <Frame className="v2-tpanel">
-            <span className="v2-tpanel-tag">INDEX HEALTH</span>
-            <div className="v2-gauge">
-              <svg viewBox="0 0 120 120">
-                <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(24,119,242,0.14)" strokeWidth="8" />
-                <circle className="v2-gauge-arc" cx="60" cy="60" r="50" fill="none" stroke="#1877F2" strokeWidth="8" strokeLinecap="round" transform="rotate(-90 60 60)" />
-              </svg>
-              <span className="v2-gauge-num">98<em>%</em></span>
-            </div>
-            <span className="v2-tpanel-foot"><span>INTEGRITY</span><span className="v2-tok-b">OPERATIONAL</span></span>
-          </Frame>
-
-          {/* signal oscilloscope */}
-          <Frame className="v2-tpanel">
-            <span className="v2-tpanel-tag">SIGNAL FEED</span>
-            <div className="v2-scope">
-              <span className="v2-scope-grid" />
-              <span className="v2-scope-wave" />
-              <span className="v2-scope-wave v2-scope-wave-2" />
-              <span className="v2-scope-line" />
-            </div>
-            <span className="v2-tpanel-foot"><span>UPLINK STABLE</span><span className="v2-tok-b">AES-256</span></span>
-          </Frame>
         </div>
       </section>
 
@@ -530,7 +650,7 @@ export default function V2Page() {
         <div className="v2-foot-grid">
           <div className="v2-foot-col">
             <span className="v2-foot-h">SYSTEM</span>
-            <a href="/tools">Tools</a><a href="/compare">Compare</a><a href="/free">Free</a><a href="/best-ai-for">Use Cases</a>
+            <a href="/tools">Tools</a><a href="/workflows">Workflows</a><a href="/compare">Compare</a><a href="/free">Free</a><a href="/best-ai-for">Use Cases</a>
           </div>
           <div className="v2-foot-col">
             <span className="v2-foot-h">REGISTRY</span>
@@ -538,7 +658,7 @@ export default function V2Page() {
           </div>
           <div className="v2-foot-brand">
             <div className="v2-foot-logo"><Logo size={20} /><span>HOWTOUSEMY<b>AI</b></span></div>
-            <p className="v2-foot-mono">STATUS: <span className="v2-tok">NOMINAL</span> · NODES: <span className="v2-tok">{TOOLS.length}</span> · UPLINK: <span className="v2-tok">STABLE</span></p>
+            <p className="v2-foot-mono"><span className="v2-tok">{TOOLS.length}</span> AI TOOLS · <span className="v2-tok">{new Set(TOOLS.map((t) => t.category)).size}</span> CATEGORIES</p>
             <p className="v2-foot-mono v2-foot-dim">© {new Date().getFullYear()} HOWTOUSEMYAI // ALL SYSTEMS RESERVED</p>
           </div>
         </div>

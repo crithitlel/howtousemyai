@@ -1,5 +1,7 @@
 import { MetadataRoute } from "next";
 import { TOOLS, slugify } from "@/lib/tools";
+import { WORKFLOWS } from "@/lib/workflows";
+import { ALL_TAGS, toolsByTag } from "@/lib/tags";
 
 const BASE_URL = "https://howtousemyai.com";
 
@@ -47,6 +49,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  // Workflow playbooks — the core differentiator; high-value how-to content.
+  const workflowPages = WORKFLOWS.map((w) => ({
+    url: `${BASE_URL}/workflows/${w.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Tag landing pages — only those that actually carry tools (mirror generateStaticParams).
+  const tagPages = ALL_TAGS.filter((t) => toolsByTag(t.id).length > 0).map((t) => ({
+    url: `${BASE_URL}/tags/${t.id}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
   return [
     {
       url: BASE_URL,
@@ -73,6 +91,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${BASE_URL}/workflows`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/free`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    {
       url: `${BASE_URL}/compare`,
       lastModified: new Date(),
       changeFrequency: "monthly",
@@ -96,8 +126,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    {
+      url: `${BASE_URL}/privacy`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
+    {
+      url: `${BASE_URL}/terms`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.2,
+    },
+    ...workflowPages,
     ...useCasePages,
     ...comparePages,
+    ...tagPages,
     ...toolPages,
   ];
 }

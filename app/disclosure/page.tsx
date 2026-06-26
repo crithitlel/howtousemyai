@@ -1,5 +1,6 @@
 import Link from "next/link";
-import Logo from "../components/Logo";
+import SiteHeader from "../components/SiteHeader";
+import SiteFooter from "../components/SiteFooter";
 
 export const metadata = {
   title: "Affiliate Disclosure — HowToUseMyAI",
@@ -10,89 +11,59 @@ export const metadata = {
 export default function DisclosurePage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <main className="flex-1 px-6 py-12">
-        <div className="max-w-3xl mx-auto">
+      <SiteHeader />
 
-          {/* Back link */}
-          <Link
-            href="/"
-            className="back-link inline-block mb-10"
-          >
-            ← Back to home
-          </Link>
-
-          {/* Logo + brand heading */}
-          <div className="flex flex-col items-center text-center mb-10">
-            <Logo size={40} />
-            <h2 className="display-head mt-3 text-lg font-medium text-[#1877F2]">
-              HowToUseMy<span className="text-[#e41e3f]">AI</span>
-            </h2>
+      <main className="v2-page">
+        <div className="v2-pagehead">
+          <div className="v2-crumb">
+            <Link href="/">NODE</Link>
+            <i>//</i>
+            <span className="v2-crumb-cur">DISCLOSURE</span>
           </div>
+          <h1 className="v2-pagetitle">AFFILIATE<span className="v2-tred">.</span>DISCLOSURE</h1>
+          <p className="v2-pagelead">Last updated: June 2026 — how affiliate links work and what they never change.</p>
+        </div>
 
-          {/* Page title */}
-          <h1
-            className="display-head text-3xl font-medium text-[#1877F2] text-center mb-2"
-          >
-            Affiliate Disclosure
-          </h1>
-          <p className="text-sm text-[#93a4c3] text-center mb-14">Last updated: June 2026</p>
+        <div className="v2-prose">
+          <section>
+            <h2>The Short Version</h2>
+            <p>
+              Some links on this site are affiliate links. If you click one and sign up for a paid
+              plan, we may earn a commission at no extra cost to you. That is how we keep the site
+              free to use.
+            </p>
+          </section>
 
-          {/* Sections */}
-          <div className="flex flex-col gap-12 text-[#e9eef8]">
+          <section>
+            <h2>What It Does Not Change</h2>
+            <p>
+              Affiliate relationships never affect which tools we list, how we describe them, or
+              where they appear in search results and recommendations. Tools without affiliate
+              programs sit right next to tools with them, ranked by the same criteria. Nobody can
+              pay to be listed, featured, or ranked higher.
+            </p>
+          </section>
 
-            <section>
-              <h2 className="text-lg font-semibold mb-3">The Short Version</h2>
-              <p className="text-sm text-[#93a4c3] leading-relaxed">
-                Some links on this site are affiliate links. If you click one and sign up for a paid
-                plan, we may earn a commission at no extra cost to you. That is how we keep the site
-                free to use.
-              </p>
-            </section>
+          <section>
+            <h2>How It Works</h2>
+            <p>
+              When a tool we already list happens to offer an affiliate program, we may use a
+              tracked link instead of a plain one. The price you pay is identical either way. We
+              never use affiliate links for tools we would not recommend on their own merits.
+            </p>
+          </section>
 
-            <section>
-              <h2 className="text-lg font-semibold mb-3">What It Does Not Change</h2>
-              <p className="text-sm text-[#93a4c3] leading-relaxed">
-                Affiliate relationships never affect which tools we list, how we describe them, or
-                where they appear in search results and recommendations. Tools without affiliate
-                programs sit right next to tools with them, ranked by the same criteria. Nobody can
-                pay to be listed, featured, or ranked higher.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-lg font-semibold mb-3">How It Works</h2>
-              <p className="text-sm text-[#93a4c3] leading-relaxed">
-                When a tool we already list happens to offer an affiliate program, we may use a
-                tracked link instead of a plain one. The price you pay is identical either way. We
-                never use affiliate links for tools we would not recommend on their own merits.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-lg font-semibold mb-3">Questions</h2>
-              <p className="text-sm text-[#93a4c3] leading-relaxed">
-                If anything here is unclear, reach out via the{" "}
-                <Link href="/submit" className="text-[#1877F2] hover:underline">
-                  Submit a Tool
-                </Link>{" "}
-                page and we will get back to you.
-              </p>
-            </section>
-
-          </div>
+          <section>
+            <h2>Questions</h2>
+            <p>
+              If anything here is unclear, reach out via the <Link href="/submit">Submit a Tool</Link>{" "}
+              page and we will get back to you.
+            </p>
+          </section>
         </div>
       </main>
 
-      <footer className="border-t border-[#233150] px-6 py-8 mt-10">
-        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#93a4c3]">
-          <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
-          <div className="flex gap-5">
-            <Link href="/about" className="nav-link">About</Link>
-            <Link href="/privacy" className="nav-link">Privacy</Link>
-            <Link href="/terms" className="nav-link">Terms</Link>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

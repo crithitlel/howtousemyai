@@ -1,5 +1,6 @@
 import Link from "next/link";
-import Logo from "../components/Logo";
+import SiteHeader from "../components/SiteHeader";
+import SiteFooter from "../components/SiteFooter";
 import { TOOLS } from "@/lib/tools";
 
 export const metadata = {
@@ -11,85 +12,56 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <main className="flex-1 px-6 py-12">
-        <div className="max-w-3xl mx-auto">
+      <SiteHeader />
 
-          {/* Back link */}
-          <Link
-            href="/"
-            className="back-link inline-block mb-10"
-          >
-            ← Back to home
-          </Link>
-
-          {/* Logo + brand heading */}
-          <div className="flex flex-col items-center text-center mb-10">
-            <Logo size={40} />
-            <h2 className="display-head mt-3 text-lg font-medium text-[#1877F2]">
-              HowToUseMy<span className="text-[#e41e3f]">AI</span>
-            </h2>
+      <main className="v2-page">
+        <div className="v2-pagehead">
+          <div className="v2-crumb">
+            <Link href="/">NODE</Link>
+            <i>//</i>
+            <span className="v2-crumb-cur">ABOUT</span>
           </div>
-
-          {/* Page title */}
-          <h1
-            className="display-head text-3xl font-medium text-[#1877F2] text-center mb-2"
-          >
-            About
-          </h1>
-          <p className="text-sm text-[#93a4c3] text-center mb-14">
-            Why this site exists and how we pick tools.
+          <h1 className="v2-pagetitle">MISSION<span className="v2-tred">.</span>BRIEF</h1>
+          <p className="v2-pagelead">
+            Why this site exists, how we pick tools, and how to put a new one on the map.
           </p>
+        </div>
 
-          {/* Sections */}
-          <div className="flex flex-col gap-12 text-[#e9eef8]">
+        <div className="v2-prose">
+          <section>
+            <h2>What This Site Is</h2>
+            <p>
+              There are thousands of AI tools, and most directories just dump them all in a giant
+              list. HowToUseMyAI is different: we keep a hand-picked catalog of {TOOLS.length} tools
+              that actually work, and for each one we explain what it is best at, what it costs, and
+              exactly how to get started in three steps. Describe what you want to do, and we match
+              you with the right tool.
+            </p>
+          </section>
 
-            <section>
-              <h2 className="text-lg font-semibold mb-3">What This Site Is</h2>
-              <p className="text-sm text-[#93a4c3] leading-relaxed">
-                There are thousands of AI tools, and most directories just dump them all in a giant
-                list. HowToUseMyAI is different: we keep a hand-picked catalog of {TOOLS.length} tools
-                that actually work, and for each one we explain what it is best at, what it costs, and
-                exactly how to get started in three steps. Describe what you want to do, and we match
-                you with the right tool.
-              </p>
-            </section>
+          <section>
+            <h2>How We Pick Tools</h2>
+            <p>
+              Every tool in the directory is reviewed before it goes live. We look for tools that
+              are actively maintained, have a real free tier or transparent pricing, and solve a
+              problem better than the alternatives in their category. We remove tools that shut
+              down, get abandoned, or fall behind. Listings are not paid placements: nobody can buy
+              a spot in the directory or in our Editor&apos;s Picks.
+            </p>
+          </section>
 
-            <section>
-              <h2 className="text-lg font-semibold mb-3">How We Pick Tools</h2>
-              <p className="text-sm text-[#93a4c3] leading-relaxed">
-                Every tool in the directory is reviewed before it goes live. We look for tools that
-                are actively maintained, have a real free tier or transparent pricing, and solve a
-                problem better than the alternatives in their category. We remove tools that shut
-                down, get abandoned, or fall behind. Listings are not paid placements: nobody can buy
-                a spot in the directory or in our Editor&apos;s Picks.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-lg font-semibold mb-3">Suggest a Tool</h2>
-              <p className="text-sm text-[#93a4c3] leading-relaxed">
-                Found an AI tool we should know about? Submit it through the{" "}
-                <Link href="/submit" className="text-[#1877F2] hover:underline">
-                  Submit a Tool
-                </Link>{" "}
-                page and we will review it. We read every submission.
-              </p>
-            </section>
-
-          </div>
+          <section>
+            <h2>Suggest a Tool</h2>
+            <p>
+              Found an AI tool we should know about? Submit it through the{" "}
+              <Link href="/submit">Submit a Tool</Link> page and we will review it. We read every
+              submission.
+            </p>
+          </section>
         </div>
       </main>
 
-      <footer className="border-t border-[#233150] px-6 py-8 mt-10">
-        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#93a4c3]">
-          <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
-          <div className="flex gap-5">
-            <Link href="/disclosure" className="nav-link">Disclosure</Link>
-            <Link href="/privacy" className="nav-link">Privacy</Link>
-            <Link href="/terms" className="nav-link">Terms</Link>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

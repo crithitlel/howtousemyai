@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Logo from "../../components/Logo";
+import SiteHeader from "../../components/SiteHeader";
+import SiteFooter from "../../components/SiteFooter";
 
 const USE_CASES: Record<string, {
   title: string;
@@ -47,7 +48,7 @@ const USE_CASES: Record<string, {
     title: "Best AI Tools for Coding",
     description: "Write, debug, and review code faster with AI. From autocomplete to full app generation.",
     tools: [
-      { name: "GitHub Copilot", domain: "github.com", url: "https://github.com/features/copilot", pricing: "Paid", description: "AI pair programmer that suggests code in real time inside your editor.", why: "Best for daily coding" },
+      { name: "GitHub Copilot", domain: "github.com", url: "https://github.com/features/copilot", pricing: "Freemium", description: "AI pair programmer that suggests code in real time inside your editor.", why: "Best for daily coding" },
       { name: "Cursor", domain: "cursor.com", url: "https://cursor.com", pricing: "Freemium", description: "AI-first code editor that can write and edit entire files at once.", why: "Best AI code editor" },
       { name: "Claude", domain: "anthropic.com", url: "https://claude.ai", pricing: "Freemium", description: "Excellent at understanding large codebases and complex debugging tasks.", why: "Best for complex debugging" },
       { name: "Replit AI", domain: "replit.com", url: "https://replit.com", pricing: "Freemium", description: "Build and deploy full apps in the browser with AI assistance.", why: "Best for beginners" },
@@ -325,12 +326,6 @@ const SLUG_MAP: Record<string, string> = {
   "contracts": "legal",
 };
 
-const PRICING_STYLES: Record<string, string> = {
-  Free: "bg-green-50 text-green-700",
-  Freemium: "bg-[#142a4d] text-[#1877F2]",
-  Paid: "bg-[#3a1524] text-[#ff6b85]",
-};
-
 export function generateStaticParams() {
   return Object.keys(USE_CASES).map((slug) => ({ "use-case": slug }));
 }
@@ -397,91 +392,73 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
     ],
   };
 
+  const sectorName = data.title.replace("Best AI Tools for ", "");
+
   return (
     <div className="flex flex-col min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <header className="sticky top-0 z-20 bg-[#101b32] border-b border-[#233150] px-6 py-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5">
-            <Logo size={28} />
-            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
-          </Link>
-          <Link href="/submit" className="submit-chip">+ Submit a Tool</Link>
-        </div>
-      </header>
 
-      <main className="flex-1 px-4 sm:px-6 py-12 max-w-4xl mx-auto w-full">
-        <div className="mb-10">
-          <h1 className="display-head text-3xl font-semibold text-[#e9eef8] mb-3">
-            {data.title}
-          </h1>
-          <p className="text-[#93a4c3] text-sm leading-relaxed max-w-2xl">{data.description}</p>
+      <SiteHeader active="/best-ai-for" />
+
+      <main className="v2-page">
+        <div className="v2-pagehead">
+          <div className="v2-crumb">
+            <Link href="/">NODE</Link>
+            <i>//</i>
+            <Link href="/best-ai-for">USE CASES</Link>
+            <i>//</i>
+            <span className="v2-crumb-cur">{sectorName.toUpperCase()}</span>
+          </div>
+          <h1 className="v2-pagetitle">{data.title}</h1>
+          <p className="v2-pagelead">{data.description}</p>
+          <div className="v2-readbar">
+            <span className="flex items-center gap-2"><i className="v2-dot v2-dot-ok" /> RANKED SHORTLIST</span>
+            <span className="v2-readbar-sep" />
+            <span><b>{data.tools.length}</b> <span className="v2-readbar-dim">TOOLS</span></span>
+          </div>
         </div>
 
-        <div className="flex flex-col gap-5">
+        <div className="v2-stack">
           {data.tools.map((tool, i) => (
             <a
               key={tool.name}
               href={tool.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="tool-card relative bg-[#101b32] border border-[#233150] rounded-xl p-5 flex items-start gap-4 hover:border-[#1877F2] transition-all overflow-hidden"
+              className="v2-panel v2-trow"
             >
-              {i === 0 && (
-                <span className="absolute top-3 right-3 text-[10px] font-bold bg-[#e41e3f] text-white px-2 py-0.5 rounded-full">
-                  TOP PICK
-                </span>
-              )}
-              <div className="w-12 h-12 rounded-xl bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
-                <img
-                  src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
-                  alt={tool.name}
-                  width={32}
-                  height={32}
-                  className="rounded object-contain"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-semibold text-[#e9eef8] text-sm">{tool.name}</span>
-                  <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${PRICING_STYLES[tool.pricing]}`}>
-                    {tool.pricing.toUpperCase()}
-                  </span>
+              <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
+              <span className="v2-trow-rank">{String(i + 1).padStart(2, "0")}</span>
+              <span className="v2-mark" style={{ width: 40, height: 40, flexShrink: 0 }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`} alt={tool.name} width={23} height={23} loading="lazy" />
+              </span>
+              <div className="v2-trow-body">
+                <div className="v2-trow-head">
+                  <span className="v2-trow-name">{tool.name}</span>
+                  {i === 0 && <span className="v2-toppick">TOP PICK</span>}
+                  <span className={`v2-pill v2-pill-${tool.pricing.toLowerCase()}`}>{tool.pricing}</span>
                 </div>
-                <p className="text-xs text-[#93a4c3] leading-relaxed mb-2">{tool.description}</p>
-                <span className="text-xs font-medium text-[#1877F2]">✓ {tool.why}</span>
+                <p className="v2-trow-desc">{tool.description}</p>
+                <span className="v2-trow-why"><i>▸</i> {tool.why}</span>
               </div>
             </a>
           ))}
         </div>
 
-        <div className="mt-12 bg-[#0d1729] rounded-xl p-6 text-center">
-          <p className="text-sm text-[#93a4c3] mb-3">Not sure which one to pick?</p>
+        <div className="v2-ctapanel v2-panel">
+          <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
+          <p>Not sure which one to pick for your exact task?</p>
           <Link
             href={`/recommend?q=${encodeURIComponent(data.title.replace("Best AI Tools for ", "I want to "))}`}
-            className="bg-[#1877F2] text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[#166FE5] transition-colors inline-block"
+            className="v2-ctabtn"
           >
-            Get a personalized recommendation
+            ◆ GET A PERSONALIZED MATCH
           </Link>
         </div>
       </main>
 
-      <footer className="border-t border-[#233150] px-6 py-6">
-        <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-between items-center text-xs text-[#93a4c3]">
-          <Link href="/" className="flex items-center gap-2">
-            <Logo size={18} />
-            <span className="brand-mark brand-mark-sm">HowToUseMy<span className="brand-ai">AI</span></span>
-          </Link>
-          <div className="flex gap-4">
-            <Link href="/best-ai-for/writing" className="nav-link">Writing</Link>
-            <Link href="/best-ai-for/video" className="nav-link">Video</Link>
-            <Link href="/best-ai-for/coding" className="nav-link">Coding</Link>
-            <Link href="/best-ai-for/image-generation" className="nav-link">Images</Link>
-            <Link href="/best-ai-for/music" className="nav-link">Music</Link>
-          </div>
-          <Link href="/privacy" className="nav-link">Privacy</Link>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

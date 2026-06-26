@@ -2,7 +2,9 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense } from "react";
-import Logo from "../components/Logo";
+import Link from "next/link";
+import SiteHeader from "../components/SiteHeader";
+import SiteFooter from "../components/SiteFooter";
 import { TOOLS as ALL_TOOLS, slugify, type Tool } from "@/lib/tools";
 import { getToolUrl } from "@/lib/affiliates";
 
@@ -189,12 +191,6 @@ function getRecommendations(query: string): Tool[] {
   return results.slice(0, 8);
 }
 
-const PRICING_BADGE: Record<string, string> = {
-  Free: "bg-[#142a4d] text-[#1877F2]",
-  Freemium: "bg-[#142a4d] text-[#1877F2]",
-  Paid: "bg-[#3a1524] text-[#ff6b85]",
-};
-
 function RecommendResults() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -203,160 +199,86 @@ function RecommendResults() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="sticky top-0 z-30 bg-[#0a0f1e]/85 backdrop-blur border-b border-[#233150] px-6 py-3">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-          <a href="/" className="flex items-center gap-2 flex-shrink-0">
-            <Logo size={24} />
-            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
-          </a>
-          <button
-            onClick={() => router.push("/")}
-            className="back-link whitespace-nowrap"
-          >
-            ← Back to home
-          </button>
+      <SiteHeader />
+
+      <main className="v2-page">
+        <div className="v2-pagehead">
+          <div className="v2-crumb">
+            <Link href="/">NODE</Link>
+            <i>//</i>
+            <span className="v2-crumb-cur">MATCH</span>
+          </div>
+          <h1 className="v2-pagetitle">MATCH<span className="v2-tred">.</span>ENGINE</h1>
+          <p className="v2-pagelead">
+            Decoded request: <b>&ldquo;{query}&rdquo;</b>
+          </p>
+          <div className="v2-readbar">
+            <span className="flex items-center gap-2"><i className="v2-dot v2-dot-ok" /> RANKED RESULTS</span>
+            <span className="v2-readbar-sep" />
+            <span><b>{tools.length}</b> <span className="v2-readbar-dim">MATCHES</span></span>
+          </div>
         </div>
-      </header>
 
-      <main className="flex-1 px-6 py-10 bg-[#0d1729]">
-        <div className="max-w-5xl mx-auto">
-          {/* Query header */}
-          <div className="mb-8 bg-[#101b32] rounded-xl p-6 border border-[#233150]">
-            <p className="text-[10px] font-semibold text-[#1877F2] uppercase tracking-widest mb-2">Results for</p>
-            <h1
-              className="display-head text-xl font-medium text-[#e9eef8] leading-snug"
-            >
-              &ldquo;{query}&rdquo;
-            </h1>
-            <p className="text-xs text-[#93a4c3] mt-2">{tools.length} AI tools matched your request</p>
-          </div>
+        <div className="v2-stack">
+          {tools.map((tool, i) => {
+            const details = TOOL_DETAILS[tool.name] ?? {
+              bestFor: tool.description.replace(/\.$/, "").toLowerCase(),
+              steps: [
+                `Go to ${tool.domain} and create a free account.`,
+                `Start with a simple task to learn how ${tool.name} works.`,
+                `Explore the settings and upgrade only if you hit the free plan limits.`,
+              ] as [string, string, string],
+            };
+            const toolSlug = slugify(tool.name);
+            const pillClass = `v2-pill v2-pill-${tool.pricing.toLowerCase()}`;
+            return (
+              <a key={tool.name} href={`/tools/${toolSlug}`} className="v2-panel v2-trow">
+                <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
+                <span className="v2-trow-rank">{String(i + 1).padStart(2, "0")}</span>
+                <div className="v2-trow-body">
+                  <div className="v2-trow-head">
+                    <span className="v2-trow-name">{tool.name}</span>
+                    {i === 0 && <span className="v2-toppick">TOP PICK</span>}
+                    <span className={pillClass}>{tool.pricing}</span>
+                    {tool.isNew && <span className="v2-pill v2-pill-paid">NEW</span>}
+                  </div>
+                  <p className="v2-trow-desc">{tool.description}</p>
+                  <p className="v2-trow-desc"><span style={{ color: "var(--ink)", fontWeight: 600 }}>Best for:</span> {details.bestFor}</p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {tools.map((tool, i) => {
-              const hasGuide = Boolean(TOOL_DETAILS[tool.name]);
-              const details = TOOL_DETAILS[tool.name] ?? {
-                bestFor: tool.description.replace(/\.$/, "").toLowerCase(),
-                steps: [
-                  `Go to ${tool.domain} and create a free account.`,
-                  `Start with a simple task to learn how ${tool.name} works.`,
-                  `Explore the settings and upgrade only if you hit the free plan limits.`,
-                ],
-              };
-              const toolSlug = slugify(tool.name);
-              return (
-                <a
-                  key={tool.name}
-                  href={`/tools/${toolSlug}`}
-                  className={`tool-card relative bg-[#101b32] border border-[#233150] rounded-xl overflow-hidden animate-fade-in-up stagger-${Math.min(i + 1, 5) as 1 | 2 | 3 | 4 | 5} flex flex-col hover:border-[#1877F2] hover:shadow-md transition-all`}
-                >
-                  <div className="p-5 flex-1">
-                    {/* Logo + Badges row */}
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-9 h-9 rounded-lg bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
-                        <img
-                          src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
-                          alt={tool.name}
-                          width={24}
-                          height={24}
-                          className="rounded object-contain"
-                          onError={(e) => {
-                            const el = e.currentTarget;
-                            el.style.display = "none";
-                            if (el.nextElementSibling) (el.nextElementSibling as HTMLElement).style.display = "flex";
-                          }}
-                        />
-                        <span className="text-lg hidden items-center justify-center w-full h-full">{tool.icon}</span>
+                  <div className="v2-steps">
+                    <p className="v2-steps-h">How to get started</p>
+                    {details.steps.map((step, si) => (
+                      <div key={si} className="v2-step">
+                        <span className="v2-step-n">{si + 1}</span>
+                        <p>{step}</p>
                       </div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        {i === 0 && (
-                          <span className="text-[10px] font-semibold bg-[#3a1524] text-[#ff6b85] px-2 py-0.5 rounded-full uppercase tracking-wide">
-                            Top Pick
-                          </span>
-                        )}
-                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide ${PRICING_BADGE[tool.pricing]}`}>
-                          {tool.pricing}
-                        </span>
-                        {tool.isNew && (
-                          <span className="text-[10px] font-semibold bg-[#3a1524] text-[#ff6b85] px-2 py-0.5 rounded-full uppercase tracking-wide">New</span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Tool name & description */}
-                    <h2 className="text-base font-semibold text-[#e9eef8] mb-1">{tool.name}</h2>
-                    <p className="text-xs text-[#93a4c3] leading-relaxed mb-3">{tool.description}</p>
-
-                    {details && (
-                      <p className="text-xs text-[#93a4c3]">
-                        <span className="font-semibold text-[#e9eef8]">Best for:</span> {details.bestFor}
-                      </p>
-                    )}
-
-                    {/* Steps — only for detailed tools */}
-                    {details && (
-                      <div className="mt-4 pt-4 border-t border-[#1b2742]">
-                        <p className="tech-label !text-[10px] mb-3">
-                          How to get started
-                        </p>
-                        <ol className="flex flex-col gap-2.5">
-                          {details.steps.map((step, si) => (
-                            <li key={si} className="flex gap-2.5 items-start">
-                              <span className="flex-shrink-0 w-4 h-4 rounded-full bg-[#142a4d] text-[#1877F2] text-[9px] font-bold flex items-center justify-center mt-0.5">
-                                {si + 1}
-                              </span>
-                              <p className="text-xs text-[#93a4c3] leading-relaxed">{step}</p>
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
-                    )}
+                    ))}
                   </div>
 
-                  {/* CTA */}
-                  <div className="px-5 pb-5 flex gap-2">
-                    <span
-                      onClick={(e) => { e.preventDefault(); window.open(getToolUrl(tool.name, tool.url), "_blank", "noopener,noreferrer"); }}
-                      className="flex-1 flex items-center justify-center gap-1 bg-[#1877F2] hover:bg-[#166FE5] text-white text-xs font-semibold px-4 py-2.5 rounded-lg transition-colors cursor-pointer"
-                    >
-                      Open {tool.name}
-                    </span>
-                    {!hasGuide && (
-                      <span className="flex items-center justify-center text-xs font-medium text-[#1877F2] border border-[#1877F2]/20 hover:border-[#1877F2]/50 px-3 py-2.5 rounded-lg transition-colors cursor-pointer whitespace-nowrap">
-                        Full guide
-                      </span>
-                    )}
-                  </div>
-                </a>
-              );
-            })}
-          </div>
+                  <span
+                    role="button"
+                    onClick={(e) => { e.preventDefault(); window.open(getToolUrl(tool.name, tool.url), "_blank", "noopener,noreferrer"); }}
+                    className="v2-trow-why"
+                    style={{ cursor: "pointer", marginTop: 14 }}
+                  >
+                    OPEN {tool.name.toUpperCase()} ▸
+                  </span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
 
-          <div className="mt-8 text-center">
-            <button
-              onClick={() => router.push("/")}
-              className="text-xs text-[#1877F2] hover:text-[#166FE5] border border-[#1877F2]/20 hover:border-[#1877F2]/40 px-5 py-2.5 rounded-lg transition-colors font-medium"
-            >
-              ← Search for something else
-            </button>
-          </div>
+        <div className="v2-ctapanel v2-panel">
+          <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
+          <p>Not seeing the right match?</p>
+          <button onClick={() => router.push("/")} className="v2-ctabtn" style={{ border: 0, cursor: "pointer" }}>
+            ◂ RUN A NEW QUERY
+          </button>
         </div>
       </main>
 
-      <footer className="border-t border-[#233150] px-6 py-4 bg-[#101b32]">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#93a4c3]">
-          <div className="flex items-center gap-2">
-            <Logo size={18} />
-            <span className="brand-mark brand-mark-sm">HowToUseMy<span className="brand-ai">AI</span></span>
-          </div>
-          <p className="footer-meta">© {new Date().getFullYear()} HowToUseMyAI</p>
-          <div className="flex gap-5">
-            <a href="/" className="nav-link">Home</a>
-            <a href="/submit" className="nav-link">Submit a Tool</a>
-            <a href="/privacy" className="nav-link">Privacy</a>
-            <a href="/terms" className="nav-link">Terms</a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
@@ -368,7 +290,7 @@ export default function RecommendPage() {
         <div className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <div className="w-8 h-8 border-2 border-[#1877F2] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-xs text-[#93a4c3]">Finding the best AI tools...</p>
+            <p className="mono text-[10px] tracking-[0.18em] uppercase text-[#93a4c3]">Running match engine…</p>
           </div>
         </div>
       }

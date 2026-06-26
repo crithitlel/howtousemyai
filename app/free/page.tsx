@@ -1,5 +1,7 @@
 import Link from "next/link";
-import Logo from "../components/Logo";
+import SiteHeader from "../components/SiteHeader";
+import SiteFooter from "../components/SiteFooter";
+import BrandMark from "../components/BrandMark";
 import { TOOLS, slugify } from "@/lib/tools";
 
 export const metadata = {
@@ -13,6 +15,12 @@ export const metadata = {
 
 const freeTools = TOOLS.filter((t) => t.pricing === "Free");
 
+const CATEGORY_ICONS: Record<string, string> = {
+  Writing: "✍️", Coding: "💻", Images: "🎨", Video: "🎬", Music: "🎵",
+  Research: "🔍", Productivity: "⚡", Marketing: "📣", Analytics: "📊",
+  Design: "🖌️", Presentations: "🖥️", Support: "💬", HR: "👥", Finance: "💰",
+};
+
 export default function FreeToolsPage() {
   const byCategory = freeTools.reduce<Record<string, typeof freeTools>>((acc, tool) => {
     if (!acc[tool.category]) acc[tool.category] = [];
@@ -22,95 +30,67 @@ export default function FreeToolsPage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Header */}
-      <header className="sticky top-0 z-30 bg-white/90 backdrop-blur border-b border-[#d0ddf5] px-6 py-3">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-          <a href="/" className="flex items-center gap-2 flex-shrink-0">
-            <Logo size={24} />
-            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
-          </a>
-          <Link href="/" className="back-link whitespace-nowrap">← Back to home</Link>
-        </div>
-      </header>
+      <SiteHeader active="/free" />
 
-      <main className="flex-1 px-6 py-12">
-        <div className="max-w-6xl mx-auto">
-
-          {/* Hero */}
-          <div className="text-center mb-12">
-            <span className="inline-block mono text-[10px] tracking-[0.3em] text-[#1877F2] uppercase mb-3 bg-[#eef4ff] px-3 py-1 rounded-full">
-              Free — no credit card required
-            </span>
-            <h1 className="display-head text-3xl sm:text-4xl font-bold text-[#1a2240] mb-4">
-              Best Free AI Tools ({new Date().getFullYear()})
-            </h1>
-            <p className="text-sm text-[#4a6090] max-w-xl mx-auto leading-relaxed">
-              {freeTools.length} hand-picked AI tools with completely free plans — no trials, no credit card, no catch.
-              Updated monthly.
-            </p>
+      <main className="v2-page">
+        <div className="v2-pagehead">
+          <div className="v2-crumb">
+            <Link href="/">NODE</Link>
+            <i>//</i>
+            <span className="v2-crumb-cur">FREE</span>
           </div>
+          <h1 className="v2-pagetitle">FREE<span className="v2-tred">.</span>ACCESS</h1>
+          <p className="v2-pagelead">
+            <b>{freeTools.length}</b> instruments with genuinely free plans — no trial, no card, no catch. Refreshed monthly.
+          </p>
+          <div className="v2-readbar">
+            <span className="flex items-center gap-2"><i className="v2-dot v2-dot-ok" /> FREE INDEX</span>
+            <span className="v2-readbar-sep" />
+            <span><b>{freeTools.length}</b> <span className="v2-readbar-dim">NODES</span></span>
+            <span className="v2-readbar-sep" />
+            <span><b>{Object.keys(byCategory).length}</b> <span className="v2-readbar-dim">SECTORS</span></span>
+          </div>
+        </div>
 
-          {/* Category sections */}
+        <div className="space-y-12">
           {Object.entries(byCategory).map(([category, tools]) => (
-            <section key={category} className="mb-10">
-              <h2 className="tech-label mb-4">
-                <span className="mono text-[#1877F2]">//</span> {category}
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <section key={category} id={category.toLowerCase()}>
+              <div className="v2-catbar">
+                <span className="v2-catbar-ico">{CATEGORY_ICONS[category] ?? "🤖"}</span>
+                <h2 className="v2-catbar-name">{category}</h2>
+                <span className="v2-catbar-rule" />
+                <span className="v2-catbar-count">{String(tools.length).padStart(2, "0")} UNITS</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 {tools.map((tool) => (
-                  <a
+                  <Link
                     key={tool.name}
                     href={`/tools/${slugify(tool.name)}`}
-                    className="glass-card group bg-white border border-[#d0ddf5] rounded-xl p-4 flex items-start gap-3 hover:border-[#1877F2] hover:shadow-sm hover:-translate-y-0.5 transition-all"
+                    className="tcard glass-card group border border-[#233150] rounded-xl p-3.5 flex items-start gap-3"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-[#eef3ff] border border-[#d0ddf5] flex items-center justify-center overflow-hidden flex-shrink-0">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
-                        alt={tool.name}
-                        width={24}
-                        height={24}
-                        className="rounded object-contain"
-                      />
-                    </div>
+                    <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
+                    <BrandMark tool={tool} size={36} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-sm font-semibold text-[#1a2240] group-hover:text-[#1877F2] transition-colors truncate">
+                        <h3 className="text-sm font-semibold text-[#e9eef8] group-hover:text-[#4da3ff] transition-colors truncate">
                           {tool.name}
                         </h3>
-                        <span className="text-[9px] font-bold bg-[#eef3ff] text-[#1877F2] px-1.5 py-0.5 rounded-full flex-shrink-0">FREE</span>
+                        <span className="text-[9px] font-bold border border-[#e41e3f]/30 text-[#ff8095] px-1.5 py-0.5 rounded-full flex-shrink-0">FREE</span>
                       </div>
-                      <p className="text-xs text-[#4a6090] leading-relaxed line-clamp-2">{tool.description}</p>
+                      <p className="text-xs text-[#93a4c3] leading-relaxed line-clamp-2">{tool.description}</p>
+                      <div className="flex items-center justify-end mt-1.5">
+                        <span className="tcard-go mono text-[10px] tracking-[0.15em]">OPEN →</span>
+                      </div>
                     </div>
-                  </a>
+                  </Link>
                 ))}
               </div>
             </section>
           ))}
-
-          {/* CTA */}
-          <div className="mt-12 text-center border-t border-[#d0ddf5] pt-10">
-            <p className="text-sm text-[#4a6090] mb-4">Need a specific AI tool? Describe your task and we&apos;ll match you.</p>
-            <a
-              href="/"
-              className="inline-block bg-[#1877F2] hover:bg-[#166FE5] text-white text-sm font-semibold px-6 py-3 rounded-full transition-colors"
-            >
-              Find My AI Tool →
-            </a>
-          </div>
         </div>
       </main>
 
-      <footer className="border-t border-[#d0ddf5] px-6 py-8 mt-10">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#8a9bb8]">
-          <p>© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
-          <div className="flex gap-5">
-            <Link href="/tools" className="nav-link">All Tools</Link>
-            <Link href="/disclosure" className="nav-link">Disclosure</Link>
-            <Link href="/privacy" className="nav-link">Privacy</Link>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

@@ -1,0 +1,30 @@
+import { slugify } from "./tools";
+
+// Slugs of the hand-authored editorial comparison pages in /compare/[slug].
+// Keep in sync with the COMPARISONS keys in app/compare/[slug]/page.tsx.
+export const COMPARE_SLUGS = new Set<string>([
+  "chatgpt-vs-claude",
+  "chatgpt-vs-gemini",
+  "midjourney-vs-dall-e-3",
+  "github-copilot-vs-cursor",
+  "jasper-vs-copy-ai",
+  "perplexity-vs-chatgpt",
+  "heygen-vs-synthesia",
+  "suno-vs-udio",
+  "midjourney-vs-stable-diffusion",
+  "notion-ai-vs-chatgpt",
+  "surfer-seo-vs-clearscope",
+  "grammarly-vs-prowritingaid",
+]);
+
+// Returns the editorial comparison slug for a pair of tool names if one
+// exists (either ordering), otherwise null.
+export function findCompareSlug(nameA: string, nameB: string): string | null {
+  const a = slugify(nameA);
+  const b = slugify(nameB);
+  const f = `${a}-vs-${b}`;
+  const r = `${b}-vs-${a}`;
+  if (COMPARE_SLUGS.has(f)) return f;
+  if (COMPARE_SLUGS.has(r)) return r;
+  return null;
+}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import Logo from "../components/Logo";
+import SiteHeader from "../components/SiteHeader";
+import SiteFooter from "../components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Best AI Tools by Use Case — HowToUseMyAI",
@@ -55,72 +56,46 @@ export default function BestAIForIndexPage() {
     <div className="flex flex-col min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
 
-      <header className="sticky top-0 z-20 bg-[#101b32] border-b border-[#233150] px-6 py-4">
-        <div className="max-w-4xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5">
-            <Logo size={28} />
-            <span className="brand-mark">HowToUseMy<span className="brand-ai">AI</span></span>
-          </Link>
-          <Link href="/submit" className="submit-chip">+ Submit a Tool</Link>
-        </div>
-      </header>
+      <SiteHeader active="/best-ai-for" />
 
-      <main className="flex-1 px-4 sm:px-6 py-12 max-w-4xl mx-auto w-full">
-        <div className="mb-10">
-          <h1 className="display-head text-3xl font-semibold text-[#e9eef8] mb-3">
-            Best AI Tools by Use Case
-          </h1>
-          <p className="text-[#93a4c3] text-sm leading-relaxed max-w-2xl">
-            Browse our curated lists of the top AI tools for every use case. Each category includes the best free and paid options with step-by-step guides.
+      <main className="v2-page">
+        <div className="v2-pagehead">
+          <div className="v2-crumb">
+            <Link href="/">NODE</Link>
+            <i>//</i>
+            <span className="v2-crumb-cur">USE CASES</span>
+          </div>
+          <h1 className="v2-pagetitle">SECTOR<span className="v2-tred">.</span>MANIFEST</h1>
+          <p className="v2-pagelead">
+            Curated lists of the top AI tools for every objective — each sector pairs the best free and paid options with step-by-step guides.
           </p>
+          <div className="v2-readbar">
+            <span className="flex items-center gap-2"><i className="v2-dot v2-dot-ok" /> USE-CASE INDEX</span>
+            <span className="v2-readbar-sep" />
+            <span><b>{CATEGORIES.length}</b> <span className="v2-readbar-dim">SECTORS</span></span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {CATEGORIES.map(({ slug, label, icon, desc }) => (
-            <Link
-              key={slug}
-              href={`/best-ai-for/${slug}`}
-              className="flex items-start gap-4 bg-[#101b32] border border-[#233150] rounded-xl p-4 hover:border-[#1877F2] hover:shadow-sm transition-all group"
-            >
-              <span className="text-2xl flex-shrink-0 mt-0.5">{icon}</span>
-              <div className="min-w-0">
-                <h2 className="text-sm font-semibold text-[#e9eef8] group-hover:text-[#1877F2] transition-colors mb-0.5">
-                  Best AI for {label}
-                </h2>
-                <p className="text-xs text-[#93a4c3] leading-relaxed">{desc}</p>
-              </div>
-              <svg className="w-4 h-4 text-[#5d6f93] group-hover:text-[#1877F2] flex-shrink-0 ml-auto mt-1 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+        <div className="v2-grid">
+          {CATEGORIES.map(({ slug, label, icon, desc }, i) => (
+            <Link key={slug} href={`/best-ai-for/${slug}`} className="v2-cell">
+              <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
+              <span className="v2-cell-top">
+                <span className="v2-cell-n">{String(i + 1).padStart(2, "0")}</span>
+                <span className="v2-cell-id">{icon} SEC.{String(i + 1).padStart(2, "0")}</span>
+              </span>
+              <span className="v2-cell-name">{label}</span>
+              <span className="v2-cell-desc">{desc}</span>
+              <span className="v2-cell-foot">
+                <span>VIEW GUIDE</span>
+                <span className="v2-cell-go">ACCESS ▸</span>
+              </span>
             </Link>
           ))}
         </div>
-
-        <div className="mt-12 bg-[#0d1729] rounded-xl p-6 text-center">
-          <p className="text-sm text-[#93a4c3] mb-3">Not sure which category you need?</p>
-          <Link
-            href="/recommend"
-            className="bg-[#1877F2] text-white text-sm font-semibold px-6 py-3 rounded-lg hover:bg-[#166FE5] transition-colors inline-block"
-          >
-            Describe your goal and we&apos;ll match you
-          </Link>
-        </div>
       </main>
 
-      <footer className="border-t border-[#233150] px-6 py-6">
-        <div className="max-w-4xl mx-auto flex flex-wrap gap-4 justify-between items-center text-xs text-[#93a4c3]">
-          <Link href="/" className="flex items-center gap-2">
-            <Logo size={18} />
-            <span className="brand-mark brand-mark-sm">HowToUseMy<span className="brand-ai">AI</span></span>
-          </Link>
-          <div className="flex gap-4 flex-wrap">
-            {CATEGORIES.slice(0, 6).map(({ slug, label }) => (
-              <Link key={slug} href={`/best-ai-for/${slug}`} className="nav-link">{label}</Link>
-            ))}
-          </div>
-          <Link href="/privacy" className="nav-link">Privacy</Link>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
