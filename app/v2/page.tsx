@@ -374,15 +374,13 @@ export default function V2Page() {
             <i className="v2-haz" /><span>// DISCOVER + LEARN · THE AI DIRECTORY THAT TEACHES</span><i className="v2-haz" />
           </div>
 
-          <h1 className={`v2-display ${glitch ? "is-glitch" : ""}`} data-text="FIND THE RIGHT AI">
-            FIND THE <span className="v2-display-blue">RIGHT AI</span><span className="v2-display-red">.</span>
+          <h1 className={`v2-display ${glitch ? "is-glitch" : ""}`} data-text="Find the right AI for any task, and learn exactly how to use it.">
+            Find the <span className="v2-display-blue">right AI</span> for any task, and learn exactly how to use it<span className="v2-display-red">.</span>
           </h1>
           <span className="v2-hero-rule" aria-hidden="true" />
 
           <p className="v2-lead">
-            Find the right AI for any task — then learn <b>exactly how to use it</b>.
-            <br className="v2-lead-br" />
-            {count} tools, ranked and explained with step-by-step guides. State your objective below.
+            {count} tools, ranked and explained with step-by-step guides.
           </p>
 
           <div className="v2-console-wrap" ref={wrapRef}>
@@ -396,7 +394,7 @@ export default function V2Page() {
                   onKeyDown={onSearchKey}
                   onFocus={() => { if (query.trim()) { setSugOpen(true); updateRect(); } }}
                   onBlur={() => setTimeout(() => setSugOpen(false), 120)}
-                  placeholder={ph ? `> ${ph}_` : "> STATE YOUR OBJECTIVE_"}
+                  placeholder={ph ? `> ${ph}_` : "State your objective..."}
                   role="combobox"
                   aria-expanded={sugOpen && suggestions.length > 0}
                   aria-controls="v2-sug-list"
