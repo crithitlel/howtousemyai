@@ -374,13 +374,13 @@ export default function V2Page() {
             <i className="v2-haz" /><span>// DISCOVER + LEARN · THE AI DIRECTORY THAT TEACHES</span><i className="v2-haz" />
           </div>
 
-          <h1 className={`v2-display ${glitch ? "is-glitch" : ""}`} data-text="Find the right AI for any task, and learn exactly how to use it.">
-            Find the <span className="v2-display-blue">right AI</span> for any task, and learn exactly how to use it<span className="v2-display-red">.</span>
+          <h1 className={`v2-display ${glitch ? "is-glitch" : ""}`} data-text="Find the right AI">
+            Find the <span className="v2-display-blue">right AI</span><span className="v2-display-red">.</span>
           </h1>
           <span className="v2-hero-rule" aria-hidden="true" />
 
           <p className="v2-lead">
-            {count} tools, ranked and explained with step-by-step guides.
+            For any task — and learn <b>exactly how to use it</b>. {count} tools, ranked and explained with step-by-step guides.
           </p>
 
           <div className="v2-console-wrap" ref={wrapRef}>
