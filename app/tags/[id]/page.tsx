@@ -56,7 +56,7 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
       <main className="v2-page">
         <div className="v2-pagehead">
           <div className="v2-crumb">
-            <Link href="/">NODE</Link>
+            <Link href="/">HOME</Link>
             <i>//</i>
             <Link href="/tools">TOOLS</Link>
             <i>//</i>
@@ -117,7 +117,7 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
           <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
           <p>Not sure which one fits your exact task?</p>
           <Link href={`/recommend?q=${encodeURIComponent(label)}`} className="v2-ctabtn">
-            ◆ GET A PERSONALIZED MATCH
+            ◆ FIND YOUR MATCH
           </Link>
         </div>
       </main>

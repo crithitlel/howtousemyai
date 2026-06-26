@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import Logo from "./Logo";
 
 /* ──────────────────────────────────────────────────────────────
@@ -41,17 +42,17 @@ export default function SiteHeader({ active }: { active?: string }) {
 
   return (
     <header className="v2-topbar v2-topbar-sticky">
-      <a href="/" className="v2-brand">
+      <Link href="/" className="v2-brand">
         <Logo size={22} />
         <span>HOWTOUSEMY<b>AI</b></span>
         <i className="v2-brand-sep" />
         <em className="v2-brand-ver">v1.9</em>
-      </a>
+      </Link>
       <nav className="v2-nav">
         {NAV.map(([t, h]) => (
-          <a key={h} href={h} className={active === h ? "is-active" : undefined} aria-current={active === h ? "page" : undefined}>
+          <Link key={h} href={h} className={active === h ? "is-active" : undefined} aria-current={active === h ? "page" : undefined}>
             {t}
-          </a>
+          </Link>
         ))}
       </nav>
       <div className="v2-sysline">

@@ -2,35 +2,15 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Logo from "../components/Logo";
+import BrandMark from "../components/BrandMark";
 import HeroReadout from "../components/HeroReadout";
 import HeroFX from "../components/HeroFX";
 import PinnedStrip from "../components/PinnedStrip";
 import { TOOLS, slugify, type Tool } from "@/lib/tools";
 import { searchTools } from "@/lib/search";
 import { WORKFLOWS } from "@/lib/workflows";
-
-/* ── Real brand mark (unavatar → favicon fallback) ── */
-function Mark({ tool, size = 40 }: { tool: Tool; size?: number }) {
-  const inner = Math.round(size * 0.58);
-  return (
-    <span className="v2-mark" style={{ width: size, height: size }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`https://unavatar.io/${tool.domain}?fallback=false`}
-        data-i="0"
-        alt={tool.name}
-        width={inner}
-        height={inner}
-        onError={(e) => {
-          const t = e.currentTarget;
-          if (t.dataset.i === "0") { t.dataset.i = "1"; t.src = `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`; }
-          else { t.style.display = "none"; }
-        }}
-      />
-    </span>
-  );
-}
 
 /* ── HUD corner-bracket frame wrapper ── */
 function Frame({ className = "", children }: { className?: string; children: React.ReactNode }) {
@@ -284,15 +264,15 @@ export default function V2Page() {
 
       {/* ════ COMMAND BAR ════ */}
       <header className="v2-topbar">
-        <a href="/" className="v2-brand">
+        <Link href="/" className="v2-brand">
           <Logo size={22} />
           <span>HOWTOUSEMY<b>AI</b></span>
           <i className="v2-brand-sep" />
           <em className="v2-brand-ver">v1.9</em>
-        </a>
+        </Link>
         <nav className="v2-nav">
           {[["TOOLS", "/tools"], ["WORKFLOWS", "/workflows"], ["COMPARE", "/compare"], ["FREE", "/free"], ["USE CASES", "/best-ai-for"]].map(([t, h], i) => (
-            <a key={h} href={h}><span className="v2-nav-i">0{i + 1}</span>{t}</a>
+            <Link key={h} href={h}><span className="v2-nav-i">0{i + 1}</span>{t}</Link>
           ))}
         </nav>
         <div className="v2-sysline">
@@ -423,7 +403,7 @@ export default function V2Page() {
                   autoComplete="off"
                 />
                 <button ref={magnetRef} className="v2-cta" onClick={() => submit(query)}>
-                  <span>EXECUTE</span><i className="v2-cta-arrow">▸</i>
+                  <span>SEARCH</span><i className="v2-cta-arrow">▸</i>
                 </button>
               </div>
             </Frame>
@@ -520,10 +500,10 @@ export default function V2Page() {
             <a href={`/tools/${slugify(featured[0].name)}`} className="v2-primary">
               <i className="v2-cb v2-cb-tl v2-cb-on" /><i className="v2-cb v2-cb-tr v2-cb-on" /><i className="v2-cb v2-cb-bl v2-cb-on" /><i className="v2-cb v2-cb-br v2-cb-on" />
               <span className="v2-primary-tag"><i className="v2-dot v2-dot-red" />PRIMARY TARGET · 01</span>
-              <Mark tool={featured[0]} size={66} />
+              <BrandMark tool={featured[0]} size={66} />
               <h3 className="v2-primary-name">{featured[0].name}</h3>
               <p className="v2-primary-desc">{featured[0].description}</p>
-              <span className="v2-primary-link">OPEN DOSSIER ▸</span>
+              <span className="v2-primary-link">VIEW TOOL ▸</span>
               <span className="v2-primary-cross" aria-hidden="true" />
             </a>
           )}
@@ -533,7 +513,7 @@ export default function V2Page() {
             {featured.slice(1, 6).map((t, i) => (
               <a key={t.name} href={`/tools/${slugify(t.name)}`} className="v2-secitem">
                 <span className="v2-secitem-n">{String(i + 2).padStart(2, "0")}</span>
-                <Mark tool={t} size={38} />
+                <BrandMark tool={t} size={38} />
                 <span className="v2-secitem-body">
                   <span className="v2-secitem-name">{t.name}</span>
                   <span className="v2-secitem-cat">{t.category}</span>

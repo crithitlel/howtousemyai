@@ -13,7 +13,7 @@ export default function NotFound() {
           <i className="v2-cb v2-cb-bl v2-hero-cb" /><i className="v2-cb v2-cb-br v2-hero-cb" />
 
           <div className="mono text-[10px] tracking-[0.22em] uppercase text-[#5d6f93] mb-5 flex items-center justify-center gap-2">
-            <Link href="/" className="hover:text-[#4da3ff] transition-colors">NODE</Link>
+            <Link href="/" className="hover:text-[#4da3ff] transition-colors">HOME</Link>
             <span className="text-[#e41e3f]">//</span>
             <span className="text-[#93a4c3]">ERROR</span>
           </div>

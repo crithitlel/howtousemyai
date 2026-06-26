@@ -380,7 +380,7 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
       <main className="v2-page">
         <div className="v2-pagehead">
           <div className="v2-crumb">
-            <Link href="/">NODE</Link>
+            <Link href="/">HOME</Link>
             <i>//</i>
             <Link href="/compare">COMPARE</Link>
             <i>//</i>

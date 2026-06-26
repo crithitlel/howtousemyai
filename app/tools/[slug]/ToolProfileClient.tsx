@@ -131,7 +131,7 @@ export function ToolProfileClient({ slug }: { slug: string }) {
       {/* Breadcrumb */}
       <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
         <div className="v2-crumb">
-          <button onClick={() => router.push("/")}>NODE</button>
+          <button onClick={() => router.push("/")}>HOME</button>
           <i>//</i>
           <button onClick={() => router.push("/tools")}>{tool.category}</button>
           <i>//</i>
@@ -271,7 +271,7 @@ export function ToolProfileClient({ slug }: { slug: string }) {
           rel="noopener noreferrer"
           className="dossier-launch"
         >
-          ▸ Initialize Uplink — {tool.name}
+          ▸ Visit {tool.name}
         </a>
       </div>
 

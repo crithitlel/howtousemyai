@@ -37,7 +37,7 @@ export default function WorkflowsIndexPage() {
       <main className="v2-page">
         <div className="v2-pagehead">
           <div className="v2-crumb">
-            <Link href="/">NODE</Link>
+            <Link href="/">HOME</Link>
             <i>//</i>
             <span className="v2-crumb-cur">WORKFLOWS</span>
           </div>
@@ -91,7 +91,7 @@ export default function WorkflowsIndexPage() {
           <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
           <p>Have a task that isn&apos;t listed? Get a tool stack matched to your exact goal.</p>
           <Link href="/recommend" className="v2-ctabtn">
-            ◆ GET A PERSONALIZED MATCH
+            ◆ FIND YOUR MATCH
           </Link>
         </div>
       </main>

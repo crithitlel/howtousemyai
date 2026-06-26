@@ -6,7 +6,7 @@ import { TOOLS, slugify } from "@/lib/tools";
 
 export const metadata = {
   title: "Best Free AI Tools (2026) — HowToUseMyAI",
-  description: "Hand-picked free AI tools you can use right now with no credit card required. Updated monthly.",
+  description: "Hand-picked free AI tools you can use right now with no credit card required.",
   openGraph: {
     title: "Best Free AI Tools (2026) — HowToUseMyAI",
     description: "Hand-picked free AI tools you can use right now with no credit card required.",
@@ -35,13 +35,13 @@ export default function FreeToolsPage() {
       <main className="v2-page">
         <div className="v2-pagehead">
           <div className="v2-crumb">
-            <Link href="/">NODE</Link>
+            <Link href="/">HOME</Link>
             <i>//</i>
             <span className="v2-crumb-cur">FREE</span>
           </div>
           <h1 className="v2-pagetitle">FREE<span className="v2-tred">.</span>ACCESS</h1>
           <p className="v2-pagelead">
-            <b>{freeTools.length}</b> instruments with genuinely free plans — no trial, no card, no catch. Refreshed monthly.
+            <b>{freeTools.length}</b> instruments with genuinely free plans — no trial, no card, no catch.
           </p>
           <div className="v2-readbar">
             <span className="flex items-center gap-2"><i className="v2-dot v2-dot-ok" /> FREE INDEX</span>

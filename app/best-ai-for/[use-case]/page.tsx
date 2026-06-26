@@ -419,7 +419,7 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
       <main className="v2-page">
         <div className="v2-pagehead">
           <div className="v2-crumb">
-            <Link href="/">NODE</Link>
+            <Link href="/">HOME</Link>
             <i>//</i>
             <Link href="/best-ai-for">USE CASES</Link>
             <i>//</i>
@@ -485,7 +485,7 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
             href={`/recommend?q=${encodeURIComponent(data.title.replace("Best AI Tools for ", "I want to "))}`}
             className="v2-ctabtn"
           >
-            ◆ GET A PERSONALIZED MATCH
+            ◆ FIND YOUR MATCH
           </Link>
         </div>
       </main>

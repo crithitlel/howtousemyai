@@ -41,7 +41,7 @@ export default function ToolsIndexPage() {
       <main className="v2-page">
         <div className="v2-pagehead">
           <div className="v2-crumb">
-            <Link href="/">NODE</Link>
+            <Link href="/">HOME</Link>
             <i>//</i>
             <span className="v2-crumb-cur">TOOLS</span>
           </div>
