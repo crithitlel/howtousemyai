@@ -66,8 +66,6 @@ export default function SystemBackdrop() {
       raf = 0;
       const el = rootRef.current;
       if (!el) return;
-      el.style.setProperty("--mx", mx.toFixed(4));
-      el.style.setProperty("--my", my.toFixed(4));
       el.style.setProperty("--px", (mx - 0.5).toFixed(4));
       el.style.setProperty("--py", (my - 0.5).toFixed(4));
     };

@@ -114,6 +114,19 @@ const CONSTELLATIONS: Constellation[] = [
     ],
     edges: [[0, 1], [2, 3]],
   },
+  {
+    name: "Gemini", // the twins — two parallel stick figures joined at the heads
+    stars: [
+      [0.34, 0.05, 1.45], // 0 Castor (head)
+      [0.6, 0.1, 1.6], // 1 Pollux (head, orange giant)
+      [0.28, 0.45, 1.05], // 2 Mebsuta (left body)
+      [0.2, 0.85, 1.1], // 3 Tejat (left foot)
+      [0.56, 0.5, 1.05], // 4 Wasat (right body)
+      [0.62, 0.88, 1.25], // 5 Alhena (right foot, blue-white)
+    ],
+    edges: [[0, 1], [0, 2], [2, 3], [1, 4], [4, 5]],
+    accents: { 1: RED, 5: CYAN },
+  },
 ];
 
 /* Curated placements (fractions of hero box). Positions frame the
@@ -128,6 +141,7 @@ const PLACEMENTS: Placement[] = [
   { ci: 3, fx: 0.86, fy: 0.66, scale: 150, depth: 0.6, vx: -0.035, vy: -0.03 }, // Cygnus
   { ci: 4, fx: 0.1, fy: 0.72, scale: 95, depth: 0.95, vx: 0.04, vy: -0.025 }, // Lyra
   { ci: 5, fx: 0.4, fy: 0.8, scale: 95, depth: 0.9, vx: -0.03, vy: 0.03 }, // Crux
+  { ci: 6, fx: 0.7, fy: 0.5, scale: 175, depth: 0.55, vx: -0.04, vy: 0.022 }, // Gemini ♊ (your sign — bigger/brighter)
 ];
 
 // precompute each constellation's local centroid so it scales about its centre
@@ -136,6 +150,20 @@ const CENTROIDS = CONSTELLATIONS.map((c) => {
   for (const s of c.stars) { sx += s[0]; sy += s[1]; }
   return [sx / c.stars.length, sy / c.stars.length] as const;
 });
+
+/* ── tracked "contacts": blips that fly across the hero leaving a
+   fading trail + a lock bracket, like targets crossing a scope. ── */
+type Contact = {
+  id: number; x: number; y: number; vx: number; vy: number;
+  red: boolean; dist: number; trail: [number, number][];
+};
+
+// true when the radar sweep's leading edge passes `target` this frame
+// (all angles in degrees, clockwise from north; sweep advances forward & wraps)
+function crossed(prev: number, cur: number, target: number): boolean {
+  if (cur >= prev) return target > prev && target <= cur;
+  return target > prev || target <= cur; // wrapped past 360→0
+}
 
 export default function HeroCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -166,6 +194,72 @@ export default function HeroCanvas() {
     // smoothed pointer in normalised hero space (-0.5..0.5)
     const ptr = { tx: 0, ty: 0, x: 0, y: 0 };
 
+    // flying tracked contacts + sweep-triggered constellation pings
+    const sweep = parent.querySelector(".v2-sweep") as HTMLElement | null;
+    const contacts: Contact[] = [];
+    const pingAt = PLACEMENTS.map(() => -1e9); // last ping time per constellation
+    let contactSeq = 0;
+    let nextSpawn = 1800;
+    let prevSweep = 0;
+    let lastT = 0;
+    const PING_MS = 1100;
+
+    const spawnContact = (t: number) => {
+      void t;
+      const fromLeft = Math.random() < 0.5;
+      const sp = (mobile ? 0.045 : 0.085) * (0.8 + Math.random() * 0.5); // px/ms
+      const ang = (Math.random() - 0.5) * 0.34; // gentle vertical slope
+      contacts.push({
+        id: ++contactSeq,
+        x: fromLeft ? -36 : w + 36,
+        y: h * (0.2 + Math.random() * 0.5),
+        vx: (fromLeft ? 1 : -1) * sp * Math.cos(ang),
+        vy: sp * Math.sin(ang),
+        red: Math.random() < 0.28,
+        dist: 800 + Math.floor(Math.random() * 9000),
+        trail: [],
+      });
+    };
+
+    const drawContact = (c: Contact) => {
+      const col = c.red ? "255,96,104" : "92,170,255";
+      // fading trail
+      ctx.lineWidth = 1;
+      for (let k = 1; k < c.trail.length; k++) {
+        const a = (k / c.trail.length) * 0.5;
+        ctx.strokeStyle = `rgba(${col},${a.toFixed(3)})`;
+        ctx.beginPath();
+        ctx.moveTo(c.trail[k - 1][0], c.trail[k - 1][1]);
+        ctx.lineTo(c.trail[k][0], c.trail[k][1]);
+        ctx.stroke();
+      }
+      // head
+      ctx.shadowColor = `rgba(${col},0.9)`;
+      ctx.shadowBlur = 6;
+      ctx.fillStyle = `rgba(${col},0.95)`;
+      ctx.beginPath();
+      ctx.arc(c.x, c.y, 2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.shadowBlur = 0;
+      // lock bracket (four corner ticks)
+      const b = 8, tk = 3;
+      ctx.strokeStyle = `rgba(${col},0.7)`;
+      ctx.beginPath();
+      // TL
+      ctx.moveTo(c.x - b, c.y - b + tk); ctx.lineTo(c.x - b, c.y - b); ctx.lineTo(c.x - b + tk, c.y - b);
+      // TR
+      ctx.moveTo(c.x + b - tk, c.y - b); ctx.lineTo(c.x + b, c.y - b); ctx.lineTo(c.x + b, c.y - b + tk);
+      // BR
+      ctx.moveTo(c.x + b, c.y + b - tk); ctx.lineTo(c.x + b, c.y + b); ctx.lineTo(c.x + b - tk, c.y + b);
+      // BL
+      ctx.moveTo(c.x - b + tk, c.y + b); ctx.lineTo(c.x - b, c.y + b); ctx.lineTo(c.x - b, c.y + b - tk);
+      ctx.stroke();
+      // label
+      ctx.font = "9px ui-monospace, SFMono-Regular, Menlo, monospace";
+      ctx.fillStyle = `rgba(${col},0.78)`;
+      ctx.fillText(`TRK-${String(c.id % 100).padStart(2, "0")} · ${c.dist}KM`, c.x + 12, c.y - 9);
+    };
+
     const applyBreakpoint = () => {
       mobile = w <= 768;
       speed = mobile ? 0.32 : 1; // ← slower on phones
@@ -195,17 +289,16 @@ export default function HeroCanvas() {
     const draw = (t: number) => {
       ctx.clearRect(0, 0, w, h);
 
+      const dt = lastT ? Math.min(t - lastT, 50) : 16;
+      lastT = t;
+
       // ease pointer
       ptr.x += (ptr.tx - ptr.x) * 0.06;
       ptr.y += (ptr.ty - ptr.y) * 0.06;
 
-      for (let p = 0; p < PLACEMENTS.length; p++) {
-        const pl = PLACEMENTS[p];
-        const con = CONSTELLATIONS[pl.ci];
-        const [lcx, lcy] = CENTROIDS[pl.ci];
+      // PASS 1 — advance drift + compute each constellation's screen centre
+      const centers = PLACEMENTS.map((pl, p) => {
         const l = live[p];
-
-        // slow drift (frozen when reduced motion) + wrap
         if (!reduce) {
           l.cx += pl.vx * speed;
           l.cy += pl.vy * speed;
@@ -215,21 +308,52 @@ export default function HeroCanvas() {
           if (l.cy < -m) l.cy = h + m;
           else if (l.cy > h + m) l.cy = -m;
         }
-
-        const sc = pl.scale * scaleMul;
         const par = pl.depth * 26;
-        const ox = l.cx + ptr.x * par;
-        const oy = l.cy + ptr.y * par;
+        return { ox: l.cx + ptr.x * par, oy: l.cy + ptr.y * par, sc: pl.scale * scaleMul };
+      });
 
-        // screen positions for this constellation's stars
+      // PASS 2 — read the live radar-sweep angle from the DOM and fire a
+      // ping on any constellation its leading edge crosses this frame, so
+      // the pings stay perfectly synced to the visible sweep.
+      if (sweep && !reduce) {
+        const sr = sweep.getBoundingClientRect();
+        if (sr.width > 1) {
+          const pr = parent.getBoundingClientRect();
+          const scx = sr.left + sr.width / 2 - pr.left;
+          const scy = sr.top + sr.height / 2 - pr.top;
+          const tf = getComputedStyle(sweep).transform;
+          let cur = prevSweep;
+          if (tf && tf !== "none") {
+            const m = new DOMMatrixReadOnly(tf);
+            cur = (Math.atan2(m.b, m.a) * 180 / Math.PI + 360) % 360;
+          }
+          for (let p = 0; p < centers.length; p++) {
+            const dx = centers[p].ox - scx;
+            const dy = centers[p].oy - scy;
+            const ang = (Math.atan2(dx, -dy) * 180 / Math.PI + 360) % 360;
+            if (crossed(prevSweep, cur, ang)) pingAt[p] = t;
+          }
+          prevSweep = cur;
+        }
+      }
+
+      // PASS 3 — draw constellations (stars brighten + a lock bracket
+      // snaps on for ~1.1s after a sweep ping)
+      for (let p = 0; p < PLACEMENTS.length; p++) {
+        const pl = PLACEMENTS[p];
+        const con = CONSTELLATIONS[pl.ci];
+        const [lcx, lcy] = CENTROIDS[pl.ci];
+        const { ox, oy, sc } = centers[p];
+        const ping = reduce ? 0 : Math.max(0, 1 - (t - pingAt[p]) / PING_MS);
+
         const pts: [number, number][] = con.stars.map((s) => [
           ox + (s[0] - lcx) * sc,
           oy + (s[1] - lcy) * sc,
         ]);
 
-        // lines
+        // lines (brighten slightly on ping)
         ctx.lineWidth = 0.7;
-        ctx.strokeStyle = `rgba(${LINKC},0.28)`;
+        ctx.strokeStyle = `rgba(${LINKC},${(0.28 + ping * 0.4).toFixed(3)})`;
         ctx.beginPath();
         for (const [a, b] of con.edges) {
           ctx.moveTo(pts[a][0], pts[a][1]);
@@ -237,26 +361,67 @@ export default function HeroCanvas() {
         }
         ctx.stroke();
 
-        // stars (twinkle)
+        // stars (twinkle + ping boost)
         for (let i = 0; i < con.stars.length; i++) {
           const bright = con.stars[i][2];
           const accent = con.accents?.[i];
           const [sxp, syp] = pts[i];
           const tw = reduce ? 0.85 : 0.62 + 0.38 * Math.sin(t * 0.0012 * speed + i * 1.7 + p);
-          const rad = (accent ? 1.7 : 1.1) * bright;
+          const a = Math.min(1, tw + ping * 0.45);
+          const rad = (accent ? 1.7 : 1.1) * bright * (1 + ping * 0.4);
           const [r, g, bch] = accent ?? STARW;
-          if (accent) {
+          if (accent || ping > 0.01) {
             ctx.shadowColor = `rgba(${r},${g},${bch},0.9)`;
-            ctx.shadowBlur = 8;
+            ctx.shadowBlur = accent ? 8 : ping * 8;
           } else {
             ctx.shadowBlur = 0;
           }
-          ctx.fillStyle = `rgba(${r},${g},${bch},${(tw).toFixed(3)})`;
+          ctx.fillStyle = `rgba(${r},${g},${bch},${a.toFixed(3)})`;
           ctx.beginPath();
           ctx.arc(sxp, syp, rad, 0, Math.PI * 2);
           ctx.fill();
         }
         ctx.shadowBlur = 0;
+
+        // lock bracket around the bounding box during a ping
+        if (ping > 0.02) {
+          let minx = 1e9, miny = 1e9, maxx = -1e9, maxy = -1e9;
+          for (const [px, py] of pts) {
+            if (px < minx) minx = px; if (px > maxx) maxx = px;
+            if (py < miny) miny = py; if (py > maxy) maxy = py;
+          }
+          const pad = 12 + (1 - ping) * 10; // contracts as it settles
+          minx -= pad; miny -= pad; maxx += pad; maxy += pad;
+          const tk = 8;
+          ctx.strokeStyle = `rgba(${LINKC},${(ping * 0.75).toFixed(3)})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(minx, miny + tk); ctx.lineTo(minx, miny); ctx.lineTo(minx + tk, miny);
+          ctx.moveTo(maxx - tk, miny); ctx.lineTo(maxx, miny); ctx.lineTo(maxx, miny + tk);
+          ctx.moveTo(maxx, maxy - tk); ctx.lineTo(maxx, maxy); ctx.lineTo(maxx - tk, maxy);
+          ctx.moveTo(minx + tk, maxy); ctx.lineTo(minx, maxy); ctx.lineTo(minx, maxy - tk);
+          ctx.stroke();
+        }
+      }
+
+      // PASS 4 — flying tracked contacts
+      if (!reduce) {
+        if (t > nextSpawn && contacts.length < (mobile ? 1 : 2)) {
+          spawnContact(t);
+          nextSpawn = t + (mobile ? 7000 : 4800) + Math.random() * 3200;
+        }
+        for (let i = contacts.length - 1; i >= 0; i--) {
+          const c = contacts[i];
+          c.x += c.vx * dt;
+          c.y += c.vy * dt;
+          c.trail.push([c.x, c.y]);
+          if (c.trail.length > 16) c.trail.shift();
+          if (c.x < -60 || c.x > w + 60 || c.y < -60 || c.y > h + 60) {
+            contacts.splice(i, 1);
+            continue;
+          }
+          drawContact(c);
+        }
       }
     };
 

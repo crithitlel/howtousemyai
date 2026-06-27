@@ -6,24 +6,13 @@ type Particle = { x: number; y: number; s: number; d: number; delay: number; dur
 
 /* ──────────────────────────────────────────────────────────
    HeroFX — JS-driven depth layers for the command-center hero.
-   Purely ABSTRACT decoration: parallax particles, peripheral
-   connection lines with traveling packets, and soft pulse
+   Purely ABSTRACT decoration: parallax particles and soft pulse
    markers. Deliberately NO data-shaped readouts (telemetry,
    status text, etc.) — nothing here implies real system state.
    Slow, subtle, reduced-motion aware. Mounts INSIDE .v2-hero so
    it inherits the hero's --px/--py parallax custom properties.
+   (Neural mesh layer removed — competed with the radar.)
    ────────────────────────────────────────────────────────── */
-
-// loose peripheral web — avoids the central content zone
-const SEGMENTS: { x1: number; y1: number; x2: number; y2: number; red?: boolean }[] = [
-  { x1: 9, y1: 19, x2: 38, y2: 13 },
-  { x1: 38, y1: 13, x2: 90, y2: 20, red: true },
-  { x1: 90, y1: 20, x2: 85, y2: 72 },
-  { x1: 85, y1: 72, x2: 24, y2: 78 },
-  { x1: 24, y1: 78, x2: 9, y2: 19, red: true },
-  { x1: 9, y1: 19, x2: 16, y2: 50 },
-  { x1: 85, y1: 72, x2: 62, y2: 40 },
-];
 
 export default function HeroFX() {
   // particles are generated client-side only (random → avoids SSR hydration mismatch)
@@ -78,25 +67,6 @@ export default function HeroFX() {
           />
         ))}
       </div>
-
-      {/* neural connection lines + traveling data packets */}
-      <svg className="v2-neural" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        {SEGMENTS.map((s, i) => (
-          <g key={i}>
-            <line x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} className="v2-neural-line" vectorEffect="non-scaling-stroke" />
-            <line
-              x1={s.x1}
-              y1={s.y1}
-              x2={s.x2}
-              y2={s.y2}
-              pathLength={100}
-              className={`v2-neural-pkt ${s.red ? "is-red" : ""}`}
-              vectorEffect="non-scaling-stroke"
-              style={{ animationDelay: `${i * 0.8}s` }}
-            />
-          </g>
-        ))}
-      </svg>
 
       {/* abstract pulse markers */}
       {marks.map((m) => (

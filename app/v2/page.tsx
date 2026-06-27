@@ -85,6 +85,7 @@ export default function V2Page() {
   // hero search typeahead
   const [sugOpen, setSugOpen] = useState(false);
   const [sugActive, setSugActive] = useState(-1);
+  const [searchFocus, setSearchFocus] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const [sugRect, setSugRect] = useState<{ left: number; top: number; width: number; maxHeight: number } | null>(null);
   const updateRect = () => {
@@ -200,8 +201,6 @@ export default function V2Page() {
       const y = (e.clientY - r.top) / r.height - 0.5;
       el.style.setProperty("--px", String(x));
       el.style.setProperty("--py", String(y));
-      el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-      el.style.setProperty("--my", `${e.clientY - r.top}px`);
     };
     el.addEventListener("mousemove", move);
     return () => el.removeEventListener("mousemove", move);
@@ -290,7 +289,7 @@ export default function V2Page() {
       </header>
 
       {/* ════ MAIN VIEWPORT (HERO) ════ */}
-      <section className="v2-hero" ref={heroRef}>
+      <section className={`v2-hero${searchFocus ? " is-search" : ""}`} ref={heroRef}>
         <div className="v2-hero-grid" aria-hidden="true" />
         <div className="v2-hero-glow" aria-hidden="true" />
 
@@ -392,8 +391,8 @@ export default function V2Page() {
                   value={query}
                   onChange={(e) => { setQuery(e.target.value); setSugOpen(true); setSugActive(-1); updateRect(); }}
                   onKeyDown={onSearchKey}
-                  onFocus={() => { if (query.trim()) { setSugOpen(true); updateRect(); } }}
-                  onBlur={() => setTimeout(() => setSugOpen(false), 120)}
+                  onFocus={() => { setSearchFocus(true); if (query.trim()) { setSugOpen(true); updateRect(); } }}
+                  onBlur={() => { setSearchFocus(false); setTimeout(() => setSugOpen(false), 120); }}
                   placeholder={ph ? `> ${ph}_` : "State your objective..."}
                   role="combobox"
                   aria-expanded={sugOpen && suggestions.length > 0}

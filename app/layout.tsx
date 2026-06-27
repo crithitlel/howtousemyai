@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Fraunces } from "next/font/google";
+import { Inter, Space_Grotesk, Fraunces, Chakra_Petch } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import CommandPalette from "./components/CommandPalette";
@@ -18,6 +18,13 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-tech",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+});
+
+// HUD / command-center display — squared technical face for headlines.
+const chakraPetch = Chakra_Petch({
+  variable: "--font-hud",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 // Luxury editorial display serif — high-contrast, optical sizing.
@@ -63,7 +70,7 @@ const websiteSchema = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${fraunces.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${chakraPetch.variable} ${fraunces.variable} h-full antialiased`}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         {(GA_ID as string) !== "G-XXXXXXXXXX" && (
