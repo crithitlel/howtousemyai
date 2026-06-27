@@ -688,6 +688,7 @@ export default function V2Page() {
             <div className="v2-foot-logo"><Logo size={20} /><span>HOWTOUSEMY<b>AI</b></span></div>
             <p className="v2-foot-mono"><span className="v2-tok">{TOOLS.length}</span> AI TOOLS · <span className="v2-tok">{new Set(TOOLS.map((t) => t.category)).size}</span> CATEGORIES</p>
             <p className="v2-foot-mono v2-foot-dim">© {new Date().getFullYear()} HOWTOUSEMYAI // ALL SYSTEMS RESERVED</p>
+            <p className="v2-foot-mono v2-foot-dim">PLANET TEXTURES · <a href="https://www.solarsystemscope.com/textures/" target="_blank" rel="noopener noreferrer">SOLAR SYSTEM SCOPE</a> · CC BY 4.0</p>
           </div>
         </div>
         <div className="v2-foot-bar" aria-hidden="true">

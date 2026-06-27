@@ -1494,6 +1494,8 @@ body.v2-shell .starfield { display: none; }
 .v2-foot-logo b { color: var(--v2-red); }
 .v2-foot-mono { margin: 0; font-size: 9.5px; letter-spacing: 0.1em; color: rgba(160,185,230,0.6); }
 .v2-foot-dim { color: rgba(120,145,190,0.5); }
+.v2-foot-dim a { color: inherit; text-decoration: underline; text-underline-offset: 2px; transition: color .2s; }
+.v2-foot-dim a:hover { color: rgba(170,195,240,0.85); }
 .v2-tok { color: var(--v2-blue); }
 .v2-foot-bar { display: flex; gap: 3px; padding: 0 clamp(20px, 5vw, 70px) 22px; max-width: 1180px; margin: 0 auto; }
 .v2-foot-bar i { flex: 1; height: 4px; background: rgba(24,119,242,0.15); animation: v2-wave 3s ease-in-out infinite; }
@@ -1925,10 +1927,13 @@ body.v2-shell .starfield { display: none !important; }
   opacity: 0.9; mix-blend-mode: screen;
 }
 
-/* rotating wireframe globe — sits beneath the constellation layer */
+/* planet system + wireframe globe — sits beneath the constellation layer.
+   The planets now carry real (dark-sided) textures, so this layer uses
+   NORMAL blend over the dark hero; additive glow + the wire globe opt into
+   'lighter' compositing internally. */
 .v2-heroglobe {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
-  opacity: 0.95; mix-blend-mode: screen;
+  opacity: 1;
 }
 
 /* ── native scroll-driven HUD motion (progressive enhancement) ──
