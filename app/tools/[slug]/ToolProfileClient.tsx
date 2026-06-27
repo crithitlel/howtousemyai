@@ -41,7 +41,7 @@ export function ToolProfileClient({ slug }: { slug: string }) {
               <h1 className="text-2xl font-bold text-[#e9eef8]">{basicTool.name}</h1>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-xs px-2 py-0.5 rounded-full bg-[#0d1729] text-[#93a4c3] font-medium">{basicTool.category}</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${basicTool.pricing === "Paid" ? "border border-[#e41e3f]/50 bg-[#e41e3f]/15 text-[#ff5c78]" : basicTool.pricing === "Free" ? "border border-[#e41e3f]/30 text-[#ff8095]" : "border border-[#1877F2]/30 bg-[#1877F2]/10 text-[#4da3ff]"}`}>{basicTool.pricing}</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${basicTool.pricing === "Paid" ? "border border-[#e41e3f]/50 bg-[#e41e3f]/15 text-[#ff5c78]" : basicTool.pricing === "Free" ? "border border-[#aaff00]/40 text-[#aaff00]" : "border border-[#1877F2]/30 bg-[#1877F2]/10 text-[#4da3ff]"}`}>{basicTool.pricing}</span>
               </div>
             </div>
           </div>

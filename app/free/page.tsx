@@ -75,7 +75,7 @@ export default function FreeToolsPage() {
                         <h3 className="text-sm font-semibold text-[#e9eef8] group-hover:text-[#4da3ff] transition-colors truncate">
                           {tool.name}
                         </h3>
-                        <span className="text-[9px] font-bold border border-[#e41e3f]/30 text-[#ff8095] px-1.5 py-0.5 rounded-full flex-shrink-0">FREE</span>
+                        <span className="text-[9px] font-bold border border-[#aaff00]/40 text-[#aaff00] px-1.5 py-0.5 rounded-full flex-shrink-0">FREE</span>
                       </div>
                       <p className="text-xs text-[#93a4c3] leading-relaxed line-clamp-2">{tool.description}</p>
                       <div className="flex items-center justify-end mt-1.5">

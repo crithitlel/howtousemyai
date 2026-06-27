@@ -2078,7 +2078,7 @@ export function slugify(name: string) {
 }
 
 export const PRICING_STYLES: Record<string, { badge: string; label: string }> = {
-  Free: { badge: "border border-[#e41e3f]/30 text-[#ff8095]", label: "FREE" },
+  Free: { badge: "border border-[#aaff00]/40 text-[#aaff00]", label: "FREE" },
   Freemium: { badge: "border border-[#1877F2]/30 bg-[#1877F2]/10 text-[#4da3ff]", label: "FREEMIUM" },
   Paid: { badge: "border border-[#e41e3f]/50 bg-[#e41e3f]/15 text-[#ff5c78]", label: "PAID" },
 };

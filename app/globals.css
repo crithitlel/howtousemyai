@@ -40,6 +40,11 @@
   --v2-blue-bright: var(--fb-blue-bright);
   --v2-blue-soft: rgba(24,119,242,0.5);
   --v2-red: var(--brand-red);
+  /* ── acid-green PROTOTYPE token — semantic "OK / go / healthy" signal.
+     Swap this one value to audition shades:
+       #aaff00 chartreuse acid (default) · #39ff14 pure neon · #7fffa0 soft phosphor */
+  --v2-green: #aaff00;
+  --v2-green-rgb: 170, 255, 0;
   --v2-ink: #0a1129;
   --v2-mid: #4a6090;
   --v2-dim: #8a9bb8;
@@ -482,8 +487,8 @@ body {
   padding: 9px 2px; border-bottom: 1px solid #1a2742; font-family: var(--font-tech), monospace; font-size: 11px; }
 .dossier-srow .k { color: #5d6f93; letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap; }
 .dossier-srow .v { color: #cfe0ff; letter-spacing: 0.04em; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.dossier-srow .v.ok { color: var(--v2-blue-bright); display: inline-flex; align-items: center; gap: 6px; }
-.dossier-srow .v.ok::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--v2-blue); box-shadow: 0 0 6px rgba(24,119,242,0.8); }
+.dossier-srow .v.ok { color: var(--v2-green); display: inline-flex; align-items: center; gap: 6px; }
+.dossier-srow .v.ok::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--v2-green); box-shadow: 0 0 6px rgba(var(--v2-green-rgb),0.8); }
 .dossier-h { display: flex; align-items: center; gap: 10px; font-family: var(--font-tech), monospace;
   font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #93a4c3; margin-bottom: 14px; }
 .dossier-h-no { color: var(--brand-red); font-weight: 700; }
@@ -1024,7 +1029,7 @@ body.v2-shell .starfield { display: none; }
 
 /* ── dots ── */
 .v2-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.v2-dot-ok  { background: var(--v2-blue); box-shadow: 0 0 7px rgba(24,119,242,0.9); animation: v2-blink 2.4s ease-in-out infinite; }
+.v2-dot-ok  { background: var(--v2-green); box-shadow: 0 0 7px rgba(var(--v2-green-rgb),0.9); animation: v2-blink 2.4s ease-in-out infinite; }
 .v2-dot-red { background: var(--v2-red);  box-shadow: 0 0 7px rgba(228,30,63,0.9);  animation: v2-blink 1.5s ease-in-out infinite; }
 @keyframes v2-blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
 
@@ -2154,7 +2159,7 @@ body.v2-shell .starfield { display: none !important; }
 /* —— standardized pricing pills (one language sitewide) —— */
 .v2-pill { display: inline-flex; align-items: center; font-family: var(--font-tech), var(--v2-mono);
   font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
-.v2-pill-free { border: 1px solid rgba(228,30,63,0.3); color: #ff8095; }
+.v2-pill-free { border: 1px solid rgba(var(--v2-green-rgb),0.4); color: var(--v2-green); }
 .v2-pill-freemium { border: 1px solid rgba(24,119,242,0.32); background: rgba(24,119,242,0.1); color: #4da3ff; }
 .v2-pill-paid { border: 1px solid rgba(228,30,63,0.5); background: rgba(228,30,63,0.15); color: #ff5c78; }
 
