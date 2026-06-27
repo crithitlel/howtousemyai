@@ -2121,11 +2121,11 @@ body.v2-shell .starfield { display: none !important; }
 /* hero pulled up + more compact than the original 92vh */
 .v2-hero { min-height: clamp(560px, 80vh, 860px); }
 
-/* statistics relocated from center band → corner HUD telemetry */
-.v2-readout { display: none; }
+/* quiet trust line lives under the search at every width; corner HUD retired */
+.v2-readout { display: inline-flex; }
 .v2-herostats {
   position: absolute; z-index: 4; right: clamp(28px, 5vw, 60px); bottom: clamp(40px, 6vw, 64px);
-  display: flex; align-items: flex-end; gap: 16px;
+  display: none; align-items: flex-end; gap: 16px;
 }
 .v2-hs-cell { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
 .v2-hs-cell b { font-family: var(--font-tech), var(--v2-mono); font-size: 19px; font-weight: 700; line-height: 1; color: #fff; }
@@ -2140,11 +2140,6 @@ body.v2-shell .starfield { display: none !important; }
 .v2-nav-i { display: none; }
 .v2-nav { gap: 30px; }
 
-/* responsive fallback: below the corner-HUD breakpoint, stats return inline */
-@media (max-width: 1100px) {
-  .v2-herostats { display: none; }
-  .v2-readout { display: inline-flex; }
-}
 
 /* ════════════════════════════════════════════════════════════
    PASS 23 — SHARED INNER-PAGE SHELL
