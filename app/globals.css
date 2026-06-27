@@ -1850,6 +1850,12 @@ body.v2-shell .starfield { display: none !important; }
   opacity: 0.9; mix-blend-mode: screen;
 }
 
+/* rotating wireframe globe — sits beneath the constellation layer */
+.v2-heroglobe {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  opacity: 0.95; mix-blend-mode: screen;
+}
+
 /* ── native scroll-driven HUD motion (progressive enhancement) ──
    The outer red blueprint ring counter-rotates + drifts as the page
    scrolls. Pure CSS, no JS; only runs where scroll timelines exist

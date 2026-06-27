@@ -8,6 +8,7 @@ import BrandMark from "../components/BrandMark";
 import HeroReadout from "../components/HeroReadout";
 import HeroFX from "../components/HeroFX";
 import HeroCanvas from "../components/HeroCanvas";
+import HeroGlobe from "../components/HeroGlobe";
 import PinnedStrip from "../components/PinnedStrip";
 import { TOOLS, slugify, type Tool } from "@/lib/tools";
 import { searchTools } from "@/lib/search";
@@ -292,6 +293,9 @@ export default function V2Page() {
       <section className={`v2-hero${searchFocus ? " is-search" : ""}`} ref={heroRef}>
         <div className="v2-hero-grid" aria-hidden="true" />
         <div className="v2-hero-glow" aria-hidden="true" />
+
+        {/* rotating wireframe globe + great-circle network arcs */}
+        <HeroGlobe />
 
         {/* live cursor-reactive particle constellation */}
         <HeroCanvas />
