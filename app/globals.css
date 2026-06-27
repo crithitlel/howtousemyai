@@ -1246,16 +1246,16 @@ body.v2-shell .starfield { display: none; }
   font-family: var(--font-tech), sans-serif; font-size: 12px; color: #93a4c3; transition: color 0.12s, background 0.12s; }
 .v2-sug-foot:hover { color: #fff; background: rgba(228,30,63,0.1); }
 
-.v2-readout { display: inline-flex; align-items: stretch; gap: 22px; margin-top: 26px; }
-.v2-stat-cell { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.v2-readout b { font-family: var(--font-tech), var(--v2-mono); font-size: 22px; color: #fff; font-weight: 700;
-  font-variant-numeric: tabular-nums; letter-spacing: 0.02em; transition: color 0.1s, text-shadow 0.1s; }
-.v2-readout b.is-scr { color: var(--brand-red); text-shadow: 0 0 12px rgba(228,30,63,0.6); }
-.v2-readout em { font-style: normal; font-size: 8.5px; letter-spacing: 0.2em; color: #7fb0ff; }
-.v2-readout-sep { width: 1px; background: rgba(24,119,242,0.3); }
+.v2-readout { display: inline-flex; align-items: center; gap: 9px; margin-top: 22px; opacity: 0.82; }
+.v2-readout-line { display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--font-tech), var(--v2-mono); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.13em; text-transform: uppercase; color: rgba(127,176,255,0.7);
+  font-variant-numeric: tabular-nums; }
+.v2-readout-line b { color: rgba(220,234,255,0.92); font-weight: 700; letter-spacing: 0.02em; margin-right: 2px; }
+.v2-readout-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(24,119,242,0.45); }
 /* live radar-ping dot (matches .status-dot, adds expanding ring) */
-.v2-ping { position: relative; width: 6px; height: 6px; border-radius: 50%; margin-bottom: 3px;
-  background: #4da3ff; box-shadow: 0 0 8px rgba(77,163,255,0.9);
+.v2-ping { position: relative; width: 5px; height: 5px; border-radius: 50%;
+  background: #4da3ff; box-shadow: 0 0 6px rgba(77,163,255,0.7);
   animation: dot-pulse 2s ease-in-out infinite; }
 .v2-ping::after { content: ""; position: absolute; inset: -2px; border-radius: 50%;
   border: 1px solid #4da3ff; opacity: 0; animation: v2-ping-ring 2s ease-out infinite; }
@@ -1446,8 +1446,7 @@ body.v2-shell .starfield { display: none; }
   .v2-console input { flex: 1 1 100%; order: 2; }
   .v2-console-row > svg { order: 1; }
   .v2-cta { flex: 1 1 100%; order: 3; justify-content: center; margin-top: 4px; }
-  .v2-readout { gap: 14px; }
-  .v2-readout b { font-size: 19px; }
+  .v2-readout-line { font-size: 10px; gap: 7px; letter-spacing: 0.1em; }
   .v2-sysline { gap: 10px; }
 }
 
