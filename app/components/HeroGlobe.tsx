@@ -21,6 +21,12 @@ import { useEffect, useRef } from "react";
 
 const D2R = Math.PI / 180;
 
+// single shared light source (upper-left). Under mix-blend-mode:screen the
+// canvas can only ADD brightness — dark shading is invisible — so all "lighting"
+// is done by washing brightness onto the lit hemisphere and leaving the far
+// side untouched, which reads as a natural terminator.
+const LIGHT = (() => { const x = -0.55, y = -0.62, l = Math.hypot(x, y); return { x: x / l, y: y / l, ang: Math.atan2(y, x) }; })();
+
 type BodyType = "wire" | "rings" | "bands" | "moon" | "lava" | "ice";
 type Body = {
   type: BodyType;
@@ -40,7 +46,7 @@ type Body = {
 
 const BODIES: Body[] = [
   { type: "wire",  fx: 0.84, fy: 0.30, r: 60, spin: 0.00016, tilt: 0.42, depth: 0.7, bob: 5, col: "120,170,255", accent: "120,212,255" },
-  { type: "rings", fx: 0.15, fy: 0.66, r: 45, spin: 0.00012, tilt: 0.95, depth: 0.5, bob: 7, col: "150,185,255", accent: "255,150,120" },
+  { type: "rings", fx: 0.15, fy: 0.66, r: 45, spin: 0.00012, tilt: 0.95, depth: 0.5, bob: 7, col: "150,185,255", accent: "206,221,255" },
   { type: "bands", fx: 0.21, fy: 0.20, r: 37, spin: 0.00022, tilt: 0.30, depth: 0.85, bob: 4, col: "130,175,255", accent: "255,110,104" },
   { type: "moon",  fx: 0.80, fy: 0.72, r: 30, spin: 0.00006, tilt: 0.00, depth: 0.4, bob: 8, col: "160,180,215", accent: "120,150,200" },
   { type: "lava",  fx: 0.50, fy: 0.13, r: 30, spin: 0.00010, tilt: 0.20, depth: 0.6, bob: 5, col: "150,90,120", accent: "236,86,84" },
@@ -188,6 +194,40 @@ export default function HeroGlobe() {
       }
       g.stroke();
     }
+    /* ---- shared lighting (additive; screen blend ignores darkening) ---- */
+    // bright pool on the lit hemisphere that falls off toward the terminator
+    function lightWash(cx: number, cy: number, rr: number, rgb: string, peak: number) {
+      const ex = cx + LIGHT.x * rr * 0.55, ey = cy + LIGHT.y * rr * 0.55;
+      const grd = g.createRadialGradient(ex, ey, rr * 0.08, ex, ey, rr * 1.25);
+      grd.addColorStop(0, `rgba(${rgb},${peak.toFixed(3)})`);
+      grd.addColorStop(0.5, `rgba(${rgb},${(peak * 0.28).toFixed(3)})`);
+      grd.addColorStop(1, `rgba(${rgb},0)`);
+      g.save(); g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.clip();
+      g.fillStyle = grd; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
+      g.restore();
+    }
+    // crisp fresnel highlight hugging the lit limb
+    function fresnelArc(cx: number, cy: number, rr: number, rgb: string, peak: number, width: number) {
+      g.save();
+      g.strokeStyle = `rgba(${rgb},${peak.toFixed(3)})`;
+      g.lineWidth = width;
+      g.shadowColor = `rgba(${rgb},${(peak * 0.9).toFixed(3)})`;
+      g.shadowBlur = rr * 0.28;
+      g.beginPath(); g.arc(cx, cy, rr * 0.985, LIGHT.ang - 1.4, LIGHT.ang + 1.4); g.stroke();
+      g.restore();
+      g.shadowBlur = 0;
+    }
+    // tiny specular hotspot where light hits a glossy surface
+    function specular(cx: number, cy: number, rr: number, rgb: string, peak: number) {
+      const sx = cx + LIGHT.x * rr * 0.62, sy = cy + LIGHT.y * rr * 0.62;
+      const grd = g.createRadialGradient(sx, sy, 0, sx, sy, rr * 0.32);
+      grd.addColorStop(0, `rgba(${rgb},${peak.toFixed(3)})`);
+      grd.addColorStop(1, `rgba(${rgb},0)`);
+      g.save(); g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.clip();
+      g.fillStyle = grd; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
+      g.restore();
+    }
+
     function drawWire(b: Body, cx: number, cy: number, rr: number, t: number) {
       const rot = t * b.spin, cr = Math.cos(rot), sr = Math.sin(rot), ct = Math.cos(b.tilt), st = Math.sin(b.tilt);
       // atmosphere glow halo
@@ -198,6 +238,18 @@ export default function HeroGlobe() {
       const core = g.createRadialGradient(cx - rr * 0.3, cy - rr * 0.3, rr * 0.1, cx, cy, rr);
       core.addColorStop(0, `rgba(${b.col},0.1)`); core.addColorStop(1, `rgba(${b.col},0.01)`);
       g.fillStyle = core; g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.fill();
+      // volumetric scan plane sweeping top→bottom through the sphere
+      const scanY = cy - rr + ((t * 0.00007) % 1) * rr * 2;
+      g.save();
+      g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.clip();
+      const half = rr * 0.13;
+      const scan = g.createLinearGradient(0, scanY - half, 0, scanY + half);
+      scan.addColorStop(0, `rgba(${b.accent},0)`);
+      scan.addColorStop(0.5, `rgba(${b.accent},0.16)`);
+      scan.addColorStop(1, `rgba(${b.accent},0)`);
+      g.fillStyle = scan; g.fillRect(cx - rr, scanY - half, rr * 2, half * 2);
+      g.fillStyle = `rgba(${b.accent},0.22)`; g.fillRect(cx - rr, scanY - 0.5, rr * 2, 1);
+      g.restore();
       // wireframe graticule
       for (const l of LAT_LINES) strokeWire(l, true, cx, cy, rr, cr, sr, ct, st, b.col);
       for (const l of LON_LINES) strokeWire(l, false, cx, cy, rr, cr, sr, ct, st, b.col);
@@ -217,8 +269,11 @@ export default function HeroGlobe() {
           g.lineTo(c.sx, c.sy);
         }
         g.stroke();
-        const fp = (t * 0.00018 + k * 0.37) % 1, pk = pts[Math.floor(fp * (pts.length - 1))];
-        if (pk && pk.depth >= 0) { g.fillStyle = `rgba(${b.accent},0.95)`; g.beginPath(); g.arc(pk.sx, pk.sy, 1.4, 0, Math.PI * 2); g.fill(); }
+        const fp = (t * 0.00018 + k * 0.37) % 1, idx = fp * (pts.length - 1);
+        for (let tr = 0; tr < 4; tr++) {                       // fading comet trail
+          const pk = pts[Math.floor(idx) - tr];
+          if (pk && pk.depth >= 0) { g.fillStyle = `rgba(${b.accent},${(0.9 - tr * 0.22).toFixed(3)})`; g.beginPath(); g.arc(pk.sx, pk.sy, 1.5 - tr * 0.3, 0, Math.PI * 2); g.fill(); }
+        }
       }
       // surface hub nodes with pulse pings
       for (let idx = 0; idx < HUBS.length; idx++) {
@@ -233,6 +288,7 @@ export default function HeroGlobe() {
       // rim + polar axis
       g.strokeStyle = `rgba(${b.col},0.28)`; g.lineWidth = 1;
       g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.stroke();
+      fresnelArc(cx, cy, rr, b.accent, 0.4, 1.4);  // lit-edge atmosphere glow
       const pN = projW({ x: 0, y: 1, z: 0 }, cx, cy, rr * 1.14, cr, sr, ct, st);
       const pS = projW({ x: 0, y: -1, z: 0 }, cx, cy, rr * 1.14, cr, sr, ct, st);
       g.strokeStyle = `rgba(${b.col},0.22)`; g.lineWidth = 0.8;
@@ -257,8 +313,11 @@ export default function HeroGlobe() {
       const rot = t * b.spin, st = Math.sin(b.tilt), ct = Math.cos(b.tilt);
       const ringHalf = (radF: number, widthF: number, alpha: number, front: boolean) => {
         const radius = rr * radF;
+        const shimmer = 0.8 + 0.2 * Math.sin(t * 0.004 + radF * 9.3); // per-band ice-particle glint
+        alpha *= shimmer;
         g.lineWidth = Math.max(1, rr * widthF);
-        g.strokeStyle = `rgba(${b.accent},${(front ? alpha : alpha * 0.28).toFixed(3)})`;
+        // back half only modestly dimmer so the ring reads as one continuous band
+        g.strokeStyle = `rgba(${b.accent},${(front ? alpha : alpha * 0.55).toFixed(3)})`;
         g.beginPath(); let started = false;
         for (let s = 0; s <= 128; s++) {
           const th = (s / 128) * Math.PI * 2;
@@ -270,22 +329,40 @@ export default function HeroGlobe() {
         g.stroke();
       };
       for (const r of RING_BANDS) ringHalf(r.radF, r.widthF, r.alpha, false); // back halves
-      // planet body
+      // planet body — spherical base wash
       const grad = g.createRadialGradient(cx - rr * 0.35, cy - rr * 0.35, rr * 0.1, cx, cy, rr);
       grad.addColorStop(0, `rgba(${b.col},0.30)`); grad.addColorStop(0.7, `rgba(${b.col},0.10)`); grad.addColorStop(1, `rgba(${b.col},0.02)`);
       g.fillStyle = grad; g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.fill();
       g.save();
       g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.clip();
-      for (let i = 0; i < 5; i++) {  // faint cloud bands
-        const yy = cy - rr * 0.6 + (i / 4) * rr * 1.2;
-        g.fillStyle = `rgba(${b.col},${(0.05 + 0.04 * (i % 2)).toFixed(3)})`;
-        g.fillRect(cx - rr, yy, rr * 2, rr * 0.16);
+      // curved latitude cloud bands that hug the sphere (project lat onto the disc)
+      const drift = Math.sin(t * 0.00035) * 0.4;
+      const STRIPS = 34;
+      for (let i = 0; i < STRIPS; i++) {
+        const lat = -1 + (i / (STRIPS - 1)) * 2;          // -1..1 across the sphere
+        const yy = cy + lat * rr;
+        const halfW = Math.sqrt(Math.max(0, 1 - lat * lat)) * rr; // chord width at this latitude
+        const v = Math.sin(lat * 7.2 + drift) * 0.5 + 0.5;
+        const warm = Math.sin(lat * 7.2 + drift + 1.4) > 0.62;
+        const a = 0.05 + 0.13 * v + 0.02 * Math.sin(t * 0.0008 + i * 0.7);
+        g.fillStyle = warm ? `rgba(${b.accent},${(a * 0.55).toFixed(3)})` : `rgba(${b.col},${a.toFixed(3)})`;
+        g.fillRect(cx - halfW, yy - rr / STRIPS, halfW * 2, rr * 2 / STRIPS + 0.6);
       }
-      g.fillStyle = "rgba(3,7,20,0.32)"; g.fillRect(cx - rr, cy - rr * 0.05, rr * 2, rr * 0.1); // ring shadow line
-      const sh = g.createRadialGradient(cx - rr * 0.35, cy - rr * 0.35, rr * 0.1, cx, cy, rr * 1.02); // limb shading
-      sh.addColorStop(0, "rgba(255,255,255,0.06)"); sh.addColorStop(0.65, "rgba(0,0,0,0)"); sh.addColorStop(1, "rgba(2,6,18,0.5)");
-      g.fillStyle = sh; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
+      // a small rotating storm spot (near face only)
+      const ph = (t * b.spin * 6) % (Math.PI * 2), face = Math.cos(ph);
+      if (face > 0) {
+        const sx = cx + Math.sin(ph) * rr * 0.55, sy = cy - rr * 0.28;
+        const w0 = rr * 0.2 * face, h0 = rr * 0.12;
+        g.fillStyle = `rgba(${b.accent},${(0.42 * face).toFixed(3)})`;
+        g.beginPath(); g.ellipse(sx, sy, w0, h0, 0, 0, Math.PI * 2); g.fill();
+        g.strokeStyle = `rgba(${b.col},${(0.4 * face).toFixed(3)})`; g.lineWidth = 0.7;
+        g.beginPath(); g.ellipse(sx, sy, w0 * 0.55, h0 * 0.55, 0, 0, Math.PI * 2); g.stroke();
+      }
+      g.fillStyle = "rgba(3,7,20,0.32)"; g.fillRect(cx - rr, cy - rr * 0.05, rr * 2, rr * 0.1); // ring shadow line cast on body
       g.restore();
+      lightWash(cx, cy, rr, b.col, 0.3);                    // lit hemisphere
+      specular(cx, cy, rr, "225,236,255", 0.34);            // glossy cloud-top highlight
+      fresnelArc(cx, cy, rr, b.col, 0.34, 1.3);             // lit limb
       g.strokeStyle = `rgba(${b.col},0.32)`; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.stroke();
       for (const r of RING_BANDS) ringHalf(r.radF, r.widthF, r.alpha, true); // front halves
       // orbiting moon (depth-aware)
@@ -320,10 +397,23 @@ export default function HeroGlobe() {
         g.beginPath(); g.ellipse(sx, sy, w0 * 0.6, h0 * 0.6, 0, 0, Math.PI * 2); g.stroke();
         g.beginPath(); g.ellipse(sx, sy, w0 * 0.3, h0 * 0.3, 0, 0, Math.PI * 2); g.stroke();
       }
-      const sh = g.createRadialGradient(cx - rr * 0.4, cy - rr * 0.4, rr * 0.1, cx, cy, rr * 1.05);
-      sh.addColorStop(0, "rgba(255,255,255,0.07)"); sh.addColorStop(0.6, "rgba(0,0,0,0)"); sh.addColorStop(1, "rgba(2,6,18,0.55)");
-      g.fillStyle = sh; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
+      // second, smaller counter-rotating eddy higher up
+      const ph2 = (-t * b.spin * 1.4) % (Math.PI * 2), face2 = Math.cos(ph2);
+      if (face2 > 0) {
+        const ex = cx + Math.sin(ph2) * rr * 0.5, ey = cy - rr * 0.34;
+        const ew = rr * 0.16 * face2, eh = rr * 0.1;
+        const spin2 = t * 0.004;
+        g.save(); g.translate(ex, ey); g.rotate(spin2);
+        g.strokeStyle = `rgba(${b.col},${(0.4 * face2).toFixed(3)})`; g.lineWidth = 0.8;
+        g.beginPath(); g.ellipse(0, 0, ew, eh, 0, 0, Math.PI * 2); g.stroke();
+        g.beginPath(); g.ellipse(0, 0, ew * 0.5, eh * 0.5, 0, 0, Math.PI * 2); g.stroke();
+        g.fillStyle = `rgba(${b.accent},${(0.28 * face2).toFixed(3)})`;
+        g.beginPath(); g.ellipse(0, 0, ew * 0.35, eh * 0.35, 0, 0, Math.PI * 2); g.fill();
+        g.restore();
+      }
       g.restore();
+      lightWash(cx, cy, rr, b.col, 0.24);
+      fresnelArc(cx, cy, rr, b.accent, 0.3, 1.3);
       g.strokeStyle = `rgba(${b.col},0.32)`; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.stroke();
     }
 
@@ -359,6 +449,8 @@ export default function HeroGlobe() {
       grad.addColorStop(Math.min(1, mid + 0.02), "rgba(3,7,20,0.72)");
       g.fillStyle = grad; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
       g.restore();
+      lightWash(cx, cy, rr, b.col, 0.32);                  // sunlit hemisphere
+      fresnelArc(cx, cy, rr, b.col, 0.3, 1.2);             // bright lit limb
       g.strokeStyle = `rgba(${b.col},0.34)`; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.stroke();
     }
 
@@ -381,9 +473,11 @@ export default function HeroGlobe() {
       const crust = g.createRadialGradient(cx - rr * 0.35, cy - rr * 0.4, rr * 0.1, cx, cy, rr);
       crust.addColorStop(0, `rgba(${b.col},0.3)`); crust.addColorStop(1, `rgba(${b.col},0.06)`);
       g.fillStyle = crust; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
-      // glowing magma cracks (flickering)
+      // glowing magma cracks — heat travels through them as a spatial wave
       for (let ci = 0; ci < b.cracks!.length; ci++) {
-        const cr = b.cracks![ci], flick = 0.5 + 0.5 * Math.sin(t * 0.004 + ci * 1.3);
+        const cr = b.cracks![ci];
+        const wave = cr[0].x * 2.4 + cr[0].y * 1.7; // phase by crack position → propagating glow
+        const flick = 0.5 + 0.5 * Math.sin(t * 0.0045 - wave + ci * 0.6);
         g.strokeStyle = `rgba(255,${(150 + 60 * flick) | 0},${(90 * flick) | 0},${(0.55 + 0.4 * flick).toFixed(3)})`;
         g.lineWidth = Math.max(1, rr * 0.05 * (0.6 + flick * 0.6));
         g.shadowColor = `rgba(${b.accent},0.9)`; g.shadowBlur = rr * 0.2 * flick;
@@ -393,6 +487,20 @@ export default function HeroGlobe() {
       }
       g.shadowBlur = 0;
       g.restore();
+      // rising ember particles drifting up off the surface (heat plume)
+      for (let k = 0; k < 11; k++) {
+        const seed = Math.sin(k * 12.9898) * 43758.5453;
+        const rx = (seed - Math.floor(seed) - 0.5) * 1.1;          // stable per-ember x
+        const ph = (t * 0.00045 + k * 0.137) % 1;
+        const ey = cy + rr * 0.55 - ph * rr * 1.5;                 // rise upward
+        const ex = cx + rx * rr * 0.55 + Math.sin(t * 0.002 + k) * rr * 0.06;
+        const fade = Math.sin(ph * Math.PI);                        // fade in then out
+        if (fade <= 0.02) continue;
+        g.fillStyle = `rgba(255,${(140 + 80 * fade) | 0},${(60 * fade) | 0},${(0.7 * fade).toFixed(3)})`;
+        g.shadowColor = `rgba(${b.accent},0.9)`; g.shadowBlur = rr * 0.15;
+        g.beginPath(); g.arc(ex, ey, 0.8 + fade * 1.1, 0, Math.PI * 2); g.fill();
+      }
+      g.shadowBlur = 0;
       // hot rim
       g.strokeStyle = `rgba(${b.accent},${(0.45 + 0.25 * pulse).toFixed(3)})`; g.lineWidth = 1.3;
       g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.stroke();
@@ -422,6 +530,15 @@ export default function HeroGlobe() {
         for (let p = 0; p < cr.length; p++) { const X = cx + cr[p].x * rr, Y = cy + cr[p].y * rr; if (p === 0) g.moveTo(X, Y); else g.lineTo(X, Y); }
         g.stroke();
       }
+      // drifting frost clouds sweeping across the surface
+      for (let fc = 0; fc < 3; fc++) {
+        const drift = ((t * 0.00006 * (fc + 1) + fc * 0.33) % 1) * rr * 2.4 - rr * 1.2;
+        const fy = cy + (fc - 1) * rr * 0.4;
+        const fr = rr * (0.5 - fc * 0.08);
+        const cl = g.createRadialGradient(cx + drift, fy, 0, cx + drift, fy, fr);
+        cl.addColorStop(0, `rgba(${b.accent},0.1)`); cl.addColorStop(1, `rgba(${b.accent},0)`);
+        g.fillStyle = cl; g.beginPath(); g.ellipse(cx + drift, fy, fr, fr * 0.5, 0, 0, Math.PI * 2); g.fill();
+      }
       // shimmering aurora bands near the upper pole
       for (let a = 0; a < 3; a++) {
         const yy = cy - rr * 0.5 - a * rr * 0.12;
@@ -436,6 +553,9 @@ export default function HeroGlobe() {
       sh.addColorStop(0, "rgba(255,255,255,0.08)"); sh.addColorStop(0.6, "rgba(0,0,0,0)"); sh.addColorStop(1, "rgba(4,10,24,0.5)");
       g.fillStyle = sh; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
       g.restore();
+      lightWash(cx, cy, rr, b.col, 0.28);                  // lit hemisphere
+      specular(cx, cy, rr, "235,248,255", 0.5);            // bright glossy sun-glint
+      fresnelArc(cx, cy, rr, b.accent, 0.36, 1.3);         // icy lit limb
       g.strokeStyle = `rgba(${b.accent},0.34)`; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.stroke();
     }
 

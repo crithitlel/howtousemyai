@@ -134,14 +134,16 @@ const CONSTELLATIONS: Constellation[] = [
 type Placement = {
   ci: number; fx: number; fy: number; scale: number; depth: number; vx: number; vy: number;
 };
+// spread wide across the whole hero (corners + edges), steering clear of the
+// dead-centre headline/search zone so the sky frames the UI instead of crowding it
 const PLACEMENTS: Placement[] = [
-  { ci: 0, fx: 0.15, fy: 0.34, scale: 150, depth: 0.7, vx: 0.05, vy: 0.018 }, // Orion
-  { ci: 1, fx: 0.8, fy: 0.22, scale: 205, depth: 0.45, vx: -0.045, vy: 0.02 }, // Big Dipper
-  { ci: 2, fx: 0.56, fy: 0.12, scale: 165, depth: 0.8, vx: 0.03, vy: 0.04 }, // Cassiopeia
-  { ci: 3, fx: 0.86, fy: 0.66, scale: 150, depth: 0.6, vx: -0.035, vy: -0.03 }, // Cygnus
-  { ci: 4, fx: 0.1, fy: 0.72, scale: 95, depth: 0.95, vx: 0.04, vy: -0.025 }, // Lyra
-  { ci: 5, fx: 0.4, fy: 0.8, scale: 95, depth: 0.9, vx: -0.03, vy: 0.03 }, // Crux
-  { ci: 6, fx: 0.7, fy: 0.5, scale: 175, depth: 0.55, vx: -0.04, vy: 0.022 }, // Gemini ♊ (your sign — bigger/brighter)
+  { ci: 0, fx: 0.08, fy: 0.18, scale: 150, depth: 0.7, vx: 0.05, vy: 0.018 }, // Orion — top-left
+  { ci: 1, fx: 0.9, fy: 0.12, scale: 205, depth: 0.45, vx: -0.045, vy: 0.02 }, // Big Dipper — top-right
+  { ci: 2, fx: 0.5, fy: 0.06, scale: 165, depth: 0.8, vx: 0.03, vy: 0.04 }, // Cassiopeia — top-centre
+  { ci: 3, fx: 0.93, fy: 0.78, scale: 150, depth: 0.6, vx: -0.035, vy: -0.03 }, // Cygnus — bottom-right
+  { ci: 4, fx: 0.05, fy: 0.6, scale: 95, depth: 0.95, vx: 0.04, vy: -0.025 }, // Lyra — left edge
+  { ci: 5, fx: 0.26, fy: 0.9, scale: 95, depth: 0.9, vx: -0.03, vy: 0.03 }, // Crux — bottom-left
+  { ci: 6, fx: 0.74, fy: 0.9, scale: 175, depth: 0.55, vx: -0.04, vy: 0.022 }, // Gemini ♊ — bottom-right area
 ];
 
 // precompute each constellation's local centroid so it scales about its centre
@@ -151,12 +153,28 @@ const CENTROIDS = CONSTELLATIONS.map((c) => {
   return [sx / c.stars.length, sy / c.stars.length] as const;
 });
 
+/* scattered background star dust — fills the whole sky between the named
+   constellations so it never looks empty or clogged. Fractional coords +
+   per-star depth for parallax; seeded once. */
+type Dust = { fx: number; fy: number; r: number; b: number; ph: number; depth: number };
+const STARFIELD: Dust[] = Array.from({ length: 150 }, () => ({
+  fx: Math.random(),
+  fy: Math.random(),
+  r: 0.35 + Math.random() * 1.05,
+  b: 0.25 + Math.random() * 0.6,
+  ph: Math.random() * Math.PI * 2,
+  depth: 0.15 + Math.random() * 0.85,
+}));
+
 /* ── tracked "contacts": blips that fly across the hero leaving a
    fading trail + a lock bracket, like targets crossing a scope. ── */
 type Contact = {
   id: number; x: number; y: number; vx: number; vy: number;
   red: boolean; dist: number; trail: [number, number][];
 };
+
+/* a fast shooting star — bright head + long fading tail, no label */
+type Shoot = { x: number; y: number; vx: number; vy: number; life: number; max: number };
 
 // true when the radar sweep's leading edge passes `target` this frame
 // (all angles in degrees, clockwise from north; sweep advances forward & wraps)
@@ -203,6 +221,39 @@ export default function HeroCanvas() {
     let prevSweep = 0;
     let lastT = 0;
     const PING_MS = 1100;
+
+    // shooting stars
+    const shoots: Shoot[] = [];
+    let nextShoot = 1400;
+
+    const spawnShoot = () => {
+      const fromLeft = Math.random() < 0.5;
+      const sp = (mobile ? 0.5 : 0.9) * (0.8 + Math.random() * 0.6); // px/ms (fast)
+      const ang = (fromLeft ? 0.5 : Math.PI - 0.5) + (Math.random() - 0.5) * 0.4;
+      shoots.push({
+        x: fromLeft ? w * (0.0 + Math.random() * 0.3) : w * (0.7 + Math.random() * 0.3),
+        y: h * (0.02 + Math.random() * 0.35),
+        vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
+        life: 0, max: 520 + Math.random() * 360,
+      });
+    };
+
+    const drawShoot = (s: Shoot) => {
+      const p = s.life / s.max;            // 0..1 progress
+      const fade = Math.sin(Math.min(1, p) * Math.PI); // in then out
+      const tailLen = 26 + 40 * fade;
+      const tx = s.x - s.vx / Math.hypot(s.vx, s.vy) * tailLen;
+      const ty = s.y - s.vy / Math.hypot(s.vx, s.vy) * tailLen;
+      const grad = ctx.createLinearGradient(s.x, s.y, tx, ty);
+      grad.addColorStop(0, `rgba(214,232,255,${(0.9 * fade).toFixed(3)})`);
+      grad.addColorStop(1, "rgba(214,232,255,0)");
+      ctx.strokeStyle = grad; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(tx, ty); ctx.stroke();
+      ctx.shadowColor = "rgba(220,236,255,0.9)"; ctx.shadowBlur = 8;
+      ctx.fillStyle = `rgba(240,248,255,${fade.toFixed(3)})`;
+      ctx.beginPath(); ctx.arc(s.x, s.y, 1.7, 0, Math.PI * 2); ctx.fill();
+      ctx.shadowBlur = 0;
+    };
 
     const spawnContact = (t: number) => {
       void t;
@@ -295,6 +346,16 @@ export default function HeroCanvas() {
       // ease pointer
       ptr.x += (ptr.tx - ptr.x) * 0.06;
       ptr.y += (ptr.ty - ptr.y) * 0.06;
+
+      // PASS 0 — scattered background star dust (twinkling, parallax)
+      for (const s of STARFIELD) {
+        const par = s.depth * 16;
+        const x = s.fx * w + ptr.x * par, y = s.fy * h + ptr.y * par;
+        const tw = reduce ? 0.7 : 0.45 + 0.55 * Math.sin(t * 0.001 * speed + s.ph);
+        const a = s.b * (0.4 + 0.6 * tw);
+        ctx.fillStyle = `rgba(198,214,255,${a.toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(x, y, s.r, 0, Math.PI * 2); ctx.fill();
+      }
 
       // PASS 1 — advance drift + compute each constellation's screen centre
       const centers = PLACEMENTS.map((pl, p) => {
@@ -421,6 +482,20 @@ export default function HeroCanvas() {
             continue;
           }
           drawContact(c);
+        }
+      }
+
+      // PASS 5 — shooting stars
+      if (!reduce) {
+        if (t > nextShoot && shoots.length < 2) {
+          spawnShoot();
+          nextShoot = t + 3200 + Math.random() * 4200;
+        }
+        for (let i = shoots.length - 1; i >= 0; i--) {
+          const s = shoots[i];
+          s.x += s.vx * dt; s.y += s.vy * dt; s.life += dt;
+          if (s.life > s.max || s.x < -80 || s.x > w + 80 || s.y > h + 80) { shoots.splice(i, 1); continue; }
+          drawShoot(s);
         }
       }
     };
