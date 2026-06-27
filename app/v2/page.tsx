@@ -250,6 +250,25 @@ export default function V2Page() {
     return () => io.disconnect();
   }, []);
 
+  // cursor-tracking spotlight on glass cards (Linear/Vercel-style light-follows-mouse)
+  useEffect(() => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    let raf = 0;
+    const onMove = (e: PointerEvent) => {
+      const card = (e.target as HTMLElement)?.closest?.(".v2-cell, .v2-duel") as HTMLElement | null;
+      if (!card) return;
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        card.style.setProperty("--my", `${e.clientY - r.top}px`);
+      });
+    };
+    document.addEventListener("pointermove", onMove, { passive: true });
+    return () => { document.removeEventListener("pointermove", onMove); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+
   return (
     <div className="v2-root">
       {/* global overlays */}
@@ -462,13 +481,32 @@ export default function V2Page() {
           <span className="v2-secmeta">// BROWSE BY SECTOR · {INDEX.length} CLASSIFICATIONS</span>
         </div>
 
-        <div className="v2-grid">
-          {INDEX.map((c, i) => (
-            <a key={c.slug} href={`/best-ai-for/${c.slug}`} className="v2-cell v2-reveal" style={{ transitionDelay: `${i * 45}ms` }}>
+        <div className="v2-grid v2-grid-index">
+          {/* featured lead sector — wide 2×2 anchor cell breaks the uniform grid */}
+          <a href={`/best-ai-for/${INDEX[0].slug}`} className="v2-cell v2-cell-feat v2-reveal">
+            <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
+            <span className="v2-cell-top">
+              <span className="v2-cell-n">01</span>
+              <span className="v2-cell-id">SEC.01 · LEAD SECTOR</span>
+            </span>
+            <span className="v2-cell-name">{INDEX[0].label}</span>
+            <span className="v2-cell-lede">The deepest sector — {INDEX[0].n} assistants for drafting, editing, and long-form. Where most missions begin.</span>
+            <span className="v2-cell-bars" aria-hidden="true">
+              {Array.from({ length: 10 }).map((_, b) => (
+                <i key={b} className={b < Math.round(INDEX[0].n / 2.2) ? "on" : ""} />
+              ))}
+            </span>
+            <span className="v2-cell-foot">
+              <span>{INDEX[0].n} TOOLS · LARGEST INDEX</span>
+              <span className="v2-cell-go">ACCESS ▸</span>
+            </span>
+          </a>
+          {INDEX.slice(1).map((c, i) => (
+            <a key={c.slug} href={`/best-ai-for/${c.slug}`} className="v2-cell v2-reveal" style={{ transitionDelay: `${(i + 1) * 45}ms` }}>
               <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
               <span className="v2-cell-top">
-                <span className="v2-cell-n">{String(i + 1).padStart(2, "0")}</span>
-                <span className="v2-cell-id">SEC.{String(i + 1).padStart(2, "0")}</span>
+                <span className="v2-cell-n">{String(i + 2).padStart(2, "0")}</span>
+                <span className="v2-cell-id">SEC.{String(i + 2).padStart(2, "0")}</span>
               </span>
               <span className="v2-cell-name">{c.label}</span>
               <span className="v2-cell-bars" aria-hidden="true">
@@ -482,6 +520,16 @@ export default function V2Page() {
               </span>
             </a>
           ))}
+          {/* manifest CTA — fills the final cell as an intentional terminus, not a gap */}
+          <a href="/best-ai-for" className="v2-cell v2-cell-cta v2-reveal" style={{ transitionDelay: `${INDEX.length * 45}ms` }}>
+            <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
+            <span className="v2-cell-cta-mark" aria-hidden="true">+</span>
+            <span className="v2-cell-name">ALL SECTORS</span>
+            <span className="v2-cell-foot">
+              <span>FULL MANIFEST</span>
+              <span className="v2-cell-go">OPEN ▸</span>
+            </span>
+          </a>
         </div>
       </section>
 

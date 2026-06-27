@@ -153,18 +153,43 @@ const CENTROIDS = CONSTELLATIONS.map((c) => {
   return [sx / c.stars.length, sy / c.stars.length] as const;
 });
 
-/* scattered background star dust — fills the whole sky between the named
-   constellations so it never looks empty or clogged. Fractional coords +
-   per-star depth for parallax; seeded once. */
-type Dust = { fx: number; fy: number; r: number; b: number; ph: number; depth: number };
-const STARFIELD: Dust[] = Array.from({ length: 150 }, () => ({
-  fx: Math.random(),
-  fy: Math.random(),
-  r: 0.35 + Math.random() * 1.05,
-  b: 0.25 + Math.random() * 0.6,
-  ph: Math.random() * Math.PI * 2,
-  depth: 0.15 + Math.random() * 0.85,
-}));
+/* Nebula deep-field — a few large, very soft colored clouds that drift on the
+   deepest parallax layer. Under mix-blend-mode:screen these are purely additive
+   glow, so they read as volumetric atmosphere/haze rather than flat fills. The
+   palette is a controlled indigo → magenta → cyan spread to give the scene a
+   real luminosity range instead of one monotone blue. Seeded once, deterministic. */
+type Nebula = { fx: number; fy: number; rx: number; ry: number; rot: number; rgb: RGB; a: number; depth: number; drift: number; ph: number };
+const NEBULAE: Nebula[] = [
+  { fx: 0.20, fy: 0.32, rx: 0.46, ry: 0.40, rot: -0.5, rgb: [96, 84, 224], a: 0.20, depth: 0.08, drift: 0.004, ph: 0.0 },  // indigo, left
+  { fx: 0.80, fy: 0.60, rx: 0.50, ry: 0.40, rot: 0.4, rgb: [202, 70, 168], a: 0.16, depth: 0.10, drift: -0.003, ph: 1.4 }, // magenta, lower-right
+  { fx: 0.62, fy: 0.16, rx: 0.38, ry: 0.30, rot: 0.2, rgb: [44, 164, 226], a: 0.14, depth: 0.06, drift: 0.0035, ph: 2.7 }, // cyan, top
+  { fx: 0.38, fy: 0.82, rx: 0.34, ry: 0.26, rot: -0.3, rgb: [60, 132, 210], a: 0.11, depth: 0.12, drift: 0.0028, ph: 4.1 }, // blue, bottom
+];
+
+/* scattered background star dust in 3 DEPTH TIERS — far (tiny/dim/no parallax),
+   mid, and near (larger/brighter/more parallax, brightest ones bloom). Real depth
+   comes from size × brightness × parallax variance, not from element count.
+   Subtle warm/cyan color variation keeps it from going monotone. */
+type Dust = { fx: number; fy: number; r: number; b: number; ph: number; depth: number; tint: RGB; bloom: boolean };
+function seedTier(n: number, dMin: number, dMax: number, rMin: number, rMax: number, bMin: number, bMax: number, bloomChance: number): Dust[] {
+  return Array.from({ length: n }, () => {
+    const roll = Math.random();
+    const tint: RGB = roll < 0.12 ? [255, 224, 196] : roll < 0.24 ? [188, 224, 255] : [206, 218, 255];
+    return {
+      fx: Math.random(), fy: Math.random(),
+      r: rMin + Math.random() * (rMax - rMin),
+      b: bMin + Math.random() * (bMax - bMin),
+      ph: Math.random() * Math.PI * 2,
+      depth: dMin + Math.random() * (dMax - dMin),
+      tint, bloom: Math.random() < bloomChance,
+    };
+  });
+}
+const STARFIELD: Dust[] = [
+  ...seedTier(150, 0.04, 0.22, 0.3, 0.7, 0.18, 0.4, 0),     // far field — dense, faint, near-static
+  ...seedTier(80, 0.35, 0.6, 0.5, 1.1, 0.3, 0.6, 0.04),     // mid field
+  ...seedTier(34, 0.7, 1.0, 0.9, 1.7, 0.45, 0.85, 0.5),     // near field — sparse, bright, bloom
+];
 
 /* ── tracked "contacts": blips that fly across the hero leaving a
    fading trail + a lock bracket, like targets crossing a scope. ── */
@@ -272,43 +297,26 @@ export default function HeroCanvas() {
       });
     };
 
+    // a silent distant probe — faint head + short fading trail, no label/bracket
+    // (the old TRK-xx telemetry labels read as HUD noise; premium = quieter)
     const drawContact = (c: Contact) => {
-      const col = c.red ? "255,96,104" : "92,170,255";
-      // fading trail
+      const col = c.red ? "255,120,128" : "150,196,255";
       ctx.lineWidth = 1;
       for (let k = 1; k < c.trail.length; k++) {
-        const a = (k / c.trail.length) * 0.5;
+        const a = (k / c.trail.length) * 0.28;
         ctx.strokeStyle = `rgba(${col},${a.toFixed(3)})`;
         ctx.beginPath();
         ctx.moveTo(c.trail[k - 1][0], c.trail[k - 1][1]);
         ctx.lineTo(c.trail[k][0], c.trail[k][1]);
         ctx.stroke();
       }
-      // head
-      ctx.shadowColor = `rgba(${col},0.9)`;
-      ctx.shadowBlur = 6;
-      ctx.fillStyle = `rgba(${col},0.95)`;
+      ctx.shadowColor = `rgba(${col},0.8)`;
+      ctx.shadowBlur = 5;
+      ctx.fillStyle = `rgba(${col},0.7)`;
       ctx.beginPath();
-      ctx.arc(c.x, c.y, 2, 0, Math.PI * 2);
+      ctx.arc(c.x, c.y, 1.4, 0, Math.PI * 2);
       ctx.fill();
       ctx.shadowBlur = 0;
-      // lock bracket (four corner ticks)
-      const b = 8, tk = 3;
-      ctx.strokeStyle = `rgba(${col},0.7)`;
-      ctx.beginPath();
-      // TL
-      ctx.moveTo(c.x - b, c.y - b + tk); ctx.lineTo(c.x - b, c.y - b); ctx.lineTo(c.x - b + tk, c.y - b);
-      // TR
-      ctx.moveTo(c.x + b - tk, c.y - b); ctx.lineTo(c.x + b, c.y - b); ctx.lineTo(c.x + b, c.y - b + tk);
-      // BR
-      ctx.moveTo(c.x + b, c.y + b - tk); ctx.lineTo(c.x + b, c.y + b); ctx.lineTo(c.x + b - tk, c.y + b);
-      // BL
-      ctx.moveTo(c.x - b + tk, c.y + b); ctx.lineTo(c.x - b, c.y + b); ctx.lineTo(c.x - b, c.y + b - tk);
-      ctx.stroke();
-      // label
-      ctx.font = "9px ui-monospace, SFMono-Regular, Menlo, monospace";
-      ctx.fillStyle = `rgba(${col},0.78)`;
-      ctx.fillText(`TRK-${String(c.id % 100).padStart(2, "0")} · ${c.dist}KM`, c.x + 12, c.y - 9);
     };
 
     const applyBreakpoint = () => {
@@ -347,14 +355,39 @@ export default function HeroCanvas() {
       ptr.x += (ptr.tx - ptr.x) * 0.06;
       ptr.y += (ptr.ty - ptr.y) * 0.06;
 
-      // PASS 0 — scattered background star dust (twinkling, parallax)
+      // PASS -1 — nebula deep-field (volumetric haze, deepest parallax)
+      for (const n of NEBULAE) {
+        const par = n.depth * 30;
+        const dx = reduce ? 0 : Math.sin(t * n.drift * 0.4 + n.ph) * w * 0.02;
+        const dy = reduce ? 0 : Math.cos(t * n.drift * 0.32 + n.ph) * h * 0.02;
+        const cx = n.fx * w + ptr.x * par + dx, cy = n.fy * h + ptr.y * par + dy;
+        const breath = reduce ? 1 : 0.85 + 0.15 * Math.sin(t * 0.0004 + n.ph);
+        const rx = n.rx * w * breath, ry = n.ry * h * breath;
+        const big = Math.max(rx, ry);
+        const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, big);
+        const [r, gg, b] = n.rgb;
+        grad.addColorStop(0, `rgba(${r},${gg},${b},${n.a.toFixed(3)})`);
+        grad.addColorStop(0.35, `rgba(${r},${gg},${b},${(n.a * 0.6).toFixed(3)})`);
+        grad.addColorStop(0.7, `rgba(${r},${gg},${b},${(n.a * 0.22).toFixed(3)})`);
+        grad.addColorStop(1, `rgba(${r},${gg},${b},0)`);
+        ctx.save();
+        ctx.translate(cx, cy); ctx.rotate(n.rot); ctx.scale(1, ry / big);
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.arc(0, 0, big, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+      }
+
+      // PASS 0 — scattered background star dust in depth tiers (twinkle, parallax, bloom)
       for (const s of STARFIELD) {
-        const par = s.depth * 16;
+        const par = s.depth * 26;
         const x = s.fx * w + ptr.x * par, y = s.fy * h + ptr.y * par;
-        const tw = reduce ? 0.7 : 0.45 + 0.55 * Math.sin(t * 0.001 * speed + s.ph);
+        const tw = reduce ? 0.7 : 0.4 + 0.6 * Math.sin(t * 0.001 * speed + s.ph);
         const a = s.b * (0.4 + 0.6 * tw);
-        ctx.fillStyle = `rgba(198,214,255,${a.toFixed(3)})`;
+        const [r, gg, b] = s.tint;
+        if (s.bloom) { ctx.shadowColor = `rgba(${r},${gg},${b},0.9)`; ctx.shadowBlur = 4 + 4 * tw; }
+        ctx.fillStyle = `rgba(${r},${gg},${b},${a.toFixed(3)})`;
         ctx.beginPath(); ctx.arc(x, y, s.r, 0, Math.PI * 2); ctx.fill();
+        if (s.bloom) ctx.shadowBlur = 0;
       }
 
       // PASS 1 — advance drift + compute each constellation's screen centre
@@ -412,15 +445,18 @@ export default function HeroCanvas() {
           oy + (s[1] - lcy) * sc,
         ]);
 
-        // lines (brighten slightly on ping)
-        ctx.lineWidth = 0.7;
-        ctx.strokeStyle = `rgba(${LINKC},${(0.28 + ping * 0.4).toFixed(3)})`;
+        // lines — elegant thin glowing connections (brighten slightly on ping)
+        ctx.lineWidth = 0.6;
+        ctx.strokeStyle = `rgba(146,184,255,${(0.16 + ping * 0.42).toFixed(3)})`;
+        ctx.shadowColor = "rgba(120,170,255,0.5)";
+        ctx.shadowBlur = 3 + ping * 5;
         ctx.beginPath();
         for (const [a, b] of con.edges) {
           ctx.moveTo(pts[a][0], pts[a][1]);
           ctx.lineTo(pts[b][0], pts[b][1]);
         }
         ctx.stroke();
+        ctx.shadowBlur = 0;
 
         // stars (twinkle + ping boost)
         for (let i = 0; i < con.stars.length; i++) {
@@ -454,7 +490,7 @@ export default function HeroCanvas() {
           const pad = 12 + (1 - ping) * 10; // contracts as it settles
           minx -= pad; miny -= pad; maxx += pad; maxy += pad;
           const tk = 8;
-          ctx.strokeStyle = `rgba(${LINKC},${(ping * 0.75).toFixed(3)})`;
+          ctx.strokeStyle = `rgba(${LINKC},${(ping * 0.4).toFixed(3)})`;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(minx, miny + tk); ctx.lineTo(minx, miny); ctx.lineTo(minx + tk, miny);

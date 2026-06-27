@@ -38,19 +38,28 @@ type Body = {
   bob: number;              // vertical bob amplitude (px)
   col: string;              // base "r,g,b"
   accent: string;           // accent "r,g,b"
+  far?: boolean;            // distant background body → dimmed + softly blurred for depth
+  dim?: number;             // explicit opacity override (0..1)
   // runtime
   dots?: { x: number; y: number; s: number }[];          // moon stipple (unit disk)
   craters?: { x: number; y: number; r: number; fresh?: boolean }[]; // moon craters (unit disk)
   cracks?: { x: number; y: number }[][];                  // lava/ice surface fractures (unit disk)
 };
 
+// Composition: ONE dominant hero planet (the ringed gas giant, anchored on the
+// right third beside the headline) with its own moon. Everything else is a small,
+// dimmed, softly-blurred DISTANT body — depth comes from scale × opacity × blur,
+// not from six equal planets competing for attention.
 const BODIES: Body[] = [
-  { type: "wire",  fx: 0.84, fy: 0.30, r: 60, spin: 0.00016, tilt: 0.42, depth: 0.7, bob: 5, col: "120,170,255", accent: "120,212,255" },
-  { type: "rings", fx: 0.15, fy: 0.66, r: 45, spin: 0.00012, tilt: 0.95, depth: 0.5, bob: 7, col: "150,185,255", accent: "206,221,255" },
-  { type: "bands", fx: 0.21, fy: 0.20, r: 37, spin: 0.00022, tilt: 0.30, depth: 0.85, bob: 4, col: "130,175,255", accent: "255,110,104" },
-  { type: "moon",  fx: 0.80, fy: 0.72, r: 30, spin: 0.00006, tilt: 0.00, depth: 0.4, bob: 8, col: "160,180,215", accent: "120,150,200" },
-  { type: "lava",  fx: 0.50, fy: 0.13, r: 30, spin: 0.00010, tilt: 0.20, depth: 0.6, bob: 5, col: "150,90,120", accent: "236,86,84" },
-  { type: "ice",   fx: 0.50, fy: 0.89, r: 35, spin: 0.00009, tilt: 0.35, depth: 0.55, bob: 6, col: "150,195,255", accent: "216,238,255" },
+  // ── DISTANT FIELD (drawn first, far behind) ──
+  { type: "bands", fx: 0.11, fy: 0.24, r: 25, spin: 0.00022, tilt: 0.30, depth: 0.9,  bob: 3, col: "130,175,255", accent: "255,110,104", far: true, dim: 0.5 },
+  { type: "lava",  fx: 0.40, fy: 0.12, r: 17, spin: 0.00010, tilt: 0.20, depth: 0.95, bob: 3, col: "150,90,120",  accent: "236,86,84",  far: true, dim: 0.42 },
+  { type: "ice",   fx: 0.30, fy: 0.86, r: 23, spin: 0.00009, tilt: 0.35, depth: 0.85, bob: 4, col: "150,195,255", accent: "216,238,255", far: true, dim: 0.5 },
+  // ── MID: the wireframe intelligence globe (signature motif, secondary) ──
+  { type: "wire",  fx: 0.15, fy: 0.60, r: 44, spin: 0.00016, tilt: 0.42, depth: 0.62, bob: 5, col: "120,170,255", accent: "120,212,255", dim: 0.82 },
+  // ── HERO: dominant ringed gas giant + its moon ──
+  { type: "rings", fx: 0.80, fy: 0.44, r: 67, spin: 0.00010, tilt: 0.62, depth: 0.42, bob: 6, col: "150,185,255", accent: "206,221,255" },
+  { type: "moon",  fx: 0.93, fy: 0.66, r: 18, spin: 0.00006, tilt: 0.00, depth: 0.30, bob: 7, col: "176,192,222", accent: "120,150,200", far: true, dim: 0.7 },
 ];
 
 type Vec3 = { x: number; y: number; z: number };
@@ -323,6 +332,24 @@ export default function HeroGlobe() {
     ];
     function drawRings(b: Body, cx: number, cy: number, rr: number, t: number) {
       const rot = t * b.spin, st = Math.sin(b.tilt), ct = Math.cos(b.tilt);
+      // atmospheric limb glow — a soft halo of scattered light wrapping the planet,
+      // brightest on the sunlit side. This is what sells "planet with an atmosphere"
+      // vs "shaded circle". Drawn first so the body + rings sit in front of it.
+      const atmo = g.createRadialGradient(cx, cy, rr * 0.88, cx, cy, rr * 1.26);
+      atmo.addColorStop(0, "rgba(150,196,255,0)");
+      atmo.addColorStop(0.4, "rgba(150,196,255,0.16)");
+      atmo.addColorStop(0.7, "rgba(120,170,255,0.07)");
+      atmo.addColorStop(1, "rgba(120,170,255,0)");
+      g.fillStyle = atmo; g.beginPath(); g.arc(cx, cy, rr * 1.26, 0, Math.PI * 2); g.fill();
+      // a brighter sunward atmosphere crescent (bloomed) on the lit limb
+      const awx = cx + LIGHT.x * rr * 0.55, awy = cy + LIGHT.y * rr * 0.55;
+      const cres = g.createRadialGradient(awx, awy, rr * 0.6, awx, awy, rr * 1.3);
+      cres.addColorStop(0, "rgba(186,216,255,0)");
+      cres.addColorStop(0.62, "rgba(186,216,255,0.14)");
+      cres.addColorStop(1, "rgba(186,216,255,0)");
+      g.save(); g.beginPath(); g.arc(cx, cy, rr * 1.24, 0, Math.PI * 2);
+      g.arc(cx, cy, rr * 0.95, 0, Math.PI * 2, true); g.clip();   // annulus only
+      g.fillStyle = cres; g.fillRect(cx - rr * 1.3, cy - rr * 1.3, rr * 2.6, rr * 2.6); g.restore();
       const ringHalf = (radF: number, widthF: number, alpha: number, front: boolean) => {
         const radius = rr * radF;
         const shimmer = 0.8 + 0.2 * Math.sin(t * 0.004 + radF * 9.3); // per-band ice-particle glint
@@ -573,7 +600,7 @@ export default function HeroGlobe() {
 
     /* ---- molten lava world — dark crust, glowing magma cracks, hot rim ---- */
     function drawLava(b: Body, cx: number, cy: number, rr: number, t: number) {
-      const pulse = 0.6 + 0.4 * Math.sin(t * 0.002);
+      const pulse = 0.6 + 0.4 * Math.sin(t * 0.0011);
       // outer heat haze (shows through the screen blend)
       const haze = g.createRadialGradient(cx, cy, rr * 0.7, cx, cy, rr * 1.3);
       haze.addColorStop(0, `rgba(${b.accent},${(0.12 * pulse).toFixed(3)})`); haze.addColorStop(1, `rgba(${b.accent},0)`);
@@ -597,7 +624,7 @@ export default function HeroGlobe() {
         const lat = -1 + (i / (LSTR - 1)) * 2;
         const half = Math.sqrt(Math.max(0, 1 - lat * lat)) * rr;
         const yy = cy + lat * rr;
-        const cell = 0.5 + 0.5 * Math.sin(lat * 9 + t * 0.0016) * Math.cos(lat * 3.4 - t * 0.0009);
+        const cell = 0.5 + 0.5 * Math.sin(lat * 9 + t * 0.0008) * Math.cos(lat * 3.4 - t * 0.00045);
         const hot = cell > 0.62;
         const a = hot ? 0.16 * pulse : 0.05;
         g.fillStyle = hot ? `rgba(255,${(150 + 70 * cell) | 0},${(70 * cell) | 0},${a.toFixed(3)})` : `rgba(${b.col},${a.toFixed(3)})`;
@@ -607,7 +634,7 @@ export default function HeroGlobe() {
       for (let ci = 0; ci < b.cracks!.length; ci++) {
         const cr = b.cracks![ci];
         const wave = cr[0].x * 2.4 + cr[0].y * 1.7; // phase by crack position → propagating glow
-        const flick = 0.5 + 0.5 * Math.sin(t * 0.0045 - wave + ci * 0.6);
+        const flick = 0.5 + 0.5 * Math.sin(t * 0.0021 - wave + ci * 0.6);
         g.strokeStyle = `rgba(255,${(150 + 60 * flick) | 0},${(90 * flick) | 0},${(0.55 + 0.4 * flick).toFixed(3)})`;
         g.lineWidth = Math.max(1, rr * 0.05 * (0.6 + flick * 0.6));
         g.shadowColor = `rgba(${b.accent},0.9)`; g.shadowBlur = rr * 0.2 * flick;
@@ -621,9 +648,9 @@ export default function HeroGlobe() {
       for (let k = 0; k < 11; k++) {
         const seed = Math.sin(k * 12.9898) * 43758.5453;
         const rx = (seed - Math.floor(seed) - 0.5) * 1.1;          // stable per-ember x
-        const ph = (t * 0.00045 + k * 0.137) % 1;
+        const ph = (t * 0.0003 + k * 0.137) % 1;
         const ey = cy + rr * 0.55 - ph * rr * 1.5;                 // rise upward
-        const ex = cx + rx * rr * 0.55 + Math.sin(t * 0.002 + k) * rr * 0.06;
+        const ex = cx + rx * rr * 0.55 + Math.sin(t * 0.0012 + k) * rr * 0.06;
         const fade = Math.sin(ph * Math.PI);                        // fade in then out
         if (fade <= 0.02) continue;
         g.fillStyle = `rgba(255,${(140 + 80 * fade) | 0},${(60 * fade) | 0},${(0.7 * fade).toFixed(3)})`;
@@ -708,14 +735,22 @@ export default function HeroGlobe() {
       ptr.y += (ptr.ty - ptr.y) * 0.05;
       for (const b of BODIES) {
         const rr = b.r * sizeMul;
-        const cx = b.fx * w + ptr.x * 26 * b.depth;
-        const cy = b.fy * h + ptr.y * 20 * b.depth + (reduce ? 0 : Math.sin(t * 0.0005 + b.fx * 10) * b.bob);
+        // distant bodies parallax MORE (they sit on a deeper layer) — depth here is
+        // inverted relative to size: small + dim + extra drift reads as "far away".
+        const par = b.far ? 40 : 26;
+        const cx = b.fx * w + ptr.x * par * b.depth;
+        const cy = b.fy * h + ptr.y * (par * 0.78) * b.depth + (reduce ? 0 : Math.sin(t * 0.0005 + b.fx * 10) * b.bob);
+        g.save();
+        if (b.dim != null) g.globalAlpha = b.dim;
+        if (b.far) g.filter = mobile ? "none" : "blur(1.4px)";   // atmospheric softening for depth
         if (b.type === "wire") drawWire(b, cx, cy, rr, t);
         else if (b.type === "rings") drawRings(b, cx, cy, rr, t);
         else if (b.type === "bands") drawBands(b, cx, cy, rr, t);
         else if (b.type === "lava") drawLava(b, cx, cy, rr, t);
         else if (b.type === "ice") drawIce(b, cx, cy, rr, t);
         else drawMoon(b, cx, cy, rr, t);
+        g.filter = "none";
+        g.restore();
       }
     }
 
