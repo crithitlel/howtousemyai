@@ -49,10 +49,19 @@ type Body = {
   accent: string;           // accent "r,g,b" (atmosphere)
   far?: boolean;            // distant body → dimmed + softly blurred
   dim?: number;             // explicit opacity override (0..1)
-  // runtime
-  sprite?: HTMLCanvasElement; // cached lit textured sprite
-  spriteKey?: string;         // size bucket the sprite was built at
+  // runtime — precomputed projection LUT + per-frame compositing buffers
+  spriteKey?: string;         // size bucket the LUT was built at
+  lut?: PlanetLUT;
+  fbuf?: ImageData;           // reusable RGBA buffer (alpha baked, RGB per frame)
+  fcv?: HTMLCanvasElement;    // offscreen canvas the buffer is painted into
+  fcx?: CanvasRenderingContext2D;
 };
+
+// Per-pixel projection lookup: for each lit pixel inside the disc we store the
+// fixed texture row, the base longitude (0..1), the lighting shade and the dest
+// index. Rotation is then just "add a longitude offset + resample" each frame —
+// no trig, so all five planets can spin smoothly without re-projecting.
+type PlanetLUT = { rowOff: Int32Array; uBase: Float32Array; shade: Float32Array; dst: Int32Array; n: number; tw: number };
 
 // Composition: ONE dominant hero (Saturn + rings, right third beside the
 // headline) with its Moon. Everything else is a smaller, dimmed, softly
@@ -60,14 +69,14 @@ type Body = {
 // globe is the signature motif on the lower-left.
 const BODIES: Body[] = [
   // ── DISTANT FIELD (drawn first, far behind) ──
-  { type: "planet", tex: "2k_jupiter.jpg", fx: 0.11, fy: 0.23, r: 36, spin: 0, tilt: 0.26, depth: 0.9,  bob: 3, col: "208,178,140", accent: "255,206,150", far: true, dim: 0.66 },
-  { type: "planet", tex: "2k_mars.jpg",    fx: 0.40, fy: 0.12, r: 24, spin: 0, tilt: 0.32, depth: 0.95, bob: 3, col: "198,120,82",  accent: "255,156,104", far: true, dim: 0.6 },
-  { type: "planet", tex: "2k_neptune.jpg", fx: 0.30, fy: 0.86, r: 32, spin: 0, tilt: 0.40, depth: 0.85, bob: 4, col: "110,150,228", accent: "150,196,255", far: true, dim: 0.64 },
+  { type: "planet", tex: "2k_jupiter.jpg", fx: 0.11, fy: 0.23, r: 36, spin: 0.000030, tilt: 0.26, depth: 0.9,  bob: 3, col: "208,178,140", accent: "255,206,150", far: true, dim: 0.66 },
+  { type: "planet", tex: "2k_mars.jpg",    fx: 0.40, fy: 0.12, r: 24, spin: 0.000020, tilt: 0.32, depth: 0.95, bob: 3, col: "198,120,82",  accent: "255,156,104", far: true, dim: 0.6 },
+  { type: "planet", tex: "2k_neptune.jpg", fx: 0.30, fy: 0.86, r: 32, spin: -0.000024, tilt: 0.40, depth: 0.85, bob: 4, col: "110,150,228", accent: "150,196,255", far: true, dim: 0.64 },
   // ── MID: the wireframe intelligence globe (signature, secondary) ──
   { type: "wire",   fx: 0.15, fy: 0.60, r: 44, spin: 0.00016, tilt: 0.42, depth: 0.62, bob: 5, col: "120,170,255", accent: "120,212,255", dim: 0.82 },
   // ── HERO: dominant ringed gas giant + its moon, tinted to the site's blue ──
-  { type: "planet", tex: "2k_saturn.jpg", ring: true, tint: [132, 176, 255], fx: 0.80, fy: 0.44, r: 72, spin: 0, tilt: 0.46, depth: 0.42, bob: 6, col: "150,185,255", accent: "150,200,255" },
-  { type: "planet", tex: "2k_moon.jpg",   fx: 0.93, fy: 0.67, r: 25, spin: 0, tilt: 0.06, depth: 0.30, bob: 7, col: "182,196,222", accent: "210,218,236", far: true, dim: 0.8 },
+  { type: "planet", tex: "2k_saturn.jpg", ring: true, tint: [132, 176, 255], fx: 0.80, fy: 0.44, r: 72, spin: 0.000013, tilt: 0.46, depth: 0.42, bob: 6, col: "150,185,255", accent: "150,200,255" },
+  { type: "planet", tex: "2k_moon.jpg",   fx: 0.93, fy: 0.67, r: 25, spin: 0.000009, tilt: 0.06, depth: 0.30, bob: 7, col: "182,196,222", accent: "210,218,236", far: true, dim: 0.8 },
 ];
 
 type Vec3 = { x: number; y: number; z: number };
@@ -134,26 +143,27 @@ function sampleTexture(name: string): TexData | null {
   return rec.sampled;
 }
 
-/* ── project an equirectangular texture onto a lit sphere (once, cached) ──
-   For each output pixel: derive the sphere normal, undo the axial tilt to
-   read body-local lon/lat, sample the texture, then shade by a diffuse
-   dot-product against the sun plus gentle limb darkening. Alpha feathers
-   the rim for a clean anti-aliased edge. */
-function buildSprite(tex: TexData, sizePx: number, tilt: number, tint?: [number, number, number]): HTMLCanvasElement | null {
-  const cv = document.createElement("canvas");
-  cv.width = sizePx; cv.height = sizePx;
-  const c = cv.getContext("2d");
-  if (!c) return null;
-  const out = c.createImageData(sizePx, sizePx);
-  const dst = out.data;
-  const { data: src, tw, th } = tex;
+/* ── build a projection lookup table for a lit, spinnable sphere (once) ──
+   For each output pixel we derive the sphere normal, undo the axial tilt to
+   read body-local lon/lat, and precompute: the texture ROW (fixed — latitude
+   doesn't change as the planet spins about its axis), the BASE longitude
+   (0..1), the lighting shade (diffuse dot-product + limb darkening) and the
+   destination index. The rim alpha is baked straight into the supplied frame
+   buffer. Per frame we then only add a longitude offset and resample — cheap
+   enough to spin every planet at 60fps. */
+function buildPlanetLUT(tex: TexData, sizePx: number, tilt: number, fbuf: ImageData): PlanetLUT {
+  const dst = fbuf.data;
+  const { tw, th } = tex;
   const R = sizePx / 2;
   const ct = Math.cos(tilt), stt = Math.sin(tilt);
   const Lx = LIGHT.x, Ly = LIGHT.y, Lz = LIGHT.z;
   const TWO_PI = Math.PI * 2;
-  // colorize: map texture luminance onto a target tint (brightest → tint RGB),
-  // keeping band/cloud structure but recoloring to fit the site palette.
-  const tr = tint ? tint[0] / 255 : 0, tg = tint ? tint[1] / 255 : 0, tb = tint ? tint[2] / 255 : 0;
+  const cap = sizePx * sizePx;
+  const rowOff = new Int32Array(cap);
+  const uBase = new Float32Array(cap);
+  const shade = new Float32Array(cap);
+  const dstA = new Int32Array(cap);
+  let n = 0;
   for (let py = 0; py < sizePx; py++) {
     const ny = (py - R + 0.5) / R;
     for (let px = 0; px < sizePx; px++) {
@@ -165,38 +175,28 @@ function buildSprite(tex: TexData, sizePx: number, tilt: number, tint?: [number,
       // undo axial tilt (rotate by -tilt about X) → body-local coords
       const by = ny * ct + nz * stt;
       const bz = -ny * stt + nz * ct;
-      const bx = nx;
-      const lon = Math.atan2(bx, bz);
+      const lon = Math.atan2(nx, bz);
       const lat = Math.asin(by < -1 ? -1 : by > 1 ? 1 : by);
       let u = lon / TWO_PI + 0.5; u -= Math.floor(u);
       const v = 0.5 - lat / Math.PI;
-      const sx = (u * tw) | 0, sy = (v * th) | 0;
-      const si = ((sy < th ? sy : th - 1) * tw + (sx < tw ? sx : tw - 1)) * 4;
+      const sy = (v * th) | 0;
       // diffuse + ambient, with limb darkening toward the rim
       let diff = nx * Lx + ny * Ly + nz * Lz;
       if (diff < 0) diff = 0;
       const limb = 0.62 + 0.38 * nz;
-      let shade = (0.2 + 0.8 * Math.pow(diff, 0.85)) * limb;
-      if (shade > 1.18) shade = 1.18;
-      if (tint) {
-        // luminance → tinted ramp (slightly lifted so it reads bright, not muddy)
-        const lum = (0.299 * src[si] + 0.587 * src[si + 1] + 0.114 * src[si + 2]) / 255;
-        const ramp = (0.32 + 0.78 * lum) * shade;
-        dst[di] = tr * 255 * ramp;
-        dst[di + 1] = tg * 255 * ramp;
-        dst[di + 2] = tb * 255 * ramp;
-      } else {
-        dst[di] = src[si] * shade;
-        dst[di + 1] = src[si + 1] * shade;
-        dst[di + 2] = src[si + 2] * shade;
-      }
-      // rim anti-alias (feather the outer ~1.5px)
+      let sh = (0.2 + 0.8 * Math.pow(diff, 0.85)) * limb;
+      if (sh > 1.18) sh = 1.18;
+      rowOff[n] = (sy < th ? sy : th - 1) * tw * 4;
+      uBase[n] = u;
+      shade[n] = sh;
+      dstA[n] = di;
+      // rim anti-alias (feather the outer ~1.5px) — alpha is fixed, baked once
       const edge = 1 - r2;
       dst[di + 3] = edge < 0.05 ? (edge / 0.05) * 255 : 255;
+      n++;
     }
   }
-  c.putImageData(out, 0, 0);
-  return cv;
+  return { rowOff, uBase, shade, dst: dstA, n, tw };
 }
 
 export default function HeroGlobe() {
@@ -233,7 +233,7 @@ export default function HeroGlobe() {
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       applyBreakpoint();
-      for (const b of BODIES) { b.sprite = undefined; b.spriteKey = undefined; } // rebuild at new scale
+      for (const b of BODIES) { b.lut = undefined; b.fbuf = undefined; b.fcv = undefined; b.fcx = undefined; b.spriteKey = undefined; } // rebuild at new scale
       if (reduce) draw(0);
     };
 
@@ -385,14 +385,18 @@ export default function HeroGlobe() {
 
     /* ---- textured planet — cached lit sprite + atmosphere glow ---- */
     function drawPlanet(b: Body, cx: number, cy: number, rr: number, t: number) {
-      // build / rebuild the lit sprite for this size bucket
+      // build / rebuild the projection LUT for this size bucket
       const key = `${Math.round(rr)}`;
-      if (b.spriteKey !== key && b.tex) {
-        const tex = sampleTexture(b.tex);
-        if (tex) {
-          const px = Math.max(32, Math.ceil(rr * 2 * dpr));
-          const sp = buildSprite(tex, px, b.tilt, b.tint);
-          if (sp) { b.sprite = sp; b.spriteKey = key; }
+      const tex = b.tex ? sampleTexture(b.tex) : null;
+      if (b.spriteKey !== key && tex) {
+        const px = Math.max(32, Math.ceil(rr * 2 * dpr));
+        const fcv = document.createElement("canvas");
+        fcv.width = px; fcv.height = px;
+        const fcx = fcv.getContext("2d");
+        if (fcx) {
+          const fbuf = fcx.createImageData(px, px);
+          b.lut = buildPlanetLUT(tex, px, b.tilt, fbuf);
+          b.fbuf = fbuf; b.fcv = fcv; b.fcx = fcx; b.spriteKey = key;
         }
       }
 
@@ -416,9 +420,31 @@ export default function HeroGlobe() {
       // rings — back halves behind the body
       if (b.ring) ringHalf(b, cx, cy, rr, t, false);
 
-      // the textured sphere itself (normal blend)
-      if (b.sprite) {
-        g.drawImage(b.sprite, cx - rr, cy - rr, rr * 2, rr * 2);
+      // the textured sphere itself — spun by scrolling the sampled longitude,
+      // then composited (normal blend over the dark hero)
+      if (b.lut && b.fbuf && b.fcv && b.fcx && tex) {
+        const { rowOff, uBase, shade, dst, n, tw } = b.lut;
+        const src = tex.data, d = b.fbuf.data;
+        let spin = reduce ? 0 : (t * b.spin) % 1; if (spin < 0) spin += 1;
+        const tint = b.tint;
+        if (tint) {
+          const tr = tint[0], tg = tint[1], tb = tint[2];
+          for (let i = 0; i < n; i++) {
+            let u = uBase[i] + spin; if (u >= 1) u -= 1;
+            const si = rowOff[i] + ((u * tw) | 0) * 4, di = dst[i], sh = shade[i];
+            const lum = (0.299 * src[si] + 0.587 * src[si + 1] + 0.114 * src[si + 2]) / 255;
+            const ramp = (0.32 + 0.78 * lum) * sh;
+            d[di] = tr * ramp; d[di + 1] = tg * ramp; d[di + 2] = tb * ramp;
+          }
+        } else {
+          for (let i = 0; i < n; i++) {
+            let u = uBase[i] + spin; if (u >= 1) u -= 1;
+            const si = rowOff[i] + ((u * tw) | 0) * 4, di = dst[i], sh = shade[i];
+            d[di] = src[si] * sh; d[di + 1] = src[si + 1] * sh; d[di + 2] = src[si + 2] * sh;
+          }
+        }
+        b.fcx.putImageData(b.fbuf, 0, 0);
+        g.drawImage(b.fcv, cx - rr, cy - rr, rr * 2, rr * 2);
       } else {
         // graceful fallback until the texture loads: a simple shaded disc
         const grd = g.createRadialGradient(cx + LIGHT.x * rr * 0.5, cy + LIGHT.y * rr * 0.5, rr * 0.1, cx, cy, rr);
