@@ -40,6 +40,7 @@ type Body = {
   ring?: boolean;           // draw a ring system (Saturn)
   tint?: [number, number, number]; // colorize the texture toward this RGB (fit theme)
   fx: number; fy: number;   // fractional position in the hero
+  mfx?: number; mfy?: number; // mobile-only position override (clears the search console)
   r: number;                // radius in px (desktop)
   spin: number;             // rotation speed (rad/ms) — wire only
   tilt: number;             // axial tilt (rad)
@@ -73,9 +74,9 @@ const BODIES: Body[] = [
   { type: "planet", tex: "2k_mars.jpg",    fx: 0.40, fy: 0.12, r: 24, spin: 0.000020, tilt: 0.32, depth: 0.95, bob: 3, col: "198,120,82",  accent: "255,156,104", far: true, dim: 0.6 },
   { type: "planet", tex: "2k_neptune.jpg", fx: 0.30, fy: 0.86, r: 32, spin: -0.000024, tilt: 0.40, depth: 0.85, bob: 4, col: "110,150,228", accent: "150,196,255", far: true, dim: 0.64 },
   // ── MID: the wireframe intelligence globe (signature, secondary) ──
-  { type: "wire",   fx: 0.15, fy: 0.60, r: 44, spin: 0.00016, tilt: 0.42, depth: 0.62, bob: 5, col: "120,170,255", accent: "120,212,255", dim: 0.82 },
+  { type: "wire",   fx: 0.15, fy: 0.60, mfx: 0.16, mfy: 0.42, r: 44, spin: 0.00016, tilt: 0.42, depth: 0.62, bob: 5, col: "120,170,255", accent: "120,212,255", dim: 0.82 },
   // ── HERO: dominant ringed gas giant + its moon, tinted to the site's blue ──
-  { type: "planet", tex: "2k_saturn.jpg", ring: true, tint: [132, 176, 255], fx: 0.80, fy: 0.44, r: 72, spin: 0.000013, tilt: 0.46, depth: 0.42, bob: 6, col: "150,185,255", accent: "150,200,255" },
+  { type: "planet", tex: "2k_saturn.jpg", ring: true, tint: [132, 176, 255], fx: 0.80, fy: 0.44, mfx: 0.82, mfy: 0.34, r: 72, spin: 0.000013, tilt: 0.46, depth: 0.42, bob: 6, col: "150,185,255", accent: "150,200,255" },
   { type: "planet", tex: "2k_moon.jpg",   fx: 0.93, fy: 0.67, r: 25, spin: 0.000009, tilt: 0.06, depth: 0.30, bob: 7, col: "182,196,222", accent: "210,218,236", far: true, dim: 0.8 },
 ];
 
@@ -481,8 +482,10 @@ export default function HeroGlobe() {
       for (const b of BODIES) {
         const rr = b.r * sizeMul;
         const par = b.far ? 40 : 26;
-        const cx = b.fx * w + ptr.x * par * b.depth;
-        const cy = b.fy * h + ptr.y * (par * 0.78) * b.depth + (reduce ? 0 : Math.sin(t * 0.0005 + b.fx * 10) * b.bob);
+        const bfx = mobile && b.mfx != null ? b.mfx : b.fx;
+        const bfy = mobile && b.mfy != null ? b.mfy : b.fy;
+        const cx = bfx * w + ptr.x * par * b.depth;
+        const cy = bfy * h + ptr.y * (par * 0.78) * b.depth + (reduce ? 0 : Math.sin(t * 0.0005 + bfx * 10) * b.bob);
         g.save();
         if (b.dim != null) g.globalAlpha = b.dim;
         if (b.far) g.filter = mobile ? "none" : "blur(1.1px)";
