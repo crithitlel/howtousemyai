@@ -267,25 +267,32 @@ type Placement = {
 };
 // spread wide across the whole hero (corners + edges), steering clear of the
 // dead-centre headline/search zone so the sky frames the UI instead of crowding it
+// Distributed around the hero PERIMETER on a top / right / bottom / left ring so
+// each constellation owns its own pocket of sky and never clogs into a neighbour.
+// The central headline + search-console zone is deliberately left empty. Parallax
+// depths are varied so neighbours drift at clearly different speeds.
 const PLACEMENTS: Placement[] = [
-  { ci: 0, fx: 0.08, fy: 0.18, scale: 150, depth: 0.7, vx: 0.05, vy: 0.018 }, // Orion — top-left
-  { ci: 1, fx: 0.9, fy: 0.12, scale: 205, depth: 0.45, vx: -0.045, vy: 0.02 }, // Big Dipper — top-right
-  { ci: 2, fx: 0.5, fy: 0.06, scale: 165, depth: 0.8, vx: 0.03, vy: 0.04 }, // Cassiopeia — top-centre
-  { ci: 3, fx: 0.93, fy: 0.78, scale: 150, depth: 0.6, vx: -0.035, vy: -0.03 }, // Cygnus — bottom-right
-  { ci: 4, fx: 0.05, fy: 0.6, scale: 95, depth: 0.95, vx: 0.04, vy: -0.025 }, // Lyra — left edge
-  { ci: 5, fx: 0.26, fy: 0.9, scale: 95, depth: 0.9, vx: -0.03, vy: 0.03 }, // Crux — bottom-left
-  { ci: 6, fx: 0.74, fy: 0.9, scale: 175, depth: 0.55, vx: -0.04, vy: 0.022 }, // Gemini ♊ — bottom-right area
-  { ci: 7, fx: 0.97, fy: 0.46, scale: 150, depth: 0.62, vx: -0.05, vy: 0.015 }, // Scorpius — right edge
-  { ci: 8, fx: 0.03, fy: 0.82, scale: 150, depth: 0.7, vx: 0.045, vy: -0.02 }, // Leo — lower-left edge
-  { ci: 9, fx: 0.42, fy: 0.04, scale: 145, depth: 0.78, vx: 0.028, vy: 0.03 }, // Pegasus — top centre-left
-  { ci: 10, fx: 0.98, fy: 0.28, scale: 120, depth: 0.5, vx: -0.04, vy: 0.026 }, // Aquila — upper-right edge
-  // ── second wave — vary size/density + faded distant tiers for real depth ──
-  { ci: 11, fx: 0.17, fy: 0.42, scale: 130, depth: 0.5, vx: 0.034, vy: 0.02 }, // Taurus — left, mid
-  { ci: 12, fx: 0.9, fy: 0.52, scale: 215, depth: 0.4, vx: -0.03, vy: -0.016 }, // Sagittarius — large HERO, right
-  { ci: 13, fx: 0.58, fy: 0.93, scale: 140, depth: 0.66, vx: -0.026, vy: 0.022, dim: 0.7 }, // Canis Major — bottom, faded
-  { ci: 14, fx: 0.33, fy: 0.72, scale: 110, depth: 0.9, vx: 0.03, vy: -0.02, dim: 0.5 }, // Bootes — distant, very faded
-  { ci: 15, fx: 0.67, fy: 0.08, scale: 125, depth: 0.74, vx: -0.03, vy: 0.026, dim: 0.62 }, // Auriga — top, faded
-  { ci: 16, fx: 0.03, fy: 0.3, scale: 150, depth: 0.58, vx: 0.04, vy: 0.02 }, // Andromeda — left chain
+  // ── TOP edge ──
+  { ci: 0, fx: 0.09, fy: 0.11, scale: 140, depth: 0.7, vx: 0.04, vy: 0.016 }, // Orion — top-left
+  { ci: 9, fx: 0.30, fy: 0.07, scale: 130, depth: 0.78, vx: 0.026, vy: 0.03 }, // Pegasus
+  { ci: 2, fx: 0.50, fy: 0.06, scale: 135, depth: 0.84, vx: 0.03, vy: 0.034 }, // Cassiopeia — top centre
+  { ci: 15, fx: 0.70, fy: 0.08, scale: 120, depth: 0.74, vx: -0.03, vy: 0.026, dim: 0.62 }, // Auriga — faded
+  { ci: 1, fx: 0.91, fy: 0.12, scale: 170, depth: 0.45, vx: -0.04, vy: 0.02 }, // Big Dipper — top-right
+  // ── RIGHT edge ──
+  { ci: 7, fx: 0.96, fy: 0.34, scale: 130, depth: 0.62, vx: -0.045, vy: 0.015 }, // Scorpius
+  { ci: 12, fx: 0.94, fy: 0.56, scale: 165, depth: 0.4, vx: -0.028, vy: -0.014 }, // Sagittarius — HERO
+  { ci: 10, fx: 0.96, fy: 0.78, scale: 115, depth: 0.5, vx: -0.038, vy: 0.024 }, // Aquila
+  // ── BOTTOM edge ──
+  { ci: 8, fx: 0.08, fy: 0.88, scale: 140, depth: 0.7, vx: 0.04, vy: -0.018 }, // Leo — bottom-left
+  { ci: 5, fx: 0.30, fy: 0.92, scale: 85, depth: 0.9, vx: -0.028, vy: 0.022 }, // Crux — small
+  { ci: 13, fx: 0.50, fy: 0.90, scale: 140, depth: 0.66, vx: -0.024, vy: 0.02, dim: 0.7 }, // Canis Major — faded
+  { ci: 6, fx: 0.70, fy: 0.90, scale: 160, depth: 0.55, vx: -0.035, vy: 0.02 }, // Gemini
+  { ci: 3, fx: 0.87, fy: 0.90, scale: 138, depth: 0.6, vx: -0.03, vy: -0.022 }, // Cygnus — bottom-right
+  // ── LEFT edge ──
+  { ci: 11, fx: 0.05, fy: 0.32, scale: 120, depth: 0.5, vx: 0.032, vy: 0.02 }, // Taurus
+  { ci: 16, fx: 0.05, fy: 0.52, scale: 130, depth: 0.58, vx: 0.04, vy: 0.018 }, // Andromeda
+  { ci: 14, fx: 0.22, fy: 0.56, scale: 105, depth: 0.92, vx: 0.03, vy: -0.02, dim: 0.55 }, // Bootes — distant, faded
+  { ci: 4, fx: 0.06, fy: 0.72, scale: 95, depth: 0.95, vx: 0.035, vy: -0.02 }, // Lyra — left edge
 ];
 
 // precompute each constellation's local centroid so it scales about its centre
