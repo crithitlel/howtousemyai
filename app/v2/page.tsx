@@ -312,13 +312,8 @@ export default function V2Page() {
         </div>
 
         <div className="v2-rings" aria-hidden="true">
-          <span className="v2-breath" />
-          <span className="v2-ring v2-ring-1" />
-          <span className="v2-ring v2-ring-2" />
-          <span className="v2-ring v2-ring-3" />
-          <span className="v2-measure" />
+          {/* dimmed rotating radar sweep — kept for the "live system" feel */}
           <span className="v2-sweep" />
-          <span className="v2-ring-tick" />
           {/* orbital satellite indicators */}
           <span className="v2-orbit v2-orbit-1"><i className="v2-sat" /></span>
           <span className="v2-orbit v2-orbit-2"><i className="v2-sat v2-sat-red" /></span>
@@ -326,8 +321,6 @@ export default function V2Page() {
           {/* signal pulses traveling along circular paths */}
           <span className="v2-signal" />
           <span className="v2-signal v2-signal-red" />
-          {/* rotating compass around center reticle */}
-          <span className="v2-compass" />
         </div>
 
         <div className="v2-cross v2-cross-x" aria-hidden="true" />
