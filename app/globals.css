@@ -1116,12 +1116,12 @@ body.v2-shell .starfield { display: none; }
 .v2-sweep { position: absolute; top: 50%; left: 50%; width: 540px; height: 540px; transform: translate(-50%,-50%);
   border-radius: 50%; animation: v2-spin 5.5s linear infinite;
   background: conic-gradient(from 0deg,
-    rgba(24,119,242,0.21) 0deg, rgba(24,119,242,0.07) 22deg, transparent 56deg, transparent 360deg);
+    rgba(24,119,242,0.30) 0deg, rgba(24,119,242,0.10) 22deg, transparent 56deg, transparent 360deg);
   -webkit-mask: radial-gradient(circle, #000 0 268px, transparent 269px);
           mask: radial-gradient(circle, #000 0 268px, transparent 269px); }
 .v2-sweep::before { content: ""; position: absolute; top: 0; left: 50%; width: 1px; height: 50%;
-  transform-origin: bottom center; background: linear-gradient(to top, rgba(24,119,242,0.49), transparent);
-  box-shadow: 0 0 6px rgba(24,119,242,0.35); }
+  transform-origin: bottom center; background: linear-gradient(to top, rgba(24,119,242,0.7), transparent);
+  box-shadow: 0 0 6px rgba(24,119,242,0.5); }
 
 /* crosshair lines */
 .v2-cross { position: absolute; z-index: 0; pointer-events: none; background: rgba(24,119,242,0.22); }
