@@ -127,6 +127,58 @@ const CONSTELLATIONS: Constellation[] = [
     edges: [[0, 1], [0, 2], [2, 3], [1, 4], [4, 5]],
     accents: { 1: RED, 5: CYAN },
   },
+  {
+    name: "Scorpius", // curving body + claws, Antares (red supergiant) at the heart
+    stars: [
+      [0.18, 0.06, 0.95], // 0 claw top
+      [0.06, 0.2, 0.9],   // 1 claw left
+      [0.32, 0.22, 1.0],  // 2 claw join
+      [0.44, 0.36, 1.35], // 3 Antares (red)
+      [0.52, 0.54, 0.95], // 4 body
+      [0.6, 0.72, 0.9],   // 5
+      [0.7, 0.86, 0.95],  // 6 toward tail
+      [0.86, 0.84, 1.0],  // 7 stinger
+    ],
+    edges: [[0, 2], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7]],
+    accents: { 3: RED },
+  },
+  {
+    name: "Leo", // the sickle + triangle, Regulus (hot blue-white) at the base
+    stars: [
+      [0.12, 0.5, 1.2],  // 0 Regulus
+      [0.2, 0.32, 0.9],  // 1
+      [0.3, 0.18, 0.85], // 2
+      [0.44, 0.14, 0.9], // 3 sickle top
+      [0.56, 0.46, 0.95],// 4 Chertan
+      [0.86, 0.4, 1.1],  // 5 Denebola
+      [0.66, 0.66, 0.85],// 6
+    ],
+    edges: [[0, 1], [1, 2], [2, 3], [0, 4], [4, 5], [4, 6], [6, 0]],
+    accents: { 0: CYAN, 5: STARW },
+  },
+  {
+    name: "Pegasus", // the Great Square
+    stars: [
+      [0.12, 0.12, 1.0], // 0
+      [0.86, 0.1, 1.05], // 1
+      [0.9, 0.86, 1.0],  // 2
+      [0.14, 0.88, 0.95],// 3
+      [0.04, 0.46, 0.8], // 4 nose chain
+    ],
+    edges: [[0, 1], [1, 2], [2, 3], [3, 0], [0, 4]],
+  },
+  {
+    name: "Aquila", // the eagle, Altair flanked by two stars
+    stars: [
+      [0.5, 0.5, 1.3],   // 0 Altair
+      [0.38, 0.34, 0.85],// 1 Tarazed
+      [0.62, 0.66, 0.85],// 2 Alshain
+      [0.16, 0.6, 0.9],  // 3 wing
+      [0.84, 0.36, 0.9], // 4 wing
+    ],
+    edges: [[1, 0], [0, 2], [3, 0], [0, 4]],
+    accents: { 0: CYAN },
+  },
 ];
 
 /* Curated placements (fractions of hero box). Positions frame the
@@ -144,6 +196,10 @@ const PLACEMENTS: Placement[] = [
   { ci: 4, fx: 0.05, fy: 0.6, scale: 95, depth: 0.95, vx: 0.04, vy: -0.025 }, // Lyra — left edge
   { ci: 5, fx: 0.26, fy: 0.9, scale: 95, depth: 0.9, vx: -0.03, vy: 0.03 }, // Crux — bottom-left
   { ci: 6, fx: 0.74, fy: 0.9, scale: 175, depth: 0.55, vx: -0.04, vy: 0.022 }, // Gemini ♊ — bottom-right area
+  { ci: 7, fx: 0.97, fy: 0.46, scale: 150, depth: 0.62, vx: -0.05, vy: 0.015 }, // Scorpius — right edge
+  { ci: 8, fx: 0.03, fy: 0.82, scale: 150, depth: 0.7, vx: 0.045, vy: -0.02 }, // Leo — lower-left edge
+  { ci: 9, fx: 0.42, fy: 0.04, scale: 145, depth: 0.78, vx: 0.028, vy: 0.03 }, // Pegasus — top centre-left
+  { ci: 10, fx: 0.98, fy: 0.28, scale: 120, depth: 0.5, vx: -0.04, vy: 0.026 }, // Aquila — upper-right edge
 ];
 
 // precompute each constellation's local centroid so it scales about its centre
@@ -186,9 +242,9 @@ function seedTier(n: number, dMin: number, dMax: number, rMin: number, rMax: num
   });
 }
 const STARFIELD: Dust[] = [
-  ...seedTier(150, 0.04, 0.22, 0.3, 0.7, 0.18, 0.4, 0),     // far field — dense, faint, near-static
-  ...seedTier(80, 0.35, 0.6, 0.5, 1.1, 0.3, 0.6, 0.04),     // mid field
-  ...seedTier(34, 0.7, 1.0, 0.9, 1.7, 0.45, 0.85, 0.5),     // near field — sparse, bright, bloom
+  ...seedTier(240, 0.04, 0.22, 0.3, 0.7, 0.18, 0.4, 0),     // far field — dense, faint, near-static
+  ...seedTier(130, 0.35, 0.6, 0.5, 1.1, 0.3, 0.6, 0.04),    // mid field
+  ...seedTier(52, 0.7, 1.0, 0.9, 1.7, 0.45, 0.85, 0.5),     // near field — sparse, bright, bloom
 ];
 
 /* ── tracked "contacts": blips that fly across the hero leaving a
@@ -200,6 +256,10 @@ type Contact = {
 
 /* a fast shooting star — bright head + long fading tail, no label */
 type Shoot = { x: number; y: number; vx: number; vy: number; life: number; max: number };
+
+/* a slow, bright COMET — glowing coma head + long fading ion tail. Rarer and
+   larger than a shooting star; crosses a good stretch of the sky. */
+type Comet = { x: number; y: number; vx: number; vy: number; life: number; max: number; rgb: RGB };
 
 // true when the radar sweep's leading edge passes `target` this frame
 // (all angles in degrees, clockwise from north; sweep advances forward & wraps)
@@ -261,6 +321,56 @@ export default function HeroCanvas() {
         vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
         life: 0, max: 520 + Math.random() * 360,
       });
+    };
+
+    // comets — slow, bright, rare
+    const comets: Comet[] = [];
+    let nextComet = 6000;
+    const COMET_PALETTE: RGB[] = [[150, 220, 255], [185, 235, 255], [138, 200, 255]];
+
+    const spawnComet = () => {
+      const fromLeft = Math.random() < 0.5;
+      const sp = (mobile ? 0.05 : 0.085) * (0.8 + Math.random() * 0.5); // px/ms (slower than a shooting star)
+      const ang = (fromLeft ? 0.42 : Math.PI - 0.42) + (Math.random() - 0.5) * 0.3;
+      comets.push({
+        x: fromLeft ? -40 : w + 40,
+        y: h * (0.06 + Math.random() * 0.5),
+        vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
+        life: 0, max: 9000 + Math.random() * 5000,
+        rgb: COMET_PALETTE[(Math.random() * COMET_PALETTE.length) | 0],
+      });
+    };
+
+    const drawComet = (c: Comet) => {
+      const sp = Math.hypot(c.vx, c.vy) || 1;
+      const ux = c.vx / sp, uy = c.vy / sp;
+      const p = c.life / c.max;
+      const fade = Math.min(1, Math.sin(Math.min(1, p) * Math.PI) * 1.3); // ease in → out
+      const [r, g, b] = c.rgb;
+      ctx.save();
+      ctx.lineCap = "round";
+      // long ion tail, trailing opposite the velocity
+      const tailLen = 120 + 70 * fade;
+      const tx = c.x - ux * tailLen, ty = c.y - uy * tailLen;
+      const grad = ctx.createLinearGradient(c.x, c.y, tx, ty);
+      grad.addColorStop(0, `rgba(${r},${g},${b},${(0.55 * fade).toFixed(3)})`);
+      grad.addColorStop(0.4, `rgba(${r},${g},${b},${(0.18 * fade).toFixed(3)})`);
+      grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
+      ctx.strokeStyle = grad; ctx.lineWidth = 3.2;
+      ctx.beginPath(); ctx.moveTo(c.x, c.y); ctx.lineTo(tx, ty); ctx.stroke();
+      // brighter inner core streak
+      ctx.strokeStyle = `rgba(235,245,255,${(0.5 * fade).toFixed(3)})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(c.x, c.y); ctx.lineTo(c.x - ux * tailLen * 0.5, c.y - uy * tailLen * 0.5); ctx.stroke();
+      // glowing coma head
+      const coma = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, 9);
+      coma.addColorStop(0, `rgba(245,250,255,${(0.95 * fade).toFixed(3)})`);
+      coma.addColorStop(0.4, `rgba(${r},${g},${b},${(0.6 * fade).toFixed(3)})`);
+      coma.addColorStop(1, `rgba(${r},${g},${b},0)`);
+      ctx.fillStyle = coma; ctx.beginPath(); ctx.arc(c.x, c.y, 9, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = `rgba(255,255,255,${fade.toFixed(3)})`;
+      ctx.beginPath(); ctx.arc(c.x, c.y, 2, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
     };
 
     const drawShoot = (s: Shoot) => {
@@ -532,6 +642,20 @@ export default function HeroCanvas() {
           s.x += s.vx * dt; s.y += s.vy * dt; s.life += dt;
           if (s.life > s.max || s.x < -80 || s.x > w + 80 || s.y > h + 80) { shoots.splice(i, 1); continue; }
           drawShoot(s);
+        }
+      }
+
+      // PASS 6 — rare comets crossing the whole scene
+      if (!reduce) {
+        if (t > nextComet && comets.length < 1) {
+          spawnComet();
+          nextComet = t + (mobile ? 22000 : 14000) + Math.random() * 12000;
+        }
+        for (let i = comets.length - 1; i >= 0; i--) {
+          const c = comets[i];
+          c.x += c.vx * dt; c.y += c.vy * dt; c.life += dt;
+          if (c.life > c.max || c.x < -180 || c.x > w + 180 || c.y > h + 180) { comets.splice(i, 1); continue; }
+          drawComet(c);
         }
       }
     };
