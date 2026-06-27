@@ -384,7 +384,6 @@ export default function V2Page() {
           <h1 className={`v2-display ${glitch ? "is-glitch" : ""}`} data-text="Find the right AI">
             Find the <span className="v2-display-blue">right AI</span><span className="v2-display-red">.</span>
           </h1>
-          <span className="v2-hero-rule" aria-hidden="true" />
 
           <div className="v2-console-wrap" ref={wrapRef}>
             <Frame className="v2-console">
