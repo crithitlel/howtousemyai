@@ -3,32 +3,139 @@
 import { useEffect, useRef } from "react";
 
 /* ──────────────────────────────────────────────────────────────
-   HeroCanvas — a live, cursor-reactive particle CONSTELLATION.
-   Hand-rolled <canvas> (no library): nodes drift with real
-   velocity, link to nearby nodes with proximity lines, and the
-   pointer gently repels + lights up the field around it. Blue is
-   the base; rare red/green nodes echo the site's semantic accents.
+   HeroCanvas — a slow sky of REAL named constellations.
+   Hand-rolled <canvas> (no library). Each constellation uses its
+   actual star layout + connecting lines (Orion, the Big Dipper,
+   Cassiopeia, Cygnus, Lyra, the Southern Cross). The whole sky
+   drifts very slowly and the stars twinkle; the pointer adds a
+   gentle depth-parallax. Shapes stay rigid so they remain
+   recognisable — no random node soup.
 
-   Guardrails (deliberate):
+   Guardrails:
    • prefers-reduced-motion → render ONE static frame, no loop.
-   • IntersectionObserver → pause the rAF loop when the hero
-     scrolls out of view.
+   • IntersectionObserver → pause when the hero scrolls offscreen.
    • visibilitychange → pause when the tab is hidden.
-   • devicePixelRatio-aware (capped at 2) for crisp + cheap render.
-   • node count scales with area, hard-capped — O(n²) links stay
-     ~4k ops/frame worst case, trivial even on an M1.
-   pointer-events:none — never blocks clicks; pointer is tracked
-   on window and mapped into the hero's box.
+   • devicePixelRatio-aware (capped at 2).
+   • MOBILE (≤768px) → slower drift + slower twinkle + smaller
+     scale, so it reads calm on a phone.
+   pointer-events:none — never blocks clicks.
    ────────────────────────────────────────────────────────────── */
 
-type Node = { x: number; y: number; vx: number; vy: number; r: number; c: [number, number, number] };
+type RGB = [number, number, number];
+type Star = [number, number, number]; // local x, y (0..1, y-down), brightness
+type Constellation = {
+  name: string;
+  stars: Star[];
+  edges: [number, number][];
+  accents?: Record<number, RGB>; // star index → accent colour (bright/coloured giants)
+};
 
-const BLUE: [number, number, number] = [24, 119, 242];
-const RED: [number, number, number] = [228, 30, 63];
-const GREEN: [number, number, number] = [170, 255, 0];
+const STARW: RGB = [183, 206, 255]; // default star (blue-white)
+const LINKC = "24,119,242"; // constellation line (blue)
+const RED: RGB = [255, 120, 110]; // red giant (e.g. Betelgeuse)
+const CYAN: RGB = [120, 220, 255]; // hot blue star (e.g. Rigel, Vega)
 
-const LINK = 132; // px proximity at which two nodes link
-const PULL = 150; // px radius of cursor influence
+/* Real star layouts — local coords (0..1), y points DOWN to match canvas. */
+const CONSTELLATIONS: Constellation[] = [
+  {
+    name: "Orion",
+    stars: [
+      [0.3, 0.14, 1.3], // 0 Betelgeuse
+      [0.66, 0.2, 1.0], // 1 Bellatrix
+      [0.42, 0.5, 0.95], // 2 Alnitak (belt)
+      [0.5, 0.52, 1.0], // 3 Alnilam (belt)
+      [0.58, 0.54, 0.95], // 4 Mintaka (belt)
+      [0.36, 0.86, 0.9], // 5 Saiph
+      [0.7, 0.84, 1.25], // 6 Rigel
+      [0.5, 0.03, 0.7], // 7 Meissa (head)
+    ],
+    edges: [
+      [7, 0], [7, 1], [0, 1], [0, 2], [1, 4],
+      [2, 3], [3, 4], [2, 5], [4, 6],
+    ],
+    accents: { 0: RED, 6: CYAN },
+  },
+  {
+    name: "Ursa Major",
+    stars: [
+      [0.04, 0.4, 1.0], // Alkaid
+      [0.22, 0.34, 1.0], // Mizar
+      [0.4, 0.3, 1.0], // Alioth
+      [0.56, 0.34, 0.8], // Megrez
+      [0.58, 0.56, 0.9], // Phecda
+      [0.8, 0.58, 1.0], // Merak
+      [0.78, 0.34, 1.2], // Dubhe
+    ],
+    edges: [[0, 1], [1, 2], [2, 3], [3, 6], [6, 5], [5, 4], [4, 3]],
+    accents: { 6: STARW },
+  },
+  {
+    name: "Cassiopeia",
+    stars: [
+      [0.04, 0.34, 1.0],
+      [0.26, 0.62, 1.0],
+      [0.5, 0.3, 1.1],
+      [0.74, 0.64, 1.0],
+      [0.96, 0.4, 1.0],
+    ],
+    edges: [[0, 1], [1, 2], [2, 3], [3, 4]],
+  },
+  {
+    name: "Cygnus",
+    stars: [
+      [0.5, 0.04, 1.2], // Deneb
+      [0.5, 0.46, 0.9], // Sadr
+      [0.5, 0.98, 0.8], // Albireo
+      [0.08, 0.52, 0.9], // Gienah
+      [0.92, 0.4, 0.9], // Delta
+    ],
+    edges: [[0, 1], [1, 2], [3, 1], [1, 4]],
+    accents: { 0: CYAN },
+  },
+  {
+    name: "Lyra",
+    stars: [
+      [0.5, 0.06, 1.3], // Vega
+      [0.3, 0.34, 0.8],
+      [0.7, 0.4, 0.8],
+      [0.36, 0.82, 0.8],
+      [0.74, 0.86, 0.8],
+    ],
+    edges: [[0, 1], [0, 2], [1, 3], [3, 4], [4, 2]],
+    accents: { 0: CYAN },
+  },
+  {
+    name: "Crux",
+    stars: [
+      [0.5, 0.02, 1.1],
+      [0.52, 0.98, 1.0],
+      [0.04, 0.46, 0.9],
+      [0.96, 0.56, 0.95],
+    ],
+    edges: [[0, 1], [2, 3]],
+  },
+];
+
+/* Curated placements (fractions of hero box). Positions frame the
+   headline rather than sit dead-centre. `depth` drives parallax. */
+type Placement = {
+  ci: number; fx: number; fy: number; scale: number; depth: number; vx: number; vy: number;
+};
+const PLACEMENTS: Placement[] = [
+  { ci: 0, fx: 0.15, fy: 0.34, scale: 150, depth: 0.7, vx: 0.05, vy: 0.018 }, // Orion
+  { ci: 1, fx: 0.8, fy: 0.22, scale: 205, depth: 0.45, vx: -0.045, vy: 0.02 }, // Big Dipper
+  { ci: 2, fx: 0.56, fy: 0.12, scale: 165, depth: 0.8, vx: 0.03, vy: 0.04 }, // Cassiopeia
+  { ci: 3, fx: 0.86, fy: 0.66, scale: 150, depth: 0.6, vx: -0.035, vy: -0.03 }, // Cygnus
+  { ci: 4, fx: 0.1, fy: 0.72, scale: 95, depth: 0.95, vx: 0.04, vy: -0.025 }, // Lyra
+  { ci: 5, fx: 0.4, fy: 0.8, scale: 95, depth: 0.9, vx: -0.03, vy: 0.03 }, // Crux
+];
+
+// precompute each constellation's local centroid so it scales about its centre
+const CENTROIDS = CONSTELLATIONS.map((c) => {
+  let sx = 0, sy = 0;
+  for (const s of c.stars) { sx += s[0]; sy += s[1]; }
+  return [sx / c.stars.length, sy / c.stars.length] as const;
+});
 
 export default function HeroCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -45,27 +152,24 @@ export default function HeroCanvas() {
 
     let w = 0;
     let h = 0;
-    let nodes: Node[] = [];
+    let mobile = false;
+    let speed = 1; // drift + twinkle multiplier (lowered on mobile)
+    let scaleMul = 1; // constellation size multiplier
     let raf = 0;
     let running = false;
     let visible = true;
+    let start0 = 0;
 
-    const pointer = { x: -9999, y: -9999, active: false };
+    // live centre of each placement (px), seeded from fractions on resize
+    const live = PLACEMENTS.map(() => ({ cx: 0, cy: 0, seeded: false }));
 
-    const buildNodes = () => {
-      const target = Math.max(28, Math.min(92, Math.round((w * h) / 16000)));
-      nodes = Array.from({ length: target }, () => {
-        const roll = Math.random();
-        const c = roll > 0.95 ? RED : roll > 0.88 ? GREEN : BLUE;
-        return {
-          x: Math.random() * w,
-          y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.24,
-          vy: (Math.random() - 0.5) * 0.24,
-          r: 0.8 + Math.random() * 1.5,
-          c,
-        };
-      });
+    // smoothed pointer in normalised hero space (-0.5..0.5)
+    const ptr = { tx: 0, ty: 0, x: 0, y: 0 };
+
+    const applyBreakpoint = () => {
+      mobile = w <= 768;
+      speed = mobile ? 0.32 : 1; // ← slower on phones
+      scaleMul = mobile ? 0.72 : 1;
     };
 
     const resize = () => {
@@ -77,132 +181,120 @@ export default function HeroCanvas() {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      buildNodes();
-      if (reduce) draw(); // keep a static frame on resize
+      applyBreakpoint();
+      live.forEach((l, i) => {
+        if (!l.seeded) {
+          l.cx = PLACEMENTS[i].fx * w;
+          l.cy = PLACEMENTS[i].fy * h;
+          l.seeded = true;
+        }
+      });
+      if (reduce) draw(0);
     };
 
-    const draw = () => {
+    const draw = (t: number) => {
       ctx.clearRect(0, 0, w, h);
 
-      // advance + integrate
-      for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
+      // ease pointer
+      ptr.x += (ptr.tx - ptr.x) * 0.06;
+      ptr.y += (ptr.ty - ptr.y) * 0.06;
 
-        if (pointer.active) {
-          const dx = n.x - pointer.x;
-          const dy = n.y - pointer.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 < PULL * PULL) {
-            const d = Math.sqrt(d2) || 1;
-            const f = (1 - d / PULL) * 0.05; // gentle repel
-            n.vx += (dx / d) * f;
-            n.vy += (dy / d) * f;
-          }
+      for (let p = 0; p < PLACEMENTS.length; p++) {
+        const pl = PLACEMENTS[p];
+        const con = CONSTELLATIONS[pl.ci];
+        const [lcx, lcy] = CENTROIDS[pl.ci];
+        const l = live[p];
+
+        // slow drift (frozen when reduced motion) + wrap
+        if (!reduce) {
+          l.cx += pl.vx * speed;
+          l.cy += pl.vy * speed;
+          const m = pl.scale * scaleMul;
+          if (l.cx < -m) l.cx = w + m;
+          else if (l.cx > w + m) l.cx = -m;
+          if (l.cy < -m) l.cy = h + m;
+          else if (l.cy > h + m) l.cy = -m;
         }
 
-        n.vx = Math.max(-0.6, Math.min(0.6, n.vx * 0.992));
-        n.vy = Math.max(-0.6, Math.min(0.6, n.vy * 0.992));
+        const sc = pl.scale * scaleMul;
+        const par = pl.depth * 26;
+        const ox = l.cx + ptr.x * par;
+        const oy = l.cy + ptr.y * par;
 
-        if (n.x < -12) n.x = w + 12;
-        else if (n.x > w + 12) n.x = -12;
-        if (n.y < -12) n.y = h + 12;
-        else if (n.y > h + 12) n.y = -12;
-      }
+        // screen positions for this constellation's stars
+        const pts: [number, number][] = con.stars.map((s) => [
+          ox + (s[0] - lcx) * sc,
+          oy + (s[1] - lcy) * sc,
+        ]);
 
-      // proximity links
-      ctx.lineWidth = 0.6;
-      for (let i = 0; i < nodes.length; i++) {
-        const a = nodes[i];
-        for (let j = i + 1; j < nodes.length; j++) {
-          const b = nodes[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 < LINK * LINK) {
-            const o = (1 - Math.sqrt(d2) / LINK) * 0.5;
-            ctx.strokeStyle = `rgba(24,119,242,${o.toFixed(3)})`;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      // cursor halo links (acid green)
-      if (pointer.active) {
-        const R = LINK * 1.45;
+        // lines
         ctx.lineWidth = 0.7;
-        for (const n of nodes) {
-          const dx = n.x - pointer.x;
-          const dy = n.y - pointer.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 < R * R) {
-            const o = (1 - Math.sqrt(d2) / R) * 0.55;
-            ctx.strokeStyle = `rgba(170,255,0,${o.toFixed(3)})`;
-            ctx.beginPath();
-            ctx.moveTo(n.x, n.y);
-            ctx.lineTo(pointer.x, pointer.y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      // nodes (with soft glow on the rare accent dots)
-      for (const n of nodes) {
-        const [r, g, b] = n.c;
-        if (n.c !== BLUE) {
-          ctx.shadowColor = `rgba(${r},${g},${b},0.9)`;
-          ctx.shadowBlur = 7;
-        } else {
-          ctx.shadowBlur = 0;
-        }
-        ctx.fillStyle = `rgba(${r},${g},${b},0.85)`;
+        ctx.strokeStyle = `rgba(${LINKC},0.28)`;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fill();
+        for (const [a, b] of con.edges) {
+          ctx.moveTo(pts[a][0], pts[a][1]);
+          ctx.lineTo(pts[b][0], pts[b][1]);
+        }
+        ctx.stroke();
+
+        // stars (twinkle)
+        for (let i = 0; i < con.stars.length; i++) {
+          const bright = con.stars[i][2];
+          const accent = con.accents?.[i];
+          const [sxp, syp] = pts[i];
+          const tw = reduce ? 0.85 : 0.62 + 0.38 * Math.sin(t * 0.0012 * speed + i * 1.7 + p);
+          const rad = (accent ? 1.7 : 1.1) * bright;
+          const [r, g, bch] = accent ?? STARW;
+          if (accent) {
+            ctx.shadowColor = `rgba(${r},${g},${bch},0.9)`;
+            ctx.shadowBlur = 8;
+          } else {
+            ctx.shadowBlur = 0;
+          }
+          ctx.fillStyle = `rgba(${r},${g},${bch},${(tw).toFixed(3)})`;
+          ctx.beginPath();
+          ctx.arc(sxp, syp, rad, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.shadowBlur = 0;
       }
-      ctx.shadowBlur = 0;
     };
 
-    const loop = () => {
-      draw();
+    const loop = (now: number) => {
+      if (!start0) start0 = now;
+      draw(now - start0);
       raf = requestAnimationFrame(loop);
     };
 
-    const start = () => {
+    const startLoop = () => {
       if (running || reduce || !visible) return;
       running = true;
       raf = requestAnimationFrame(loop);
     };
-    const stop = () => {
+    const stopLoop = () => {
       running = false;
       cancelAnimationFrame(raf);
     };
 
-    // pointer mapped from window → hero box
     const onMove = (e: MouseEvent) => {
       const rect = parent.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      pointer.active = x >= 0 && y >= 0 && x <= rect.width && y <= rect.height;
-      pointer.x = x;
-      pointer.y = y;
-    };
-    const onLeave = () => {
-      pointer.active = false;
+      const nx = (e.clientX - rect.left) / rect.width - 0.5;
+      const ny = (e.clientY - rect.top) / rect.height - 0.5;
+      if (nx >= -0.5 && nx <= 0.5 && ny >= -0.5 && ny <= 0.5) {
+        ptr.tx = nx;
+        ptr.ty = ny;
+      }
     };
     const onVisibility = () => {
       visible = !document.hidden;
-      if (visible) start();
-      else stop();
+      if (visible) startLoop();
+      else stopLoop();
     };
 
     resize();
 
     if (reduce) {
-      draw();
+      draw(0);
       window.addEventListener("resize", resize);
       return () => window.removeEventListener("resize", resize);
     }
@@ -210,8 +302,8 @@ export default function HeroCanvas() {
     const io = new IntersectionObserver(
       (entries) => {
         visible = entries[0]?.isIntersecting ?? true;
-        if (visible && !document.hidden) start();
-        else stop();
+        if (visible && !document.hidden) startLoop();
+        else stopLoop();
       },
       { threshold: 0 }
     );
@@ -219,16 +311,14 @@ export default function HeroCanvas() {
 
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("mouseout", onLeave);
     document.addEventListener("visibilitychange", onVisibility);
-    start();
+    startLoop();
 
     return () => {
-      stop();
+      stopLoop();
       io.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseout", onLeave);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
