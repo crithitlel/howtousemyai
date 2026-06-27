@@ -40,7 +40,7 @@ type Body = {
   accent: string;           // accent "r,g,b"
   // runtime
   dots?: { x: number; y: number; s: number }[];          // moon stipple (unit disk)
-  craters?: { x: number; y: number; r: number }[];        // moon craters (unit disk)
+  craters?: { x: number; y: number; r: number; fresh?: boolean }[]; // moon craters (unit disk)
   cracks?: { x: number; y: number }[][];                  // lava/ice surface fractures (unit disk)
 };
 
@@ -136,9 +136,17 @@ export default function HeroGlobe() {
         });
       }
       if (!b.craters) {
-        b.craters = Array.from({ length: 6 }, () => {
-          const a = Math.random() * Math.PI * 2, rr = Math.sqrt(Math.random()) * 0.72;
-          return { x: Math.cos(a) * rr, y: Math.sin(a) * rr, r: 0.1 + Math.random() * 0.16 };
+        b.craters = Array.from({ length: 13 }, (_, i) => {
+          const a = Math.random() * Math.PI * 2, rr = Math.sqrt(Math.random()) * 0.78;
+          // one designated fresh, bright-rayed crater placed in the upper-left (sunward) third
+          const fresh = i === 0;
+          const fa = -2.3 + Math.random() * 0.5, fd = 0.34 + Math.random() * 0.12;
+          return {
+            x: fresh ? Math.cos(fa) * fd : Math.cos(a) * rr,
+            y: fresh ? Math.sin(fa) * fd : Math.sin(a) * rr,
+            r: fresh ? 0.13 + Math.random() * 0.04 : 0.05 + Math.random() * 0.17,
+            fresh,
+          };
         });
       }
     }
@@ -470,31 +478,86 @@ export default function HeroGlobe() {
       g.strokeStyle = `rgba(${b.col},0.32)`; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.stroke();
     }
 
-    /* ---- cratered moon — maria, 3D crater rims, soft sweeping terminator ---- */
+    /* ---- cratered moon — maria, lit crater rims, ejecta rays, ridges ---- */
     function drawMoon(b: Body, cx: number, cy: number, rr: number, t: number) {
+      const La = LIGHT.ang;                         // sun direction (upper-left)
+      const sunx = Math.cos(La), suny = Math.sin(La);
       g.save();
       g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.clip();
       g.fillStyle = `rgba(${b.col},0.12)`; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
-      // maria — darker basaltic plains
-      g.fillStyle = `rgba(${b.accent},0.1)`;
-      g.beginPath(); g.ellipse(cx - rr * 0.25, cy - rr * 0.15, rr * 0.4, rr * 0.32, 0.4, 0, Math.PI * 2); g.fill();
-      g.beginPath(); g.ellipse(cx + rr * 0.3, cy + rr * 0.35, rr * 0.28, rr * 0.2, -0.3, 0, Math.PI * 2); g.fill();
+
+      // maria — basaltic plains with soft irregular edges (3 lobes per sea)
+      const seas: [number, number, number, number, number][] = [
+        [-0.26, -0.16, 0.42, 0.34, 0.4],
+        [0.30, 0.36, 0.30, 0.22, -0.3],
+        [0.08, -0.42, 0.24, 0.16, 0.2],
+      ];
+      for (const [mx, my, ma, mb, rot] of seas) {
+        const mg = g.createRadialGradient(cx + mx * rr, cy + my * rr, 0, cx + mx * rr, cy + my * rr, ma * rr);
+        mg.addColorStop(0, `rgba(${b.accent},0.16)`); mg.addColorStop(0.7, `rgba(${b.accent},0.09)`); mg.addColorStop(1, `rgba(${b.accent},0)`);
+        g.fillStyle = mg;
+        g.beginPath(); g.ellipse(cx + mx * rr, cy + my * rr, ma * rr, mb * rr, rot, 0, Math.PI * 2); g.fill();
+      }
+
+      // wrinkle ridges / rilles — faint meandering surface lines
+      g.lineWidth = 0.8;
+      for (let rdg = 0; rdg < 4; rdg++) {
+        const y0 = cy + (rdg - 1.5) * rr * 0.42;
+        g.strokeStyle = `rgba(${b.col},${(0.16 + 0.05 * (rdg % 2)).toFixed(3)})`;
+        g.beginPath();
+        for (let s = 0; s <= 22; s++) {
+          const xx = cx - rr + (s / 22) * rr * 2;
+          const yy = y0 + Math.sin(s * 0.55 + rdg * 1.7) * rr * 0.08 + Math.sin(s * 1.7 + rdg) * rr * 0.03;
+          if (s === 0) g.moveTo(xx, yy); else g.lineTo(xx, yy);
+        }
+        g.stroke();
+      }
+
       // regolith stipple
       for (const d of b.dots!) {
-        g.fillStyle = `rgba(${b.col},0.45)`;
+        g.fillStyle = `rgba(${b.col},0.4)`;
         g.beginPath(); g.arc(cx + d.x * rr, cy + d.y * rr, d.s, 0, Math.PI * 2); g.fill();
       }
-      // craters with 3D rims (light top-left, shadow bottom-right)
+
+      // ejecta ray system from the fresh crater (bright streaks radiating out)
+      const fresh = b.craters!.find((c) => c.fresh);
+      if (fresh) {
+        const fxp = cx + fresh.x * rr, fyp = cy + fresh.y * rr;
+        for (let ry = 0; ry < 11; ry++) {
+          const ang = (ry / 11) * Math.PI * 2 + 0.3;
+          const len = rr * (0.5 + ((Math.sin(ry * 7.13) * 0.5 + 0.5)) * 0.7);
+          const gx = fxp + Math.cos(ang) * len, gy = fyp + Math.sin(ang) * len;
+          const rg = g.createLinearGradient(fxp, fyp, gx, gy);
+          rg.addColorStop(0, `rgba(${b.col},0.3)`); rg.addColorStop(0.4, `rgba(${b.col},0.1)`); rg.addColorStop(1, `rgba(${b.col},0)`);
+          g.strokeStyle = rg; g.lineWidth = 0.9;
+          g.beginPath(); g.moveTo(fxp, fyp); g.lineTo(gx, gy); g.stroke();
+        }
+      }
+
+      // craters with sun-lit rims — bright crescent toward the sun, shadow opposite,
+      // and a shadow pool on the far inner wall (3D depression read)
       for (const c of b.craters!) {
         const ccx = cx + c.x * rr, ccy = cy + c.y * rr, cradius = c.r * rr;
-        g.fillStyle = "rgba(3,8,22,0.22)";
-        g.beginPath(); g.arc(ccx, ccy, cradius, 0, Math.PI * 2); g.fill();
-        g.lineWidth = Math.max(0.6, cradius * 0.18);
-        g.strokeStyle = `rgba(${b.col},0.55)`;
-        g.beginPath(); g.arc(ccx, ccy, cradius, Math.PI * 0.75, Math.PI * 1.75); g.stroke();
-        g.strokeStyle = "rgba(3,8,22,0.45)";
-        g.beginPath(); g.arc(ccx, ccy, cradius, -Math.PI * 0.25, Math.PI * 0.75); g.stroke();
+        // floor shadow offset away from the sun
+        g.fillStyle = "rgba(3,8,22,0.28)";
+        g.beginPath(); g.arc(ccx - sunx * cradius * 0.18, ccy - suny * cradius * 0.18, cradius, 0, Math.PI * 2); g.fill();
+        // inner-wall sunlit crescent (far wall catches light)
+        g.lineWidth = Math.max(0.7, cradius * 0.26);
+        g.strokeStyle = c.fresh ? `rgba(235,242,255,0.8)` : `rgba(${b.col},0.6)`;
+        g.beginPath(); g.arc(ccx, ccy, cradius * 0.82, La - 0.95, La + 0.95); g.stroke();
+        // outer rim highlight toward sun
+        g.lineWidth = Math.max(0.6, cradius * 0.16);
+        g.strokeStyle = c.fresh ? `rgba(220,232,255,0.7)` : `rgba(${b.col},0.5)`;
+        g.beginPath(); g.arc(ccx, ccy, cradius, La + Math.PI - 0.85, La + Math.PI + 0.85); g.stroke();
+        // shadow on the sunward inner wall
+        g.strokeStyle = "rgba(3,8,22,0.5)"; g.lineWidth = Math.max(0.6, cradius * 0.2);
+        g.beginPath(); g.arc(ccx, ccy, cradius * 0.82, La + Math.PI - 0.95, La + Math.PI + 0.95); g.stroke();
+        if (c.fresh) { // tiny bright central peak
+          g.fillStyle = "rgba(230,240,255,0.7)";
+          g.beginPath(); g.arc(ccx, ccy, cradius * 0.16, 0, Math.PI * 2); g.fill();
+        }
       }
+
       // soft terminator sweeping across the disc (phase)
       const mid = 0.5 + Math.sin(t * b.spin) * 0.42;
       const grad = g.createLinearGradient(cx - rr, cy, cx + rr, cy);
@@ -502,8 +565,9 @@ export default function HeroGlobe() {
       grad.addColorStop(Math.min(1, mid + 0.02), "rgba(3,7,20,0.72)");
       g.fillStyle = grad; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
       g.restore();
-      lightWash(cx, cy, rr, b.col, 0.32);                  // sunlit hemisphere
-      fresnelArc(cx, cy, rr, b.col, 0.3, 1.2);             // bright lit limb
+      lightWash(cx, cy, rr, b.col, 0.34);                  // sunlit hemisphere
+      specular(cx, cy, rr, "230,238,255", 0.22);           // faint regolith sheen
+      fresnelArc(cx, cy, rr, b.col, 0.32, 1.2);            // bright lit limb
       g.strokeStyle = `rgba(${b.col},0.34)`; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.stroke();
     }
 
@@ -526,6 +590,19 @@ export default function HeroGlobe() {
       const crust = g.createRadialGradient(cx - rr * 0.35, cy - rr * 0.4, rr * 0.1, cx, cy, rr);
       crust.addColorStop(0, `rgba(${b.col},0.3)`); crust.addColorStop(1, `rgba(${b.col},0.06)`);
       g.fillStyle = crust; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
+      // convective lava-lake cells — curved spherical glow bands that follow the
+      // surface curvature, brightening/dimming as heat circulates
+      const LSTR = 26;
+      for (let i = 0; i < LSTR; i++) {
+        const lat = -1 + (i / (LSTR - 1)) * 2;
+        const half = Math.sqrt(Math.max(0, 1 - lat * lat)) * rr;
+        const yy = cy + lat * rr;
+        const cell = 0.5 + 0.5 * Math.sin(lat * 9 + t * 0.0016) * Math.cos(lat * 3.4 - t * 0.0009);
+        const hot = cell > 0.62;
+        const a = hot ? 0.16 * pulse : 0.05;
+        g.fillStyle = hot ? `rgba(255,${(150 + 70 * cell) | 0},${(70 * cell) | 0},${a.toFixed(3)})` : `rgba(${b.col},${a.toFixed(3)})`;
+        g.fillRect(cx - half, yy - rr / LSTR, half * 2, (rr * 2) / LSTR + 1);
+      }
       // glowing magma cracks — heat travels through them as a spatial wave
       for (let ci = 0; ci < b.cracks!.length; ci++) {
         const cr = b.cracks![ci];
@@ -601,6 +678,19 @@ export default function HeroGlobe() {
         for (let s = 0; s <= 20; s++) { const xx = cx - rr + (s / 20) * rr * 2, wob = Math.sin(s * 0.6 + t * 0.004 + a) * rr * 0.06; if (s === 0) g.moveTo(xx, yy + wob); else g.lineTo(xx, yy + wob); }
         g.stroke();
       }
+      // crystalline facet glints — small bright sparkles on the sunward face that
+      // twinkle as the ice catches the light
+      for (let k = 0; k < 7; k++) {
+        const seed = Math.sin(k * 78.233) * 43758.5453, seed2 = Math.sin(k * 12.9898) * 43758.5453;
+        const gx = cx + (LIGHT.x * 0.35 + ((seed - Math.floor(seed)) - 0.5) * 0.9) * rr;
+        const gy = cy + (LIGHT.y * 0.35 + ((seed2 - Math.floor(seed2)) - 0.5) * 0.9) * rr;
+        const tw = Math.max(0, Math.sin(t * 0.004 + k * 1.7));
+        if (tw < 0.2) continue;
+        g.fillStyle = `rgba(235,248,255,${(0.5 * tw).toFixed(3)})`;
+        g.shadowColor = "rgba(200,235,255,0.9)"; g.shadowBlur = rr * 0.1 * tw;
+        g.beginPath(); g.arc(gx, gy, 0.7 + tw * 0.9, 0, Math.PI * 2); g.fill();
+      }
+      g.shadowBlur = 0;
       // limb shading + highlight
       const sh = g.createRadialGradient(cx - rr * 0.4, cy - rr * 0.4, rr * 0.1, cx, cy, rr * 1.02);
       sh.addColorStop(0, "rgba(255,255,255,0.08)"); sh.addColorStop(0.6, "rgba(0,0,0,0)"); sh.addColorStop(1, "rgba(4,10,24,0.5)");
