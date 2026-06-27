@@ -1825,6 +1825,42 @@ body.v2-shell .starfield { display: none !important; }
   will-change: transform, opacity; }
 @keyframes v2-twinkle { 0%, 100% { opacity: 0.12; } 50% { opacity: 0.8; } }
 
+/* ── live constellation canvas — sits above grid/rings, below content ── */
+.v2-herocanvas {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  opacity: 0.9; mix-blend-mode: screen;
+}
+
+/* ── native scroll-driven HUD motion (progressive enhancement) ──
+   The outer red blueprint ring counter-rotates + drifts as the page
+   scrolls. Pure CSS, no JS; only runs where scroll timelines exist
+   and the user hasn't asked for reduced motion. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .v2-bp-3 {
+      animation: v2-scroll-ring linear both;
+      animation-timeline: scroll(root);
+    }
+    .v2-ruler-t, .v2-ruler-b {
+      animation: v2-scroll-rulers linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+@keyframes v2-scroll-ring {
+  from { transform: translate(-50%, -50%) rotate(0deg)   scale(1);    opacity: 1; }
+  to   { transform: translate(-50%, -50%) rotate(-26deg) scale(1.06); opacity: 0.4; }
+}
+@keyframes v2-scroll-rulers {
+  from { opacity: 0.9; transform: translateX(0); }
+  to   { opacity: 0.25; transform: translateX(-14px); }
+}
+
+/* ── analog turbulence warp on the headline glitch (#v2-turb defined in HeroCanvas) ── */
+@media (prefers-reduced-motion: no-preference) {
+  .v2-display.is-glitch { filter: url(#v2-turb); }
+}
+
 /* ── neural connection lines + traveling data packets ── */
 .v2-neural { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
 .v2-neural-line { stroke: rgba(24,119,242,0.11); }

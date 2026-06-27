@@ -7,6 +7,7 @@ import Logo from "../components/Logo";
 import BrandMark from "../components/BrandMark";
 import HeroReadout from "../components/HeroReadout";
 import HeroFX from "../components/HeroFX";
+import HeroCanvas from "../components/HeroCanvas";
 import PinnedStrip from "../components/PinnedStrip";
 import { TOOLS, slugify, type Tool } from "@/lib/tools";
 import { searchTools } from "@/lib/search";
@@ -292,6 +293,9 @@ export default function V2Page() {
       <section className="v2-hero" ref={heroRef}>
         <div className="v2-hero-grid" aria-hidden="true" />
         <div className="v2-hero-glow" aria-hidden="true" />
+
+        {/* live cursor-reactive particle constellation */}
+        <HeroCanvas />
 
         {/* deep-space blueprint circles extending beyond the hero */}
         <div className="v2-deepspace" aria-hidden="true">
