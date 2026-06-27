@@ -179,12 +179,91 @@ const CONSTELLATIONS: Constellation[] = [
     edges: [[1, 0], [0, 2], [3, 0], [0, 4]],
     accents: { 0: CYAN },
   },
+  {
+    name: "Taurus", // the bull — Hyades V-face with Aldebaran + two horn tips
+    stars: [
+      [0.44, 0.52, 1.35], // 0 Aldebaran (orange giant)
+      [0.32, 0.42, 0.8],  // 1 Hyades
+      [0.2, 0.32, 0.8],   // 2 Hyades branch
+      [0.54, 0.46, 0.85], // 3 Hyades right
+      [0.64, 0.4, 0.8],   // 4
+      [0.16, 0.08, 1.0],  // 5 Elnath (horn, blue-white)
+      [0.82, 0.16, 0.9],  // 6 Zeta (horn)
+    ],
+    edges: [[0, 1], [1, 2], [0, 3], [3, 4], [2, 5], [4, 6]],
+    accents: { 0: RED, 5: CYAN },
+  },
+  {
+    name: "Sagittarius", // the teapot — a large, recognisable hero asterism
+    stars: [
+      [0.16, 0.46, 1.0],  // 0 handle outer
+      [0.34, 0.22, 1.1],  // 1 lid
+      [0.56, 0.3, 0.95],  // 2
+      [0.74, 0.5, 1.05],  // 3 spout top
+      [0.86, 0.66, 0.9],  // 4 spout tip
+      [0.6, 0.72, 0.95],  // 5 base right
+      [0.32, 0.72, 0.95], // 6 base left
+      [0.22, 0.5, 0.9],   // 7 handle bottom
+    ],
+    edges: [[1, 2], [2, 3], [3, 4], [3, 5], [5, 6], [6, 7], [7, 0], [0, 1], [2, 5]],
+    accents: { 1: STARW },
+  },
+  {
+    name: "Canis Major", // Sirius, the brightest star in the night sky
+    stars: [
+      [0.4, 0.4, 1.55],   // 0 Sirius (brilliant blue-white)
+      [0.5, 0.18, 0.85],  // 1
+      [0.62, 0.5, 0.9],   // 2
+      [0.5, 0.72, 0.95],  // 3
+      [0.34, 0.66, 0.85], // 4
+      [0.72, 0.8, 0.9],   // 5
+    ],
+    edges: [[0, 1], [0, 2], [2, 5], [2, 3], [3, 4], [4, 0]],
+    accents: { 0: CYAN },
+  },
+  {
+    name: "Bootes", // the kite, anchored by orange Arcturus
+    stars: [
+      [0.5, 0.88, 1.45],  // 0 Arcturus (orange giant)
+      [0.34, 0.6, 0.9],   // 1
+      [0.42, 0.3, 0.95],  // 2
+      [0.6, 0.26, 0.9],   // 3
+      [0.68, 0.56, 0.9],  // 4
+    ],
+    edges: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0]],
+    accents: { 0: RED },
+  },
+  {
+    name: "Auriga", // the charioteer's pentagon, Capella at the apex
+    stars: [
+      [0.4, 0.18, 1.35],  // 0 Capella (warm white)
+      [0.62, 0.26, 0.95], // 1
+      [0.7, 0.58, 0.9],   // 2
+      [0.46, 0.76, 0.9],  // 3
+      [0.24, 0.5, 0.95],  // 4
+    ],
+    edges: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 0]],
+    accents: { 0: STARW },
+  },
+  {
+    name: "Andromeda", // the chained princess — a long star chain
+    stars: [
+      [0.08, 0.52, 1.0],  // 0 Alpheratz
+      [0.36, 0.46, 0.95], // 1 Delta
+      [0.6, 0.42, 1.05],  // 2 Mirach
+      [0.86, 0.3, 0.95],  // 3 Almach
+      [0.52, 0.68, 0.8],  // 4
+    ],
+    edges: [[0, 1], [1, 2], [2, 3], [1, 4]],
+    accents: { 3: CYAN },
+  },
 ];
 
 /* Curated placements (fractions of hero box). Positions frame the
    headline rather than sit dead-centre. `depth` drives parallax. */
 type Placement = {
   ci: number; fx: number; fy: number; scale: number; depth: number; vx: number; vy: number;
+  dim?: number; // <1 = partially faded / more distant (extra depth cue)
 };
 // spread wide across the whole hero (corners + edges), steering clear of the
 // dead-centre headline/search zone so the sky frames the UI instead of crowding it
@@ -200,6 +279,13 @@ const PLACEMENTS: Placement[] = [
   { ci: 8, fx: 0.03, fy: 0.82, scale: 150, depth: 0.7, vx: 0.045, vy: -0.02 }, // Leo — lower-left edge
   { ci: 9, fx: 0.42, fy: 0.04, scale: 145, depth: 0.78, vx: 0.028, vy: 0.03 }, // Pegasus — top centre-left
   { ci: 10, fx: 0.98, fy: 0.28, scale: 120, depth: 0.5, vx: -0.04, vy: 0.026 }, // Aquila — upper-right edge
+  // ── second wave — vary size/density + faded distant tiers for real depth ──
+  { ci: 11, fx: 0.17, fy: 0.42, scale: 130, depth: 0.5, vx: 0.034, vy: 0.02 }, // Taurus — left, mid
+  { ci: 12, fx: 0.9, fy: 0.52, scale: 215, depth: 0.4, vx: -0.03, vy: -0.016 }, // Sagittarius — large HERO, right
+  { ci: 13, fx: 0.58, fy: 0.93, scale: 140, depth: 0.66, vx: -0.026, vy: 0.022, dim: 0.7 }, // Canis Major — bottom, faded
+  { ci: 14, fx: 0.33, fy: 0.72, scale: 110, depth: 0.9, vx: 0.03, vy: -0.02, dim: 0.5 }, // Bootes — distant, very faded
+  { ci: 15, fx: 0.67, fy: 0.08, scale: 125, depth: 0.74, vx: -0.03, vy: 0.026, dim: 0.62 }, // Auriga — top, faded
+  { ci: 16, fx: 0.03, fy: 0.3, scale: 150, depth: 0.58, vx: 0.04, vy: 0.02 }, // Andromeda — left chain
 ];
 
 // precompute each constellation's local centroid so it scales about its centre
@@ -220,6 +306,8 @@ const NEBULAE: Nebula[] = [
   { fx: 0.80, fy: 0.60, rx: 0.50, ry: 0.40, rot: 0.4, rgb: [202, 70, 168], a: 0.16, depth: 0.10, drift: -0.003, ph: 1.4 }, // magenta, lower-right
   { fx: 0.62, fy: 0.16, rx: 0.38, ry: 0.30, rot: 0.2, rgb: [44, 164, 226], a: 0.14, depth: 0.06, drift: 0.0035, ph: 2.7 }, // cyan, top
   { fx: 0.38, fy: 0.82, rx: 0.34, ry: 0.26, rot: -0.3, rgb: [60, 132, 210], a: 0.11, depth: 0.12, drift: 0.0028, ph: 4.1 }, // blue, bottom
+  { fx: 0.92, fy: 0.2, rx: 0.3, ry: 0.26, rot: 0.5, rgb: [128, 96, 214], a: 0.10, depth: 0.07, drift: -0.0026, ph: 5.5 }, // violet, top-right (understated)
+  { fx: 0.1, fy: 0.7, rx: 0.32, ry: 0.24, rot: -0.6, rgb: [40, 150, 200], a: 0.09, depth: 0.09, drift: 0.0032, ph: 3.3 }, // teal, lower-left (understated)
 ];
 
 /* scattered background star dust in 3 DEPTH TIERS — far (tiny/dim/no parallax),
@@ -242,9 +330,24 @@ function seedTier(n: number, dMin: number, dMax: number, rMin: number, rMax: num
   });
 }
 const STARFIELD: Dust[] = [
-  ...seedTier(240, 0.04, 0.22, 0.3, 0.7, 0.18, 0.4, 0),     // far field — dense, faint, near-static
-  ...seedTier(130, 0.35, 0.6, 0.5, 1.1, 0.3, 0.6, 0.04),    // mid field
-  ...seedTier(52, 0.7, 1.0, 0.9, 1.7, 0.45, 0.85, 0.5),     // near field — sparse, bright, bloom
+  ...seedTier(300, 0.02, 0.18, 0.25, 0.65, 0.14, 0.36, 0),  // deep field — very dense, faint, near-static
+  ...seedTier(200, 0.22, 0.42, 0.45, 0.9, 0.26, 0.5, 0.01), // far field
+  ...seedTier(150, 0.42, 0.66, 0.6, 1.2, 0.32, 0.62, 0.05), // mid field
+  ...seedTier(64, 0.7, 1.0, 0.95, 1.8, 0.48, 0.9, 0.55),    // near field — sparse, bright, bloom
+];
+
+/* ── HUD orbital tracks — faint blueprint ellipses anchored off the headline,
+   each carrying a tiny satellite/probe that glides along the path. Pure additive
+   line-work in the FUI style; understated alpha so they read as instrumentation,
+   not decoration. Parallax on a mid-deep layer. ── */
+type Orbit = {
+  fx: number; fy: number; rx: number; ry: number; rot: number;
+  depth: number; speed: number; phase: number; col: string; sats: number;
+};
+const ORBITS: Orbit[] = [
+  { fx: 0.86, fy: 0.2, rx: 0.2, ry: 0.085, rot: -0.35, depth: 0.5, speed: 0.00022, phase: 0.0, col: "120,170,255", sats: 1 }, // upper-right
+  { fx: 0.14, fy: 0.78, rx: 0.17, ry: 0.07, rot: 0.4, depth: 0.62, speed: -0.00017, phase: 2.2, col: "150,196,255", sats: 1 }, // lower-left
+  { fx: 0.5, fy: 0.5, rx: 0.42, ry: 0.16, rot: 0.08, depth: 0.3, speed: 0.00009, phase: 4.0, col: "100,150,235", sats: 2 }, // wide system ring framing the centre
 ];
 
 /* ── tracked "contacts": blips that fly across the hero leaving a
@@ -500,6 +603,45 @@ export default function HeroCanvas() {
         if (s.bloom) ctx.shadowBlur = 0;
       }
 
+      // PASS 0.5 — HUD orbital tracks + gliding satellites (mid-deep parallax,
+      // understated so they frame the scene as instrumentation, never noise)
+      for (const o of ORBITS) {
+        const par = o.depth * 22;
+        const ocx = o.fx * w + ptr.x * par, ocy = o.fy * h + ptr.y * par;
+        const rx = o.rx * w, ry = o.ry * h;
+        ctx.save();
+        ctx.translate(ocx, ocy);
+        ctx.rotate(o.rot);
+        // faint dashed orbit path
+        ctx.setLineDash([5, 7]);
+        ctx.lineWidth = 0.7;
+        ctx.strokeStyle = `rgba(${o.col},0.1)`;
+        ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2); ctx.stroke();
+        ctx.setLineDash([]);
+        // satellites gliding along the ellipse
+        for (let s = 0; s < o.sats; s++) {
+          const ang = reduce ? (o.phase + s * Math.PI) : t * o.speed + o.phase + s * (Math.PI * 2 / o.sats);
+          const sxp = Math.cos(ang) * rx, syp = Math.sin(ang) * ry;
+          // short leading trail
+          const tg = ctx.createLinearGradient(sxp, syp, Math.cos(ang - 0.18) * rx, Math.sin(ang - 0.18) * ry);
+          tg.addColorStop(0, `rgba(${o.col},0.5)`); tg.addColorStop(1, `rgba(${o.col},0)`);
+          ctx.strokeStyle = tg; ctx.lineWidth = 1.1;
+          ctx.beginPath(); ctx.moveTo(sxp, syp); ctx.lineTo(Math.cos(ang - 0.18) * rx, Math.sin(ang - 0.18) * ry); ctx.stroke();
+          // probe body + glow
+          ctx.shadowColor = `rgba(${o.col},0.9)`; ctx.shadowBlur = 4;
+          ctx.fillStyle = `rgba(214,232,255,0.85)`;
+          ctx.beginPath(); ctx.arc(sxp, syp, 1.4, 0, Math.PI * 2); ctx.fill();
+          ctx.shadowBlur = 0;
+          // tiny tracking tick marks bracketing the probe
+          ctx.strokeStyle = `rgba(${o.col},0.32)`; ctx.lineWidth = 0.7;
+          ctx.beginPath();
+          ctx.moveTo(sxp - 4, syp); ctx.lineTo(sxp - 2.4, syp);
+          ctx.moveTo(sxp + 2.4, syp); ctx.lineTo(sxp + 4, syp);
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
       // PASS 1 — advance drift + compute each constellation's screen centre
       const centers = PLACEMENTS.map((pl, p) => {
         const l = live[p];
@@ -549,6 +691,7 @@ export default function HeroCanvas() {
         const [lcx, lcy] = CENTROIDS[pl.ci];
         const { ox, oy, sc } = centers[p];
         const ping = reduce ? 0 : Math.max(0, 1 - (t - pingAt[p]) / PING_MS);
+        const dim = pl.dim ?? 1; // faded/distant constellations sit further back
 
         const pts: [number, number][] = con.stars.map((s) => [
           ox + (s[0] - lcx) * sc,
@@ -557,7 +700,7 @@ export default function HeroCanvas() {
 
         // lines — elegant thin glowing connections (brighten slightly on ping)
         ctx.lineWidth = 0.6;
-        ctx.strokeStyle = `rgba(146,184,255,${(0.16 + ping * 0.42).toFixed(3)})`;
+        ctx.strokeStyle = `rgba(146,184,255,${((0.16 + ping * 0.42) * dim).toFixed(3)})`;
         ctx.shadowColor = "rgba(120,170,255,0.5)";
         ctx.shadowBlur = 3 + ping * 5;
         ctx.beginPath();
@@ -568,13 +711,28 @@ export default function HeroCanvas() {
         ctx.stroke();
         ctx.shadowBlur = 0;
 
+        // occasional glowing blueprint nodes at edge midpoints — a faint HUD
+        // joint marker that slowly breathes, only on the nearer (non-faded) shapes
+        if (dim >= 0.95 && con.edges.length) {
+          for (let e = 0; e < con.edges.length; e += 2) {
+            const [a, b] = con.edges[e];
+            const mx = (pts[a][0] + pts[b][0]) / 2, my = (pts[a][1] + pts[b][1]) / 2;
+            const nb = 0.18 + 0.12 * Math.sin(t * 0.0016 * speed + e * 1.3 + p);
+            ctx.strokeStyle = `rgba(120,170,255,${(nb + ping * 0.3).toFixed(3)})`;
+            ctx.lineWidth = 0.7;
+            ctx.beginPath(); ctx.arc(mx, my, 2.2, 0, Math.PI * 2); ctx.stroke();
+            ctx.fillStyle = `rgba(170,205,255,${(nb * 0.7).toFixed(3)})`;
+            ctx.beginPath(); ctx.arc(mx, my, 0.7, 0, Math.PI * 2); ctx.fill();
+          }
+        }
+
         // stars (twinkle + ping boost)
         for (let i = 0; i < con.stars.length; i++) {
           const bright = con.stars[i][2];
           const accent = con.accents?.[i];
           const [sxp, syp] = pts[i];
           const tw = reduce ? 0.85 : 0.62 + 0.38 * Math.sin(t * 0.0012 * speed + i * 1.7 + p);
-          const a = Math.min(1, tw + ping * 0.45);
+          const a = Math.min(1, (tw + ping * 0.45) * dim);
           const rad = (accent ? 1.7 : 1.1) * bright * (1 + ping * 0.4);
           const [r, g, bch] = accent ?? STARW;
           if (accent || ping > 0.01) {

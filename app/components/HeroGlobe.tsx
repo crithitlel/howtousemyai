@@ -55,15 +55,15 @@ type Body = {
 const BODIES: Body[] = [
   // ── DISTANT FIELD (drawn first, far behind) ── varied worlds: gas giant, fire,
   //    ice, plus extra small moons/embers. Distinct bobF + spin so none drift in sync.
-  { type: "bands", fx: 0.11, fy: 0.23, r: 34, spin: 0.00022, tilt: 0.30, depth: 0.9,  bob: 3, bobF: 0.00038, col: "130,175,255", accent: "255,110,104", far: true, dim: 0.5 },
-  { type: "lava",  fx: 0.40, fy: 0.11, r: 22, spin: 0.00010, tilt: 0.20, depth: 0.95, bob: 3, bobF: 0.00057, col: "150,90,120",  accent: "236,86,84",  far: true, dim: 0.42 },
-  { type: "ice",   fx: 0.30, fy: 0.86, r: 30, spin: 0.00009, tilt: 0.35, depth: 0.85, bob: 4, bobF: 0.00031, col: "150,195,255", accent: "216,238,255", far: true, dim: 0.5 },
+  { type: "bands", fx: 0.11, fy: 0.23, r: 41, spin: 0.00022, tilt: 0.30, depth: 0.9,  bob: 3, bobF: 0.00038, col: "130,175,255", accent: "255,110,104", far: true, dim: 0.5 },
+  { type: "lava",  fx: 0.40, fy: 0.11, r: 26, spin: 0.00010, tilt: 0.20, depth: 0.95, bob: 3, bobF: 0.00057, col: "150,90,120",  accent: "236,86,84",  far: true, dim: 0.42 },
+  { type: "ice",   fx: 0.30, fy: 0.86, r: 36, spin: 0.00009, tilt: 0.35, depth: 0.85, bob: 4, bobF: 0.00031, col: "150,195,255", accent: "216,238,255", far: true, dim: 0.5 },
   // ── HERO: the wireframe intelligence globe — MAIN body, now on the RIGHT ──
   //    placed high-right so its left edge stays clear of the centred search console.
   { type: "wire",  fx: 0.82, fy: 0.38, mfx: 0.80, mfy: 0.32, r: 72, spin: 0.00016, tilt: 0.42, depth: 0.5,  bob: 5, bobF: 0.00050, col: "120,170,255", accent: "120,212,255" },
   // ── SECONDARY: ringed planet — smaller, now lower-LEFT (spaced away from the gas giant) ──
   { type: "rings", fx: 0.13, fy: 0.56, mfx: 0.14, mfy: 0.37, r: 44, spin: 0.00010, tilt: 0.62, depth: 0.7,  bob: 6, bobF: 0.00026, col: "150,185,255", accent: "206,221,255", far: true, dim: 0.82 },
-  { type: "moon",  fx: 0.93, fy: 0.62, r: 22, spin: 0.00006, tilt: 0.00, depth: 0.30, bob: 7, bobF: 0.00069, col: "176,192,222", accent: "120,150,200", far: true, dim: 0.7 },
+  { type: "moon",  fx: 0.93, fy: 0.62, r: 26, spin: 0.00006, tilt: 0.00, depth: 0.30, bob: 7, bobF: 0.00069, col: "176,192,222", accent: "120,150,200", far: true, dim: 0.7 },
 ];
 
 type Vec3 = { x: number; y: number; z: number };
@@ -249,8 +249,46 @@ export default function HeroGlobe() {
       g.restore();
     }
 
+    // layered atmospheric scattering halo — a wide soft outer glow that slowly
+    // "breathes" (shimmer) wrapped by a tighter, brighter limb band. Additive, low
+    // alpha, drawn BEHIND the body so it reads as a real atmosphere with depth
+    // rather than a hard edge. Returns nothing; pure glow.
+    function atmoLayered(cx: number, cy: number, rr: number, rgb: string, t: number, baseA: number) {
+      const breath = 0.9 + 0.1 * Math.sin(t * 0.0005 + cx * 0.013 + cy * 0.011);
+      const outerR = rr * 1.52 * breath;
+      const o = g.createRadialGradient(cx, cy, rr * 0.82, cx, cy, outerR);
+      o.addColorStop(0, `rgba(${rgb},0)`);
+      o.addColorStop(0.42, `rgba(${rgb},${baseA.toFixed(3)})`);
+      o.addColorStop(0.72, `rgba(${rgb},${(baseA * 0.4).toFixed(3)})`);
+      o.addColorStop(1, `rgba(${rgb},0)`);
+      g.fillStyle = o; g.beginPath(); g.arc(cx, cy, outerR, 0, Math.PI * 2); g.fill();
+      // tight inner limb band, brightest on the sunlit side
+      const ix = cx + LIGHT.x * rr * 0.2, iy = cy + LIGHT.y * rr * 0.2;
+      const inn = g.createRadialGradient(ix, iy, rr * 0.86, ix, iy, rr * 1.16);
+      inn.addColorStop(0, `rgba(${rgb},0)`);
+      inn.addColorStop(0.7, `rgba(${rgb},${(baseA * 1.3).toFixed(3)})`);
+      inn.addColorStop(1, `rgba(${rgb},0)`);
+      g.fillStyle = inn; g.beginPath(); g.arc(cx, cy, rr * 1.16, 0, Math.PI * 2); g.fill();
+    }
+    // slow internal energy pulse — a faint core bloom that swells and fades, giving
+    // the body a sense of contained energy/life (used on gas + ice worlds).
+    function corePulse(cx: number, cy: number, rr: number, rgb: string, t: number, peakA: number, freq: number) {
+      const p = 0.5 + 0.5 * Math.sin(t * freq + cx * 0.02);
+      const a = peakA * (0.4 + 0.6 * p);
+      const cr2 = rr * (0.18 + 0.12 * p);
+      const grd = g.createRadialGradient(cx, cy, 0, cx, cy, rr * 0.7);
+      grd.addColorStop(0, `rgba(${rgb},${a.toFixed(3)})`);
+      grd.addColorStop(0.5, `rgba(${rgb},${(a * 0.3).toFixed(3)})`);
+      grd.addColorStop(1, `rgba(${rgb},0)`);
+      g.save(); g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.clip();
+      g.fillStyle = grd; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
+      g.restore();
+      void cr2;
+    }
+
     function drawWire(b: Body, cx: number, cy: number, rr: number, t: number) {
       const rot = t * b.spin, cr = Math.cos(rot), sr = Math.sin(rot), ct = Math.cos(b.tilt), st = Math.sin(b.tilt);
+      atmoLayered(cx, cy, rr, b.accent, t, 0.06);   // layered atmospheric scattering
       // atmosphere glow halo
       const glow = g.createRadialGradient(cx, cy, rr * 0.75, cx, cy, rr * 1.4);
       glow.addColorStop(0, `rgba(${b.accent},0)`); glow.addColorStop(0.55, `rgba(${b.accent},0.08)`); glow.addColorStop(1, `rgba(${b.accent},0)`);
@@ -336,6 +374,7 @@ export default function HeroGlobe() {
     ];
     function drawRings(b: Body, cx: number, cy: number, rr: number, t: number) {
       const rot = t * b.spin, st = Math.sin(b.tilt), ct = Math.cos(b.tilt);
+      atmoLayered(cx, cy, rr, "150,196,255", t, 0.05);   // extra layered scattering depth
       // atmospheric limb glow — a soft halo of scattered light wrapping the planet,
       // brightest on the sunlit side. This is what sells "planet with an atmosphere"
       // vs "shaded circle". Drawn first so the body + rings sit in front of it.
@@ -421,6 +460,7 @@ export default function HeroGlobe() {
       }
       g.fillStyle = "rgba(3,7,20,0.32)"; g.fillRect(cx - rr, cy - rr * 0.05, rr * 2, rr * 0.1); // ring shadow line cast on body
       g.restore();
+      corePulse(cx, cy, rr, "150,196,255", t, 0.06, 0.0007); // faint internal glow
       lightWash(cx, cy, rr, b.col, 0.3);                    // lit hemisphere
       specular(cx, cy, rr, "225,236,255", 0.34);            // glossy cloud-top highlight
       fresnelArc(cx, cy, rr, b.col, 0.34, 1.3);             // lit limb
@@ -435,6 +475,7 @@ export default function HeroGlobe() {
 
     /* ---- banded gas giant — curved bands, swirling storm, spherical shading ---- */
     function drawBands(b: Body, cx: number, cy: number, rr: number, t: number) {
+      atmoLayered(cx, cy, rr, b.col, t, 0.06);   // layered atmospheric scattering
       g.save();
       g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.clip();
       g.fillStyle = `rgba(${b.col},0.05)`; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
@@ -503,6 +544,7 @@ export default function HeroGlobe() {
         g.restore();
       }
       g.restore();
+      corePulse(cx, cy, rr, b.accent, t, 0.05, 0.0006);  // contained warmth at the core
       specular(cx, cy, rr, "225,236,255", 0.3);   // glossy cloud-top sheen
       lightWash(cx, cy, rr, b.col, 0.24);
       fresnelArc(cx, cy, rr, b.accent, 0.3, 1.3);
@@ -669,10 +711,7 @@ export default function HeroGlobe() {
 
     /* ---- frozen ice world — polar caps, fractures, shimmering aurora, halo ---- */
     function drawIce(b: Body, cx: number, cy: number, rr: number, t: number) {
-      // thin atmosphere halo
-      const halo = g.createRadialGradient(cx, cy, rr * 0.85, cx, cy, rr * 1.25);
-      halo.addColorStop(0, `rgba(${b.accent},0)`); halo.addColorStop(0.6, `rgba(${b.accent},0.08)`); halo.addColorStop(1, `rgba(${b.accent},0)`);
-      g.fillStyle = halo; g.beginPath(); g.arc(cx, cy, rr * 1.25, 0, Math.PI * 2); g.fill();
+      atmoLayered(cx, cy, rr, b.accent, t, 0.055);   // layered icy atmosphere scattering
       g.save();
       g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.clip();
       // icy body
@@ -727,6 +766,7 @@ export default function HeroGlobe() {
       sh.addColorStop(0, "rgba(255,255,255,0.08)"); sh.addColorStop(0.6, "rgba(0,0,0,0)"); sh.addColorStop(1, "rgba(4,10,24,0.5)");
       g.fillStyle = sh; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
       g.restore();
+      corePulse(cx, cy, rr, b.accent, t, 0.045, 0.0008);   // faint internal glacial glow
       lightWash(cx, cy, rr, b.col, 0.28);                  // lit hemisphere
       specular(cx, cy, rr, "235,248,255", 0.5);            // bright glossy sun-glint
       fresnelArc(cx, cy, rr, b.accent, 0.36, 1.3);         // icy lit limb
