@@ -305,9 +305,13 @@ export default function HeroGlobe() {
 
     /* ---- ringed planet — multi-band ring system + shaded body ---- */
     const RING_BANDS = [
-      { radF: 1.42, widthF: 0.05, alpha: 0.16 },  // faint inner C ring
-      { radF: 1.66, widthF: 0.17, alpha: 0.52 },  // bright main B ring
-      { radF: 1.92, widthF: 0.06, alpha: 0.30 },  // A ring (Cassini gap before it)
+      { radF: 1.34, widthF: 0.025, alpha: 0.10 }, // faint inner haze
+      { radF: 1.45, widthF: 0.05, alpha: 0.22 },  // C ring
+      { radF: 1.58, widthF: 0.09, alpha: 0.52 },  // B ring (bright inner)
+      { radF: 1.71, widthF: 0.07, alpha: 0.40 },  // B ring (outer)
+      // Cassini division gap here
+      { radF: 1.90, widthF: 0.06, alpha: 0.30 },  // A ring
+      { radF: 2.01, widthF: 0.02, alpha: 0.16 },  // thin F ring
     ];
     function drawRings(b: Body, cx: number, cy: number, rr: number, t: number) {
       const rot = t * b.spin, st = Math.sin(b.tilt), ct = Math.cos(b.tilt);
@@ -337,16 +341,34 @@ export default function HeroGlobe() {
       g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.clip();
       // curved latitude cloud bands that hug the sphere (project lat onto the disc)
       const drift = Math.sin(t * 0.00035) * 0.4;
-      const STRIPS = 34;
+      const STRIPS = 44;
       for (let i = 0; i < STRIPS; i++) {
         const lat = -1 + (i / (STRIPS - 1)) * 2;          // -1..1 across the sphere
         const yy = cy + lat * rr;
         const halfW = Math.sqrt(Math.max(0, 1 - lat * lat)) * rr; // chord width at this latitude
-        const v = Math.sin(lat * 7.2 + drift) * 0.5 + 0.5;
-        const warm = Math.sin(lat * 7.2 + drift + 1.4) > 0.62;
-        const a = 0.05 + 0.13 * v + 0.02 * Math.sin(t * 0.0008 + i * 0.7);
-        g.fillStyle = warm ? `rgba(${b.accent},${(a * 0.55).toFixed(3)})` : `rgba(${b.col},${a.toFixed(3)})`;
+        if (halfW <= 0) continue;
+        const v = 0.5 + 0.5 * Math.sin(lat * 8 + drift) * Math.cos(lat * 2.5 - drift * 0.5);
+        const belt = Math.sin(lat * 8 + drift + 1.4);
+        const warm = belt > 0.55, brightBelt = belt < -0.6;
+        const a = 0.03 + 0.19 * v + 0.02 * Math.sin(t * 0.0008 + i * 0.7);
+        const col = warm ? b.accent : brightBelt ? "215,230,255" : b.col;
+        g.fillStyle = `rgba(${col},${(warm ? a * 0.6 : a).toFixed(3)})`;
         g.fillRect(cx - halfW, yy - rr / STRIPS, halfW * 2, rr * 2 / STRIPS + 0.6);
+      }
+      // turbulent shear filaments
+      for (let f = 0; f < 5; f++) {
+        const lat = -0.7 + f * 0.35;
+        const yy = cy + lat * rr, halfW = Math.sqrt(Math.max(0, 1 - lat * lat)) * rr;
+        if (halfW <= 2) continue;
+        g.strokeStyle = `rgba(${f % 2 ? b.accent : "215,230,255"},${(0.14 + 0.05 * Math.sin(t * 0.0012 + f)).toFixed(3)})`;
+        g.lineWidth = 0.7;
+        g.beginPath();
+        for (let s = 0; s <= 26; s++) {
+          const xx = cx - halfW + (s / 26) * halfW * 2;
+          const wob = Math.sin(s * 0.7 + t * 0.0015 * (f % 2 ? -1 : 1) + f * 1.2) * rr * 0.045;
+          if (s === 0) g.moveTo(xx, yy + wob); else g.lineTo(xx, yy + wob);
+        }
+        g.stroke();
       }
       // a small rotating storm spot (near face only)
       const ph = (t * b.spin * 6) % (Math.PI * 2), face = Math.cos(ph);
@@ -376,42 +398,73 @@ export default function HeroGlobe() {
     function drawBands(b: Body, cx: number, cy: number, rr: number, t: number) {
       g.save();
       g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.clip();
-      g.fillStyle = `rgba(${b.col},0.08)`; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
-      const strips = 40, drift = Math.sin(t * 0.0003) * 0.5;
+      g.fillStyle = `rgba(${b.col},0.05)`; g.fillRect(cx - rr, cy - rr, rr * 2, rr * 2);
+      // high-contrast curved cloud belts (chord-width follows the sphere)
+      const drift = Math.sin(t * 0.0003) * 0.5;
+      const strips = 52;
       for (let i = 0; i < strips; i++) {
-        const yy = cy - rr + (i / strips) * rr * 2, lat = (yy - cy) / rr;
-        const v = Math.sin(lat * 6.5 + drift) * 0.5 + 0.5;
-        const warm = Math.sin(lat * 6.5 + drift + 1.6) > 0.6;
-        const a = 0.04 + 0.12 * v + 0.02 * Math.sin(t * 0.0009 + i * 0.6);
-        g.fillStyle = warm ? `rgba(${b.accent},${(a * 0.5).toFixed(3)})` : `rgba(${b.col},${a.toFixed(3)})`;
-        g.fillRect(cx - rr, yy, rr * 2, rr * 2 / strips + 0.7);
+        const lat = -1 + (i / (strips - 1)) * 2;
+        const yy = cy + lat * rr;
+        const half = Math.sqrt(Math.max(0, 1 - lat * lat)) * rr;
+        if (half <= 0) continue;
+        // two superimposed sine systems → richer belt structure
+        const v = 0.5 + 0.5 * Math.sin(lat * 7.5 + drift) * Math.cos(lat * 2.3 - drift * 0.6);
+        const belt = Math.sin(lat * 7.5 + drift + 1.4);
+        const warm = belt > 0.55, brightBelt = belt < -0.6;
+        const a = 0.03 + 0.2 * v + 0.025 * Math.sin(t * 0.0009 + i * 0.6);
+        const col = warm ? b.accent : brightBelt ? "210,228,255" : b.col;
+        g.fillStyle = `rgba(${col},${(warm ? a * 0.6 : a).toFixed(3)})`;
+        g.fillRect(cx - half, yy - rr / strips, half * 2, rr * 2 / strips + 0.7);
       }
-      // great storm — swirling oval, near face only
+      // turbulent shear filaments riding the belt boundaries
+      for (let f = 0; f < 6; f++) {
+        const lat = -0.75 + f * 0.3;
+        const yy = cy + lat * rr;
+        const half = Math.sqrt(Math.max(0, 1 - lat * lat)) * rr;
+        if (half <= 2) continue;
+        g.strokeStyle = `rgba(${f % 2 ? b.accent : "215,230,255"},${(0.16 + 0.06 * Math.sin(t * 0.0012 + f)).toFixed(3)})`;
+        g.lineWidth = 0.8;
+        g.beginPath();
+        for (let s = 0; s <= 28; s++) {
+          const xx = cx - half + (s / 28) * half * 2;
+          const wob = Math.sin(s * 0.7 + t * 0.0016 * (f % 2 ? -1 : 1) + f * 1.3) * rr * 0.05;
+          if (s === 0) g.moveTo(xx, yy + wob); else g.lineTo(xx, yy + wob);
+        }
+        g.stroke();
+      }
+      // great storm — detailed swirling spiral, near face only
       const ph = (t * b.spin) % (Math.PI * 2), face = Math.cos(ph);
       if (face > 0) {
-        const sx = cx + Math.sin(ph) * rr * 0.6, sy = cy + rr * 0.24;
-        const w0 = rr * 0.26 * face, h0 = rr * 0.15;
-        g.fillStyle = `rgba(${b.accent},${(0.5 * face).toFixed(3)})`;
-        g.beginPath(); g.ellipse(sx, sy, w0, h0, 0, 0, Math.PI * 2); g.fill();
-        g.strokeStyle = `rgba(${b.col},${(0.4 * face).toFixed(3)})`; g.lineWidth = 0.8;
-        g.beginPath(); g.ellipse(sx, sy, w0 * 0.6, h0 * 0.6, 0, 0, Math.PI * 2); g.stroke();
-        g.beginPath(); g.ellipse(sx, sy, w0 * 0.3, h0 * 0.3, 0, 0, Math.PI * 2); g.stroke();
+        const sx = cx + Math.sin(ph) * rr * 0.6, sy = cy + rr * 0.26;
+        const w0 = rr * 0.3 * face, h0 = rr * 0.18, swirl = t * 0.0022;
+        const sg = g.createRadialGradient(sx, sy, 1, sx, sy, w0);
+        sg.addColorStop(0, `rgba(255,190,150,${(0.6 * face).toFixed(3)})`);
+        sg.addColorStop(0.5, `rgba(${b.accent},${(0.4 * face).toFixed(3)})`);
+        sg.addColorStop(1, `rgba(${b.accent},0)`);
+        g.fillStyle = sg; g.beginPath(); g.ellipse(sx, sy, w0, h0, 0, 0, Math.PI * 2); g.fill();
+        g.save(); g.translate(sx, sy); g.rotate(swirl);
+        g.strokeStyle = `rgba(255,225,200,${(0.5 * face).toFixed(3)})`; g.lineWidth = 0.8;
+        for (let r = 0; r < 3; r++) { const k = 1 - r * 0.3; g.beginPath(); g.ellipse(0, 0, w0 * k * 0.8, h0 * k * 0.8, r * 0.5, 0, Math.PI * 2); g.stroke(); }
+        g.fillStyle = `rgba(255,240,225,${(0.55 * face).toFixed(3)})`;
+        g.beginPath(); g.ellipse(0, 0, w0 * 0.16, h0 * 0.16, 0, 0, Math.PI * 2); g.fill();
+        g.restore();
       }
       // second, smaller counter-rotating eddy higher up
       const ph2 = (-t * b.spin * 1.4) % (Math.PI * 2), face2 = Math.cos(ph2);
       if (face2 > 0) {
-        const ex = cx + Math.sin(ph2) * rr * 0.5, ey = cy - rr * 0.34;
+        const ex = cx + Math.sin(ph2) * rr * 0.5, ey = cy - rr * 0.36;
         const ew = rr * 0.16 * face2, eh = rr * 0.1;
         const spin2 = t * 0.004;
         g.save(); g.translate(ex, ey); g.rotate(spin2);
-        g.strokeStyle = `rgba(${b.col},${(0.4 * face2).toFixed(3)})`; g.lineWidth = 0.8;
+        g.strokeStyle = `rgba(${b.col},${(0.45 * face2).toFixed(3)})`; g.lineWidth = 0.8;
         g.beginPath(); g.ellipse(0, 0, ew, eh, 0, 0, Math.PI * 2); g.stroke();
         g.beginPath(); g.ellipse(0, 0, ew * 0.5, eh * 0.5, 0, 0, Math.PI * 2); g.stroke();
-        g.fillStyle = `rgba(${b.accent},${(0.28 * face2).toFixed(3)})`;
+        g.fillStyle = `rgba(${b.accent},${(0.3 * face2).toFixed(3)})`;
         g.beginPath(); g.ellipse(0, 0, ew * 0.35, eh * 0.35, 0, 0, Math.PI * 2); g.fill();
         g.restore();
       }
       g.restore();
+      specular(cx, cy, rr, "225,236,255", 0.3);   // glossy cloud-top sheen
       lightWash(cx, cy, rr, b.col, 0.24);
       fresnelArc(cx, cy, rr, b.accent, 0.3, 1.3);
       g.strokeStyle = `rgba(${b.col},0.32)`; g.lineWidth = 1; g.beginPath(); g.arc(cx, cy, rr, 0, Math.PI * 2); g.stroke();
