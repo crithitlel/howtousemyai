@@ -368,10 +368,6 @@ type Contact = {
 /* a fast shooting star — bright head + long fading tail, no label */
 type Shoot = { x: number; y: number; vx: number; vy: number; life: number; max: number };
 
-/* a slow, bright COMET — glowing coma head + long fading ion tail. Rarer and
-   larger than a shooting star; crosses a good stretch of the sky. */
-type Comet = { x: number; y: number; vx: number; vy: number; life: number; max: number; rgb: RGB };
-
 // true when the radar sweep's leading edge passes `target` this frame
 // (all angles in degrees, clockwise from north; sweep advances forward & wraps)
 function crossed(prev: number, cur: number, target: number): boolean {
@@ -433,56 +429,6 @@ export default function HeroCanvas() {
         vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
         life: 0, max: 520 + Math.random() * 360,
       });
-    };
-
-    // comets — slow, bright, rare
-    const comets: Comet[] = [];
-    let nextComet = 6000;
-    const COMET_PALETTE: RGB[] = [[150, 220, 255], [185, 235, 255], [138, 200, 255]];
-
-    const spawnComet = () => {
-      const fromLeft = Math.random() < 0.5;
-      const sp = (mobile ? 0.05 : 0.085) * (0.8 + Math.random() * 0.5); // px/ms (slower than a shooting star)
-      const ang = (fromLeft ? 0.42 : Math.PI - 0.42) + (Math.random() - 0.5) * 0.3;
-      comets.push({
-        x: fromLeft ? -40 : w + 40,
-        y: h * (0.06 + Math.random() * 0.5),
-        vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp,
-        life: 0, max: 9000 + Math.random() * 5000,
-        rgb: COMET_PALETTE[(Math.random() * COMET_PALETTE.length) | 0],
-      });
-    };
-
-    const drawComet = (c: Comet) => {
-      const sp = Math.hypot(c.vx, c.vy) || 1;
-      const ux = c.vx / sp, uy = c.vy / sp;
-      const p = c.life / c.max;
-      const fade = Math.min(1, Math.sin(Math.min(1, p) * Math.PI) * 1.3); // ease in → out
-      const [r, g, b] = c.rgb;
-      ctx.save();
-      ctx.lineCap = "round";
-      // long ion tail, trailing opposite the velocity
-      const tailLen = 120 + 70 * fade;
-      const tx = c.x - ux * tailLen, ty = c.y - uy * tailLen;
-      const grad = ctx.createLinearGradient(c.x, c.y, tx, ty);
-      grad.addColorStop(0, `rgba(${r},${g},${b},${(0.55 * fade).toFixed(3)})`);
-      grad.addColorStop(0.4, `rgba(${r},${g},${b},${(0.18 * fade).toFixed(3)})`);
-      grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
-      ctx.strokeStyle = grad; ctx.lineWidth = 3.2;
-      ctx.beginPath(); ctx.moveTo(c.x, c.y); ctx.lineTo(tx, ty); ctx.stroke();
-      // brighter inner core streak
-      ctx.strokeStyle = `rgba(235,245,255,${(0.5 * fade).toFixed(3)})`;
-      ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(c.x, c.y); ctx.lineTo(c.x - ux * tailLen * 0.5, c.y - uy * tailLen * 0.5); ctx.stroke();
-      // glowing coma head
-      const coma = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, 9);
-      coma.addColorStop(0, `rgba(245,250,255,${(0.95 * fade).toFixed(3)})`);
-      coma.addColorStop(0.4, `rgba(${r},${g},${b},${(0.6 * fade).toFixed(3)})`);
-      coma.addColorStop(1, `rgba(${r},${g},${b},0)`);
-      ctx.fillStyle = coma; ctx.beginPath(); ctx.arc(c.x, c.y, 9, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = `rgba(255,255,255,${fade.toFixed(3)})`;
-      ctx.beginPath(); ctx.arc(c.x, c.y, 2, 0, Math.PI * 2); ctx.fill();
-      ctx.restore();
     };
 
     const drawShoot = (s: Shoot) => {
@@ -814,20 +760,6 @@ export default function HeroCanvas() {
           s.x += s.vx * dt; s.y += s.vy * dt; s.life += dt;
           if (s.life > s.max || s.x < -80 || s.x > w + 80 || s.y > h + 80) { shoots.splice(i, 1); continue; }
           drawShoot(s);
-        }
-      }
-
-      // PASS 6 — rare comets crossing the whole scene
-      if (!reduce) {
-        if (t > nextComet && comets.length < 1) {
-          spawnComet();
-          nextComet = t + (mobile ? 22000 : 14000) + Math.random() * 12000;
-        }
-        for (let i = comets.length - 1; i >= 0; i--) {
-          const c = comets[i];
-          c.x += c.vx * dt; c.y += c.vy * dt; c.life += dt;
-          if (c.life > c.max || c.x < -180 || c.x > w + 180 || c.y > h + 180) { comets.splice(i, 1); continue; }
-          drawComet(c);
         }
       }
     };

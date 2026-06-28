@@ -369,8 +369,10 @@ body {
 .site-bg::before {
   background-image:
     linear-gradient(rgba(24,119,242,0.10) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(24,119,242,0.10) 1px, transparent 1px);
-  background-size: 46px 46px;
+    linear-gradient(90deg, rgba(24,119,242,0.10) 1px, transparent 1px),
+    linear-gradient(rgba(52,206,146,0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52,206,146,0.10) 1px, transparent 1px);
+  background-size: 46px 46px, 46px 46px, 138px 138px, 138px 138px;
 }
 .site-bg::after {
   background-image:
@@ -1077,10 +1079,15 @@ body.v2-shell .starfield { display: none; }
 }
 .v2-hero-grid {
   position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  /* blue fine grid (dominant) + an emerald grid running throughout as a third
+     line colour (every 3rd cell, lower alpha than blue/red so green stays the
+     quietest, tertiary line) */
   background-image:
     linear-gradient(rgba(24,119,242,0.16) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(24,119,242,0.16) 1px, transparent 1px);
-  background-size: 46px 46px;
+    linear-gradient(90deg, rgba(24,119,242,0.16) 1px, transparent 1px),
+    linear-gradient(rgba(52,206,146,0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52,206,146,0.15) 1px, transparent 1px);
+  background-size: 46px 46px, 46px 46px, 138px 138px, 138px 138px;
   transform: perspective(700px) rotateX(0deg) translate(calc(var(--px,0)*-14px), calc(var(--py,0)*-14px));
   -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 42%, #000 30%, transparent 80%);
   mask-image: radial-gradient(ellipse 85% 75% at 50% 42%, #000 30%, transparent 80%);
