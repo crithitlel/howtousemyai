@@ -310,7 +310,6 @@ const CENTROIDS = CONSTELLATIONS.map((c) => {
    real luminosity range instead of one monotone blue. Seeded once, deterministic. */
 type Nebula = { fx: number; fy: number; rx: number; ry: number; rot: number; rgb: RGB; a: number; depth: number; drift: number; ph: number };
 const NEBULAE: Nebula[] = [
-  { fx: 0.20, fy: 0.32, rx: 0.46, ry: 0.40, rot: -0.5, rgb: [96, 84, 224], a: 0.20, depth: 0.08, drift: 0.004, ph: 0.0 },  // indigo, left
   { fx: 0.80, fy: 0.60, rx: 0.50, ry: 0.40, rot: 0.4, rgb: [202, 70, 168], a: 0.16, depth: 0.10, drift: -0.003, ph: 1.4 }, // magenta, lower-right
   { fx: 0.62, fy: 0.16, rx: 0.38, ry: 0.30, rot: 0.2, rgb: [44, 164, 226], a: 0.14, depth: 0.06, drift: 0.0035, ph: 2.7 }, // cyan, top
   { fx: 0.38, fy: 0.82, rx: 0.34, ry: 0.26, rot: -0.3, rgb: [60, 132, 210], a: 0.11, depth: 0.12, drift: 0.0028, ph: 4.1 }, // blue, bottom
@@ -358,13 +357,6 @@ const ORBITS: Orbit[] = [
   { fx: 0.5, fy: 0.5, rx: 0.42, ry: 0.16, rot: 0.08, depth: 0.3, speed: 0.00009, phase: 4.0, col: "100,150,235", sats: 2 }, // wide system ring framing the centre
 ];
 
-/* ── tracked "contacts": blips that fly across the hero leaving a
-   fading trail + a lock bracket, like targets crossing a scope. ── */
-type Contact = {
-  id: number; x: number; y: number; vx: number; vy: number;
-  red: boolean; dist: number; trail: [number, number][];
-};
-
 /* a fast shooting star — bright head + long fading tail, no label */
 type Shoot = { x: number; y: number; vx: number; vy: number; life: number; max: number };
 
@@ -405,12 +397,9 @@ export default function HeroCanvas() {
     // smoothed pointer in normalised hero space (-0.5..0.5)
     const ptr = { tx: 0, ty: 0, x: 0, y: 0 };
 
-    // flying tracked contacts + sweep-triggered constellation pings
+    // sweep-triggered constellation pings
     const sweep = parent.querySelector(".v2-sweep") as HTMLElement | null;
-    const contacts: Contact[] = [];
     const pingAt = PLACEMENTS.map(() => -1e9); // last ping time per constellation
-    let contactSeq = 0;
-    let nextSpawn = 1800;
     let prevSweep = 0;
     let lastT = 0;
     const PING_MS = 1100;
@@ -445,45 +434,6 @@ export default function HeroCanvas() {
       ctx.shadowColor = "rgba(220,236,255,0.9)"; ctx.shadowBlur = 8;
       ctx.fillStyle = `rgba(240,248,255,${fade.toFixed(3)})`;
       ctx.beginPath(); ctx.arc(s.x, s.y, 1.7, 0, Math.PI * 2); ctx.fill();
-      ctx.shadowBlur = 0;
-    };
-
-    const spawnContact = (t: number) => {
-      void t;
-      const fromLeft = Math.random() < 0.5;
-      const sp = (mobile ? 0.045 : 0.085) * (0.8 + Math.random() * 0.5); // px/ms
-      const ang = (Math.random() - 0.5) * 0.34; // gentle vertical slope
-      contacts.push({
-        id: ++contactSeq,
-        x: fromLeft ? -36 : w + 36,
-        y: h * (0.2 + Math.random() * 0.5),
-        vx: (fromLeft ? 1 : -1) * sp * Math.cos(ang),
-        vy: sp * Math.sin(ang),
-        red: Math.random() < 0.28,
-        dist: 800 + Math.floor(Math.random() * 9000),
-        trail: [],
-      });
-    };
-
-    // a silent distant probe — faint head + short fading trail, no label/bracket
-    // (the old TRK-xx telemetry labels read as HUD noise; premium = quieter)
-    const drawContact = (c: Contact) => {
-      const col = c.red ? "255,120,128" : "150,196,255";
-      ctx.lineWidth = 1;
-      for (let k = 1; k < c.trail.length; k++) {
-        const a = (k / c.trail.length) * 0.28;
-        ctx.strokeStyle = `rgba(${col},${a.toFixed(3)})`;
-        ctx.beginPath();
-        ctx.moveTo(c.trail[k - 1][0], c.trail[k - 1][1]);
-        ctx.lineTo(c.trail[k][0], c.trail[k][1]);
-        ctx.stroke();
-      }
-      ctx.shadowColor = `rgba(${col},0.8)`;
-      ctx.shadowBlur = 5;
-      ctx.fillStyle = `rgba(${col},0.7)`;
-      ctx.beginPath();
-      ctx.arc(c.x, c.y, 1.4, 0, Math.PI * 2);
-      ctx.fill();
       ctx.shadowBlur = 0;
     };
 
@@ -726,26 +676,6 @@ export default function HeroCanvas() {
           ctx.moveTo(maxx, maxy - tk); ctx.lineTo(maxx, maxy); ctx.lineTo(maxx - tk, maxy);
           ctx.moveTo(minx + tk, maxy); ctx.lineTo(minx, maxy); ctx.lineTo(minx, maxy - tk);
           ctx.stroke();
-        }
-      }
-
-      // PASS 4 — flying tracked contacts
-      if (!reduce) {
-        if (t > nextSpawn && contacts.length < (mobile ? 1 : 2)) {
-          spawnContact(t);
-          nextSpawn = t + (mobile ? 7000 : 4800) + Math.random() * 3200;
-        }
-        for (let i = contacts.length - 1; i >= 0; i--) {
-          const c = contacts[i];
-          c.x += c.vx * dt;
-          c.y += c.vy * dt;
-          c.trail.push([c.x, c.y]);
-          if (c.trail.length > 16) c.trail.shift();
-          if (c.x < -60 || c.x > w + 60 || c.y < -60 || c.y > h + 60) {
-            contacts.splice(i, 1);
-            continue;
-          }
-          drawContact(c);
         }
       }
 
