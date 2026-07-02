@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import SiteHeader from "../../components/SiteHeader";
 import SiteFooter from "../../components/SiteFooter";
+import NewsletterSignup from "../../components/NewsletterSignup";
 import { WORKFLOWS, workflowBySlug, slugify } from "@/lib/workflows";
 import { TOOLS } from "@/lib/tools";
 
@@ -171,6 +172,8 @@ export default async function WorkflowDetailPage({ params }: { params: Promise<{
             ◆ FIND YOUR MATCH
           </Link>
         </div>
+
+        <NewsletterSignup compact />
       </main>
 
       <SiteFooter />

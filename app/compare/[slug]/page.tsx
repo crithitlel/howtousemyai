@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import SiteHeader from "../../components/SiteHeader";
 import SiteFooter from "../../components/SiteFooter";
+import NewsletterSignup from "../../components/NewsletterSignup";
 import { TOOLS, slugify } from "@/lib/tools";
 
 // Base facts (name, domain, pricing, url) are the single source of truth in
@@ -463,6 +464,8 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
               </Link>
             ))}
         </div>
+
+        <NewsletterSignup compact />
       </main>
 
       <SiteFooter />

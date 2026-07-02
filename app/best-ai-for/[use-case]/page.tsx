@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import SiteHeader from "../../components/SiteHeader";
 import SiteFooter from "../../components/SiteFooter";
+import NewsletterSignup from "../../components/NewsletterSignup";
 import { TOOLS, slugify } from "@/lib/tools";
 import { AFFILIATE_LINKS } from "@/lib/affiliates";
 
@@ -488,6 +489,8 @@ export default async function BestAIForPage({ params }: { params: Promise<{ "use
             ◆ FIND YOUR MATCH
           </Link>
         </div>
+
+        <NewsletterSignup compact />
       </main>
 
       <SiteFooter />

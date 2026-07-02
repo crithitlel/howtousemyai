@@ -10,6 +10,7 @@ import HeroFX from "../components/HeroFX";
 import HeroCanvas from "../components/HeroCanvas";
 import HeroGlobe from "../components/HeroGlobe";
 import PinnedStrip from "../components/PinnedStrip";
+import NewsletterSignup from "../components/NewsletterSignup";
 import { TOOLS, slugify, type Tool } from "@/lib/tools";
 import { searchTools } from "@/lib/search";
 import { WORKFLOWS } from "@/lib/workflows";
@@ -72,8 +73,6 @@ export default function V2Page() {
   const [query, setQuery] = useState("");
   const [count, setCount] = useState(0);
   const [ph, setPh] = useState("");
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
   const [clock, setClock] = useState("--:--:--");
   const [glitch, setGlitch] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
@@ -644,33 +643,7 @@ export default function V2Page() {
       {/* ════ TRANSMISSION (newsletter) ════ */}
       <section className="v2-sec v2-sec-dark v2-sec-news">
         <div className="v2-hero-grid v2-grid-faint" aria-hidden="true" />
-        <Frame className="v2-news v2-reveal">
-          <span className="v2-secnum v2-secnum-on-dark">[ 05 ]</span>
-          <h2 className="v2-news-title">OPEN<span className="v2-tred">.</span>CHANNEL</h2>
-          <p className="v2-news-lead">// WEEKLY TRANSMISSION · THE BEST NEW AI TOOLS, DECRYPTED · ZERO NOISE</p>
-          {subscribed ? (
-            <p className="v2-news-done"><i className="v2-dot v2-dot-ok" />CHANNEL OPEN — CHECK YOUR INBOX</p>
-          ) : (
-            <form
-              className="v2-news-form"
-              onSubmit={async (e) => {
-                e.preventDefault();
-                if (email.trim()) {
-                  await fetch("https://formspree.io/f/mbdwnbqb", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json", Accept: "application/json" },
-                    body: JSON.stringify({ email, _subject: "New subscriber (v2)" }),
-                  });
-                  setSubscribed(true);
-                }
-              }}
-            >
-              <span className="v2-news-pre">▸</span>
-              <input type="email" required placeholder="ENTER FREQUENCY // you@email.com" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <button type="submit">TRANSMIT</button>
-            </form>
-          )}
-        </Frame>
+        <NewsletterSignup secnum="[ 05 ]" className="v2-reveal" />
       </section>
 
       {/* ════ FOOTER CONSOLE ════ */}

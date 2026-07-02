@@ -5,6 +5,7 @@ import "./globals.css";
 import CommandPalette from "./components/CommandPalette";
 import CompareTray from "./components/CompareTray";
 import SystemBackdrop from "./components/SystemBackdrop";
+import { Analytics } from "@vercel/analytics/next";
 
 const GA_ID = "G-CHP8YLK0PE";
 
@@ -95,6 +96,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             {children}
           </div>
         </div>
+        <Analytics />
       </body>
     </html>
   );
