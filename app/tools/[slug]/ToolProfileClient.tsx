@@ -49,7 +49,7 @@ export function ToolProfileClient({ slug }: { slug: string }) {
           <a
             href={getToolUrl(basicTool.name, basicTool.url)}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="sponsored noopener noreferrer"
             className="inline-block bg-[#1877F2] hover:bg-[#166FE5] text-white text-sm font-semibold px-6 py-3 rounded-lg transition-colors"
           >
             Visit {basicTool.name}
@@ -121,6 +121,12 @@ export function ToolProfileClient({ slug }: { slug: string }) {
         name: `How do I get started with ${tool.name}?`,
         acceptedAnswer: { "@type": "Answer", text: tool.steps[0] },
       },
+      // Tool-specific editorial FAQs (when authored) enrich the schema beyond the templated ones.
+      ...(tool.faqs ?? []).map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
     ],
   };
 
@@ -226,6 +232,20 @@ export function ToolProfileClient({ slug }: { slug: string }) {
               </li>
             ))}
           </ol>
+          {/* Field notes — editorial pro tips, only for tools with authored deep content */}
+          {tool.tips && tool.tips.length > 0 && (
+            <div className="dossier-tips mt-6">
+              <h3 className="dossier-tips-h">// FIELD NOTES · PRO TIPS</h3>
+              <ul className="flex flex-col gap-2.5 mt-3">
+                {tool.tips.map((tip) => (
+                  <li key={tip} className="flex items-start gap-2.5 text-sm text-[#93a4c3]">
+                    <span className="dossier-bullet mt-0.5">◆</span>
+                    <span className="leading-relaxed">{tip}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* 04 At a glance — strengths + honest considerations, all derived from real data */}
@@ -268,7 +288,7 @@ export function ToolProfileClient({ slug }: { slug: string }) {
         <a
           href={getToolUrl(tool.name, tool.url)}
           target="_blank"
-          rel="noopener noreferrer"
+          rel="sponsored noopener noreferrer"
           className="dossier-launch"
         >
           ▸ Visit {tool.name}
@@ -342,6 +362,25 @@ export function ToolProfileClient({ slug }: { slug: string }) {
                     {t.pricing.toUpperCase()}
                   </span>
                 </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 06 FAQ — editorial Q&A, only for tools with authored deep content */}
+      {tool.faqs && tool.faqs.length > 0 && (
+        <div className="border-t border-[#233150] px-6 py-10">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="dossier-h mb-5">
+              <span className="dossier-h-no">06</span> Frequently Asked Questions
+            </h2>
+            <div className="flex flex-col gap-5">
+              {tool.faqs.map((f) => (
+                <div key={f.q}>
+                  <h3 className="text-sm font-semibold text-[#e9eef8] mb-1.5">{f.q}</h3>
+                  <p className="text-sm text-[#93a4c3] leading-relaxed">{f.a}</p>
+                </div>
               ))}
             </div>
           </div>

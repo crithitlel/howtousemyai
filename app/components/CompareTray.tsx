@@ -5,6 +5,7 @@ import Link from "next/link";
 import { TOOLS, slugify, type Tool } from "@/lib/tools";
 import { useCompare, MAX_COMPARE } from "@/lib/useToolStore";
 import { findCompareSlug } from "@/lib/compareSlugs";
+import { getToolUrl } from "@/lib/affiliates";
 
 const PRICING_STYLES: Record<string, string> = {
   Free: "border border-[#aaff00]/40 text-[#aaff00]",
@@ -129,7 +130,7 @@ export default function CompareTray() {
 
                   <div className="cmp-col-actions">
                     <Link href={`/tools/${slugify(t.name)}`} className="cmp-act-dossier" onClick={() => setOpen(false)}>DOSSIER ▸</Link>
-                    <a href={t.url} target="_blank" rel="noopener noreferrer" className="cmp-act-visit">VISIT ↗</a>
+                    <a href={getToolUrl(t.name, t.url)} target="_blank" rel="sponsored noopener noreferrer" className="cmp-act-visit">VISIT ↗</a>
                   </div>
                 </div>
               ))}

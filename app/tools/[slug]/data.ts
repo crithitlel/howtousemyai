@@ -13,6 +13,10 @@ export interface ToolData {
   bestFor: string[];
   steps: [string, string, string];
   url: string;
+  /** Optional deep-content fields — unique editorial text that lifts pages past
+      Google's thin-content filter. Rendered on the dossier page when present. */
+  tips?: string[];
+  faqs?: { q: string; a: string }[];
 }
 
 export const TOOLS_DATA: ToolData[] = [
@@ -28,7 +32,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Blog posts and long-form articles", "Email drafting and proofreading", "Brainstorming and ideation", "Research summaries and Q&A"],
     steps: ["Go to chat.openai.com and create a free account.", "Type your request in plain English, be specific about tone, length, and format.", "Refine by asking it to adjust, expand, or rewrite until you're happy."],
     url: "https://chat.openai.com",
-  },
+
+    tips: [
+      "Give it a role and audience first (\"You are a senior copywriter; the reader is a busy CEO\") \u2014 output quality jumps immediately.",
+      "Paste an example of the style you want before asking it to write; it imitates far better than it follows abstract instructions.",
+      "Use follow-ups aggressively: \"shorter\", \"more casual\", \"give me 5 variations\" \u2014 the first draft is a starting point, not the answer.",
+      "For anything factual, ask it to browse the web or cite sources \u2014 the base model can state outdated or wrong facts confidently.",
+    ],
+    faqs: [
+      { q: "What's the difference between free ChatGPT and ChatGPT Plus?", a: "The free tier gives you access with usage caps and slower responses at peak times. Plus (paid monthly) unlocks the strongest models, image generation, file uploads, longer conversations, and priority access. For occasional use the free tier is genuinely enough." },
+      { q: "Can I use ChatGPT output commercially?", a: "Yes \u2014 OpenAI assigns you the rights to the output you generate, and commercial use is allowed under their terms. You're responsible for making sure the content itself is accurate and doesn't infringe anything." },
+      { q: "Does ChatGPT know current events?", a: "Only when it uses web browsing, which it can do on request or automatically for time-sensitive questions. Without browsing, its built-in knowledge has a training cutoff and can be months out of date." },
+    ],  },
   {
     name: "Claude",
     domain: "anthropic.com",
@@ -40,7 +55,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Long documents and reports", "Nuanced, careful writing", "Complex reasoning tasks", "Research summaries"],
     steps: ["Visit claude.ai and sign in with Google or email.", "Paste your outline or context and describe your tone and audience.", "Use follow-up messages to refine individual sections."],
     url: "https://claude.ai",
-  },
+
+    tips: [
+      "Claude handles very long documents well \u2014 paste an entire contract, report, or codebase file and ask questions against it directly.",
+      "Ask it to think through a problem before answering (\"reason step by step, then give your recommendation\") for noticeably better analysis.",
+      "It follows nuanced style constraints unusually well \u2014 specify tone, things to avoid, and formatting rules explicitly.",
+      "Use Projects (paid plan) to keep reference documents attached across many conversations instead of re-pasting them.",
+    ],
+    faqs: [
+      { q: "How is Claude different from ChatGPT?", a: "Both are top-tier general assistants. Claude is often preferred for long documents, careful nuanced writing, and coding, while ChatGPT has a broader consumer feature set (image generation, voice mode, plugins). Many professionals use both and pick per task." },
+      { q: "Is Claude free to use?", a: "Yes \u2014 claude.ai has a free tier with daily usage limits. Paid plans raise the limits, add the most capable models, and unlock features like Projects for persistent context." },
+      { q: "Can Claude write and debug code?", a: "Yes, coding is one of Claude's strongest areas \u2014 it can write, explain, review, and debug code across most languages, and its long context window lets it work with large files." },
+    ],  },
   {
     name: "Jasper",
     domain: "jasper.ai",
@@ -52,7 +78,17 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Marketing copy and ads", "Product descriptions at scale", "Content briefs and SEO articles", "Brand-consistent writing"],
     steps: ["Start a free trial at jasper.ai and set up your brand voice.", "Choose a template, Blog Post, Ad Copy, Product Description, etc.", "Generate, review, and export content directly to your CMS."],
     url: "https://jasper.ai",
-  },
+
+    tips: [
+      "Set up Brand Voice before anything else \u2014 feed it your existing copy so every output matches how your company actually sounds.",
+      "Use campaigns to generate a whole asset set (blog, ads, emails, social) from one brief instead of prompting piece by piece.",
+      "Jasper shines for marketing formats; for deep technical or long analytical writing, a general assistant is usually better.",
+    ],
+    faqs: [
+      { q: "Is Jasper worth it over ChatGPT for marketing?", a: "If you're a marketing team producing branded content at volume, yes \u2014 brand voice controls, templates, campaigns, and team workflows are things general chatbots don't do well. For solo occasional writing, ChatGPT or Claude is cheaper." },
+      { q: "Does Jasper have a free plan?", a: "No permanent free plan \u2014 Jasper is a paid product with a short free trial. Pricing scales by seats and features." },
+      { q: "Can Jasper write SEO content?", a: "Yes \u2014 it has SEO mode and integrates with Surfer SEO so drafts can be optimized against real keyword data as they're written." },
+    ],  },
   {
     name: "Copy.ai",
     domain: "copy.ai",
@@ -76,7 +112,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Emails and professional documents", "Grammar and spelling fixes", "Tone adjustment for different audiences", "Academic and business writing"],
     steps: ["Install the Grammarly extension at grammarly.com, it works in all browsers.", "Write anywhere and see inline suggestions appear automatically.", "Accept fixes and use the tone detector to match your audience."],
     url: "https://grammarly.com",
-  },
+
+    tips: [
+      "Install the browser extension \u2014 the real value is corrections appearing everywhere you type (email, docs, social), not the web editor.",
+      "Set your goals per document (audience, formality, intent) \u2014 suggestions change meaningfully based on these.",
+      "Don't accept every suggestion: Grammarly optimizes for clarity and convention, which can flatten a distinctive voice.",
+      "The tone detector is excellent for emails \u2014 check it before sending anything sensitive.",
+    ],
+    faqs: [
+      { q: "Is the free version of Grammarly enough?", a: "For catching typos, grammar errors, and basic punctuation, yes. Premium adds sentence rewrites, tone adjustment, plagiarism checks, and vocabulary suggestions \u2014 worth it if you write professionally every day." },
+      { q: "Does Grammarly work in Google Docs and Word?", a: "Yes \u2014 via the browser extension for Google Docs and a dedicated add-in for Microsoft Word and Outlook, plus desktop and mobile apps." },
+      { q: "Does Grammarly store what I type?", a: "Text is processed on Grammarly's servers to generate suggestions, and the company states it doesn't sell your data. For highly confidential text, check your organization's policy before using any cloud writing tool." },
+    ],  },
   {
     name: "Writesonic",
     domain: "writesonic.com",
@@ -162,7 +209,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Concept art and illustrations", "Editorial and marketing visuals", "Brand imagery and mood boards", "Fine art and experimental images"],
     steps: ["Join the Midjourney Discord at midjourney.com and subscribe to a plan.", "Type /imagine followed by a detailed prompt in any bot channel.", "Use U (upscale) and V (variation) buttons to refine your favorite result."],
     url: "https://midjourney.com",
-  },
+
+    tips: [
+      "Describe the image like a photo/art brief: subject, style, lighting, mood, lens \u2014 \"cinematic photo, golden hour, 35mm\" beats vague adjectives.",
+      "Use --ar to set aspect ratio (16:9 for thumbnails, 2:3 for posters) instead of cropping afterwards.",
+      "Iterate with variations on your best result rather than rewriting the prompt from scratch each time.",
+      "Study the community feed \u2014 reverse-engineering prompts from images you like is the fastest way to learn.",
+    ],
+    faqs: [
+      { q: "Does Midjourney have a free trial?", a: "Free trials come and go depending on demand \u2014 historically they've been paused for long stretches. Expect to need a paid subscription, which is billed monthly with different tiers of generation time." },
+      { q: "Can I use Midjourney images commercially?", a: "Paid subscribers get broad commercial usage rights to images they create, with some conditions for large companies. Review the current terms of service before building a business on the assets." },
+      { q: "Do I still need Discord to use Midjourney?", a: "No \u2014 Midjourney now has a full web app at midjourney.com where you can generate, organize, and edit images. Discord remains available and is still where much of the community lives." },
+    ],  },
   {
     name: "DALL-E 3",
     domain: "openai.com",
@@ -284,7 +342,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Everyday code completion", "Boilerplate and repetitive code", "Learning new languages", "Documentation and comments"],
     steps: ["Install the GitHub Copilot extension in VS Code from the marketplace.", "Start typing a comment describing what you want the function to do.", "Press Tab to accept the suggestion or cycle through alternatives with Alt+]."],
     url: "https://github.com/features/copilot",
-  },
+
+    tips: [
+      "Write a clear comment describing what the next function should do \u2014 Copilot's suggestions are only as good as the surrounding context.",
+      "Use Copilot Chat to explain unfamiliar code or errors instead of tab-completions only; it's the more powerful half of the product.",
+      "Review every suggestion like a code review \u2014 Copilot confidently produces plausible-looking bugs, especially around edge cases.",
+      "Open related files in your editor; Copilot reads open tabs for context and suggestions improve noticeably.",
+    ],
+    faqs: [
+      { q: "Is GitHub Copilot free?", a: "There's a free tier with a monthly cap on completions and chat, and it's free for verified students and open-source maintainers. Heavy users need the paid individual or business plan." },
+      { q: "Which editors does Copilot support?", a: "VS Code, Visual Studio, JetBrains IDEs, Neovim, and Xcode, plus GitHub.com itself \u2014 with the deepest integration in VS Code." },
+      { q: "Who owns the code Copilot writes?", a: "You do \u2014 GitHub doesn't claim ownership of suggestions. Businesses worried about license contamination can enable the filter that blocks suggestions matching public code." },
+    ],  },
   {
     name: "Cursor",
     domain: "cursor.sh",
@@ -382,7 +451,17 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["AI-generated video clips", "Visual effects and compositing", "Creative video editing", "Professional content production"],
     steps: ["Create an account at runwayml.com and open Gen-3 Alpha.", "Write a text prompt describing your scene, camera movement, and style.", "Generate, download, and chain clips in Runway's timeline editor."],
     url: "https://runwayml.com",
-  },
+
+    tips: [
+      "Start from a strong still image (generate it in Midjourney or upload a photo) \u2014 image-to-video gives far more control than text-to-video.",
+      "Keep motion prompts simple: one camera move plus one subject action per clip works much better than complex choreography.",
+      "Generate several takes of every shot \u2014 AI video is still a numbers game, and picking the best of five beats perfecting one prompt.",
+    ],
+    faqs: [
+      { q: "How much does Runway cost?", a: "There's a limited free tier to try it, then paid plans sold as monthly credits \u2014 video generation burns credits per second generated, so budget by how much footage you actually need." },
+      { q: "Can Runway videos be used commercially?", a: "Yes, paid plans include commercial use of what you generate. As always, avoid generating content with real people's likenesses or trademarked material." },
+      { q: "How long can Runway clips be?", a: "Individual generations are short \u2014 seconds, not minutes \u2014 and can be extended in increments. Longer videos are made by cutting generated clips together in an editor." },
+    ],  },
   {
     name: "HeyGen",
     domain: "heygen.com",
@@ -430,7 +509,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["YouTube video editing", "Podcast production", "Removing filler words automatically", "Repurposing long-form content"],
     steps: ["Download Descript at descript.com and import your video or audio.", "Edit the auto-generated transcript to cut and rearrange clips.", "Use Overdub to fix audio mistakes by typing replacement words."],
     url: "https://descript.com",
-  },
+
+    tips: [
+      "Edit the transcript, not the timeline \u2014 deleting a sentence of text deletes that audio/video, which is the core magic of Descript.",
+      "Use Studio Sound on every voice recording; it removes room echo and background noise almost unbelievably well.",
+      "Remove filler words (\"um\", \"uh\") with one click, but review the result \u2014 over-aggressive removal sounds unnatural.",
+      "Overdub (voice cloning) lets you fix a misspoken word by typing the correction instead of re-recording.",
+    ],
+    faqs: [
+      { q: "Is Descript good for podcasts and YouTube?", a: "It's arguably the fastest editor for talking-content \u2014 podcasts, interviews, tutorials, and social clips \u2014 because you edit text instead of waveforms. For effects-heavy cinematic video, a traditional NLE is still better." },
+      { q: "Does Descript have a free plan?", a: "Yes, with a monthly cap on transcription hours and watermarked exports on some features. Paid plans raise limits and unlock full-quality export." },
+      { q: "How accurate is Descript's transcription?", a: "Very good for clear English audio \u2014 typically well above 90% \u2014 but always skim for names, jargon, and crosstalk, which is where errors cluster." },
+    ],  },
   {
     name: "Invideo AI",
     domain: "invideo.ai",
@@ -676,7 +766,17 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Summarizing meeting notes", "Drafting documents in Notion", "Action item extraction", "Database auto-fill"],
     steps: ["Open any Notion page and press Space to activate AI.", "Ask it to draft, summarize, or improve the existing content.", "Use AI on databases to auto-fill properties or generate content at scale."],
     url: "https://notion.so/product/ai",
-  },
+
+    tips: [
+      "Its superpower is working over your existing pages \u2014 ask it to summarize meeting notes or draft from a doc you already have in Notion.",
+      "Use it for first drafts and structure (agendas, briefs, project plans) directly where the work already lives, skipping copy-paste.",
+      "Q&A can answer questions across your whole workspace \u2014 treat it as search that reads everything for you.",
+    ],
+    faqs: [
+      { q: "Is Notion AI included in the normal Notion subscription?", a: "No \u2014 it's a paid add-on per member on top of your Notion plan, with a small number of free trial responses to test it." },
+      { q: "Is Notion AI as good as ChatGPT?", a: "For general questions, no. Its advantage is context: it reads your workspace, so for summarizing, drafting, and answering questions about your own docs and projects, it's more convenient than any external chatbot." },
+      { q: "Can Notion AI see my private pages?", a: "It works within your workspace's existing permissions \u2014 it only uses content you (and it) have access to, and Notion states customer data isn't used to train models by default." },
+    ],  },
   {
     name: "Reclaim.ai",
     domain: "reclaim.ai",
@@ -1516,7 +1616,17 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Research with Google Search grounding", "Google Workspace integration", "Long document analysis", "Multimodal queries (text, images, video)"],
     steps: ["Go to gemini.google.com and sign in with your Google account.", "Ask research questions — Gemini cites Google Search results automatically.", "Connect to Gmail and Docs in settings for Workspace-integrated assistance."],
     url: "https://gemini.google.com",
-  },
+
+    tips: [
+      "It's strongest inside Google's world \u2014 ask it to work with your Gmail, Docs, and Drive content if you live in Google Workspace.",
+      "Use it for tasks that need fresh information \u2014 its Google Search grounding is built-in and current.",
+      "The huge context window handles very long PDFs and videos \u2014 upload entire documents rather than excerpts.",
+    ],
+    faqs: [
+      { q: "Is Gemini free?", a: "The standard Gemini chatbot is free with a Google account. Gemini Advanced (paid, via Google One AI Premium) adds the most capable model plus integration across Gmail, Docs, and more." },
+      { q: "Gemini vs ChatGPT \u2014 which should I use?", a: "If your work lives in Google Workspace or you need current web information constantly, Gemini integrates best. For the broadest ecosystem of features and plugins, ChatGPT. Quality on everyday tasks is close enough that workflow fit should decide." },
+      { q: "Can Gemini analyze images and PDFs?", a: "Yes \u2014 it's natively multimodal: upload images, PDFs, and even videos and ask questions about them, including very long documents." },
+    ],  },
   {
     name: "You.com",
     domain: "you.com",
@@ -1552,7 +1662,17 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Fast research with citations", "Current events and news", "Quick fact-checking", "Replacing traditional Google searches"],
     steps: ["Go to perplexity.ai — free with no account required.", "Type your research question in natural language.", "Review the cited answer and click sources to verify. Use Pro Search for deeper research."],
     url: "https://perplexity.ai",
-  },
+
+    tips: [
+      "Treat it as a research engine, not a chatbot \u2014 its answers cite sources inline, and checking those citations is the whole point.",
+      "Use Focus modes (Academic, Reddit, YouTube) to constrain where it searches for noticeably better results.",
+      "Follow-up questions keep full context \u2014 drill down like an interview instead of starting new searches.",
+    ],
+    faqs: [
+      { q: "How is Perplexity different from Google?", a: "Instead of a list of links, you get a direct, synthesized answer with citations to its sources. It's faster for research questions; traditional search is still better for navigation and transactions." },
+      { q: "Is Perplexity free?", a: "Yes, core search-and-answer is free. Pro (paid) adds more powerful models, unlimited advanced searches, and file uploads for analyzing your own documents." },
+      { q: "Can I trust Perplexity's answers?", a: "More than an uncited chatbot, less than a primary source. Its citations make verification easy \u2014 click through on anything that matters before repeating it." },
+    ],  },
   {
     name: "Merlin",
     domain: "getmerlin.in",
@@ -2022,7 +2142,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Realistic text-to-speech narration", "Voice cloning and custom voices", "Audiobook and video voiceover", "Multilingual dubbing"],
     steps: ["Create a free account at elevenlabs.io.", "Pick or clone a voice, then paste the text you want spoken.", "Adjust stability and style settings, then generate and download the audio."],
     url: "https://elevenlabs.io",
-  },
+
+    tips: [
+      "Punctuation drives delivery \u2014 commas, dashes, and ellipses change pacing more than any setting; write the script like a voice actor's copy.",
+      "Lower the Stability slider for expressive, emotional reads; raise it for consistent narration and audiobooks.",
+      "Generate long scripts in chunks of a few paragraphs \u2014 quality and consistency drop on very long single generations.",
+      "Voice cloning needs clean samples: a few minutes of clear, single-speaker audio beats an hour of noisy recordings.",
+    ],
+    faqs: [
+      { q: "Is ElevenLabs free?", a: "There's a free tier with a monthly character allowance and attribution requirement \u2014 enough to test seriously. Creators producing regular content will need a paid tier for volume and commercial rights." },
+      { q: "Can I clone my own voice legally?", a: "Yes \u2014 cloning your own voice is exactly the intended use. Cloning someone else's voice without explicit permission violates ElevenLabs' terms and, increasingly, the law in many places." },
+      { q: "How realistic are the voices?", a: "Among the best available \u2014 for narration and conversational content most listeners can't reliably tell. Highly emotional acting is still where human voice actors win." },
+    ],  },
   {
     name: "NotebookLM",
     domain: "notebooklm.google",

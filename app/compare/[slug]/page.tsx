@@ -5,6 +5,7 @@ import SiteHeader from "../../components/SiteHeader";
 import SiteFooter from "../../components/SiteFooter";
 import NewsletterSignup from "../../components/NewsletterSignup";
 import { TOOLS, slugify } from "@/lib/tools";
+import { getToolUrl } from "@/lib/affiliates";
 
 // Base facts (name, domain, pricing, url) are the single source of truth in
 // lib/tools.ts. A comparison entry only declares its page-unique editorial
@@ -433,7 +434,7 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
                   <p style={{ margin: 0, fontSize: 12.5, lineHeight: 1.5, color: "var(--ink-mid)" }}>{tool.bestFor}</p>
                 </div>
 
-                <a href={tool.url} target="_blank" rel="noopener noreferrer"
+                <a href={getToolUrl(tool.name, tool.url)} target="_blank" rel="sponsored noopener noreferrer"
                   className={`v2-vs-cta ${isWinner ? "v2-vs-cta-win" : "v2-vs-cta-alt"}`}>
                   Try {tool.name} ▸
                 </a>
