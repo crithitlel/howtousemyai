@@ -197,6 +197,15 @@ export function ToolProfileClient({ slug }: { slug: string }) {
             </div>
           )}
 
+          <a
+            href={getToolUrl(tool.name, tool.url)}
+            target="_blank"
+            rel="sponsored noopener noreferrer"
+            className="dossier-launch dossier-launch-hero"
+          >
+            ▸ Visit {tool.name} ↗
+          </a>
+
           <DossierActions name={tool.name} />
         </div>
 

@@ -185,8 +185,7 @@ export default async function AlternativesPage({
                       href={visitHref}
                       target="_blank"
                       rel="noopener noreferrer sponsored"
-                      className="v2-trow-why"
-                      style={{ color: "var(--v2-dim)" }}
+                      className="v2-visitchip"
                     >
                       VISIT SITE <i>↗</i>
                     </a>
