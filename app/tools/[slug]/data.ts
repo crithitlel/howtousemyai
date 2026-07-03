@@ -170,6 +170,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Quillbot is the leading AI paraphrasing tool, helping writers reword sentences, summarize long documents, and improve clarity. It offers multiple paraphrase modes from Standard to Creative, and integrates directly with Google Docs and Word.",
     bestFor: ["Paraphrasing to avoid repetition", "Summarizing long documents", "Academic rewriting", "Improving sentence clarity"],
     steps: ["Go to quillbot.com, no account needed for basic use.", "Paste your text and choose a paraphrase mode (Standard, Fluency, Creative, etc.).", "Click Paraphrase and review the rewritten text, adjusting synonyms as needed."],
+    tips: [
+      "Paraphrase in Standard mode first, then re-run tricky sentences in Fluency mode — chaining modes beats cranking the synonym slider to max.",
+      "Keep the synonym slider at 2-3; higher settings produce thesaurus-soup that reads worse than the original.",
+      "Use the Chrome extension inside Gmail and Google Docs — the in-place rewrite is where Quillbot saves real time.",
+      "The Summarizer's 'Key Sentences' mode is more faithful than 'Paragraph' mode for research notes — it extracts rather than rewrites.",
+      "Run Grammar Check after paraphrasing, not before — paraphrasing can introduce agreement errors it will then catch.",
+    ],
+    faqs: [
+      { q: "Is Quillbot free?", a: "The free plan paraphrases 125 words at a time in two modes. Premium (~$10/mo) unlocks all modes, unlimited length, faster processing, and the plagiarism checker." },
+      { q: "Does Quillbot count as plagiarism?", a: "Paraphrasing someone else's work without citation is still plagiarism, tool or not. Quillbot is legitimate for rewriting your own drafts, improving clarity, and avoiding repetition — cite sources regardless." },
+      { q: "Quillbot vs Grammarly?", a: "Grammarly is a proofreader (grammar, tone, clarity suggestions); Quillbot is a rewriter (paraphrasing, summarizing). Writers who rework a lot of text keep both — they solve different problems." },
+    ],
     url: "https://quillbot.com",
   },
   {
@@ -206,6 +218,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Wordtune rewrites sentences in real time, offering alternatives that are more casual, formal, concise, or expanded, perfect for non-native English speakers or anyone who wants to punch up their writing without changing the meaning.",
     bestFor: ["Rewriting awkward sentences", "Adjusting formality level", "Non-native English improvement", "Email and message polish"],
     steps: ["Install the Wordtune extension at wordtune.com.", "Highlight any sentence in your document or email.", "Choose from suggested rewrites, casual, formal, shorter, or longer."],
+    tips: [
+      "Use the Shorten action aggressively — Wordtune's tightening of flabby sentences is its single best trick, better than its expansions.",
+      "Highlight one sentence at a time; Wordtune rewrites sentence-by-sentence and quality drops when you select whole paragraphs.",
+      "The 'Casual' and 'Formal' toggles are perfect for email code-switching — draft once, shift register to match the recipient.",
+      "Spices (continue writing, add example, add counterargument) turn Wordtune into a light drafting tool, not just a rewriter.",
+      "Install the browser extension — Wordtune inside Gmail, Notion, and LinkedIn is where it beats opening a separate editor.",
+    ],
+    faqs: [
+      { q: "Is Wordtune free?", a: "Free accounts get 10 rewrites per day. Unlimited rewrites and AI writing tools require Premium (~$10-13/mo billed annually)." },
+      { q: "Wordtune vs Grammarly?", a: "Grammarly fixes what's wrong; Wordtune offers alternative ways to say what's already correct. Grammarly is a safety net, Wordtune is a style coach — many writers run both extensions." },
+      { q: "Does Wordtune work for non-native English speakers?", a: "It's one of the best tools for exactly that — it suggests natural phrasings a fluent speaker would use, which teaches idiom over time rather than just correcting mistakes." },
+    ],
     url: "https://wordtune.com",
   },
   {
@@ -255,6 +279,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "DALL-E 3 is OpenAI's latest image generation model, notable for its exceptional prompt fidelity and ability to render text accurately within images. It's integrated directly into ChatGPT, making it accessible to anyone with a free account.",
     bestFor: ["Accurate text rendering in images", "Photorealistic scenes", "Social media graphics", "Quick image generation via ChatGPT"],
     steps: ["Open ChatGPT at chat.openai.com, free users get limited DALL-E access.", "Type 'Create an image of...' and describe your scene with style and mood.", "Download or ask ChatGPT to iterate with specific changes."],
+    tips: [
+      "Write prompts as full sentences describing the scene — DALL-E 3 follows natural language better than keyword lists ('a foggy harbor at dawn, fishing boats, muted colors' beats 'harbor, fog, boats, 4k').",
+      "It renders text in images better than most rivals — ask for signs, labels, or posters with exact wording in quotes.",
+      "Iterate inside ChatGPT: ask for the change ('same image but at night') instead of rewriting the whole prompt — it keeps scene consistency.",
+      "Specify aspect ratio in words: 'wide landscape format' or 'vertical poster format' — DALL-E 3 supports 1792x1024 and 1024x1792.",
+      "For consistent style across a set, define the style once ('flat vector illustration, two-color palette') and reuse that exact phrase in every prompt.",
+    ],
+    faqs: [
+      { q: "How do I access DALL-E 3?", a: "Through ChatGPT (Plus includes it), through Microsoft Copilot/Designer for free with limits, or via OpenAI's API for developers. There's no standalone DALL-E app anymore." },
+      { q: "Can I use DALL-E 3 images commercially?", a: "Yes — OpenAI grants you ownership of images you create, including commercial use. You're responsible for not infringing trademarks or generating protected characters." },
+      { q: "DALL-E 3 vs Midjourney?", a: "DALL-E 3 follows complex instructions and renders text better; Midjourney produces more beautiful, art-directed images. Product mockups and diagrams: DALL-E. Brand imagery and atmosphere: Midjourney." },
+    ],
     url: "https://chatgpt.com",
   },
   {
@@ -267,6 +303,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Adobe Firefly is trained exclusively on licensed Adobe Stock images, making it the only major AI image generator that is completely commercially safe. It integrates natively into Photoshop, Illustrator, and Express for seamless professional workflows.",
     bestFor: ["Commercial-safe image generation", "Product photography backgrounds", "Design asset creation", "Integration with Adobe Creative Cloud"],
     steps: ["Go to firefly.adobe.com and sign in with a free Adobe ID.", "Enter a prompt and adjust style, color, and composition sliders.", "Open in Photoshop to edit further, or download directly."],
+    tips: [
+      "Firefly's killer feature is commercial safety — it's trained on Adobe Stock and licensed content, so legal teams approve it when other generators are banned.",
+      "Use Generative Fill inside Photoshop rather than the Firefly web app for real work — selection + fill beats prompt-only generation for editing photos.",
+      "Reference images drive style: upload a composition or style reference in the web app to steer results far more precisely than adjectives can.",
+      "Generate at the highest resolution offered and downscale yourself — Firefly's upscaling is weaker than its native generation.",
+      "Text Effects (firefly.adobe.com) makes styled typography ('letters made of moss') that drops straight into Express and Photoshop with transparency.",
+    ],
+    faqs: [
+      { q: "Is Firefly free to use?", a: "Adobe gives free accounts a monthly allowance of generative credits; Creative Cloud subscribers get more. Heavy users buy additional credit packs." },
+      { q: "Can I use Firefly images commercially?", a: "Yes — Firefly is explicitly designed to be commercially safe, and Adobe offers IP indemnification for enterprise customers, which almost no other AI image tool matches." },
+      { q: "Firefly vs Midjourney?", a: "Midjourney generates more striking standalone art; Firefly integrates into Photoshop/Illustrator workflows and is legally safer for client work. Agencies often use both: Midjourney to explore, Firefly to ship." },
+    ],
     url: "https://firefly.adobe.com",
   },
   {
@@ -279,6 +327,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Stable Diffusion is the leading open-source image generation model, run it locally for free with no usage limits, or use hosted platforms like DreamStudio. It supports fine-tuned models (LoRAs), inpainting, and a huge community of custom checkpoints.",
     bestFor: ["Unlimited image generation", "Custom fine-tuned models", "Privacy-conscious generation (local)", "High-volume creative workflows"],
     steps: ["Use DreamStudio at dreamstudio.ai for instant cloud access.", "Write a detailed prompt and a negative prompt to exclude unwanted elements.", "Adjust steps and CFG scale, higher CFG means closer to your prompt."],
+    tips: [
+      "Start with a hosted UI (DreamStudio, Leonardo, or Tensor.art) before installing locally — you'll learn prompting without fighting Python environments.",
+      "Negative prompts do half the work: 'blurry, extra fingers, watermark, low quality' in the negative field fixes most common defects.",
+      "Learn one workflow deeply — SDXL for quality, SD 1.5 + LoRAs for styles and characters. Hopping between models resets your learning curve.",
+      "Fix faces and hands with inpainting instead of re-rolling the whole image — mask the area and regenerate just that region.",
+      "Lock the seed once composition is right, then vary only the prompt details — that's how you iterate without losing a good layout.",
+    ],
+    faqs: [
+      { q: "Is Stable Diffusion free?", a: "The models are open-source and free to run on your own GPU (8GB+ VRAM recommended). Hosted services charge credits but remove all setup friction." },
+      { q: "Can I train it on my own style or face?", a: "Yes — that's Stable Diffusion's superpower. LoRA training takes ~20 images and an hour on consumer hardware, letting you generate a consistent character, product, or art style no closed model can replicate." },
+      { q: "Stable Diffusion vs Midjourney?", a: "Midjourney wins on out-of-the-box beauty and ease; Stable Diffusion wins on control, customization, unlimited free local generation, and zero content restrictions. Tinkerers choose SD; everyone else usually starts with Midjourney." },
+    ],
     url: "https://stability.ai/stable-image",
   },
   {
@@ -315,6 +375,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Canva AI integrates powerful image generation directly into Canva's design platform, letting you create images, remove backgrounds, expand images, and generate entire design layouts with AI, all without leaving your design workflow.",
     bestFor: ["Social media graphics", "Presentations and documents", "Marketing materials", "Non-designers who need great visuals"],
     steps: ["Go to canva.com and open or create a design.", "Click 'Apps' and choose 'Text to Image' to generate images with AI.", "Insert generated images directly into your design and customize."],
+    tips: [
+      "Magic Studio lives inside your existing designs — select an element first, then invoke Magic Edit/Grab; it works on selections, not whole canvases.",
+      "Use Magic Switch to resize one design into every format (post, story, banner, deck) in one click instead of rebuilding layouts.",
+      "Magic Write inherits your Brand Kit voice if you set it up — define brand voice once and every generated caption stays on-brand.",
+      "Background Remover + Magic Eraser replace a Photoshop license for 90% of social-media editing needs.",
+      "Generate images with Magic Media directly at the size of the frame you're filling — it avoids ugly crops and upscaling artifacts.",
+    ],
+    faqs: [
+      { q: "Is Canva AI free?", a: "Some features (limited Magic Write, basic Magic Media credits) work on free accounts, but the full Magic Studio suite — Magic Edit, Eraser, Switch, unlimited generations — needs Canva Pro (~$13/mo)." },
+      { q: "Can Canva AI replace Photoshop?", a: "For social graphics, presentations, and marketing assets — largely yes, and it's far faster to learn. For print-grade retouching, compositing, and RAW workflows, Photoshop still wins." },
+      { q: "Who owns designs made with Canva AI?", a: "You can use AI-generated content commercially under Canva's terms, but purely AI-generated images may not be copyrightable, and you must follow Canva's content license for stock elements mixed into designs." },
+    ],
     url: "https://canva.com",
   },
   {
@@ -424,6 +496,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Replit AI is a fully browser-based coding environment with built-in AI that can write, debug, and explain code. It's ideal for beginners, quick prototypes, and anyone who doesn't want to deal with local development setup.",
     bestFor: ["Quick prototypes and experiments", "Learning to code", "Browser-based development", "Collaborative coding"],
     steps: ["Go to replit.com and create a new Repl in any language.", "Describe what you want to build to the AI assistant in the chat panel.", "Run and share your app instantly from the browser with one click."],
+    tips: [
+      "Agent works best with a clear spec: describe the app's pages, data, and one core flow in your first message — 'build me an app' prompts produce throwaway scaffolds.",
+      "Let Agent run its plan, then review the diff before accepting — treating it as a junior dev whose PRs you review beats blind acceptance.",
+      "Use the Assistant chat for explain/debug ('why is this route 500ing?') — it reads your whole Repl's context, which generic ChatGPT can't.",
+      "Deploy early via Replit's hosting to catch environment issues while the app is small — everything works in the editor until it doesn't in production.",
+      "Pin your dependencies when Agent adds packages — it sometimes grabs latest versions that break; lock what works.",
+    ],
+    faqs: [
+      { q: "Is Replit AI free?", a: "Basic AI features exist on free accounts, but Agent (the app-building AI) requires Replit Core (~$25/mo) which includes monthly usage credits." },
+      { q: "Can Replit Agent build a real production app?", a: "It genuinely builds working full-stack apps — CRUD tools, dashboards, bots — deployable on Replit. For complex production systems you'll still restructure its output; think 'fastest prototype ever' rather than 'replaces your team'." },
+      { q: "Replit AI vs Cursor?", a: "Replit is a browser IDE + hosting + AI in one, ideal for starting from zero and shipping small apps fast. Cursor is a local editor for working on existing codebases with more precise control. Beginners: Replit. Working devs: Cursor." },
+    ],
     url: "https://replit.com",
   },
   {
@@ -448,6 +532,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Codeium offers unlimited free AI code completion across 70+ programming languages and all major IDEs. It's the best free alternative to GitHub Copilot, with no usage limits and support for everything from Python to Rust.",
     bestFor: ["Free unlimited code completion", "Students and hobbyists", "Polyglot developers", "Teams on a budget"],
     steps: ["Install the Codeium extension at codeium.com for your IDE.", "Create a free account, completions are unlimited with no credit card.", "Code as normal and accept AI suggestions with Tab."],
+    tips: [
+      "Autocomplete quality jumps when files have clear names and imports — Codeium reads context, so organized projects get better suggestions.",
+      "Use natural-language comments as prompts: write '// parse ISO date, return null on failure' and let the completion write the function.",
+      "Codeium Chat can explain unfamiliar code — highlight a gnarly function and ask 'what does this do' before refactoring legacy files.",
+      "Turn on the specific-language settings for your stack; disabling suggestions in markdown/config files cuts the noise dramatically.",
+      "In interviews for productivity: measure it for a week, and disable it when learning a new language — autocomplete short-circuits learning.",
+    ],
+    faqs: [
+      { q: "Is Codeium really free?", a: "Yes — individual autocomplete, chat, and search are free with unlimited usage, which is Codeium's main pitch against Copilot's subscription. Teams/enterprise tiers add security and admin features." },
+      { q: "Codeium vs GitHub Copilot?", a: "Quality is comparable for mainstream languages; Copilot has deeper GitHub/VS Code integration and the strongest brand, Codeium is free and supports more IDEs (including JetBrains, Vim, and web IDEs). Budget-sensitive devs start with Codeium." },
+      { q: "Does Codeium train on my code?", a: "Codeium states individual users' code is not used to train models and offers on-prem/self-hosted options for enterprises with strict policies. Review current terms if you work on proprietary code." },
+    ],
     url: "https://codeium.com",
   },
   {
@@ -568,6 +664,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "CapCut is a free, full-featured AI video editor by ByteDance with automatic captions, background removal, text-to-video, AI effects, and viral social media templates. It works on mobile and web.",
     bestFor: ["TikTok, Reels, and YouTube Shorts", "Auto-caption generation", "Quick social video edits", "Beginners to video editing"],
     steps: ["Go to capcut.com, completely free with no watermark limits.", "Import your footage and click Auto Captions for instant subtitles.", "Apply AI effects and transitions, then export in one click."],
+    tips: [
+      "Auto Captions is the fastest in the business — generate, then bulk-edit style once and it applies to every caption; always proofread names and jargon.",
+      "Use Script to Video for faceless content: paste a script, let it assemble stock + captions + voiceover, then swap the weakest clips manually.",
+      "Remove background noise AND enhance voice in one pass under Audio — it rescues phone-recorded audio surprisingly well.",
+      "Auto Cut detects silences and cuts them — set it conservative (longer threshold) or it chops breathing room out of your pacing.",
+      "Export presets matter: TikTok/Reels/Shorts each get correct resolution, bitrate, and safe margins from the preset menu — don't export generic 1080p.",
+    ],
+    faqs: [
+      { q: "Is CapCut really free?", a: "The core editor and most AI features are free. CapCut Pro (~$8/mo) unlocks premium effects, some AI features, cloud storage, and removes certain export limits." },
+      { q: "Is CapCut good enough for YouTube, not just TikTok?", a: "Yes for talking-head, vlog, and social-first content — creators publish full YouTube videos from it daily. Complex multi-track color-graded productions still favor Premiere or DaVinci." },
+      { q: "Does CapCut watermark videos?", a: "Standard exports are watermark-free. Some templates and Pro features add watermarks unless you subscribe — avoid template-based edits if you're staying free." },
+    ],
     url: "https://capcut.com",
   },
   {
@@ -603,6 +711,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Invideo AI turns a text prompt into a complete YouTube-ready video with AI-generated script, stock footage, voiceover, and captions, all in under 10 minutes. It's the fastest way to produce explainer and news-style videos.",
     bestFor: ["YouTube explainer videos", "News-style content", "Faceless video channels", "Content repurposing"],
     steps: ["Go to invideo.ai and describe your video topic.", "AI generates the script, selects stock clips, and adds voiceover automatically.", "Edit any scene in the browser and export in HD."],
+    tips: [
+      "Write your prompt like a creative brief: audience, platform, length, tone ('60-second YouTube Short for beginner investors, energetic') — vague prompts get generic stock montages.",
+      "Use 'change the script' commands after generation instead of regenerating from scratch — iterating preserves the parts that worked.",
+      "Swap the AI voiceover for your own recording before publishing; it's the single biggest quality upgrade viewers notice.",
+      "Give it your brand colors and logo in settings once — every generated video then starts on-brand instead of needing manual fixes.",
+      "Generate 2-3 versions of the same brief and harvest the best hook from each — hooks are where AI video tools are least reliable.",
+    ],
+    faqs: [
+      { q: "How does Invideo AI differ from CapCut?", a: "Invideo generates complete videos from a text prompt (script, stock footage, voiceover, captions); CapCut is an editor for footage you already have. Faceless channel operators use Invideo to draft, CapCut to polish." },
+      { q: "Is Invideo AI free?", a: "There's a free tier with watermarked exports and limited AI minutes. Paid plans (from ~$25/mo) remove watermarks and increase generation minutes and stock access." },
+      { q: "Can I make money with Invideo AI videos on YouTube?", a: "Yes, channels monetize AI-assembled videos — but YouTube demands 'significant original commentary or value' for monetization. Add your own script voice, analysis, or editing; pure unedited AI output risks demonetization." },
+    ],
     url: "https://invideo.ai",
   },
   {
@@ -615,6 +735,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Pika Labs is an AI video generation platform that creates short, high-quality video clips from text prompts or static images. Its 'Pikaffects' feature adds cinematic effects like explosions, melting, and crushing to any image.",
     bestFor: ["Short cinematic clips", "Animating still images", "Creative video effects", "Social media video content"],
     steps: ["Go to pika.art and create a free account.", "Type a text prompt or upload an image to animate.", "Generate and download your clip, or apply Pikaffects for creative transformations."],
+    tips: [
+      "Feed it a still image plus a motion prompt instead of text alone — image-to-video gives you composition control text can't match.",
+      "Keep motion simple and physical: 'slow push-in', 'hair blowing in wind', 'steam rising' — complex action sequences fall apart in any AI video tool.",
+      "Use negative prompts to kill morphing: 'no warping, no distortion, consistent face' noticeably stabilizes character shots.",
+      "Generate 3-second clips and chain them in an editor rather than forcing long single generations — quality degrades with duration.",
+      "Modify region (Pika's inpainting) lets you animate just one element — moving clouds behind a static product shot looks intentional and clean.",
+    ],
+    faqs: [
+      { q: "Is Pika free?", a: "Pika offers free daily credits on its web platform; paid tiers add faster generation, more credits, longer clips, and commercial rights. Check current plans — pricing has shifted as the product matured." },
+      { q: "Pika vs Runway?", a: "Runway is the fuller filmmaking suite (motion brush, camera controls, editing tools); Pika is simpler and often friendlier for stylized/anime motion. Many creators prototype in Pika and finish hero shots in Runway." },
+      { q: "Can I use Pika videos commercially?", a: "Paid plans include commercial usage rights. As with all AI video, you're responsible for the inputs — animating someone else's copyrighted image doesn't launder the copyright." },
+    ],
     url: "https://pika.art",
   },
   {
@@ -931,6 +1063,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Fireflies.ai automatically joins your video meetings to record, transcribe, and summarize. It extracts action items, key decisions, and searchable highlights, making every meeting accessible after the fact.",
     bestFor: ["Automatic meeting transcription", "Action item extraction", "Meeting search and recall", "Team meeting archives"],
     steps: ["Sign up at fireflies.ai and connect your calendar and meeting tools.", "Fireflies automatically joins meetings and starts recording.", "Access transcripts, summaries, and action items in your dashboard after each meeting."],
+    tips: [
+      "Invite fred@fireflies.ai to meetings selectively via calendar rules — auto-joining every call burns credits and unnerves external guests.",
+      "Use Smart Search operators ('action items by me', 'questions asked') instead of rereading transcripts — retrieval is the product.",
+      "Set up channel routing: sales calls → CRM, team syncs → Slack summary. The Zapier/native integrations are where Fireflies pays for itself.",
+      "Correct speaker labels in the first few meetings — the model learns voices and accuracy compounds.",
+      "Record a 30-second custom vocabulary note (product names, jargon) — transcription accuracy on your niche terms improves noticeably.",
+    ],
+    faqs: [
+      { q: "Is Fireflies free?", a: "Free plan gives limited transcription credits and storage. Pro (~$10/user/mo) adds unlimited transcription; Business adds video capture and conversation intelligence." },
+      { q: "Fireflies vs Otter?", a: "Otter has the better live-transcript experience and mobile app; Fireflies wins on integrations, search, and multi-platform meeting coverage (Zoom, Meet, Teams, dialers). Ops/sales teams usually land on Fireflies." },
+      { q: "Is it legal to record meetings with Fireflies?", a: "Recording laws vary — many regions require participant consent. Fireflies announces itself in meetings by default; keep that on, and check your jurisdiction and company policy." },
+    ],
     url: "https://fireflies.ai",
   },
   {
@@ -957,6 +1101,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Surfer SEO analyzes the top-ranking pages for your keyword and tells you exactly what content to include, how long it should be, and which NLP terms to use to maximize your chances of ranking on Google.",
     bestFor: ["SEO-optimized blog posts", "Content briefs and outlines", "SERP analysis", "Content editing for rankings"],
     steps: ["Sign up at surferseo.com and create a new Content Editor.", "Enter your target keyword, Surfer analyzes the top 10 results.", "Write content following the Content Score recommendations to optimize."],
+    tips: [
+      "Write in the Content Editor, not your CMS — the live keyword scoring as you type is the entire value; pasting finished drafts in wastes it.",
+      "Aim for a Content Score of 70-80. Chasing 95+ leads to keyword stuffing that reads badly and can hurt rankings.",
+      "Use the Audit tool on pages ranking positions 5-15 first — that's where Surfer's term-gap fixes produce the fastest movement.",
+      "Prune the auto-generated term list: drop irrelevant terms before writing so the score reflects your actual topic, not a keyword soup.",
+      "Pair Surfer's outline builder with your own expertise — accept its H2 structure, then rewrite headings so they don't read like every competitor's.",
+    ],
+    faqs: [
+      { q: "Does Surfer SEO guarantee rankings?", a: "No tool can. Surfer reverse-engineers what top-ranking pages share (terms, structure, length) so your page is competitive on-page. Links and site authority still decide the rest." },
+      { q: "Is Surfer worth it for a new site?", a: "Only once you're publishing consistently. On a brand-new domain, content volume and backlinks matter more; Surfer shines when you have pages that can realistically compete." },
+      { q: "Surfer vs Semrush — do I need both?", a: "They overlap little: Semrush is research (keywords, competitors, backlinks), Surfer is on-page optimization while writing. Serious content teams often run both; start with one that matches your gap." },
+    ],
     url: "https://surferseo.com",
   },
   {
@@ -1141,6 +1297,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Beautiful.ai's Smart Slides automatically adjust layouts, resize elements, and maintain visual consistency as you add content, eliminating the tedious manual formatting that slows down traditional slide creation.",
     bestFor: ["Corporate and team presentations", "Polished professional slides", "Consistent slide formatting", "Executive reports"],
     steps: ["Sign up at beautiful.ai and choose a template.", "Add your content, Smart Slides adjust layouts automatically.", "Share a link or export as PDF or PPTX."],
+    tips: [
+      "Start from a Smart Template deck, not a blank one — the value is the pre-built slide logic, and blank decks recreate PowerPoint friction.",
+      "Feed DesignerBot your outline (not a one-liner) — a 10-bullet outline produces a coherent deck; 'make me a pitch deck' produces filler.",
+      "Resist manual pixel-pushing: adjust via the layout controls. Fighting the auto-layout is the #1 new-user mistake — the constraint IS the product.",
+      "Set your Theme (colors, fonts, logo) before generating anything; every slide then lands on-brand automatically.",
+      "Use the Team library for repeated slides (about us, pricing) so updates propagate to every deck at once.",
+    ],
+    faqs: [
+      { q: "Is Beautiful.ai free?", a: "There's a 14-day Pro trial but no permanent free tier. Pro runs ~$12/mo billed annually; Team adds shared themes, libraries, and collaboration." },
+      { q: "Beautiful.ai vs PowerPoint?", a: "Beautiful.ai trades total control for speed and guaranteed-clean design — you literally can't make an ugly slide. PowerPoint (with Copilot) is better for complex custom layouts and corporate compatibility. Founders and consultants love Beautiful.ai; big-company decks often must stay in PPT." },
+      { q: "Can I export to PowerPoint?", a: "Yes — decks export to PPTX and PDF, though some animated/smart elements flatten in the export. Present from Beautiful.ai when you can." },
+    ],
     url: "https://beautiful.ai",
   },
   {
@@ -1365,6 +1533,18 @@ export const TOOLS_DATA: ToolData[] = [
     fullDescription: "Rytr is a budget-friendly AI writing assistant with 40+ use cases and 20+ tones of voice. It generates blog sections, email copy, product descriptions, and social captions in seconds, with a generous free tier that makes it accessible to solo creators.",
     bestFor: ["Budget-conscious content creators", "Blog intros and outlines", "Email copy and subject lines", "Social media captions"],
     steps: ["Sign up for free at rytr.me.", "Choose a use case (Blog Section, Email, Product Description, etc.) and set your tone.", "Enter a brief and click Ryte for me — edit and expand the output as needed."],
+    tips: [
+      "Pick the right use case template first — Rytr's output quality jumps when the template matches the job (Blog Section vs Email vs AIDA copy are tuned differently).",
+      "Set tone deliberately: 'Convincing' for sales copy, 'Informative' for blog sections, 'Casual' for social. Tone changes output more than the brief does.",
+      "Keep briefs to 2-3 specific sentences. Rytr works from short context — long rambling briefs confuse it more than they help.",
+      "Use the built-in plagiarism checker before publishing anything long-form — budget AI writers recycle phrasing more than premium ones.",
+      "Generate 2-3 variants of the same section and splice the best sentences together; single generations are rarely publish-ready.",
+    ],
+    faqs: [
+      { q: "Is Rytr really free?", a: "The free plan gives you 10,000 characters per month — enough for social captions and short emails. Blog-scale writing needs the Saver ($9/mo) or Unlimited ($29/mo) plan." },
+      { q: "Is Rytr good enough for full blog posts?", a: "It's best for sections, intros, outlines, and short copy. For 2,000-word articles you'll get better structure from ChatGPT or Jasper, then use Rytr for quick expansions and rewrites." },
+      { q: "How does Rytr compare to Jasper?", a: "Rytr is dramatically cheaper and simpler; Jasper has stronger long-form tools, brand voice, and team features. Solo creators on a budget pick Rytr; marketing teams pick Jasper." },
+    ],
     url: "https://rytr.me",
   },
   {
