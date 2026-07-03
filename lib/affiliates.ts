@@ -9,7 +9,7 @@ export const AFFILIATE_LINKS: Record<string, string> = {
   "Copy.ai": "",          // app.copy.ai/affiliate — paste your link here
   "Writesonic": "",       // writesonic.com/affiliate — paste your link here
   "Anyword": "",
-  "Rytr": "",
+  "Rytr": "https://rytr.me/?via=maxim-ivanov",  // LIVE — approved Jul 2026
 
   // Marketing / SEO
   "Surfer SEO": "",       // surferseo.com/affiliate — paste your link here
