@@ -37,6 +37,9 @@ export const AFFILIATE_LINKS: Record<string, string> = {
   "Motion": "",
   "Taskade": "",
   "Zapier AI": "",
+
+  // Audio / Voice
+  "ElevenLabs": "https://try.elevenlabs.io/2rawfimlk42w",  // LIVE — PartnerStack, approved Jul 2026
 };
 
 /**
