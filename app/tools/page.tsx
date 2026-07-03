@@ -8,16 +8,16 @@ import ToolsBrowser from "../components/ToolsBrowser";
 
 export const metadata: Metadata = {
   title: "All AI Tools Directory — HowToUseMyAI",
-  description: "Browse 160+ AI tools across writing, coding, image generation, video, music, research, productivity, and more. Free, freemium, and paid options.",
+  description: `Browse ${TOOLS.length}+ AI tools across writing, coding, image generation, video, music, research, productivity, and more. Free, freemium, and paid options.`,
   openGraph: {
     title: "All AI Tools Directory — HowToUseMyAI",
-    description: "Browse 160+ AI tools across every category.",
+    description: `Browse ${TOOLS.length}+ AI tools across every category.`,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "All AI Tools Directory — HowToUseMyAI",
-    description: "Browse 160+ AI tools across every category.",
+    description: `Browse ${TOOLS.length}+ AI tools across every category.`,
   },
 };
 
@@ -25,7 +25,7 @@ const schema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   name: "AI Tools Directory",
-  description: "Browse 160+ AI tools across every category.",
+  description: `Browse ${TOOLS.length}+ AI tools across every category.`,
   url: "https://howtousemyai.com/tools",
 };
 

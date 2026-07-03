@@ -6,7 +6,7 @@ import { TOOLS_DATA } from "./data";
 
 // Pre-render every tool page at build time. Slugs come from the canonical lib
 // list PLUS the dossier dataset (TOOLS_DATA), which includes a few profiles not
-// yet in lib (the "locals": pika-labs, perplexity-ai, recently-ai).
+// yet in lib.
 export function generateStaticParams() {
   const slugs = new Set<string>();
   for (const t of TOOLS) slugs.add(slugify(t.name));
