@@ -100,6 +100,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Ad copy for Facebook and Google", "Email nurture sequences", "Social media captions", "Multiple copy variants for testing"],
     steps: ["Create a free account at copy.ai.", "Choose a workflow, Blog Post Wizard, Ad Copy, Email Sequence, etc.", "Enter your product or topic and generate multiple variants to choose from."],
     url: "https://copy.ai",
+
+    tips: [
+      "Start from a Workflow, not a blank box — Copy.ai's prebuilt workflows (blog, sales email, LinkedIn post) beat one-off prompts for consistent output.",
+      "Feed it your own examples: paste two or three of your best past posts so the tone matches your brand instead of generic marketing-speak.",
+      "Use it for volume and first drafts; always human-edit the final — AI marketing copy reads generic until you add specifics and a real hook.",
+      "The free plan is genuinely usable for low volume — test it before paying to see if the output fits your niche.",
+    ],
+    faqs: [
+      { q: "Is Copy.ai better than Jasper?", a: "They overlap heavily. Copy.ai is simpler and cheaper for short-form social/ad copy; Jasper is more of a full brand-voice platform for teams. For a solo creator, Copy.ai's free tier makes it the easier starting point." },
+      { q: "Does Copy.ai have a free plan?", a: "Yes — a free plan with a monthly word cap that's fine for occasional use. Paid plans unlock unlimited words and more workflows." },
+      { q: "What is Copy.ai best at?", a: "Short-form marketing copy at volume: ad variations, product descriptions, email subject lines, and social captions where you want many options fast." },
+    ],
   },
   {
     name: "Grammarly",
@@ -135,6 +147,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["SEO blog posts at scale", "Product descriptions", "Landing page copy", "Social media content"],
     steps: ["Sign up at writesonic.com and choose a template.", "Enter your topic, target keywords, and brand tone.", "Generate, review, and export your content directly."],
     url: "https://writesonic.com",
+
+    tips: [
+      "Use the AI Article Writer for long-form and always add your own facts, stats, and examples — it's a draft engine, not a final author.",
+      "Its SEO and fact-checking features (via built-in web access) reduce hallucination versus a plain generator — still verify claims.",
+      "Set brand voice with sample text so output stops sounding generic.",
+      "Chatsonic is the ChatGPT-style side; use it for research and outlines, then switch to the article tools for drafting.",
+    ],
+    faqs: [
+      { q: "Is Writesonic free?", a: "Yes — a free trial with a word limit. Ongoing use is paid, priced by word volume and features." },
+      { q: "Writesonic vs Jasper vs Copy.ai?", a: "Writesonic sits between them: cheaper than Jasper, more long-form/SEO-focused than Copy.ai. If SEO articles are your main use case, it's a strong value pick." },
+      { q: "Is Writesonic content good for SEO?", a: "It can produce SEO-structured drafts with keywords and headings, but ranking still requires human editing, real expertise, and quality — don't publish raw output." },
+    ],
   },
   {
     name: "Quillbot",
@@ -268,6 +292,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Game art and character design", "Product visualization", "Consistent character generation", "Style-specific fine-tuned outputs"],
     steps: ["Create an account at leonardo.ai and select a fine-tuned model.", "Write your prompt and set image dimensions and style.", "Use the Canvas tool to edit specific areas or generate variations."],
     url: "https://leonardo.ai",
+
+    tips: [
+      "Use the model finder — Leonardo hosts many fine-tuned models, and picking the right one (photoreal, anime, game art) matters more than the prompt.",
+      "Image Guidance lets you upload a reference for pose or composition control that pure text prompts can't achieve.",
+      "The free daily token allowance refreshes each day — space out experiments instead of burning it in one session.",
+      "Upscale and 'Alchemy' add detail but cost more tokens; generate cheap drafts first, then upscale only the keepers.",
+    ],
+    faqs: [
+      { q: "Is Leonardo.ai free?", a: "Yes — a free plan grants daily tokens that reset every day, enough for regular experimentation. Paid plans add more tokens, faster generation, and commercial features." },
+      { q: "Leonardo.ai vs Midjourney?", a: "Midjourney tends to win on out-of-the-box aesthetic quality; Leonardo offers more control (model choice, image guidance, fine-tuning) and a usable free tier. Game and asset creators often prefer Leonardo." },
+      { q: "Can I use Leonardo images commercially?", a: "Paid plans include commercial usage rights; check the current terms for your specific plan and the model you used before commercial release." },
+    ],
   },
   {
     name: "Canva AI",
@@ -365,6 +401,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Codebase-wide refactoring", "Multi-file edits", "Understanding unfamiliar codebases", "AI-assisted debugging"],
     steps: ["Download Cursor at cursor.sh, it imports your VS Code settings automatically.", "Press Cmd+K to edit inline, or Cmd+L to open the chat panel.", "Use @ to reference specific files, folders, or docs in your prompt."],
     url: "https://cursor.com",
+
+    tips: [
+      "Cursor is a fork of VS Code — your extensions, keybindings, and themes import on first launch, so there's no learning curve.",
+      "Use Cmd+K for inline edits (\"refactor this function\") and Cmd+L for the chat panel that can see your whole codebase.",
+      "Add a .cursorrules file to your repo to give the AI persistent context about your stack and conventions — it dramatically improves suggestions.",
+      "Agent mode can make multi-file changes; review every diff before accepting — it's powerful but occasionally confidently wrong.",
+    ],
+    faqs: [
+      { q: "Is Cursor free?", a: "There's a free Hobby tier with limited AI requests. Pro unlocks more fast requests and larger context. Heavy users generally need Pro." },
+      { q: "Cursor vs GitHub Copilot — which is better?", a: "Copilot is a great autocomplete inside your existing editor. Cursor is a full AI-first editor with codebase-wide chat and multi-file agent edits. For AI-heavy workflows Cursor does more; for lightweight autocomplete Copilot is lighter." },
+      { q: "Can Cursor understand my whole project?", a: "Yes — it indexes your codebase so chat and edits can reference files you haven't opened, which is its biggest advantage over plain autocomplete." },
+    ],
   },
   {
     name: "Replit AI",
@@ -473,6 +521,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Personalized sales and marketing videos", "HR onboarding content", "Multilingual video localization", "Social media presenter videos"],
     steps: ["Create a free account at heygen.com.", "Pick a stock avatar or record 2 minutes to clone yourself.", "Type your script and hit Generate, video ready in minutes with auto-captions."],
     url: "https://heygen.com",
+
+    tips: [
+      "HeyGen's video translation keeps your voice and lip-syncs it to the new language — record once, publish in a dozen markets.",
+      "For a personal avatar, record in even lighting against a plain background; input quality determines output realism.",
+      "Keep individual clips short and re-generate problem sentences rather than the whole video to save credits.",
+      "Best for talking-head marketing, avatars, and dubbing; not built for cinematic b-roll.",
+    ],
+    faqs: [
+      { q: "What does HeyGen do?", a: "Creates AI avatar videos and dubs existing videos into other languages with realistic lip-sync — popular for marketing, sales outreach, and localizing content." },
+      { q: "Is HeyGen free?", a: "There's a limited free tier (short, watermarked videos). Paid plans remove the watermark and add credits, avatars, and translation minutes." },
+      { q: "HeyGen vs Synthesia?", a: "Both make AI avatar videos. HeyGen is known for standout video translation/dubbing and personal avatars; Synthesia leans toward enterprise training. Try both free tiers on the same script to compare." },
+    ],
   },
   {
     name: "Synthesia",
@@ -485,6 +545,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Corporate training videos", "Product demo videos", "Multilingual content at scale", "Internal communications"],
     steps: ["Sign up at synthesia.io and choose an AI avatar from 140+ options.", "Paste your script, the avatar lip-syncs it perfectly.", "Select a background, add slides, and click Generate."],
     url: "https://synthesia.io",
+
+    tips: [
+      "Write for the ear, not the eye — short sentences and clear pauses make AI avatars sound far more natural.",
+      "Use the built-in pause and pronunciation controls to fix awkward emphasis before re-rendering; it saves render credits.",
+      "Pick an avatar and voice that match your audience's region — accent mismatch is the fastest way to feel 'off'.",
+      "Great for training videos and localization (one script, many languages); less suited to emotional or storytelling content.",
+    ],
+    faqs: [
+      { q: "What is Synthesia used for?", a: "Turning scripts into videos of a realistic AI presenter — mainly corporate training, product explainers, and localized versions of the same video in many languages without reshooting." },
+      { q: "Does Synthesia have a free plan?", a: "It offers a free demo/trial, but ongoing use is paid (monthly plans with a cap on video minutes). There's no perpetual free tier for production video." },
+      { q: "Can I make a custom avatar of myself?", a: "Yes — higher tiers support a personal avatar created from footage you record, though it costs more and requires approval to prevent misuse." },
+    ],
   },
   {
     name: "CapCut AI",
@@ -594,6 +666,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Original songs with vocals", "Jingles and branded music", "Background music for videos", "Any genre on demand"],
     steps: ["Go to suno.com and sign in with Google, free plan included.", "Click Create and describe your song genre, mood, and theme.", "Generate two variations, pick your favorite, and download."],
     url: "https://suno.com",
+
+    tips: [
+      "Put style, mood, and instruments in the style box and actual lyrics in the lyrics box — mixing them confuses the model.",
+      "Use [Verse], [Chorus], [Bridge] tags in your lyrics to control song structure.",
+      "Generate several takes of the same prompt — quality varies run to run, so pick the best rather than settling for the first.",
+      "For a clean instrumental, leave lyrics empty and describe the vibe; great for background music and intros.",
+    ],
+    faqs: [
+      { q: "Is Suno free?", a: "Yes — a free daily credit allowance that resets, enough to make a few songs a day. Paid plans add credits and, importantly, commercial-use rights." },
+      { q: "Can I use Suno songs commercially?", a: "Only on paid plans, which grant commercial rights to songs you generate. Free-tier songs are for non-commercial use — check current terms before monetizing." },
+      { q: "What is Suno best for?", a: "Fast, complete songs from a text prompt — jingles, background tracks, demos, and fun personalized songs. Full vocals and instrumentation, no music skills needed." },
+    ],
   },
   {
     name: "Udio",
@@ -704,6 +788,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Meeting transcription", "Interview notes", "Lecture capture", "Async meeting summaries"],
     steps: ["Go to otter.ai and connect your Google or Zoom calendar.", "Join any meeting, Otter auto-joins and transcribes live.", "Search highlights and share the AI summary after the call."],
     url: "https://otter.ai",
+
+    tips: [
+      "Connect your calendar so Otter auto-joins Zoom/Meet/Teams calls and transcribes without you pressing record.",
+      "Review the auto-generated summary and action items right after the meeting while context is fresh — that's where most of the value is.",
+      "Train custom vocabulary with names and jargon to cut recurring transcription errors.",
+      "Export or sync transcripts to your notes app; the searchable archive is more useful than any single transcript.",
+    ],
+    faqs: [
+      { q: "Is Otter.ai free?", a: "Yes — a free plan with a monthly transcription-minute cap. Paid plans raise limits and add features like advanced summaries and admin controls." },
+      { q: "How accurate is Otter.ai?", a: "Strong for clear English meetings, weaker with heavy accents, crosstalk, or poor mic audio. Always skim for names and technical terms." },
+      { q: "Otter vs the transcription built into Zoom/Teams?", a: "Otter works across platforms with one searchable archive, better summaries, and action-item extraction. If you live in one platform, native transcription may be enough." },
+    ],
   },
   {
     name: "Semantic Scholar",
@@ -910,6 +1006,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Keyword research and tracking", "Competitor SEO analysis", "Backlink auditing", "Content marketing strategy"],
     steps: ["Sign up at semrush.com and enter your domain or competitor's domain.", "Explore the Keyword Magic Tool to find high-value keywords.", "Use Content Analyzer to audit and improve existing pages."],
     url: "https://semrush.com",
+
+    tips: [
+      "Start with Keyword Magic Tool and filter by low keyword difficulty — a new site should target long-tail terms it can actually rank for.",
+      "Run a Site Audit first; fixing technical errors often unlocks more traffic than new content.",
+      "Use the Domain Overview on competitors to reverse-engineer the keywords already sending them traffic.",
+      "It's a deep, expensive tool — use the free-trial period intensively and export what you need.",
+    ],
+    faqs: [
+      { q: "Is Semrush free?", a: "There's a limited free account and a time-limited full trial. Full features are paid and relatively pricey — best for serious, ongoing SEO work." },
+      { q: "Is Semrush worth it for a small site?", a: "Powerful but costly. If budget is tight, run a focused trial to pull keyword and competitor data, or consider cheaper alternatives until traffic justifies the subscription." },
+      { q: "Semrush vs Ahrefs?", a: "Both are top-tier. Semrush bundles more marketing tools (PPC, social, content); Ahrefs is often praised for backlink data and simplicity. For all-in-one SEO + marketing, Semrush is the broader suite." },
+    ],
   },
   {
     name: "Hootsuite",
@@ -1010,6 +1118,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Business presentations", "Pitch decks", "Quick visual reports", "Replacing traditional PowerPoint"],
     steps: ["Go to gamma.app and sign in for free.", "Paste your outline or type a topic and let Gamma generate the deck.", "Edit any slide with the AI-assisted editor inline."],
     url: "https://gamma.app",
+
+    tips: [
+      "Start from a prompt or paste an outline — Gamma generates a full deck, then refine, rather than building slide by slide.",
+      "Use 'Restyle' to instantly try new themes without redoing content; keeps design consistent for free.",
+      "Keep one idea per card; Gamma's format rewards short, scannable content over dense slides.",
+      "Export to PDF or PowerPoint when a client needs a traditional file, but the live web version usually looks best.",
+    ],
+    faqs: [
+      { q: "Is Gamma free?", a: "Yes — a free plan with AI-generation credits and Gamma branding on exports. Paid plans remove branding and add credits and features." },
+      { q: "What is Gamma best for?", a: "Fast, good-looking decks, one-pagers, and simple web pages from a prompt — ideal for pitches, internal updates, and content that would take hours in PowerPoint." },
+      { q: "Gamma vs PowerPoint?", a: "Gamma is faster for getting to a polished draft and looks modern by default, but offers less fine-grained control than PowerPoint. Many people draft in Gamma, then export if precise formatting is required." },
+    ],
   },
   {
     name: "Beautiful.ai",
