@@ -746,30 +746,6 @@ export const TOOLS_DATA: ToolData[] = [
     url: "https://invideo.ai",
   },
   {
-    name: "Pika Labs",
-    domain: "pika.art",
-    icon: "🎆",
-    pricing: "Freemium",
-    category: "Video",
-    shortDescription: "AI video generation from text and images.",
-    fullDescription: "Pika Labs is an AI video generation platform that creates short, high-quality video clips from text prompts or static images. Its 'Pikaffects' feature adds cinematic effects like explosions, melting, and crushing to any image.",
-    bestFor: ["Short cinematic clips", "Animating still images", "Creative video effects", "Social media video content"],
-    steps: ["Go to pika.art and create a free account.", "Type a text prompt or upload an image to animate.", "Generate and download your clip, or apply Pikaffects for creative transformations."],
-    tips: [
-      "Feed it a still image plus a motion prompt instead of text alone — image-to-video gives you composition control text can't match.",
-      "Keep motion simple and physical: 'slow push-in', 'hair blowing in wind', 'steam rising' — complex action sequences fall apart in any AI video tool.",
-      "Use negative prompts to kill morphing: 'no warping, no distortion, consistent face' noticeably stabilizes character shots.",
-      "Generate 3-second clips and chain them in an editor rather than forcing long single generations — quality degrades with duration.",
-      "Modify region (Pika's inpainting) lets you animate just one element — moving clouds behind a static product shot looks intentional and clean.",
-    ],
-    faqs: [
-      { q: "Is Pika free?", a: "Pika offers free daily credits on its web platform; paid tiers add faster generation, more credits, longer clips, and commercial rights. Check current plans — pricing has shifted as the product matured." },
-      { q: "Pika vs Runway?", a: "Runway is the fuller filmmaking suite (motion brush, camera controls, editing tools); Pika is simpler and often friendlier for stylized/anime motion. Many creators prototype in Pika and finish hero shots in Runway." },
-      { q: "Can I use Pika videos commercially?", a: "Paid plans include commercial usage rights. As with all AI video, you're responsible for the inputs — animating someone else's copyrighted image doesn't launder the copyright." },
-    ],
-    url: "https://pika.art",
-  },
-  {
     name: "D-ID",
     domain: "d-id.com",
     icon: "👤",
@@ -903,18 +879,6 @@ export const TOOLS_DATA: ToolData[] = [
   },
 
   // Research
-  {
-    name: "Perplexity AI",
-    domain: "perplexity.ai",
-    icon: "🔍",
-    pricing: "Freemium",
-    category: "Research",
-    shortDescription: "AI-powered search engine with cited, real-time answers.",
-    fullDescription: "Perplexity AI is an AI-powered search engine that provides direct, cited answers to complex questions using real-time web data. It has replaced traditional search for millions of users who need accurate, sourced information quickly.",
-    bestFor: ["Fact-finding with citations", "Real-time information research", "Competitive intelligence", "Quick literature overviews"],
-    steps: ["Go to perplexity.ai, no account required for basic search.", "Ask your question; enable Focus: Academic for scholarly sources.", "Click citations to verify, then use Follow-up questions to dig deeper."],
-    url: "https://perplexity.ai",
-  },
   {
     name: "Elicit",
     domain: "elicit.com",
@@ -1948,6 +1912,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Creative AI video generation", "Modifying specific video regions", "Image-to-video animation", "Stylised video content"],
     steps: ["Sign up at pika.art — free tier available.", "Choose text-to-video, image-to-video, or modify an existing clip.", "Enter your prompt and select style, aspect ratio, and motion intensity."],
     url: "https://pika.art",
+    tips: [
+      "Feed it a still image plus a motion prompt instead of text alone — image-to-video gives you composition control text can't match.",
+      "Keep motion simple and physical: 'slow push-in', 'hair blowing in wind', 'steam rising' — complex action sequences fall apart in any AI video tool.",
+      "Use negative prompts to kill morphing: 'no warping, no distortion, consistent face' noticeably stabilizes character shots.",
+      "Generate 3-second clips and chain them in an editor rather than forcing long single generations — quality degrades with duration.",
+      "Modify region (Pika's inpainting) lets you animate just one element — moving clouds behind a static product shot looks intentional and clean.",
+    ],
+    faqs: [
+      { q: "Is Pika free?", a: "Pika offers free daily credits on its web platform; paid tiers add faster generation, more credits, longer clips, and commercial rights. Check current plans — pricing has shifted as the product matured." },
+      { q: "Pika vs Runway?", a: "Runway is the fuller filmmaking suite (motion brush, camera controls, editing tools); Pika is simpler and often friendlier for stylized/anime motion. Many creators prototype in Pika and finish hero shots in Runway." },
+      { q: "Can I use Pika videos commercially?", a: "Paid plans include commercial usage rights. As with all AI video, you're responsible for the inputs — animating someone else's copyrighted image doesn't launder the copyright." },
+    ],
   },
   {
     name: "Luma AI",
