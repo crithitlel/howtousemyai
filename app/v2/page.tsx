@@ -27,9 +27,9 @@ function Frame({ className = "", children }: { className?: string; children: Rea
 }
 
 /* ── Technical section-break divider ── */
-function SectionBreak({ code, label }: { code: string; label: string }) {
+function SectionBreak({ code, label, reveal = true }: { code: string; label: string; reveal?: boolean }) {
   return (
-    <div className="v2-break v2-reveal" aria-hidden="true">
+    <div className={`v2-break${reveal ? " v2-reveal" : ""}`} aria-hidden="true">
       <span className="v2-break-code">{code}</span>
       <span className="v2-break-line" />
       <span className="v2-break-bars">{Array.from({ length: 16 }).map((_, i) => <b key={i} />)}</span>
@@ -470,7 +470,7 @@ export default function V2Page() {
 
       </section>
 
-      <SectionBreak code="SEC.01" label="DATABASE INDEX // SECTOR MANIFEST" />
+      <SectionBreak code="SEC.01" label="DATABASE INDEX // SECTOR MANIFEST" reveal={false} />
 
       {/* ════ DATABASE INDEX ════ */}
       <section id="index" className="v2-sec">

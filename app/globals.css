@@ -1530,7 +1530,7 @@ body.v2-shell .starfield { display: none; }
 
 /* ── V2 mobile fixes ── */
 @media (max-width: 600px) {
-  .v2-hero { min-height: 88vh; padding-left: 18px; padding-right: 18px; }
+  .v2-hero { min-height: max(560px, calc(100vh - 67px)); min-height: max(560px, calc(100svh - 67px)); padding-left: 18px; padding-right: 18px; }
   .v2-hero-inner { width: 100%; }
   .v2-display { font-size: clamp(18px, 6vw, 30px); }
   .v2-lead { font-size: 13px; max-width: 100%; }
@@ -2215,7 +2215,7 @@ body.v2-shell .starfield { display: none !important; }
    ════════════════════════════════════════════════════════════ */
 
 /* hero pulled up + more compact than the original 92vh */
-.v2-hero { min-height: clamp(560px, 80vh, 860px); }
+.v2-hero { min-height: max(560px, calc(100vh - 67px)); min-height: max(560px, calc(100svh - 67px)); }
 
 /* quiet trust line lives under the search at every width; corner HUD retired */
 .v2-readout { display: inline-flex; }
