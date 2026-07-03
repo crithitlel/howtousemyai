@@ -35,6 +35,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  // "[Tool] Alternatives" pages — high-intent long-tail queries.
+  const alternativesPages = TOOLS.map((tool) => ({
+    url: `${BASE_URL}/alternatives/${slugify(tool.name)}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
   const useCasePages = USE_CASES.map((useCase) => ({
     url: `${BASE_URL}/best-ai-for/${useCase}`,
     lastModified: new Date(),
@@ -143,5 +151,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...comparePages,
     ...tagPages,
     ...toolPages,
+    ...alternativesPages,
   ];
 }

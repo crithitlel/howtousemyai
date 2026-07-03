@@ -364,6 +364,14 @@ export function ToolProfileClient({ slug }: { slug: string }) {
                 </button>
               ))}
             </div>
+            <div className="mt-5">
+              <button
+                onClick={() => router.push(`/alternatives/${slugify(tool.name)}`)}
+                className="text-xs font-semibold tracking-wider text-[#1877F2] hover:text-[#4a9df8] transition-colors"
+              >
+                SEE ALL {tool.name.toUpperCase()} ALTERNATIVES →
+              </button>
+            </div>
           </div>
         </div>
       )}
