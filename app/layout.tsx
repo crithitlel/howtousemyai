@@ -73,6 +73,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${chakraPetch.variable} ${fraunces.variable} h-full antialiased`}>
       <head>
+        <meta name="impact-site-verification" {...({ value: "4e76035d-5b9a-47aa-8e25-101a120311f2" } as Record<string, string>)} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         {(GA_ID as string) !== "G-XXXXXXXXXX" && (
           <>
