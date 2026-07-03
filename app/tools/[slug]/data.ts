@@ -207,6 +207,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Simplifying dense writing", "Improving readability scores", "Removing filler words and passive voice", "Blog posts and content marketing"],
     steps: ["Go to hemingwayapp.com, no account needed.", "Paste your text and review the color-coded highlights.", "Fix red (very hard) and yellow (hard) sentences, then check the readability grade."],
     url: "https://hemingwayapp.com",
+    tips: [
+      "Aim for grade 6-8 readability for web content \u2014 highlighted yellow/red sentences are where readers bounce.",
+      "Don't chase zero highlights: some long sentences are fine. Fix the red ones; judge the yellow ones.",
+      "Draft elsewhere, edit in Hemingway \u2014 it's a polishing tool, and writing directly in it encourages choppy prose.",
+    ],
+    faqs: [
+      { q: "Is Hemingway free?", a: "The web editor is free. Hemingway Editor Plus (paid, ~$8-15/month) adds AI-powered rewrite suggestions; the classic desktop app is a one-time purchase." },
+      { q: "What do the highlight colors mean?", a: "Yellow = long/complex sentence (consider splitting); red = very hard to read; purple = simpler word available; blue = adverb; green = passive voice. The grade level estimates schooling needed to follow your text." },
+      { q: "Hemingway vs Grammarly?", a: "They're complements: Grammarly fixes correctness (grammar, spelling, tone); Hemingway fixes readability (sentence length, complexity). Blog editors commonly run both passes." },
+    ],
   },
   {
     name: "Wordtune",
@@ -400,6 +410,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Images with text overlays", "Poster and sign design", "Logo concepts", "Typography-focused visuals"],
     steps: ["Go to ideogram.ai and create a free account.", "Describe your image and include any text you want rendered, put it in quotes.", "Choose a style (realistic, design, 3D) and generate."],
     url: "https://ideogram.ai",
+    tips: [
+      "Ideogram's specialty is text inside images \u2014 logos, posters, T-shirt designs. Put the exact words in quotes in your prompt.",
+      "Use Magic Prompt (on by default) to auto-expand short prompts; turn it off when you need literal, precise control.",
+      "Generate in the aspect ratio you'll actually use \u2014 text placement composes around the canvas shape, and cropping after ruins it.",
+    ],
+    faqs: [
+      { q: "Is Ideogram free?", a: "Yes \u2014 the free tier gives daily generation credits (slower queue). Paid plans add more generations, priority speed, and private generation." },
+      { q: "What is Ideogram best at?", a: "Rendering legible text inside images \u2014 logos, posters, signage, merch mockups. It beats Midjourney and Stable Diffusion at typography, which historically was AI image generation's weakest spot." },
+      { q: "Can I use Ideogram images commercially?", a: "Yes, images you generate can be used commercially even on the free tier (free-tier images are public by default; paid tiers allow private generation). As with all AI art, copyright protection of outputs is legally unsettled." },
+    ],
   },
   {
     name: "Playground AI",
@@ -822,6 +842,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["High-fidelity instrumental music", "Genre-specific compositions", "Extended music tracks", "Experimental music styles"],
     steps: ["Visit udio.com and create a free account.", "Enter a prompt with genre, instruments, and mood.", "Use Extend to make tracks longer or remix specific sections."],
     url: "https://udio.com",
+    tips: [
+      "Write prompts like a music journalist \u2014 genre, era, mood, instrumentation ('90s trip-hop, melancholic, female vocal, vinyl crackle') \u2014 not like a tech spec.",
+      "Use custom lyrics mode with [Verse]/[Chorus] structure tags for songs that need to say something specific.",
+      "Generate short segments and use extend/remix to build the full track \u2014 you get more control than one-shot generating 3 minutes.",
+    ],
+    faqs: [
+      { q: "Is Udio free?", a: "A free tier gives monthly credits; paid plans (~$10-30/month) add generations, priority, and commercial use rights on the Standard plan and up." },
+      { q: "Can I monetize Udio songs?", a: "With a paid subscription you get commercial rights to your generations. Note the ongoing industry litigation around AI music training \u2014 distribution platforms' policies on AI music also vary." },
+      { q: "Udio vs Suno?", a: "Both make complete songs with vocals. Suno is often better at catchy pop structure and ease; Udio frequently wins on audio fidelity and genre authenticity. Taste-test both with the same prompt \u2014 preferences split roughly 50/50." },
+    ],
   },
   {
     name: "Mubert",
@@ -1028,6 +1058,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Automatic daily schedule creation", "Deadline tracking", "Task prioritization", "Time management"],
     steps: ["Sign up at usemotion.com and add your tasks and deadlines.", "Connect your calendar, Motion builds your optimal schedule automatically.", "Incomplete tasks are rescheduled to the next best available slot."],
     url: "https://usemotion.com",
+    tips: [
+      "Trust the auto-scheduler for a full week before overriding it \u2014 the AI needs your real completion patterns to calibrate.",
+      "Enter true deadlines and priorities, not aspirational ones \u2014 Motion reshuffles your calendar around them, so garbage in means chaos out.",
+      "Block 'protected time' for deep work first; Motion schedules tasks around protected blocks rather than through them.",
+    ],
+    faqs: [
+      { q: "How much does Motion cost?", a: "Around $19-34/month depending on billing and plan (individual vs team). No free tier, but there's a trial. It replaces a calendar tool + task manager, which is how users justify it." },
+      { q: "What makes Motion different from Todoist or a calendar?", a: "Motion doesn't just store tasks \u2014 it automatically schedules them into your calendar based on deadlines, priorities, and available time, and reshuffles everything when meetings land or tasks slip." },
+      { q: "Motion vs Reclaim?", a: "Both auto-schedule. Reclaim is calendar-first (habits, buffer time, Google Calendar native) and cheaper; Motion is task-first with built-in project management. Teams managing projects lean Motion; individuals defending focus time lean Reclaim." },
+    ],
   },
   {
     name: "Mem",
@@ -1606,6 +1646,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Authors and novelists", "Academic writing", "Deep style analysis", "Scrivener and Word integration"],
     steps: ["Install the ProWritingAid app or browser extension at prowritingaid.com.", "Paste your document or write directly in the editor.", "Run the Summary Report for an overview, then explore individual reports for specific issues."],
     url: "https://prowritingaid.com",
+    tips: [
+      "Run the full 20+ reports on one representative chapter to find your personal weaknesses (echoes, sticky sentences, pacing), then use the realtime checker day-to-day.",
+      "Fiction writers: turn on genre-specific style suggestions \u2014 advice differs meaningfully between thriller and literary settings.",
+      "Use it in Scrivener/Word/Google Docs via integrations rather than pasting \u2014 context switching kills editing momentum.",
+    ],
+    faqs: [
+      { q: "How much does ProWritingAid cost?", a: "Free tier covers 500 words at a time with basic reports. Premium runs ~$10-12/month (or a popular lifetime license) with unlimited length and all reports." },
+      { q: "ProWritingAid vs Grammarly?", a: "Grammarly is faster and cleaner for everyday business writing; ProWritingAid goes deeper for long-form and fiction \u2014 style reports, overused words, pacing analysis. Novelists overwhelmingly prefer ProWritingAid; email-writers prefer Grammarly." },
+      { q: "Does ProWritingAid rewrite with AI?", a: "Yes \u2014 Rephrase and AI Sparks add generative rewriting on top of its classic analysis reports, though its core identity remains analysis-driven self-editing rather than auto-writing." },
+    ],
   },
   {
     name: "Pi AI",
@@ -1644,6 +1694,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Photorealistic image generation", "High prompt-adherence results", "Open-source flexibility", "API integration for developers"],
     steps: ["Try Flux free at fal.ai or replicate.com — no account needed for basic use.", "Write a detailed prompt describing your image, including style, lighting, and composition.", "Iterate by refining your prompt — Flux follows instructions very accurately."],
     url: "https://blackforestlabs.ai",
+    tips: [
+      "Flux handles text-in-image and human anatomy (hands!) unusually well \u2014 lean into use cases where other models fail.",
+      "Choose the right variant: Schnell for speed/free local use, Dev for quality with an open license, Pro via API for maximum fidelity.",
+      "Run it locally through ComfyUI with an 8-12GB GPU using quantized versions if the full model doesn't fit.",
+    ],
+    faqs: [
+      { q: "Is Flux free?", a: "Flux Schnell is open-source (Apache 2.0) and free including commercial use. Flux Dev is open-weight for non-commercial use. Flux Pro/Ultra are paid API models used by services like Grok and many image apps." },
+      { q: "Flux vs Midjourney?", a: "Flux matches or beats Midjourney on realism, prompt-following, and especially text rendering \u2014 and you can run it locally. Midjourney still has the edge in curated artistic style and community workflow." },
+      { q: "Where can I try Flux without installing anything?", a: "Hosted options include Grok's image generation, fal.ai, Replicate, and many AI art sites that expose Flux endpoints \u2014 most offer free trials or credits." },
+    ],
   },
   {
     name: "Imagen 3",
@@ -1694,6 +1754,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Full codebase AI editing", "Multi-file refactoring", "AI that understands project context", "Cursor alternative"],
     steps: ["Download Windsurf from codeium.com/windsurf.", "Open your project — Windsurf indexes the codebase automatically.", "Use Cascade to describe a change; it plans and implements across multiple files."],
     url: "https://codeium.com/windsurf",
+    tips: [
+      "Use Cascade in 'Write' mode for multi-file features \u2014 it plans, edits several files, and runs commands in sequence like a junior dev.",
+      "Let it index your repo fully before judging it \u2014 context awareness across files is where Windsurf shines vs single-file assistants.",
+      "Pin the files you're actively designing against so Cascade keeps them in context during long sessions.",
+    ],
+    faqs: [
+      { q: "Is Windsurf free?", a: "There's a free tier with credit limits on premium models. Pro (~$15/month) adds substantial credits \u2014 historically undercutting Cursor's pricing." },
+      { q: "Windsurf vs Cursor?", a: "Both are AI-first VS Code forks. Windsurf's Cascade agent feels more autonomous out of the box and it's cheaper; Cursor offers more granular control and a larger power-user community. Try both on the same repo for a week." },
+      { q: "Can Windsurf work with my existing VS Code setup?", a: "Yes \u2014 it imports VS Code extensions, themes, and keybindings, so switching cost is minimal." },
+    ],
   },
   {
     name: "Bolt.new",
@@ -1706,6 +1776,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Full-stack app prototyping", "No-setup browser development", "Rapid MVP creation", "Non-developers building web apps"],
     steps: ["Go to bolt.new — no account needed to start.", "Describe the app you want to build in plain English.", "Bolt generates and runs the code live; iterate by chatting with it."],
     url: "https://bolt.new",
+    tips: [
+      "Describe the whole app in your first prompt (pages, data, style) \u2014 Bolt scaffolds everything at once, and big first prompts beat incremental ones.",
+      "When something breaks, paste the error straight into chat \u2014 Bolt reads its own stack traces and self-fixes.",
+      "Connect Netlify/GitHub early: iterate inside Bolt, but keep deploys and version history outside it.",
+    ],
+    faqs: [
+      { q: "Is Bolt.new free?", a: "Free tier includes daily AI tokens for small projects. Paid plans (from ~$20/month) add token volume for real app development." },
+      { q: "What can Bolt.new actually build?", a: "Full-stack JavaScript apps (React/Next/Vue + Node) that run in an in-browser WebContainer \u2014 including npm packages, databases via integrations, and one-click deploys. It's genuinely production-capable for small-to-medium apps." },
+      { q: "Bolt vs V0 vs Cursor?", a: "V0 generates polished UI components; Bolt builds and runs complete apps in the browser; Cursor is a full IDE for serious ongoing development. Prototype in Bolt/V0, graduate to Cursor when the codebase matters." },
+    ],
   },
   {
     name: "V0 by Vercel",
@@ -1718,6 +1798,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["React UI component generation", "Tailwind CSS layouts", "Next.js project scaffolding", "Frontend prototyping"],
     steps: ["Visit v0.dev and describe the UI component you need.", "V0 generates multiple variants — pick the one closest to your vision.", "Copy the code into your project or click 'Open in StackBlitz' to edit live."],
     url: "https://v0.dev",
+    tips: [
+      "Prompt for one component or section at a time \u2014 'a pricing section with 3 tiers, annual toggle' \u2014 rather than whole pages; quality is much higher.",
+      "Iterate with follow-ups ('make it dark mode', 'add hover states') \u2014 v0 refines the same component conversationally.",
+      "Everything is shadcn/ui + Tailwind under the hood \u2014 if your project already uses them, output drops in cleanly.",
+    ],
+    faqs: [
+      { q: "Is v0 free?", a: "A free tier includes limited monthly credits. Premium (~$20/month) adds credits and higher limits; teams can share projects." },
+      { q: "Can v0 build full apps or just UI?", a: "It has grown from UI components into generating full Next.js apps with logic and API routes, but its superpower remains beautiful, production-grade React/Tailwind UI faster than hand-coding." },
+      { q: "Does v0 code work outside Vercel?", a: "Yes \u2014 it's standard React/Next.js with shadcn/ui and Tailwind. Copy the code into any React project; nothing locks you to Vercel hosting." },
+    ],
   },
   {
     name: "Devin",
@@ -1780,6 +1870,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Text-to-video generation", "Cinematic AI video clips", "Creative video storytelling", "Image-to-video animation"],
     steps: ["Access Sora at openai.com/sora — available to ChatGPT Plus and Pro subscribers.", "Write a detailed prompt including scene, motion, camera angle, and mood.", "Generate multiple variations and download your favourite clip."],
     url: "https://openai.com/sora",
+    tips: [
+      "Describe camera work explicitly \u2014 'slow dolly-in', 'aerial tracking shot' \u2014 Sora responds to cinematography language better than most generators.",
+      "Use the storyboard feature to control multi-shot sequences instead of hoping one long prompt lands.",
+      "Generate at lower resolution to iterate on the idea, then re-render the winner at max quality to save your credit budget.",
+    ],
+    faqs: [
+      { q: "How do I get access to Sora?", a: "Sora is available to ChatGPT Plus and Pro subscribers at sora.com \u2014 Plus includes limited monthly generations at up to 720p; Pro raises limits and resolution." },
+      { q: "Can I use Sora videos commercially?", a: "Yes, subject to OpenAI's usage policies \u2014 you own the outputs you create. Watermarking/metadata (C2PA) is embedded, and policy forbids depicting real people without consent." },
+      { q: "Sora vs Runway vs Kling?", a: "Sora leads on prompt understanding and complex scenes; Runway offers the most professional editing controls; Kling is strong on motion realism and generous free credits. Most serious creators test the same shot across all three." },
+    ],
   },
   {
     name: "Kling AI",
@@ -1804,6 +1904,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Podcast and webinar clipping", "YouTube to TikTok/Reels conversion", "Automated caption generation", "Content repurposing at scale"],
     steps: ["Paste any YouTube or upload a video at opus.pro.", "AI automatically extracts the best clips with captions and virality scores.", "Download clips or schedule them to post across social platforms."],
     url: "https://opus.pro",
+    tips: [
+      "Feed it podcasts or webinars 20+ minutes long \u2014 the AI's virality scoring needs enough material to find genuine hooks.",
+      "Always review the auto-selected hooks: reorder the first 3 seconds manually if needed \u2014 the hook decides everything in short-form.",
+      "Use brand templates (fonts, colors, caption style) so every clip is on-brand without per-clip styling.",
+    ],
+    faqs: [
+      { q: "How much does Opus Clip cost?", a: "A limited free tier exists with watermark; paid plans start around $15/month for ~150 processing minutes with no watermark and full features." },
+      { q: "Does the virality score actually work?", a: "It's a useful prioritization signal trained on engagement patterns, not a guarantee \u2014 treat high-scoring clips as candidates to review first, and still apply your own judgment on hooks." },
+      { q: "Opus Clip vs manually editing shorts?", a: "Opus gets you 10 publishable clips from an hour-long video in minutes \u2014 roughly the output of a day of manual clipping. Top creators still hand-polish the best 2-3 clips afterward." },
+    ],
   },
   {
     name: "Pictory",
@@ -1816,6 +1926,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Blog-to-video conversion", "Branded marketing videos", "Auto-captioned social videos", "Content repurposing"],
     steps: ["Sign up at pictory.ai and paste your script or blog URL.", "AI matches scenes to stock video clips automatically.", "Edit captions, swap clips, add your logo and voice, then export."],
     url: "https://pictory.ai",
+    tips: [
+      "Its sweet spot is blog-to-video: paste a post URL and get a narrated summary video with stock footage \u2014 perfect for repurposing content.",
+      "Swap the auto-chosen stock clips for the 20% that feel off rather than regenerating everything \u2014 editing beats re-rolling.",
+      "Use your own voiceover recording where it matters; AI voices are fine for volume content but human narration converts better on landing pages.",
+    ],
+    faqs: [
+      { q: "How much does Pictory cost?", a: "Plans start around $19-25/month (Starter) with monthly video limits; higher tiers add more videos, longer lengths, and team features. A free trial includes watermarked projects." },
+      { q: "Pictory vs InVideo?", a: "Pictory is best at turning EXISTING content (blogs, webinars, Zoom recordings) into short videos; InVideo is stronger at generating videos from scratch via prompts. Match the tool to your starting material." },
+      { q: "Can Pictory auto-caption and clip long videos?", a: "Yes \u2014 upload a webinar or podcast recording and it transcribes, lets you edit video by deleting text, and extracts highlight clips with burned-in captions." },
+    ],
   },
   {
     name: "Pika",
@@ -1840,6 +1960,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Cinematic text-to-video generation", "3D scene capture", "Smooth, realistic video motion", "Creative short video content"],
     steps: ["Access Dream Machine free at lumalabs.ai/dream-machine.", "Write a cinematic prompt describing the scene and camera movement.", "Generate and download your clip — upgrade for longer clips and priority queue."],
     url: "https://lumalabs.ai",
+    tips: [
+      "Dream Machine's image-to-video is its strongest mode \u2014 start from a great still and describe the motion you want.",
+      "Use the 'extend' feature to chain 5-second clips into longer sequences while keeping the scene consistent.",
+      "For 3D capture (the original Luma app), circle your subject slowly with plenty of overlap \u2014 NeRF quality lives or dies on coverage.",
+    ],
+    faqs: [
+      { q: "Is Luma Dream Machine free?", a: "A free tier gives limited monthly generations with watermarks and queue waits. Paid plans (from ~$10/month) add generations, speed, and commercial rights." },
+      { q: "Luma vs Runway vs Pika?", a: "Luma is the accessible all-rounder with strong image-to-video and a generous free tier; Runway targets pro workflows; Pika excels at stylized content. Test your specific shot type \u2014 results vary wildly by use case." },
+      { q: "Can Luma still do 3D scans?", a: "Yes \u2014 the Luma iOS app captures photorealistic 3D scenes (NeRF/Gaussian splats) from phone video, separate from the Dream Machine video generator." },
+    ],
   },
 
   // Music — additional
@@ -1904,6 +2034,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Real-time news and trending topics", "X/Twitter data research", "Current events analysis", "Social sentiment research"],
     steps: ["Access Grok at grok.com or via the X app on Premium+ plan.", "Ask about current events — Grok can search X in real time.", "Use DeepSearch mode for more thorough web and X research."],
     url: "https://grok.com",
+    tips: [
+      "Use Grok for anything happening RIGHT NOW \u2014 its native X/Twitter firehose access makes it the best chatbot for breaking news and live sentiment.",
+      "Think Mode (reasoning) is worth toggling for math and analysis; regular mode is tuned for speed and personality.",
+      "Ask it to search X for specific accounts or topics and summarize the discourse \u2014 a unique capability no other major chatbot has.",
+    ],
+    faqs: [
+      { q: "Is Grok free?", a: "Basic Grok access is included with X (limited queries); X Premium+ unlocks higher limits and the newest models. A standalone grok.com and apps also offer free tiers with caps." },
+      { q: "What makes Grok different from ChatGPT?", a: "Real-time X data access, fewer refusals on edgy topics, and an irreverent tone. ChatGPT counters with a larger feature ecosystem (voice, custom GPTs, files) and steadier polish." },
+      { q: "Is Grok good for coding?", a: "Recent Grok models benchmark competitively with frontier models on coding, and Think Mode helps on hard problems. For deep IDE integration though, tools like Copilot or Cursor fit the workflow better." },
+    ],
   },
   {
     name: "Gemini",
@@ -2010,6 +2150,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Natural language automation setup", "Cross-app workflow automation", "AI-triggered automations", "No-code productivity workflows"],
     steps: ["Sign up at zapier.com and click 'Try AI Zap builder'.", "Describe the automation you want in plain English.", "Review the generated Zap, connect your apps, and turn it on."],
     url: "https://zapier.com/ai",
+    tips: [
+      "Describe the automation in plain English in the AI builder ('When a Stripe payment succeeds, add the customer to a Google Sheet and send a Slack message') \u2014 it drafts the whole Zap.",
+      "Use AI steps inside Zaps (summarize, extract, classify) to process text between apps \u2014 that's where AI turns Zapier from plumbing into a worker.",
+      "Build Zapier Agents for open-ended tasks, but give them narrow tools and test in preview repeatedly \u2014 agents are powerful and occasionally overeager.",
+    ],
+    faqs: [
+      { q: "How much does Zapier cost?", a: "Free tier: 100 tasks/month, two-step Zaps. Paid starts ~$20-30/month for multi-step Zaps and more tasks. AI features consume tasks/credits depending on plan." },
+      { q: "What's the difference between Zapier AI and Make or n8n?", a: "Zapier has the most app integrations (7,000+) and easiest AI builder; Make is cheaper with visual complex flows; n8n is open-source/self-hosted for developers. Non-technical teams default to Zapier." },
+      { q: "Can Zapier AI replace hiring a VA?", a: "For structured, repetitive digital tasks (data entry, notifications, CRM updates, email triage) \u2014 largely yes. For judgment calls and unstructured work, you still need a human; use AI steps to shrink that pile." },
+    ],
   },
   {
     name: "Make (Integromat)",
@@ -2465,6 +2615,16 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Q&A grounded in your own documents", "Summarising research and PDFs", "Study guides and source-cited notes", "Audio overviews of your material"],
     steps: ["Visit notebooklm.google and sign in with your Google account.", "Create a notebook and upload your sources (PDFs, docs, links).", "Ask questions, generate summaries, or create an audio overview."],
     url: "https://notebooklm.google",
+    tips: [
+      "Upload your sources first and ask questions ONLY about them \u2014 NotebookLM answers from your documents with citations, not from the open web. That's the whole point.",
+      "Use Audio Overview to turn dense PDFs into a podcast-style discussion for commutes \u2014 it's the feature that made NotebookLM famous.",
+      "Mix source types: paste YouTube URLs, Google Docs, PDFs, and web pages into one notebook to cross-reference them in a single conversation.",
+    ],
+    faqs: [
+      { q: "Is NotebookLM free?", a: "Yes \u2014 free with a Google account, with generous limits. NotebookLM Plus (via Google One AI Premium / Workspace) raises notebook, source, and Audio Overview limits." },
+      { q: "Does NotebookLM hallucinate?", a: "Far less than open chatbots, because it grounds every answer in your uploaded sources and shows inline citations. Always click the citation to verify \u2014 grounding reduces but doesn't eliminate errors." },
+      { q: "NotebookLM vs ChatGPT for research?", a: "NotebookLM when the truth must come from specific documents (papers, contracts, meeting notes). ChatGPT for general knowledge and synthesis beyond your sources. Many researchers draft in NotebookLM, polish in ChatGPT." },
+    ],
   },
   {
     name: "Clio",
