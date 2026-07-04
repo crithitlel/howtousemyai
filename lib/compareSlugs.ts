@@ -15,6 +15,18 @@ export const COMPARE_SLUGS = new Set<string>([
   "notion-ai-vs-chatgpt",
   "surfer-seo-vs-clearscope",
   "grammarly-vs-prowritingaid",
+  "gemini-vs-claude",
+  "perplexity-vs-gemini",
+  "jasper-vs-writesonic",
+  "canva-ai-vs-adobe-firefly",
+  "leonardo-ai-vs-midjourney",
+  "ideogram-vs-midjourney",
+  "gamma-vs-beautiful-ai",
+  "otter-ai-vs-fireflies-ai",
+  "quillbot-vs-grammarly",
+  "tabnine-vs-github-copilot",
+  "taskade-vs-notion-ai",
+  "sudowrite-vs-jasper",
 ]);
 
 // Returns the editorial comparison slug for a pair of tool names if one

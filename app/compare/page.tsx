@@ -31,6 +31,18 @@ const COMPARISONS = [
   { slug: "notion-ai-vs-chatgpt",           tool1: "Notion AI",        tool2: "ChatGPT",          category: "PRODUCTIVITY" },
   { slug: "surfer-seo-vs-clearscope",       tool1: "Surfer SEO",       tool2: "Clearscope",       category: "SEO" },
   { slug: "grammarly-vs-prowritingaid",     tool1: "Grammarly",        tool2: "ProWritingAid",    category: "EDITING" },
+  { slug: "gemini-vs-claude", tool1: "Gemini", tool2: "Claude", category: "ASSISTANTS" },
+  { slug: "perplexity-vs-gemini", tool1: "Perplexity", tool2: "Gemini", category: "RESEARCH" },
+  { slug: "jasper-vs-writesonic", tool1: "Jasper", tool2: "Writesonic", category: "COPY" },
+  { slug: "canva-ai-vs-adobe-firefly", tool1: "Canva AI", tool2: "Adobe Firefly", category: "DESIGN" },
+  { slug: "leonardo-ai-vs-midjourney", tool1: "Leonardo.ai", tool2: "Midjourney", category: "IMAGERY" },
+  { slug: "ideogram-vs-midjourney", tool1: "Ideogram", tool2: "Midjourney", category: "IMAGERY" },
+  { slug: "gamma-vs-beautiful-ai", tool1: "Gamma", tool2: "Beautiful.ai", category: "SLIDES" },
+  { slug: "otter-ai-vs-fireflies-ai", tool1: "Otter.ai", tool2: "Fireflies.ai", category: "MEETINGS" },
+  { slug: "quillbot-vs-grammarly", tool1: "Quillbot", tool2: "Grammarly", category: "WRITING" },
+  { slug: "tabnine-vs-github-copilot", tool1: "Tabnine", tool2: "GitHub Copilot", category: "CODE" },
+  { slug: "taskade-vs-notion-ai", tool1: "Taskade", tool2: "Notion AI", category: "PRODUCTIVITY" },
+  { slug: "sudowrite-vs-jasper", tool1: "Sudowrite", tool2: "Jasper", category: "WRITING" },
 ];
 
 const schema = {
