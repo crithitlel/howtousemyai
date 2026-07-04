@@ -1118,6 +1118,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Automatic task scheduling", "Focus time blocking", "Calendar optimization", "Habit scheduling"],
     steps: ["Connect your Google Calendar at reclaim.ai.", "Add your tasks and habits with time estimates and priorities.", "Reclaim auto-schedules them around your existing meetings and reschedules as needed."],
     url: "https://reclaim.ai",
+
+    tips: [
+      "Connect your calendar and define your priorities — Reclaim auto-schedules tasks and habits into free slots.",
+      "Set 'habits' for recurring focus time so deep work gets protected before meetings fill your day.",
+      "Use Smart Meetings to find times that fit everyone without endless back-and-forth.",
+      "Let it defend focus blocks — Reclaim reshuffles flexible tasks when meetings get booked.",
+    ],
+    faqs: [
+      { q: "What is Reclaim.ai?", a: "An AI scheduling assistant that automatically blocks time for tasks, habits, and meetings on your calendar based on your priorities." },
+      { q: "Is Reclaim.ai free?", a: "Yes — a free plan covers core scheduling; paid tiers add more habits, integrations, and team features." },
+      { q: "Who is Reclaim.ai best for?", a: "Busy professionals and teams who want their calendar to auto-manage focus time, tasks, and meetings instead of scheduling everything manually." },
+    ],
   },
   {
     name: "Motion",
@@ -1212,6 +1224,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["High-volume email management", "Fast email triage", "AI email drafting", "Inbox zero workflow"],
     steps: ["Apply at superhuman.com and complete the onboarding call.", "Learn the keyboard shortcuts, the entire interface is keyboard-driven.", "Use AI to draft replies and let AI triage automatically sort your inbox."],
     url: "https://superhuman.com",
+
+    tips: [
+      "Learn the keyboard shortcuts early — Superhuman's whole speed advantage comes from never touching the mouse.",
+      "Use Split Inbox to separate VIP senders, newsletters, and everything else so important mail surfaces first.",
+      "Let the AI draft replies, then edit for tone — it nails structure but read before sending.",
+      "Set up Snippets for messages you send often; they expand instantly and save real time.",
+    ],
+    faqs: [
+      { q: "What is Superhuman?", a: "A fast, keyboard-driven email client with AI features for drafting, triage, and inbox management, aimed at professionals who live in their inbox." },
+      { q: "Is Superhuman worth the price?", a: "It's premium-priced, but heavy email users often find the speed and shortcuts pay back the cost in saved time. Lighter users may not need it." },
+      { q: "Does Superhuman work with Gmail and Outlook?", a: "Yes — it works on top of Gmail and Outlook accounts, keeping your existing address while replacing the interface." },
+    ],
   },
 
   // Marketing
@@ -1298,6 +1322,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Email marketing campaigns", "Newsletter creation", "Audience segmentation", "Automated email sequences"],
     steps: ["Sign up at mailchimp.com, free for up to 500 contacts.", "Create a campaign and use AI to generate subject lines and body copy.", "Set up automated sequences and let AI optimize send times."],
     url: "https://mailchimp.com",
+
+    tips: [
+      "Use the AI content generator for first-draft subject lines and copy, then personalize for your brand.",
+      "Let AI suggest send times and segments — but validate against your own open-rate history.",
+      "Start with a proven template and let AI fill it, rather than generating emails from scratch.",
+      "A/B test AI-written subject lines against your own — small wins compound across a list.",
+    ],
+    faqs: [
+      { q: "What is Mailchimp AI?", a: "AI features inside Mailchimp for generating email copy, subject lines, send-time optimization, and audience insights." },
+      { q: "Is Mailchimp free?", a: "Yes — a free tier covers small lists and basic sends; paid plans add automation, AI features, and higher limits." },
+      { q: "What is Mailchimp best for?", a: "Small businesses and creators running email marketing who want templates, automation, and AI-assisted copy in one platform." },
+    ],
   },
   {
     name: "Semrush",
@@ -1334,6 +1370,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Enterprise social media management", "Social listening and monitoring", "Multi-account scheduling", "Team collaboration on social"],
     steps: ["Sign up at hootsuite.com and connect your social accounts.", "Use OwlyWriter AI to generate captions and post ideas.", "Schedule posts at AI-recommended optimal times and monitor performance."],
     url: "https://hootsuite.com",
+
+    tips: [
+      "Use OwlyWriter AI to draft captions and repurpose top posts, then edit for each platform's voice.",
+      "Batch-schedule a week of content in one sitting; consistency drives more growth than volume.",
+      "Lean on the unified inbox to reply across platforms in one place instead of app-hopping.",
+      "Check best-time-to-post analytics and align your schedule to when your audience is active.",
+    ],
+    faqs: [
+      { q: "What is Hootsuite?", a: "A social media management platform for scheduling, publishing, and analytics across multiple networks, with AI caption writing built in." },
+      { q: "Is Hootsuite free?", a: "Hootsuite is primarily paid, with a free trial; it's aimed at businesses and teams managing several social accounts." },
+      { q: "What is Hootsuite best for?", a: "Businesses and agencies managing multiple social profiles that need scheduling, a unified inbox, and analytics in one dashboard." },
+    ],
   },
   {
     name: "Recently.ai",
@@ -1372,6 +1420,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Data exploration and analysis", "CSV and spreadsheet analysis", "Automated chart generation", "Non-technical data users"],
     steps: ["Go to julius.ai and upload your CSV or Excel file.", "Ask your question in plain English, 'Show monthly revenue trends.'", "Julius generates and runs the code, displays charts, and explains the findings."],
     url: "https://julius.ai",
+
+    tips: [
+      "Upload your CSV or Excel file first, then ask questions in plain English — no formulas needed.",
+      "Ask it to show its work; Julius can display the Python it runs so you can verify the analysis.",
+      "Request specific chart types ('make a bar chart of X by Y') rather than leaving visualization to chance.",
+      "Always sanity-check totals against your raw data — AI analysis is fast but not infallible.",
+    ],
+    faqs: [
+      { q: "What is Julius AI?", a: "An AI data analyst that lets non-technical users analyze spreadsheets and datasets by chatting in plain English, returning charts, stats, and insights." },
+      { q: "Is Julius AI free?", a: "There's a free tier with limited messages; paid plans add more analyses, larger files, and advanced features." },
+      { q: "What can Julius AI do?", a: "Clean data, run statistics, build charts, and answer questions about your dataset — like having a data analyst you talk to, without writing code." },
+    ],
   },
   {
     name: "Akkio",
@@ -1396,6 +1456,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Enterprise business intelligence", "Interactive dashboard creation", "Natural language data queries", "Executive reporting"],
     steps: ["Set up Tableau at tableau.com and connect your data sources.", "Use Ask Data to query your data in plain English.", "Build interactive dashboards and share with stakeholders."],
     url: "https://tableau.com",
+
+    tips: [
+      "Start from a clear question about your data — Tableau's AI (Einstein/Pulse) works best with focused goals.",
+      "Use Ask Data to query in natural language, then refine the auto-generated viz manually.",
+      "Let AI surface anomalies and trends, but validate them against the underlying data before presenting.",
+      "Build reusable dashboards rather than one-off charts — Tableau shines at ongoing monitoring.",
+    ],
+    faqs: [
+      { q: "What is Tableau AI?", a: "AI features built into Tableau (Salesforce's analytics platform) that surface insights, answer natural-language questions, and explain trends in your data." },
+      { q: "Is Tableau free?", a: "Tableau is paid enterprise software, though it offers free trials and a free Tableau Public tier for non-sensitive data." },
+      { q: "Who is Tableau for?", a: "Businesses and analysts who need powerful, shareable dashboards and business intelligence at scale." },
+    ],
   },
   {
     name: "Obviously AI",
@@ -1508,6 +1580,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Automated customer support", "Help center Q&A", "Ticket deflection", "24/7 support coverage"],
     steps: ["Set up Intercom at intercom.com and connect your help center.", "Enable Fin in Inbox settings, it auto-responds to conversations.", "Review resolutions in the dashboard and add missing answers."],
     url: "https://intercom.com/fin",
+
+    tips: [
+      "Feed Fin (Intercom's AI agent) your help docs — its answer quality depends entirely on your knowledge base.",
+      "Set clear handoff rules so complex or upset customers reach a human fast.",
+      "Track resolution rate, not just deflection — the goal is solving issues, not dodging them.",
+      "Review AI conversations weekly and add missing answers to your docs to close gaps.",
+    ],
+    faqs: [
+      { q: "What is Intercom AI?", a: "Intercom's AI customer-service suite, including the Fin AI agent that resolves support questions automatically using your help content." },
+      { q: "Is Intercom free?", a: "Intercom is paid, with pricing by seats and resolutions; free trials are available." },
+      { q: "Can Intercom's AI replace support agents?", a: "It resolves a large share of routine tickets automatically, but complex cases still need humans — the best setup blends Fin with easy agent handoff." },
+    ],
   },
   {
     name: "Tidio",
@@ -1520,6 +1604,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["E-commerce customer support", "Lead qualification", "Order tracking automation", "Small business live chat"],
     steps: ["Install Tidio at tidio.com by pasting a snippet on your site.", "Enable Lyro AI and connect your FAQ, it learns common questions automatically.", "Set escalation rules so complex queries route to live agents."],
     url: "https://tidio.com",
+
+    tips: [
+      "Set up Lyro (Tidio's AI) with your FAQs and product info so it answers accurately out of the box.",
+      "Use pre-built e-commerce flows for cart recovery and order status — Tidio is tuned for online stores.",
+      "Keep a visible 'talk to a human' option to avoid frustrating shoppers on edge cases.",
+      "Start on the free plan and upgrade only once chat volume justifies it.",
+    ],
+    faqs: [
+      { q: "What is Tidio?", a: "A customer-service and chatbot platform with the Lyro AI agent, popular with small and e-commerce businesses for live chat and automated support." },
+      { q: "Is Tidio free?", a: "Yes — a free plan covers basic live chat and limited AI conversations; paid plans raise limits and add features." },
+      { q: "Is Tidio good for e-commerce?", a: "Yes — it's one of the most popular picks for online stores, with built-in flows for cart recovery, order updates, and product questions." },
+    ],
   },
   {
     name: "Drift",
@@ -1544,6 +1640,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Enterprise customer support", "Smart ticket routing", "Agent productivity", "Support analytics"],
     steps: ["Set up Zendesk at zendesk.com and import your help content.", "Enable AI triage to automatically categorize and route incoming tickets.", "Use Agent Assist to get AI-suggested replies that agents can send with one click."],
     url: "https://zendesk.com",
+
+    tips: [
+      "Train the AI on your existing tickets and help center so it matches your real support patterns.",
+      "Use AI to auto-triage and route tickets — it saves agents time even when it doesn't fully resolve.",
+      "Monitor AI suggestions before full automation; roll out gradually to protect CSAT.",
+      "Keep your help center current — the AI is only as good as the content behind it.",
+    ],
+    faqs: [
+      { q: "What is Zendesk AI?", a: "AI features in the Zendesk support platform that automate ticket triage, suggest replies, and power AI agents for large support teams." },
+      { q: "Is Zendesk free?", a: "Zendesk is paid enterprise support software; free trials are available but there's no permanent free tier." },
+      { q: "Who is Zendesk AI for?", a: "Larger support organizations that need scalable ticketing, routing, and AI-assisted resolution across many agents." },
+    ],
   },
   {
     name: "Freshdesk AI",
@@ -1742,6 +1850,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Writing anywhere in the browser", "Brand voice personalisation", "Email and document drafting", "Multi-platform content creation"],
     steps: ["Install the TextCortex extension from textcortex.com.", "Highlight any text and press the shortcut to rewrite, expand, or translate.", "Train your custom persona by uploading your own writing samples."],
     url: "https://textcortex.com",
+
+    tips: [
+      "Install the browser extension so it works everywhere you write — email, docs, social.",
+      "Set up your persona/knowledge base so output matches your voice and facts.",
+      "Use it for rewriting and expanding rather than generating from zero — that's where it's strongest.",
+      "Keep a human edit pass; AI drafts are a starting point, not a final send.",
+    ],
+    faqs: [
+      { q: "What is TextCortex?", a: "An AI writing assistant with a browser extension that drafts, rewrites, and summarizes text across the web, plus a customizable knowledge base." },
+      { q: "Is TextCortex free?", a: "Yes — a free tier with daily creations; paid plans add more usage, features, and customization." },
+      { q: "What is TextCortex best for?", a: "Writers who want AI help inside every app via a browser extension, rather than switching to a separate tool." },
+    ],
   },
   {
     name: "ProWritingAid",
@@ -1776,6 +1896,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Thoughtful brainstorming conversations", "Journalling and self-reflection", "Emotional support and coaching", "Exploring ideas without judgment"],
     steps: ["Visit pi.ai and start chatting — no account required to begin.", "Talk naturally, Pi will ask questions and remember what you share.", "Use voice mode for a more personal, conversational experience."],
     url: "https://pi.ai",
+
+    tips: [
+      "Talk to Pi conversationally — it's tuned for supportive back-and-forth, not one-shot commands.",
+      "Use it to think out loud or de-stress; it's designed to be empathetic rather than task-focused.",
+      "Try the voice mode for a more natural, calming conversation experience.",
+      "Don't rely on it for factual research — Pi is built for companionship and reflection, not accuracy.",
+    ],
+    faqs: [
+      { q: "What is Pi AI?", a: "A personal AI companion from Inflection designed for supportive, conversational chat — emotional support, reflection, and everyday conversation." },
+      { q: "Is Pi AI free?", a: "Yes — Pi is free to use via web, app, and voice." },
+      { q: "What is Pi best for?", a: "Casual, supportive conversation and thinking things through — it prioritizes empathy and tone over task-completion or research." },
+    ],
   },
   {
     name: "Meta AI",
@@ -1788,6 +1920,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Quick answers inside social apps", "WhatsApp and Messenger assistance", "Free AI image generation", "Casual research and writing help"],
     steps: ["Open WhatsApp, Instagram, or Facebook and tap the Meta AI icon.", "Type your question or request in the chat interface.", "For image generation, type 'imagine' followed by your description."],
     url: "https://meta.ai",
+
+    tips: [
+      "Access it free inside WhatsApp, Instagram, and Messenger — no separate app or login needed.",
+      "Use @Meta AI in group chats to answer questions or settle debates without leaving the conversation.",
+      "Try image generation with '/imagine' style prompts directly in chat.",
+      "For serious work, a dedicated assistant (ChatGPT, Claude) still outperforms — Meta AI shines for quick, in-app help.",
+    ],
+    faqs: [
+      { q: "What is Meta AI?", a: "Meta's free AI assistant built into WhatsApp, Instagram, Messenger, and Facebook for answering questions, generating images, and chatting." },
+      { q: "Is Meta AI free?", a: "Yes — it's free and built directly into Meta's apps." },
+      { q: "What is Meta AI best for?", a: "Quick answers, image generation, and help without leaving the Meta apps you already use — convenient rather than the most powerful option." },
+    ],
   },
 
   // Images — additional
