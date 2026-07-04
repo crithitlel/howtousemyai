@@ -195,6 +195,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Novel writing and long-form fiction", "Character development", "Plot brainstorming", "Overcoming writer's block"],
     steps: ["Sign up at sudowrite.com and start a new project.", "Paste your existing writing or start fresh, Sudowrite reads your style.", "Use tools like Describe, Brainstorm, or Write to expand your story."],
     url: "https://sudowrite.com",
+
+    tips: [
+      "Use Describe to spin up sensory detail for a scene, then keep only the lines that match your voice — treat it as raw material, not final prose.",
+      "The Story Bible is the real power feature: fill in characters, worldbuilding, and outline so generations stay consistent across chapters.",
+      "Write in short bursts and use Continue sparingly; longer AI runs drift from your style faster than short, steered ones.",
+      "Canvas/Brainstorm is best for unblocking — dump twenty plot directions, pick one, then write it yourself.",
+    ],
+    faqs: [
+      { q: "Is Sudowrite good for fiction?", a: "Yes — it's built specifically for novelists and creative writers, with tools for description, dialogue, and long-form consistency rather than generic marketing copy." },
+      { q: "Does Sudowrite own what I write?", a: "No. You retain rights to your work; Sudowrite is a writing assistant, not a publisher. Always review current terms for specifics." },
+      { q: "Is there a free version?", a: "There's a free trial with a word allowance; continued use requires a paid plan billed by monthly AI word credits." },
+    ],
   },
   {
     name: "Hemingway Editor",
@@ -253,6 +265,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["High-converting ad copy", "Email subject lines", "Landing page optimization", "Performance marketing teams"],
     steps: ["Sign up at anyword.com and connect your ad accounts.", "Choose your copy type and target audience.", "Generate variants and sort by predicted performance score."],
     url: "https://anyword.com",
+
+    tips: [
+      "Set up your brand voice and target audience first — Anyword's predictions are only useful when it knows who you're writing for.",
+      "Lean on the Predictive Performance Score to A/B ideas before you spend ad budget, not as gospel — treat it as a ranked shortlist.",
+      "Use Data-Driven Templates for the format (ad, email subject, landing headline); rewrite the winner in your own words to avoid generic phrasing.",
+      "Feed it a top-performing past post as a reference so it matches what already works for you.",
+    ],
+    faqs: [
+      { q: "What makes Anyword different?", a: "Its performance prediction score estimates how copy will perform before you publish, aimed at marketers running paid and email campaigns." },
+      { q: "Is Anyword free?", a: "It offers a limited free trial; ongoing use is subscription-based with tiers by word count and features." },
+      { q: "Who is Anyword best for?", a: "Performance marketers and copywriters who write high volumes of ads, emails, and landing pages and want data to pick between variants." },
+    ],
   },
 
   // Image Generation
@@ -444,6 +468,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Product photography backgrounds", "Headshot and portrait cutouts", "Design asset preparation", "E-commerce product images"],
     steps: ["Go to remove.bg and upload your image, no account needed for one-off use.", "The AI removes the background automatically in about 5 seconds.", "Download the transparent PNG or add a new background color/image."],
     url: "https://remove.bg",
+
+    tips: [
+      "For tricky edges like hair or fur, upload the highest-resolution image you have — small images give the model less to work with.",
+      "Use the editor after auto-removal to brush back or erase areas the AI missed rather than re-uploading.",
+      "Batch-process via the API or desktop app if you're clearing backgrounds for a whole product catalog.",
+      "Export as PNG to keep transparency; only flatten to JPG once you've placed it on a new background.",
+    ],
+    faqs: [
+      { q: "Is Remove.bg free?", a: "Free previews are low-resolution; full-resolution downloads require credits or a subscription." },
+      { q: "What is Remove.bg best for?", a: "Instantly cutting out people, products, and objects from photos — ideal for e-commerce listings, thumbnails, and design mockups." },
+      { q: "Does it work on any image?", a: "It works best on clear subject-vs-background contrast; busy or low-contrast scenes may need manual cleanup in the editor." },
+    ],
   },
   {
     name: "Clipdrop",
@@ -456,6 +492,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Image background removal and replacement", "Photo relighting and enhancement", "Image upscaling", "Quick AI-powered edits"],
     steps: ["Go to clipdrop.co and choose the tool you need.", "Upload your image and let the AI process it automatically.", "Download the result or chain multiple tools together."],
     url: "https://clipdrop.co",
+
+    tips: [
+      "Use Cleanup to remove unwanted objects — brush loosely over the whole object plus a little margin for the best fill.",
+      "Relight is Clipdrop's standout tool for product shots; add a virtual light source to fake a studio look.",
+      "Chain tools: remove background, then upscale, then relight, rather than expecting one pass to do everything.",
+      "For text-to-image, keep prompts concise and iterate — Stable Diffusion under the hood rewards specific, uncluttered descriptions.",
+    ],
+    faqs: [
+      { q: "Who makes Clipdrop?", a: "Clipdrop is a suite of AI image tools (by the team behind Stable Diffusion) covering background removal, cleanup, upscaling, relighting, and generation." },
+      { q: "Is Clipdrop free?", a: "There's a free tier with watermarks and limits; a Pro subscription removes them and unlocks higher resolution." },
+      { q: "What is Clipdrop best for?", a: "Fast product and marketing image edits — cleanup, relighting, and upscaling — without opening Photoshop." },
+    ],
   },
 
   // Coding
@@ -541,6 +589,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Enterprise and security-conscious teams", "Privacy-first development", "All major IDEs", "Team coding consistency"],
     steps: ["Install the Tabnine plugin in your IDE (VS Code, IntelliJ, etc.).", "Tabnine learns your team's codebase style over time automatically.", "Get context-aware suggestions as you type and accept with Tab."],
     url: "https://tabnine.com",
+
+    tips: [
+      "Point Tabnine at your own repos so completions match your codebase conventions, not generic patterns.",
+      "It runs locally/privately by design — choose this over cloud assistants when code can't leave your environment.",
+      "Accept short completions and keep typing; Tabnine shines at line-level speed more than whole-file generation.",
+      "Pair it with your IDE's own linter — Tabnine speeds writing, it doesn't replace review.",
+    ],
+    faqs: [
+      { q: "How is Tabnine different from Copilot?", a: "Tabnine emphasizes privacy and on-prem/local deployment, and can be trained on your own code — a common pick for teams with strict data rules." },
+      { q: "Is Tabnine free?", a: "A free tier covers basic completions; Pro and Enterprise add stronger models, private deployment, and team features." },
+      { q: "Which languages does it support?", a: "All mainstream languages — JavaScript/TypeScript, Python, Java, Go, C/C++, and more — inside popular IDEs like VS Code and JetBrains." },
+    ],
   },
   {
     name: "Codeium",
@@ -756,6 +816,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Talking photo avatars", "Personalized video messages", "Historical character animations", "Educational content"],
     steps: ["Go to d-id.com and create an account.", "Upload a portrait photo and paste your script.", "Generate the talking video and download or share via link."],
     url: "https://d-id.com",
+
+    tips: [
+      "Use a high-resolution, front-facing portrait with a neutral expression as the source — side angles and busy lighting break lip-sync.",
+      "Write scripts in short sentences; the avatar's delivery sounds more natural with pauses than with long run-ons.",
+      "Match the voice to the face — D-ID's voice library plus a fitting portrait sells the illusion far better than a mismatch.",
+      "Keep clips short for social; long talking-head AI video is where the uncanny-valley effect creeps in.",
+    ],
+    faqs: [
+      { q: "What is D-ID used for?", a: "Turning a still photo plus a script into a talking-avatar video — common for explainers, training, and personalized outreach." },
+      { q: "Is D-ID free?", a: "A free trial includes limited video minutes; paid plans scale minutes and remove watermarks." },
+      { q: "Can I use my own face?", a: "Yes — upload your portrait as the source image; ensure you have rights to any face you use." },
+    ],
   },
   {
     name: "Loom AI",
@@ -780,6 +852,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Creator auto-captions", "Filler word removal", "Eye contact correction", "Short-form content creation"],
     steps: ["Download the Captions app or go to captions.ai.", "Upload your video and let AI generate captions and identify filler words.", "Apply AI effects, export, and post directly to social platforms."],
     url: "https://captions.ai",
+
+    tips: [
+      "Record with clear audio — Captions' auto-captioning and editing lean on a clean transcript, so bad audio compounds downstream.",
+      "Use the AI Eye Contact feature sparingly; it's impressive but looks off if you're reading a script far from the lens.",
+      "Pick one caption style and reuse it for brand consistency across every clip.",
+      "Trim filler words with the transcript editor — deleting text deletes the video, which is far faster than scrubbing the timeline.",
+    ],
+    faqs: [
+      { q: "What is Captions app?", a: "An AI-powered video creation and editing app focused on talking-head content — auto-captions, transcript editing, dubbing, and effects." },
+      { q: "Is Captions free?", a: "A free tier exists with limits and watermarks; Pro unlocks full features and higher export quality." },
+      { q: "What is it best for?", a: "Short-form creators making talking-head videos for TikTok, Reels, and Shorts who want fast captions and cleanup on mobile." },
+    ],
   },
 
   // Music
@@ -890,6 +974,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Academic literature reviews", "Systematic reviews", "Evidence synthesis", "Finding key papers on a topic"],
     steps: ["Visit elicit.com and create a free account.", "Type your research question, Elicit surfaces the most relevant papers.", "Use extraction columns to pull key findings side-by-side across studies."],
     url: "https://elicit.com",
+
+    tips: [
+      "Ask a specific research question, not a keyword — Elicit works like a research assistant and rewards full questions.",
+      "Use the table view to extract the same field (sample size, method, outcome) across many papers at once.",
+      "Always open the source paper before citing — Elicit surfaces and summarizes, but you're responsible for accuracy.",
+      "Star and organize papers into a workspace so a literature review builds up over sessions.",
+    ],
+    faqs: [
+      { q: "What is Elicit for?", a: "A research assistant that finds, summarizes, and extracts data from academic papers — built for literature reviews and evidence gathering." },
+      { q: "Is Elicit free?", a: "A free tier covers basic searches and summaries; paid plans add higher limits and advanced extraction." },
+      { q: "Is Elicit accurate?", a: "It surfaces real papers and structured summaries, but it can miss nuance — verify claims against the original source before relying on them." },
+    ],
   },
   {
     name: "Consensus",
@@ -902,6 +998,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Medical and health research", "Scientific evidence verification", "Nutrition and lifestyle research", "Academic citations"],
     steps: ["Go to consensus.app and ask your research question.", "Get answers extracted directly from peer-reviewed papers with citations.", "Filter by study type and export references."],
     url: "https://consensus.app",
+
+    tips: [
+      "Phrase queries as yes/no research questions — 'Does X improve Y?' — to get the clearest evidence synthesis.",
+      "Check the Consensus Meter for how strongly the literature agrees, but read a few underlying papers before concluding.",
+      "Use it to find seminal papers fast, then switch to the full text for methodology detail.",
+      "Filter by study type and recency to avoid leaning on a single outdated result.",
+    ],
+    faqs: [
+      { q: "What is Consensus?", a: "An AI search engine that answers questions using findings from peer-reviewed research papers, with a meter showing scientific agreement." },
+      { q: "Is Consensus free?", a: "A free tier allows limited searches; premium adds unlimited use and GPT-4-powered synthesis features." },
+      { q: "Is it a replacement for Google Scholar?", a: "No — it's complementary. Consensus synthesizes findings for quick answers; Scholar is better for exhaustive citation tracking." },
+    ],
   },
   {
     name: "Otter.ai",
@@ -1056,6 +1164,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["AI-generated project plans", "Team collaboration", "Task automation with AI agents", "Flexible views: list, board, mind map"],
     steps: ["Sign up at taskade.com and create a new project.", "Use AI to generate a project plan from a simple description.", "Collaborate with your team in real time and use AI agents to automate tasks."],
     url: "https://taskade.com",
+
+    tips: [
+      "Start from a template and let the AI generate the first task breakdown, then prune — it over-produces subtasks.",
+      "Use the same project in list, board, and mind-map views depending on the work; switching views costs nothing.",
+      "Assign the built-in AI agents to recurring jobs (summarize, research) so they run inside the project, not in a separate chat.",
+      "Keep one workspace per client/area — Taskade gets noisy fast if everything lives in one project.",
+    ],
+    faqs: [
+      { q: "What is Taskade?", a: "An AI-powered productivity app combining tasks, notes, mind maps, and chat with built-in AI agents that can plan and execute inside your projects." },
+      { q: "Is Taskade free?", a: "Yes — a generous free tier; paid plans raise AI usage, collaborators, and storage." },
+      { q: "What is Taskade best for?", a: "Solo users and small teams who want tasks, docs, and AI assistance in one workspace instead of stitching several apps together." },
+    ],
   },
   {
     name: "Fireflies.ai",
@@ -1130,6 +1250,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Facebook and Instagram ads", "Google Display ads", "High-volume creative testing", "Performance marketing teams"],
     steps: ["Connect your brand at adcreative.ai and upload your logo and colors.", "Describe your product and target audience.", "Generate dozens of ad variants and download those with the highest conversion score."],
     url: "https://adcreative.ai",
+
+    tips: [
+      "Upload your logo and brand colors first so generated ads stay on-brand instead of generic stock looks.",
+      "Generate a batch and use the AI's conversion score to shortlist, then human-check the top few before spending.",
+      "Feed real product photos where possible — AI-composited backgrounds convert better than fully synthetic scenes.",
+      "Export multiple sizes at once for each placement rather than resizing manually.",
+    ],
+    faqs: [
+      { q: "What is AdCreative.ai?", a: "A tool that generates conversion-focused ad creatives and social posts, with AI scoring to predict which designs will perform." },
+      { q: "Is AdCreative.ai free?", a: "It offers a limited free trial; pricing is subscription-based by credits and generated creatives." },
+      { q: "Who is it for?", a: "Performance marketers and small businesses running paid social/display ads who need many on-brand creative variants fast." },
+    ],
   },
   {
     name: "Buffer",
@@ -1142,6 +1274,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Social media scheduling", "Multi-platform content management", "AI post generation", "Analytics and performance tracking"],
     steps: ["Sign up at buffer.com and connect your social accounts.", "Use the AI assistant to generate post ideas or rewrite content for each platform.", "Schedule your posts and review analytics in the dashboard."],
     url: "https://buffer.com",
+
+    tips: [
+      "Use the AI Assistant to repurpose one idea into platform-specific versions rather than posting identical text everywhere.",
+      "Batch a week of posts in one sitting and let Buffer's queue schedule them — consistency beats volume.",
+      "Check per-post analytics to learn your best times, then set the queue to those slots.",
+      "Keep the AI as a first-draft tool; a quick human edit for voice is what stops posts sounding generic.",
+    ],
+    faqs: [
+      { q: "What is Buffer?", a: "A social media scheduling tool with an AI assistant for drafting and repurposing posts across platforms like Instagram, X, LinkedIn, and Facebook." },
+      { q: "Is Buffer free?", a: "Yes — a free plan covers a few channels and basic scheduling; paid plans add channels, analytics, and team features." },
+      { q: "What is Buffer best for?", a: "Creators and small businesses who want simple, reliable multi-platform scheduling with light AI help — simpler than enterprise suites." },
+    ],
   },
   {
     name: "Mailchimp AI",
