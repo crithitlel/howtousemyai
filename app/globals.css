@@ -2278,6 +2278,19 @@ body.v2-shell .starfield { display: none !important; }
 }
 .v2-pagelead { margin: 17px 0 0; max-width: 600px; font-size: 14px; line-height: 1.62; color: var(--ink-mid); }
 .v2-pagelead b { color: var(--ink); font-weight: 600; }
+.v2-pageintro { margin: 14px 0 0; max-width: 680px; font-size: 14px; line-height: 1.75; color: var(--ink-mid); }
+
+/* Buying-guide + FAQ blocks on best-ai-for / category pages */
+.v2-guide { max-width: 760px; margin: 52px auto 0; padding-top: 30px; border-top: 1px solid var(--v2-line); }
+.v2-guide-h { margin: 0 0 20px; font-family: var(--font-tech), var(--v2-mono); font-size: 15px; font-weight: 700;
+  letter-spacing: 0.08em; color: var(--ink); }
+.v2-guide-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.v2-guide-list li { display: flex; gap: 11px; font-size: 14px; line-height: 1.65; color: var(--ink-mid); }
+.v2-guide-list li i { flex-shrink: 0; font-style: normal; color: var(--v2-blue); }
+.v2-faq { display: flex; flex-direction: column; gap: 22px; }
+.v2-faq-item { border-left: 2px solid rgba(24,119,242,0.4); padding-left: 16px; }
+.v2-faq-q { margin: 0 0 6px; font-size: 14.5px; font-weight: 600; color: var(--ink); }
+.v2-faq-a { margin: 0; font-size: 13.5px; line-height: 1.72; color: var(--ink-mid); }
 
 /* live status readout strip — reused on listing pages */
 .v2-readbar {
