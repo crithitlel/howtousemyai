@@ -66,7 +66,6 @@ export default function SiteHeader({ active }: { active?: string }) {
         </button>
         <span className="v2-stat"><i className="v2-dot v2-dot-ok" />ONLINE</span>
         <span className="v2-stat v2-mono">{clock} ET</span>
-        <span className="v2-stat"><i className="v2-dot v2-dot-red" />LIVE</span>
       </div>
     </header>
   );
