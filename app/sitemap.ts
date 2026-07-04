@@ -2,6 +2,8 @@ import { MetadataRoute } from "next";
 import { TOOLS, slugify } from "@/lib/tools";
 import { WORKFLOWS } from "@/lib/workflows";
 import { ALL_TAGS, toolsByTag } from "@/lib/tags";
+import { COMPARE_SLUGS } from "@/lib/compareSlugs";
+import { PROMPT_SLUGS } from "@/lib/prompts";
 
 const BASE_URL = "https://howtousemyai.com";
 
@@ -10,21 +12,6 @@ const USE_CASES = [
   "research", "productivity", "marketing", "seo", "social-media",
   "design", "presentations", "data-analysis", "automation", "customer-support",
   "education", "translation", "audio", "sales", "email", "resume", "legal",
-];
-
-const COMPARE_SLUGS = [
-  "chatgpt-vs-claude",
-  "chatgpt-vs-gemini",
-  "midjourney-vs-dall-e-3",
-  "github-copilot-vs-cursor",
-  "jasper-vs-copy-ai",
-  "perplexity-vs-chatgpt",
-  "heygen-vs-synthesia",
-  "suno-vs-udio",
-  "midjourney-vs-stable-diffusion",
-  "notion-ai-vs-chatgpt",
-  "surfer-seo-vs-clearscope",
-  "grammarly-vs-prowritingaid",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -50,11 +37,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const comparePages = COMPARE_SLUGS.map((slug) => ({
+  const comparePages = [...COMPARE_SLUGS].map((slug) => ({
     url: `${BASE_URL}/compare/${slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.8,
+  }));
+
+  const promptPages = PROMPT_SLUGS.map((slug) => ({
+    url: `${BASE_URL}/prompts/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
   }));
 
   // Workflow playbooks — the core differentiator; high-value how-to content.
@@ -116,6 +110,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    { url: `${BASE_URL}/prompts`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.75 },
     {
       url: `${BASE_URL}/submit`,
       lastModified: new Date(),
@@ -149,6 +144,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...workflowPages,
     ...useCasePages,
     ...comparePages,
+    ...promptPages,
     ...tagPages,
     ...toolPages,
     ...alternativesPages,

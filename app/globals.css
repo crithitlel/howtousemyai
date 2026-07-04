@@ -2587,3 +2587,23 @@ a.wf-tool-chip-primary:hover { background: rgba(24,119,242,0.24); color: #fff; }
 .wf-usecard:hover .wf-usecard-title { color: var(--v2-blue-bright); }
 .wf-usecard-meta { font-family: var(--font-tech), var(--v2-mono); font-size: 10.5px; letter-spacing: 0.04em; color: var(--ink-dim); }
 .wf-usecard-go { margin-left: auto; color: var(--v2-blue-bright); font-size: 16px; flex-shrink: 0; }
+
+/* ── PROMPT LIBRARIES ── */
+.v2-promptgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-top: 28px; }
+.v2-promptcard { display: flex; flex-direction: column; gap: 10px; padding: 22px; text-decoration: none; color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s; }
+.v2-promptcard:hover { border-color: var(--v2-blue); box-shadow: 0 0 22px rgba(24,119,242,0.18); }
+.v2-promptcard h2 { margin: 0; font-family: var(--font-tech), var(--v2-mono); font-size: 17px; color: #f3f7ff; letter-spacing: 0.02em; }
+.v2-promptcard p { margin: 0; font-size: 12px; line-height: 1.7; color: rgba(190,205,235,0.75); }
+.v2-promptmeta { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin: 18px 0 6px; }
+.v2-promptsec { margin-top: 34px; }
+.v2-promptlist { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.v2-promptrow { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; }
+.v2-promptrow code { flex: 1; font-family: var(--v2-mono); font-size: 12.5px; line-height: 1.65; color: #dfe8fa;
+  white-space: pre-wrap; word-break: break-word; }
+.v2-copybtn { flex-shrink: 0; cursor: pointer; font-family: var(--font-tech), var(--v2-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.14em; color: #7fb0ff; background: rgba(24,119,242,0.08); border: 1px solid rgba(24,119,242,0.4);
+  border-radius: 5px; padding: 6px 10px; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+.v2-copybtn:hover { background: rgba(24,119,242,0.2); color: #fff; }
+.v2-copybtn.is-copied { color: #4ade80; border-color: rgba(74,222,128,0.5); background: rgba(74,222,128,0.08); }
+@media (max-width: 560px) { .v2-promptrow { flex-direction: column; } .v2-copybtn { align-self: flex-end; } }
