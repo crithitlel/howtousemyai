@@ -1074,7 +1074,7 @@ body.v2-shell .starfield { display: none; }
 .v2-nav a:hover::after { width: 100%; }
 .v2-nav a.is-active { color: #fff; }
 .v2-nav a.is-active::after { width: 100%; background: var(--v2-red); opacity: 0.9; }
-.v2-sysline { justify-self: end; display: inline-flex; align-items: center; gap: 16px; font-size: 10px; letter-spacing: 0.12em; color: rgba(180,200,235,0.72); }
+.v2-sysline { grid-column: 3; justify-self: end; display: inline-flex; align-items: center; gap: 16px; font-size: 10px; letter-spacing: 0.12em; color: rgba(180,200,235,0.72); }
 .v2-stat { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 @media (max-width: 860px) { .v2-nav { display: none; } }
 @media (max-width: 560px) { .v2-sysline .v2-stat:nth-child(2), .v2-sysline .v2-stat:nth-child(3) { display: none; } }
