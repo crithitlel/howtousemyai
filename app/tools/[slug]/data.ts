@@ -697,6 +697,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Code snippet management", "Developer workflow automation", "Cross-IDE context sharing", "Team knowledge sharing"],
     steps: ["Download Pieces at pieces.app and install the desktop app.", "Install the IDE plugin for VS Code or JetBrains.", "Save snippets with one click and let AI tag and describe them automatically."],
     url: "https://pieces.app",
+
+    tips: [
+      "Save code snippets as you copy them across the web — Pieces auto-captures context (source, language) so you can find them later by describing what they do.",
+      "Use its on-device AI to keep sensitive snippets local rather than sent to a cloud model.",
+      "Search your saved snippets in plain English ('the auth middleware I saved last week') instead of scrolling folders.",
+      "Pair it with your IDE and browser extensions so capture happens without breaking your flow.",
+    ],
+    faqs: [
+      { q: "Is Pieces for Developers free?", a: "Yes — it's free to use, with on-device processing for most core features." },
+      { q: "What is Pieces best for?", a: "Capturing, organizing, and recalling code snippets and developer context across your IDE, browser, and other tools." },
+      { q: "Does Pieces send my code to the cloud?", a: "Much of its processing runs on-device by design, aimed at developers who want snippet management without sending code externally." },
+    ],
   },
 
   // Video
@@ -1612,6 +1624,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Predictive analytics without coding", "Lead scoring models", "Churn prediction", "Sales forecasting"],
     steps: ["Create a free account at akkio.com and upload your dataset.", "Select your target column and click Train Model.", "Review accuracy metrics and deploy the model for live predictions."],
     url: "https://akkio.com",
+
+    tips: [
+      "Upload clean, labeled historical data — Akkio's no-code models are only as good as the training data you provide.",
+      "Start with a well-defined prediction (churn, lead score) rather than an open-ended 'find insights' request.",
+      "Validate model accuracy against a held-out sample before trusting predictions for real decisions.",
+      "Use its integrations to push predictions directly into your CRM or spreadsheet workflow.",
+    ],
+    faqs: [
+      { q: "Is Akkio free?", a: "There's a free trial; ongoing use is subscription-based by usage and data volume." },
+      { q: "What is Akkio best for?", a: "No-code predictive analytics — letting non-data-scientists build and deploy machine learning models on business data." },
+      { q: "Do I need coding skills for Akkio?", a: "No — it's designed for business users to build predictive models without writing code." },
+    ],
   },
   {
     name: "Tableau AI",
@@ -1648,6 +1672,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Business predictions without coding", "Customer behavior modeling", "Inventory and demand forecasting", "Marketing attribution"],
     steps: ["Go to obviously.ai and upload your dataset.", "Select the column you want to predict.", "Click Train and review the accuracy, then deploy via API or integration."],
     url: "https://obviously.ai",
+
+    tips: [
+      "Upload a spreadsheet and select the column you want to predict — it auto-builds the model, no data science needed.",
+      "Use its 'what-if' simulation to test how changing inputs affects predicted outcomes before acting.",
+      "Validate against known outcomes first (backtesting) to build trust in predictions before relying on them.",
+      "Keep training data recent — predictive models drift as real-world patterns change.",
+    ],
+    faqs: [
+      { q: "Is Obviously AI free?", a: "A free trial is available; full usage is subscription-based." },
+      { q: "What is Obviously AI best for?", a: "No-code predictive analytics for business teams — forecasting, churn prediction, and lead scoring from spreadsheet data." },
+      { q: "Do I need to know machine learning?", a: "No — it's built specifically so non-technical users can build predictive models from data they already have." },
+    ],
   },
 
   // Presentations
@@ -1758,6 +1794,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Instant Google Slides creation", "Quick topic presentations", "Google Workspace integration", "Students and educators"],
     steps: ["Install MagicSlides from the Google Workspace Marketplace.", "Go to Extensions > MagicSlides and enter your topic.", "Choose the number of slides and click Generate, done in seconds."],
     url: "https://magicslides.app",
+
+    tips: [
+      "Paste a topic or existing content and let it generate a full outline first — refine structure before worrying about visuals.",
+      "Use its YouTube-to-slides and PDF-to-slides features to turn existing material into decks fast.",
+      "Swap in your own images for anything customer-facing; default visuals are generic.",
+      "Export early and often to Google Slides/PowerPoint so you can polish manually alongside AI generation.",
+    ],
+    faqs: [
+      { q: "Is MagicSlides free?", a: "Yes — a free tier covers basic generation; paid plans add more presentations and advanced formatting." },
+      { q: "What is MagicSlides best for?", a: "Turning text, topics, YouTube videos, or PDFs into a presentation automatically, especially inside Google Slides." },
+      { q: "How is it different from Gamma?", a: "MagicSlides works as a Google Slides add-on and emphasizes converting existing content formats (PDF, YouTube) into slides." },
+    ],
   },
 
   // Customer Support
@@ -1892,6 +1940,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["High-volume ticket deflection", "Support automation", "Agent workflow optimization", "Enterprise support teams"],
     steps: ["Contact Forethought at forethought.ai to start a trial.", "Connect your existing support platform (Zendesk, Salesforce, etc.).", "Deploy Solve for deflection and Triage for intelligent routing."],
     url: "https://forethought.ai",
+
+    tips: [
+      "Feed it historical tickets, not just docs — its triage and routing models learn best from real past resolutions.",
+      "Start with agent-assist (suggested responses) before enabling full autonomous resolution on sensitive queues.",
+      "Use its predictive routing to send tickets to the right team/agent automatically, not just deflect simple ones.",
+      "Review deflected-vs-escalated ratios monthly to tune where automation should and shouldn't apply.",
+    ],
+    faqs: [
+      { q: "What is Forethought?", a: "An AI customer support platform for enterprise teams, offering ticket triage, routing, and automated resolution." },
+      { q: "Is Forethought free?", a: "No — it's an enterprise product with custom pricing; no public free tier." },
+      { q: "Who is Forethought for?", a: "Larger support organizations that need AI-assisted triage and resolution across high ticket volumes." },
+    ],
   },
   {
     name: "Ada",
@@ -1904,6 +1964,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Enterprise-scale automation", "Omnichannel support", "Self-service customer resolution", "Reducing support costs"],
     steps: ["Contact Ada at ada.cx to begin onboarding.", "Connect Ada to your knowledge base, CRM, and support systems.", "Configure automation flows and go live across all support channels."],
     url: "https://ada.cx",
+
+    tips: [
+      "Train Ada's AI agent on your help center and past resolved tickets before launch — output quality tracks input quality closely.",
+      "Start with a narrow set of use cases (order status, returns) and expand scope once resolution rates are solid.",
+      "Set clear escalation triggers so frustrated or high-value customers reach a human fast.",
+      "Review conversation analytics weekly to spot gaps in your knowledge base.",
+    ],
+    faqs: [
+      { q: "What is Ada?", a: "An enterprise AI customer service platform that automates conversations across chat, email, and voice using your own knowledge base." },
+      { q: "Is Ada free?", a: "No — Ada is an enterprise product with custom pricing based on conversation volume." },
+      { q: "Who is Ada for?", a: "Larger companies wanting to automate a significant share of customer service conversations across channels." },
+    ],
   },
 
   // HR & Recruiting
@@ -1918,6 +1990,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Enterprise HR management", "Workforce planning", "Skills and succession planning", "Pay equity analysis"],
     steps: ["Contact Workday at workday.com to arrange an enterprise demo.", "Work with implementation partners to connect your HR data.", "Use AI-powered dashboards for skills gaps, attrition risk, and planning."],
     url: "https://workday.com",
+
+    tips: [
+      "Use its skills-matching features to surface internal candidates before posting externally — often the fastest fill.",
+      "Let AI flag anomalies in payroll/finance data for review rather than manually auditing every line.",
+      "Configure recommendations conservatively at first; HR/finance AI suggestions should support, not replace, human judgment on sensitive decisions.",
+      "Use built-in analytics dashboards to spot workforce trends before they become problems.",
+    ],
+    faqs: [
+      { q: "What is Workday AI?", a: "AI capabilities embedded in the Workday HR and finance platform — skills matching, anomaly detection, and predictive analytics for enterprise operations." },
+      { q: "Is Workday AI free?", a: "No — it's part of Workday's enterprise HCM/finance suite, sold via enterprise contracts." },
+      { q: "Who uses Workday AI?", a: "Large and mid-size organizations already running Workday for HR and finance operations." },
+    ],
   },
   {
     name: "HireVue",
@@ -1930,6 +2014,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["High-volume candidate screening", "Structured video interviews", "Competency-based assessment", "Reducing time-to-hire"],
     steps: ["Contact HireVue at hirevue.com to set up your account.", "Build structured interview guides with AI-suggested competency questions.", "Send video interview invitations, candidates complete on their schedule."],
     url: "https://hirevue.com",
+
+    tips: [
+      "Standardize your interview questions across candidates — HireVue's AI scoring is most defensible when every candidate faces the same structured process.",
+      "Use assessment results as one data point alongside human interviews, not a sole hiring decision.",
+      "Review for adverse impact regularly; AI hiring tools carry real bias and compliance risk if unchecked.",
+      "Communicate clearly to candidates that AI is involved in the process, for transparency and trust.",
+    ],
+    faqs: [
+      { q: "What is HireVue?", a: "A hiring platform using AI-assisted video interviews and assessments to help large employers screen candidates at scale." },
+      { q: "Is HireVue free?", a: "No — it's an enterprise recruiting product sold to employers, not a consumer or free tool." },
+      { q: "Is AI hiring assessment fair?", a: "It depends heavily on implementation — audit for bias regularly and use AI scoring as one input alongside human review, not the sole decision-maker." },
+    ],
   },
   {
     name: "Paradox",
@@ -1942,6 +2038,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["High-volume recruiting automation", "Candidate screening at scale", "Interview scheduling automation", "Retail and hospitality hiring"],
     steps: ["Contact Paradox at paradox.ai to configure Olivia for your hiring process.", "Define screening questions and scheduling rules.", "Candidates interact with Olivia via SMS, WhatsApp, or your career site."],
     url: "https://paradox.ai",
+
+    tips: [
+      "Let the conversational assistant (Olivia) handle scheduling and FAQs so recruiters focus on evaluating candidates.",
+      "Use it for high-volume, hourly, or frontline hiring where speed matters most — that's its core strength.",
+      "Configure screening questions carefully; the AI chat's questions directly shape your candidate funnel.",
+      "Review conversation transcripts periodically to ensure tone matches your employer brand.",
+    ],
+    faqs: [
+      { q: "What is Paradox?", a: "A conversational AI recruiting assistant (built around 'Olivia') that handles candidate screening, scheduling, and FAQs, aimed at high-volume hiring." },
+      { q: "Is Paradox free?", a: "No — it's an enterprise recruiting product with custom pricing." },
+      { q: "Who is Paradox best for?", a: "Employers hiring at scale, especially hourly and frontline roles, who need fast, automated candidate communication." },
+    ],
   },
   {
     name: "Fetcher",
@@ -1954,6 +2062,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Passive candidate sourcing", "Automated outreach sequences", "Diversity hiring goals", "Reducing recruiter workload"],
     steps: ["Sign up at fetcher.ai and define your ideal candidate profile.", "AI sources and ranks candidates from LinkedIn and other networks.", "Automated personalized outreach is sent, track opens and replies in the dashboard."],
     url: "https://fetcher.ai",
+
+    tips: [
+      "Define your ideal candidate profile precisely — Fetcher's AI sourcing quality depends on how specific your criteria are.",
+      "Use its outreach sequences with personalization tokens rather than generic templates for better response rates.",
+      "Let it handle top-of-funnel sourcing so your recruiters spend time on interviews and closing, not searching.",
+      "Review sourced candidate quality weekly and refine criteria based on who's actually converting.",
+    ],
+    faqs: [
+      { q: "What is Fetcher?", a: "An AI recruiting tool that sources and engages passive candidates automatically based on your hiring criteria." },
+      { q: "Is Fetcher free?", a: "No — it's a paid recruiting platform aimed at in-house talent teams and agencies." },
+      { q: "What is Fetcher best for?", a: "Automating candidate sourcing and initial outreach so recruiters can focus on interviewing and closing." },
+    ],
   },
 
   // Finance
@@ -1980,6 +2100,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Real-time business dashboards", "CFO and finance reporting", "Multi-source data integration", "Executive decision-making"],
     steps: ["Contact Domo at domo.com to set up your account.", "Connect your data sources, ERP, CRM, spreadsheets, databases.", "Build dashboards and use AI-powered Ask Data to query in plain English."],
     url: "https://domo.com",
+
+    tips: [
+      "Connect your core data sources first (CRM, finance, product analytics) — Domo's AI insights are only as good as connected data.",
+      "Use its natural-language query feature to ask business questions directly instead of building charts manually.",
+      "Set up alerts on key metrics so AI flags anomalies before you'd notice them in a dashboard.",
+      "Start with a few key dashboards rather than trying to centralize everything on day one.",
+    ],
+    faqs: [
+      { q: "What is Domo?", a: "A business intelligence and data platform with AI features for natural-language queries, automated insights, and dashboarding." },
+      { q: "Is Domo free?", a: "There's a limited free tier; full features and larger data volumes require paid plans." },
+      { q: "Who is Domo for?", a: "Businesses that want a centralized BI platform combining many data sources with AI-assisted analysis." },
+    ],
   },
   {
     name: "Vic.ai",
@@ -1992,6 +2124,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Invoice processing automation", "GL coding automation", "AP workflow management", "Finance team efficiency"],
     steps: ["Contact Vic.ai at vic.ai to start the onboarding process.", "Connect your ERP (SAP, Oracle, NetSuite, etc.).", "Feed invoices to Vic.ai, it extracts, codes, and routes them automatically."],
     url: "https://vic.ai",
+
+    tips: [
+      "Let it auto-code and approve routine, low-risk invoices while routing exceptions to humans — that split is where it saves the most time.",
+      "Feed it historical approval patterns so its confidence scoring reflects how your team actually decides.",
+      "Monitor its accuracy on vendor coding monthly and correct systematic errors early.",
+      "Use it to speed close, not just data entry — faster invoice processing shortens your monthly close cycle.",
+    ],
+    faqs: [
+      { q: "What is Vic.ai?", a: "An AI-powered accounts payable platform that automates invoice processing, coding, and approval for finance teams." },
+      { q: "Is Vic.ai free?", a: "No — it's an enterprise finance product with custom pricing based on invoice volume." },
+      { q: "Who is Vic.ai for?", a: "Mid-size and larger companies with significant invoice volume looking to automate accounts payable." },
+    ],
   },
 
   // Writing — additional
@@ -2980,6 +3124,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Enterprise AutoML", "Predictive model deployment", "Business forecasting at scale", "Model monitoring and governance"],
     steps: ["Contact DataRobot at datarobot.com to start a trial.", "Upload your dataset and select the target column to predict.", "DataRobot trains hundreds of models, selects the best, and deploys it to an API."],
     url: "https://datarobot.com",
+
+    tips: [
+      "Start with a well-labeled dataset and a clear target metric — DataRobot's AutoML strength shows most on structured business data.",
+      "Use its automated model comparison to see multiple algorithms ranked, rather than committing to one approach upfront.",
+      "Review model explainability reports before deploying — enterprise use often requires justifying predictions.",
+      "Leverage MLOps monitoring to catch model drift after deployment, not just at training time.",
+    ],
+    faqs: [
+      { q: "Is DataRobot free?", a: "No — it's an enterprise AI/ML platform sold via custom contracts; no meaningful free tier." },
+      { q: "What is DataRobot best for?", a: "End-to-end enterprise machine learning: automated model building, deployment, and monitoring at scale." },
+      { q: "Who uses DataRobot?", a: "Data science teams at larger organizations that need to build, deploy, and govern many predictive models." },
+    ],
   },
   {
     name: "Polymer",
