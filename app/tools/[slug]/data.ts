@@ -1586,6 +1586,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Email subject line optimization", "Push notification copy", "Brand language consistency", "Enterprise marketing teams"],
     steps: ["Set up your brand voice at phrasee.co with your team.", "Generate subject line variants for your email campaign.", "Deploy the AI-predicted winner and feed results back to improve future predictions."],
     url: "https://www.jacquard.com",
+
+    tips: [
+      "Feed it your historical email/SMS performance data — Phrasee's language generation is tuned by what's actually converted for your brand before.",
+      "Use its brand voice controls to keep AI-generated copy from drifting into generic marketing tone.",
+      "A/B test AI-generated subject lines against your best human-written ones regularly, not just once.",
+      "Apply it across channels (email, SMS, push) for consistent, on-brand messaging at scale.",
+    ],
+    faqs: [
+      { q: "What is Phrasee?", a: "An AI copywriting platform focused on marketing language — subject lines, SMS, and push notifications — optimized using brand-specific performance data." },
+      { q: "Is Phrasee free?", a: "No — it's an enterprise marketing tool sold via custom contracts, aimed at large brands with high send volumes." },
+      { q: "Who uses Phrasee?", a: "Large consumer brands running high-volume email, SMS, and push campaigns that want AI-optimized, on-brand copy." },
+    ],
   },
 
   // Data Analysis
@@ -2088,6 +2100,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Credit risk modeling", "Loan origination optimization", "Fair lending compliance", "Alternative credit scoring"],
     steps: ["Contact Zest AI at zest.ai to arrange a demo.", "Connect your loan data for model training.", "Deploy the AI model alongside your existing underwriting workflow."],
     url: "https://zest.ai",
+
+    tips: [
+      "Feed it your historical loan performance data — Zest's underwriting models are only as fair and accurate as the data trained on.",
+      "Use its explainability reports to justify credit decisions to regulators and customers, not just the raw score.",
+      "Audit for disparate impact regularly; automated credit decisions carry real fair-lending compliance risk.",
+      "Start with a pilot portfolio before rolling AI underwriting across your full loan book.",
+    ],
+    faqs: [
+      { q: "What is Zest AI?", a: "An AI credit underwriting platform that helps lenders make more accurate, explainable lending decisions using machine learning." },
+      { q: "Is Zest AI free?", a: "No — it's an enterprise fintech product sold to lenders via custom contracts." },
+      { q: "Who uses Zest AI?", a: "Banks, credit unions, and lenders wanting AI-assisted underwriting with explainability for compliance." },
+    ],
   },
   {
     name: "Domo",
@@ -2906,6 +2930,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Understanding academic papers", "Scientific literature review", "Research paper Q&A", "Finding and summarising studies"],
     steps: ["Go to typeset.io and upload a PDF or search for a paper by title.", "Use the AI Copilot to highlight confusing sections and ask questions.", "Export your notes and summaries to your reference manager."],
     url: "https://typeset.io",
+
+    tips: [
+      "Upload a paper and ask direct questions about it rather than reading cover to cover — that's its core value.",
+      "Use the explain-in-simple-terms feature on dense methodology or math sections specifically.",
+      "Search across papers for a topic before diving into any single one, to map the landscape first.",
+      "Cross-check key extracted claims against the original text before citing them in your own work.",
+    ],
+    faqs: [
+      { q: "Is SciSpace free?", a: "Yes — a free tier covers basic paper reading and Q&A; paid plans add more usage and advanced features." },
+      { q: "What is SciSpace best for?", a: "Reading and understanding academic papers faster via AI Q&A, simplified explanations, and literature search." },
+      { q: "Does SciSpace replace reading the paper?", a: "No — it's a comprehension aid; verify important claims against the original source, especially for citations." },
+    ],
   },
   {
     name: "Perplexity",
@@ -3306,6 +3342,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Team presentation collaboration", "Investor pitch decks", "AI-generated slide content", "Modern design templates"],
     steps: ["Sign up at pitch.com — free for individuals and small teams.", "Start from a template or let AI generate a deck from your topic.", "Collaborate in real time, assign slides to teammates, and share a live link."],
     url: "https://pitch.com",
+
+    tips: [
+      "Start from a template matched to your deck's purpose (pitch, update, proposal) rather than a blank canvas.",
+      "Use its real-time collaboration for team decks — multiple people editing simultaneously beats passing one file around.",
+      "Check analytics on sent decks to see which slides viewers actually spend time on.",
+      "Keep a shared brand template so every team's deck looks consistent without manual policing.",
+    ],
+    faqs: [
+      { q: "Is Pitch free?", a: "Yes — a free tier covers core features; paid plans add advanced analytics, branding, and team controls." },
+      { q: "What is Pitch best for?", a: "Team-based presentation creation with strong collaboration, templates, and analytics on deck engagement." },
+      { q: "How is Pitch different from Google Slides?", a: "Pitch is built specifically for modern team workflows with deck analytics and more polished default design." },
+    ],
   },
   {
     name: "Presentations.ai",
@@ -3466,6 +3514,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Enterprise talent management", "Skills-based hiring", "Internal mobility programmes", "Workforce planning and forecasting"],
     steps: ["Contact Beamery at beamery.com for an enterprise demo.", "Integrate with your existing ATS and HRIS systems.", "Use AI talent matching and skills inference to find the best fit candidates."],
     url: "https://beamery.com",
+
+    tips: [
+      "Let its AI build and continuously refresh talent pools from your existing candidate database, not just new applicants.",
+      "Use predictive analytics to identify which passive candidates are likely open to new roles right now.",
+      "Personalize nurture campaigns by candidate segment rather than sending identical messages to everyone.",
+      "Track diversity metrics through the funnel to catch bias early in sourcing and outreach.",
+    ],
+    faqs: [
+      { q: "What is Beamery?", a: "An AI-powered talent CRM that helps large companies build, manage, and engage talent pools for recruiting." },
+      { q: "Is Beamery free?", a: "No — it's an enterprise recruiting platform with custom pricing." },
+      { q: "Who is Beamery for?", a: "Large organizations with high-volume, ongoing recruiting needs that want a CRM-style approach to talent pipelines." },
+    ],
   },
   {
     name: "Eightfold AI",
@@ -3478,6 +3538,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Skills-based talent matching", "Diversity and inclusion hiring", "Workforce intelligence", "Large-scale talent acquisition"],
     steps: ["Contact Eightfold at eightfold.ai for an enterprise demonstration.", "Integrate with your current ATS and HR data sources.", "Use Talent Intelligence dashboards to identify hiring and retention opportunities."],
     url: "https://eightfold.ai",
+
+    tips: [
+      "Use its skills-based matching to surface candidates who fit the role even without exact keyword matches on their resume.",
+      "Let it identify internal mobility candidates before external sourcing — often the fastest, cheapest fill.",
+      "Review its bias-reduction features and audit outcomes regularly for fairness compliance.",
+      "Feed it your full talent data (not just active applicants) so its predictions reflect your whole workforce.",
+    ],
+    faqs: [
+      { q: "What is Eightfold AI?", a: "An AI talent intelligence platform used for skills-based candidate matching, internal mobility, and workforce planning." },
+      { q: "Is Eightfold free?", a: "No — it's an enterprise HR/recruiting platform sold via custom contracts." },
+      { q: "Who uses Eightfold AI?", a: "Large enterprises focused on skills-based hiring, internal mobility, and long-term workforce planning." },
+    ],
   },
   {
     name: "Greenhouse AI",
@@ -3490,6 +3562,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Structured hiring processes", "ATS with AI assist", "Interview calibration", "Data-driven hiring decisions"],
     steps: ["Set up Greenhouse at greenhouse.com and connect your job boards.", "Use AI Assist to write inclusive job descriptions.", "Configure scorecards and let AI surface the best-matched applicants."],
     url: "https://greenhouse.com",
+
+    tips: [
+      "Use AI-assisted job description generation, then edit for your actual team's voice and specific requirements.",
+      "Let it summarize long candidate feedback threads for hiring managers who don't have time to read everything.",
+      "Use structured interview kits alongside AI summaries to keep hiring decisions consistent and defensible.",
+      "Review AI-surfaced candidate matches as one input, not a replacement for recruiter judgment.",
+    ],
+    faqs: [
+      { q: "What is Greenhouse AI?", a: "AI features inside the Greenhouse applicant tracking system — job description generation, candidate summarization, and structured hiring support." },
+      { q: "Is Greenhouse free?", a: "No — Greenhouse is a paid ATS aimed at growing and enterprise companies; no meaningful free tier." },
+      { q: "Who uses Greenhouse?", a: "Companies of many sizes using Greenhouse as their core applicant tracking and structured hiring system." },
+    ],
   },
   {
     name: "Findem",
@@ -3502,6 +3586,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Passive candidate sourcing", "Data-enriched talent search", "Diversity sourcing goals", "Reducing agency dependency"],
     steps: ["Contact Findem at findem.ai to set up your account.", "Define your ideal candidate profile using attribute-based search.", "Launch automated outreach campaigns to sourced candidates."],
     url: "https://findem.ai",
+
+    tips: [
+      "Use its people-data search to find candidates by skills and career trajectory, not just current job title.",
+      "Combine it with your ATS so sourced candidates flow directly into your existing hiring pipeline.",
+      "Use predictive attributes (likelihood to move) to prioritize outreach to warmer prospects first.",
+      "Review diversity analytics on sourced pools to catch narrow sourcing patterns early.",
+    ],
+    faqs: [
+      { q: "What is Findem?", a: "An AI talent data platform that sources and ranks candidates using deep people-data signals beyond resumes and job titles." },
+      { q: "Is Findem free?", a: "No — it's an enterprise recruiting platform with custom pricing." },
+      { q: "Who is Findem for?", a: "Talent teams that want data-driven sourcing and analytics beyond what a standard ATS or LinkedIn search provides." },
+    ],
   },
   {
     name: "Leena AI",
@@ -3514,6 +3610,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["HR query automation", "Employee onboarding assistance", "HR ticket deflection", "Workday and SAP SuccessFactors integration"],
     steps: ["Contact Leena AI at leena.ai to start an enterprise pilot.", "Connect your HRIS and upload HR policy documents.", "Deploy the assistant on Slack, Teams, or your intranet for employees."],
     url: "https://leena.ai",
+
+    tips: [
+      "Train its HR chatbot on your policies and FAQs first — most employee questions are repetitive and answerable from docs alone.",
+      "Use it to automate routine HR requests (leave balance, payslips) so HR staff focus on complex cases.",
+      "Set escalation paths for sensitive topics (harassment, grievances) so those always reach a human.",
+      "Review chat analytics to find common employee questions your policies don't clearly answer yet.",
+    ],
+    faqs: [
+      { q: "What is Leena AI?", a: "An AI-powered employee experience platform that automates HR queries and requests via a conversational assistant." },
+      { q: "Is Leena AI free?", a: "No — it's an enterprise HR product with custom pricing based on employee count." },
+      { q: "Who uses Leena AI?", a: "Mid-size to large companies wanting to automate routine HR support and employee self-service." },
+    ],
   },
   {
     name: "Manatal",
@@ -3526,6 +3634,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Recruitment agencies", "SMB hiring teams", "Candidate scoring and ranking", "Affordable ATS with AI features"],
     steps: ["Sign up at manatal.com — 14-day free trial available.", "Post jobs and import or manually add candidates.", "Use AI scoring to rank applicants and review AI-recommended candidates first."],
     url: "https://manatal.com",
+
+    tips: [
+      "Let its AI recommend candidate-job matches from your existing database before sourcing externally.",
+      "Use the resume parsing to auto-populate candidate profiles instead of manual data entry.",
+      "Set up pipeline stages that match your actual hiring process so reporting reflects reality.",
+      "Use its social media enrichment to get a fuller candidate picture before first contact.",
+    ],
+    faqs: [
+      { q: "Is Manatal free?", a: "A free trial is available; ongoing use is subscription-based, priced accessibly for smaller recruiting teams." },
+      { q: "What is Manatal best for?", a: "AI-assisted applicant tracking and recruiting for small-to-mid-size agencies and in-house teams on a budget." },
+      { q: "Is Manatal good for recruiting agencies?", a: "Yes — it's popular with agencies for its candidate matching, pipeline management, and lower cost versus enterprise ATS platforms." },
+    ],
   },
 
   // Finance — additional
@@ -3540,6 +3660,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Lease accounting automation", "Revenue recognition compliance", "Contract data extraction", "Audit-ready financial reporting"],
     steps: ["Contact Trullion at trullion.com to start a pilot.", "Upload your contracts — AI extracts key terms automatically.", "Review AI-generated journal entries and push to your ERP."],
     url: "https://trullion.com",
+
+    tips: [
+      "Feed it lease and revenue contracts directly — Trullion's AI extraction is built specifically for accounting compliance documents.",
+      "Use it to automate lease accounting (ASC 842/IFRS 16) calculations rather than manual spreadsheet tracking.",
+      "Reconcile AI-extracted contract terms against source documents periodically to catch extraction errors.",
+      "Use its audit trail features to simplify external audits with automatic documentation.",
+    ],
+    faqs: [
+      { q: "What is Trullion?", a: "An AI accounting platform focused on automating lease accounting, revenue recognition, and audit compliance from contracts." },
+      { q: "Is Trullion free?", a: "No — it's an enterprise accounting/compliance product sold via custom contracts." },
+      { q: "Who uses Trullion?", a: "Finance and accounting teams managing complex lease or revenue recognition compliance requirements." },
+    ],
   },
   {
     name: "Booke AI",
@@ -3552,6 +3684,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Automated transaction categorisation", "Bookkeeping reconciliation", "QuickBooks and Xero users", "Accounting firms serving SMBs"],
     steps: ["Connect your QuickBooks or Xero account at booke.ai.", "AI automatically categorises uncategorised transactions.", "Review AI suggestions, accept in bulk, and export the clean data."],
     url: "https://booke.ai",
+
+    tips: [
+      "Connect your bookkeeping software directly so AI categorization applies to real transactions automatically.",
+      "Review AI-suggested categorizations weekly rather than trusting them blindly, especially early on.",
+      "Use its client communication automation to chase missing receipts/documents without manual follow-up.",
+      "Set custom rules for recurring vendors so categorization gets more accurate over time.",
+    ],
+    faqs: [
+      { q: "What is Booke AI?", a: "An AI bookkeeping automation tool that categorizes transactions and communicates with clients for accounting firms." },
+      { q: "Is Booke AI free?", a: "A free trial is typically available; ongoing use is subscription-based, priced for accounting firms and bookkeepers." },
+      { q: "Who uses Booke AI?", a: "Accounting firms and bookkeepers looking to automate transaction categorization and reduce manual client back-and-forth." },
+    ],
   },
   {
     name: "Planful",
@@ -3564,6 +3708,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["FP&A and budgeting automation", "Financial scenario modelling", "Replacing Excel-based planning", "CFO and finance team reporting"],
     steps: ["Contact Planful at planful.com to schedule a demo.", "Connect your ERP and historical financial data.", "Build your budget model and run AI-assisted forecast scenarios."],
     url: "https://planful.com",
+
+    tips: [
+      "Use its AI-driven forecasting to model scenarios (best/worst/likely case) rather than relying on a single static forecast.",
+      "Connect actuals directly from your ERP so variance analysis updates automatically instead of manual reconciliation.",
+      "Use collaborative planning features so department heads submit budgets directly into the same system.",
+      "Review AI anomaly flags in actuals monthly to catch reporting errors early.",
+    ],
+    faqs: [
+      { q: "What is Planful?", a: "An AI-enhanced financial planning and analysis (FP&A) platform for budgeting, forecasting, and reporting." },
+      { q: "Is Planful free?", a: "No — it's an enterprise FP&A platform sold via custom contracts." },
+      { q: "Who uses Planful?", a: "Finance teams at mid-size to large companies managing budgeting, forecasting, and financial reporting." },
+    ],
   },
   {
     name: "Mosaic Tech",
@@ -3576,6 +3732,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["SaaS and hypergrowth company finance", "Real-time financial dashboards", "Automated board and investor reporting", "Strategic finance planning"],
     steps: ["Contact Mosaic at mosaic.tech to start a trial.", "Connect your data sources — NetSuite, Salesforce, Stripe, etc.", "Use pre-built SaaS metric dashboards and AI forecasting tools."],
     url: "https://mosaic.tech",
+
+    tips: [
+      "Connect your financial systems (accounting, CRM, HR) so Mosaic's dashboards reflect live data instead of manual exports.",
+      "Use its scenario planning to model how headcount or spend changes affect runway before committing.",
+      "Share live dashboards with department leads instead of static spreadsheet reports.",
+      "Set alerts on key metrics (burn rate, runway) so finance catches issues before they compound.",
+    ],
+    faqs: [
+      { q: "What is Mosaic Tech?", a: "A strategic finance platform that connects business systems into live dashboards for planning, forecasting, and metrics like runway." },
+      { q: "Is Mosaic free?", a: "No — it's a subscription FP&A tool aimed at startups and growth-stage companies." },
+      { q: "Who uses Mosaic?", a: "Startup and growth-stage finance teams that want real-time metrics and planning without building everything in spreadsheets." },
+    ],
   },
   {
     name: "Stampli",
@@ -3588,6 +3756,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Accounts payable automation", "Invoice coding and approval", "AP team collaboration", "ERP-agnostic AP solution"],
     steps: ["Contact Stampli at stampli.com to set up your account.", "Connect your ERP — Stampli integrates with 70+ systems.", "Billy the Bot learns your coding patterns within the first few invoices."],
     url: "https://stampli.com",
+
+    tips: [
+      "Let its AI auto-code invoices based on historical patterns, then review exceptions rather than every invoice manually.",
+      "Use its centralized communication feature to keep all invoice-related questions attached to that specific invoice.",
+      "Set approval workflows matching your actual finance hierarchy so routing reflects real sign-off requirements.",
+      "Monitor AI coding accuracy by vendor and correct systematic misclassifications early.",
+    ],
+    faqs: [
+      { q: "What is Stampli?", a: "An AI-powered accounts payable automation platform that codes, routes, and manages invoice approvals for finance teams." },
+      { q: "Is Stampli free?", a: "No — it's an enterprise AP automation product sold via custom pricing." },
+      { q: "Who uses Stampli?", a: "Finance and accounts payable teams looking to automate invoice processing and centralize approval communication." },
+    ],
   },
   {
     name: "Vena",
@@ -3600,6 +3780,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Excel-based FP&A modernisation", "Mid-market financial planning", "Budget and forecast automation", "Finance teams attached to Excel"],
     steps: ["Contact Vena at venasolutions.com to start a pilot.", "Install the Vena Excel add-in and connect your data sources.", "Use existing Excel models inside Vena with added workflow and AI features."],
     url: "https://venasolutions.com",
+
+    tips: [
+      "Use Vena's Excel-native interface if your team already lives in spreadsheets — it layers automation on familiar tools rather than replacing them.",
+      "Connect source systems directly so budget versus actuals updates automatically instead of manual data pulls.",
+      "Use its AI-assisted forecasting for scenario modeling alongside your existing Excel templates.",
+      "Set up approval workflows so budget submissions follow a clear, auditable process.",
+    ],
+    faqs: [
+      { q: "What is Vena?", a: "An FP&A platform built around Excel, adding AI-assisted forecasting, workflow, and reporting on top of a familiar spreadsheet interface." },
+      { q: "Is Vena free?", a: "No — it's an enterprise FP&A tool sold via custom contracts." },
+      { q: "Who uses Vena?", a: "Finance teams that want to keep working in Excel while adding automation, workflow, and AI forecasting on top." },
+    ],
   },
   {
     name: "Brex AI",
@@ -3612,6 +3804,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Startup expense management", "Corporate card with AI insights", "Automated expense reporting", "Finance AI on your own spend data"],
     steps: ["Apply for a Brex account at brex.com — no personal guarantee required.", "Issue cards to employees and set smart spending limits.", "Use the AI assistant to query your spending data and surface insights."],
     url: "https://brex.com",
+
+    tips: [
+      "Let its AI auto-categorize and flag expenses so finance reviews exceptions instead of every transaction.",
+      "Use real-time spend limits and controls to prevent budget overruns before they happen, not just report on them after.",
+      "Connect it to your accounting software so categorized transactions sync automatically at month-end.",
+      "Review AI-flagged anomalies (unusual spend patterns) promptly — they're often the earliest sign of an issue.",
+    ],
+    faqs: [
+      { q: "What is Brex AI?", a: "AI features inside the Brex corporate card and spend management platform — automated expense categorization, anomaly detection, and controls." },
+      { q: "Is Brex free?", a: "Brex's core card and spend platform has no monthly fee for many plans; revenue comes from card interchange, with premium features on paid tiers." },
+      { q: "Who uses Brex?", a: "Startups and growing companies using Brex corporate cards and spend management with built-in AI expense automation." },
+    ],
   },
   {
     name: "Krea",
@@ -3624,6 +3828,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Real-time image generation", "Upscaling and enhancing images", "Fast visual iteration and moodboards", "Turning rough sketches into renders"],
     steps: ["Sign up at krea.ai and open the real-time canvas.", "Type a prompt or drop in a reference image and watch it render live.", "Adjust your prompt or sketch, then upscale and export the result."],
     url: "https://krea.ai",
+
+    tips: [
+      "Use real-time mode to iterate on a sketch or rough image live — Krea updates generation as you draw or type.",
+      "Feed it a reference image alongside your prompt for stronger style and composition control.",
+      "Use its upscaler on any image (AI-generated or not) to boost resolution cleanly for print or detail work.",
+      "Try video generation mode for quick motion concepts before committing to a heavier tool like Runway.",
+    ],
+    faqs: [
+      { q: "Is Krea free?", a: "Yes — a free tier covers core generation and upscaling with limits; paid plans add higher resolution and more generations." },
+      { q: "What is Krea best for?", a: "Real-time AI image generation, upscaling, and rapid creative iteration from sketches or text." },
+      { q: "Does Krea do video too?", a: "Yes — Krea has expanded into AI video generation alongside its core image tools." },
+    ],
   },
   {
     name: "Lovable",
@@ -3636,6 +3852,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Building web apps without code", "Rapid MVP and prototype creation", "Turning ideas into working software", "Non-developers shipping real apps"],
     steps: ["Go to lovable.dev and describe the app you want to build.", "Review the generated app and refine it with follow-up prompts.", "Connect a backend if needed, then publish or export your code."],
     url: "https://lovable.dev",
+
+    tips: [
+      "Describe the app you want in plain language, including key screens and core actions — Lovable builds a working full-stack app from that description.",
+      "Iterate conversationally: ask for specific changes ('add a login page', 'make the button blue') rather than regenerating from scratch.",
+      "Review and understand the generated code before shipping anything handling real user data or payments.",
+      "Use it for prototypes and MVPs first; validate the idea fast, then harden the code for production.",
+    ],
+    faqs: [
+      { q: "Is Lovable free?", a: "Yes — a free tier lets you build and preview projects with limits; paid plans add more usage and features." },
+      { q: "What is Lovable best for?", a: "Building working web apps and prototypes from natural-language descriptions, without writing code manually." },
+      { q: "Can Lovable build production apps?", a: "It's strongest for rapid prototyping and MVPs; production apps typically need a developer review pass on generated code before scaling." },
+    ],
   },
   {
     name: "ElevenLabs",
@@ -3693,6 +3921,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Daily task prioritisation", "Staying focused on what matters next", "Lightweight personal task management", "Reducing planning overhead"],
     steps: ["Sign up at clio.so and add your tasks.", "Let Clio prioritise your list by deadline and importance.", "Work through your top suggestions and check items off as you go."],
     url: "https://clio.so",
+
+    tips: [
+      "Use its AI drafting features for routine documents (letters, intake summaries) to save associate time on repetitive writing.",
+      "Let AI-assisted time tracking capture billable work automatically rather than relying on manual entry.",
+      "Use built-in legal research AI as a starting point, then verify citations against primary sources as with any legal research tool.",
+      "Centralize client communication and documents in Clio so AI features have full case context.",
+    ],
+    faqs: [
+      { q: "What is Clio?", a: "A legal practice management platform with AI features for document drafting, time tracking, and legal research, built for law firms." },
+      { q: "Is Clio free?", a: "No — it's a paid legal practice management platform; a free trial is typically available." },
+      { q: "Who uses Clio?", a: "Law firms and solo practitioners managing cases, billing, and documents who want AI assistance layered into daily practice management." },
+    ],
   },
   {
     name: "Rays",
@@ -3705,6 +3945,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Summarising long email threads", "Extracting action items from email", "Clearing your inbox faster", "Staying on top of follow-ups"],
     steps: ["Sign up at rays.so and connect your email inbox.", "Open a thread to see an instant summary and extracted action items.", "Act on the highlighted tasks and move through your inbox quickly."],
     url: "https://rays.so",
+
+    tips: [
+      "Describe the exact visual outcome you want (composition, lighting, mood) — Rays' generation quality tracks prompt specificity closely.",
+      "Iterate on a strong base generation rather than starting fresh each time you want a variation.",
+      "Use it for quick creative concepting before committing more time in a dedicated design tool.",
+      "Check current licensing terms before commercial use of generated visuals.",
+    ],
+    faqs: [
+      { q: "Is Rays free?", a: "A free tier with limited generations is typically available; full features and higher resolution require a paid plan." },
+      { q: "What is Rays best for?", a: "AI-assisted visual and creative generation for quick concepting and content creation." },
+      { q: "Can I use Rays outputs commercially?", a: "Check the current plan terms — commercial usage rights typically require a paid subscription tier." },
+    ],
   },
   {
     name: "Granola",
@@ -3717,6 +3969,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Transcribing meetings automatically", "Turning rough notes into clean summaries", "Capturing action items from calls", "Bot-free meeting notes"],
     steps: ["Download Granola from granola.ai and grant microphone access.", "Type quick notes during your meeting while Granola transcribes in the background.", "Review the AI-polished summary and share or export it afterward."],
     url: "https://granola.ai",
+
+    tips: [
+      "Let it run silently during meetings — Granola's edge is turning your own rough notes into a clean summary, not just transcribing.",
+      "Add a few keywords or bullets during the call; the AI enriches sparse notes far better than starting from nothing.",
+      "Use generated summaries to auto-draft follow-up emails right after a call instead of writing from scratch.",
+      "Review action items before sending — verify names and deadlines the AI inferred are correct.",
+    ],
+    faqs: [
+      { q: "Is Granola free?", a: "Yes — a free tier is available with usage limits; paid plans add more meeting minutes and features." },
+      { q: "What is Granola best for?", a: "Turning your own light meeting notes into clean, structured summaries and action items without full transcription overhead." },
+      { q: "How is Granola different from Otter.ai?", a: "Granola focuses on enhancing your own brief notes into polished summaries, rather than producing a full verbatim transcript like Otter." },
+    ],
   },
 ];
 
