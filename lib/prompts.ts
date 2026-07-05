@@ -335,6 +335,250 @@ export const PROMPT_LIBS: Record<string, PromptLibrary> = {
       "Concrete beats abstract in lyrics: 'coffee going cold on the dashboard' outperforms 'feeling sad.'",
     ],
   },
+
+  elevenlabs: {
+    toolName: "ElevenLabs",
+    toolSlug: "elevenlabs",
+    title: "ElevenLabs Prompts & Voice Direction",
+    description:
+      "Copy-paste ElevenLabs scripts and voice-direction patterns for narration, ads, audiobooks, and character voices — plus settings that make AI voices sound human.",
+    intro:
+      "ElevenLabs quality depends on two things: how you write the script and how you set stability/similarity. These patterns cover both — punctuation is your directing tool.",
+    sections: [
+      {
+        title: "Narration & Voiceover Scripts",
+        prompts: [
+          "Welcome to [CHANNEL/BRAND]. Today, we're exploring [TOPIC] — and by the end of this video, you'll know exactly how to [OUTCOME]. Let's dive in.",
+          "Have you ever wondered why [QUESTION]? The answer is more surprising than you'd think... [PAUSE] It all starts with [TOPIC].",
+          "Chapter [N]. [CHAPTER TITLE]. ... [FIRST PARAGRAPH OF CHAPTER — keep sentences under 20 words for natural pacing.]",
+          "In this tutorial, we'll cover three things: first, [POINT 1]. Second, [POINT 2]. And finally, [POINT 3]. Let's start with the basics.",
+        ],
+      },
+      {
+        title: "Ads & Promos",
+        prompts: [
+          "Tired of [PAIN POINT]? Meet [PRODUCT] — the easiest way to [BENEFIT]. Try it free at [WEBSITE]. [PRODUCT]. [TAGLINE].",
+          "This week only: [OFFER]. Don't miss it — visit [WEBSITE] today.",
+          "[PRODUCT] helped over [NUMBER] people [ACHIEVE RESULT]. You could be next. Start free at [WEBSITE].",
+        ],
+      },
+      {
+        title: "Character & Emotion Direction",
+        prompts: [
+          "Write dialogue with emotional cues in the text itself: \"I can't believe it... we actually did it! We really, truly did it!\" — repetition and ellipses create excitement better than settings.",
+          "For a calm, trustworthy tone: short declarative sentences. Periods, not exclamation marks. \"This is how it works. Step by step. No surprises.\"",
+          "For suspense: trailing ellipses and em-dashes. \"Something was wrong... the door — the one I'd locked — stood open.\"",
+        ],
+      },
+      {
+        title: "Settings That Matter",
+        prompts: [
+          "Stability 40-50% + Similarity 75% = expressive narration (YouTube, stories). Stability 70%+ = consistent corporate/e-learning reads.",
+          "Long audiobook? Generate chapter by chapter, same seed voice, and keep paragraphs under 800 characters per generation for consistency.",
+          "Use speaker boost for quiet source voices; turn it off if the voice sounds compressed or artifacts appear.",
+        ],
+      },
+    ],
+    tips: [
+      "Punctuation is direction: ellipses add pauses, dashes add drama, ALL CAPS adds emphasis (sparingly).",
+      "Keep sentences under ~20 words — long clauses cause robotic pacing.",
+      "Generate 2-3 takes; picking the best beats fiddling with settings endlessly.",
+      "Spell out numbers, acronyms, and URLs the way you want them spoken (\"eleven labs dot io\").",
+    ],
+  },
+
+  runway: {
+    toolName: "Runway",
+    toolSlug: "runway",
+    title: "Runway Prompts for AI Video",
+    description:
+      "Copy-paste Runway Gen prompts for cinematic shots, product videos, camera moves, and stylized footage — structured for motion, not just imagery.",
+    intro:
+      "Runway rewards motion-first prompts: describe the camera move, the subject action, and the atmosphere — in that order. These patterns produce usable shots instead of pretty stills that barely move.",
+    sections: [
+      {
+        title: "Cinematic Shots",
+        prompts: [
+          "slow dolly-in on [SUBJECT] standing in [LOCATION], shallow depth of field, golden hour backlight, cinematic 35mm, subtle atmospheric haze",
+          "aerial drone shot flying over [LANDSCAPE], camera slowly tilting down, morning fog rolling through, epic scale",
+          "handheld tracking shot following [SUBJECT] walking through [BUSY LOCATION], motion blur on crowd, documentary energy",
+          "static wide shot of [SCENE], only [ONE ELEMENT] moving — wind in trees, flickering neon — everything else still, moody and quiet",
+        ],
+      },
+      {
+        title: "Product & Brand Video",
+        prompts: [
+          "360-degree orbit around [PRODUCT] floating on dark background, studio rim lighting, slow rotation, premium ad aesthetic",
+          "macro close-up of [PRODUCT DETAIL], light sweeping across the surface, water droplets, ultra slow motion",
+          "[PRODUCT] assembling itself from parts mid-air, clean white studio, satisfying precise motion, minimal shadows",
+        ],
+      },
+      {
+        title: "Camera Language That Works",
+        prompts: [
+          "Start prompts with the camera move: \"slow push-in\", \"orbit left\", \"crane up\", \"tracking shot\" — Gen models obey camera verbs better than adjectives.",
+          "One subject action per clip: \"she turns toward camera\" works; three simultaneous actions collapse into mush.",
+          "Add \"subtle motion\" or \"gentle camera drift\" to keep b-roll calm instead of warping.",
+        ],
+      },
+      {
+        title: "Stylized & Experimental",
+        prompts: [
+          "[SCENE] in the style of a 1980s VHS home video, tape grain, slight tracking errors, warm faded colors",
+          "timelapse of [SUBJECT/SCENE] transforming from [STATE A] to [STATE B], clouds streaking overhead",
+          "[SUBJECT] made of flowing liquid chrome, morphing slowly, black void background, studio reflections",
+        ],
+      },
+    ],
+    tips: [
+      "Camera verb first, subject action second, style last — order changes results dramatically.",
+      "Shorter prompts often move better; over-described scenes render as near-stills.",
+      "Use image-to-video with a strong keyframe when you need brand-exact looks.",
+      "Generate 4-second tests before spending credits on longer takes.",
+    ],
+  },
+
+  "canva-ai": {
+    toolName: "Canva AI",
+    toolSlug: "canva-ai",
+    title: "Canva AI Prompts (Magic Studio)",
+    description:
+      "Copy-paste prompts for Canva's Magic Design, Magic Write, and Magic Media — social posts, presentations, product images, and brand copy.",
+    intro:
+      "Canva's AI tools each want different prompting: Magic Design wants the deliverable + audience, Magic Media wants visual detail, Magic Write wants tone + format. Sorted accordingly.",
+    sections: [
+      {
+        title: "Magic Media (Image Generation)",
+        prompts: [
+          "flat-lay photo of [PRODUCT/ITEMS] on pastel background, soft natural light, minimal props, Instagram aesthetic",
+          "isometric 3D illustration of [CONCEPT], soft gradients, [BRAND COLOR] palette, clean tech-startup style",
+          "watercolor illustration of [SUBJECT], loose brushstrokes, white background, gentle earthy tones",
+          "photo of [PERSON TYPE] using [PRODUCT/SERVICE] in [SETTING], candid, bright airy lighting, lifestyle brand feel",
+        ],
+      },
+      {
+        title: "Magic Write (Copy)",
+        prompts: [
+          "Write 5 Instagram captions for [POST TOPIC] in a [PLAYFUL/PROFESSIONAL] voice, each under 125 characters, with one emoji and one hashtag.",
+          "Write a 3-slide carousel script about [TOPIC]: hook slide, value slide, CTA slide. Max 20 words per slide.",
+          "Turn these bullet points into a short brand story for our About page, warm and confident, 120 words: [PASTE BULLETS]",
+          "Write 10 headline options for a [FLYER/BANNER] promoting [OFFER], max 8 words each, action-first.",
+        ],
+      },
+      {
+        title: "Magic Design & Presentations",
+        prompts: [
+          "A pitch deck for [BUSINESS] targeting [INVESTOR/CLIENT TYPE], modern minimal style in [BRAND COLORS]",
+          "An Instagram story series (3 frames) announcing [EVENT/LAUNCH], bold typography, high contrast",
+          "A one-page infographic explaining [PROCESS] in 4 steps, friendly icons, [COLOR] accent",
+        ],
+      },
+    ],
+    tips: [
+      "Set your Brand Kit first — every AI output then inherits your fonts and colors automatically.",
+      "For Magic Media, name a style (flat-lay, isometric, watercolor) — unstyled prompts return generic stock looks.",
+      "Magic Write inside a design keeps text lengths fitting the template; use it there, not in a blank doc.",
+      "Generate, then edit manually — Canva's strength is that AI output lands in a fully editable canvas.",
+    ],
+  },
+
+  "leonardo-ai": {
+    toolName: "Leonardo.ai",
+    toolSlug: "leonardo-ai",
+    title: "Leonardo.ai Prompts & Model Picks",
+    description:
+      "Copy-paste Leonardo.ai prompts for game assets, consistent characters, product shots, and concept art — with negative prompts and model guidance.",
+    intro:
+      "Leonardo's edge is control: model choice, Elements, and negative prompts. These patterns pair a strong positive prompt with the negative prompt that keeps results clean.",
+    sections: [
+      {
+        title: "Game Assets & Icons",
+        prompts: [
+          "game icon of [ITEM: potion bottle/sword/shield], stylized hand-painted look, vibrant colors, centered, dark simple background, high detail — Negative: text, watermark, blurry, cropped",
+          "isometric fantasy building, [TYPE: tavern/blacksmith/tower], warm window light, detailed stonework, game art style — Negative: people, text, photo-realism",
+          "sprite sheet style, [CREATURE] in 4 poses, consistent design, flat lighting, white background — Negative: shadows, background scenery",
+        ],
+      },
+      {
+        title: "Consistent Characters",
+        prompts: [
+          "character reference sheet of [CHARACTER DESCRIPTION], front view and side view, neutral pose, flat lighting, plain background, concept art style — Negative: multiple characters, busy background",
+          "portrait of [SAME CHARACTER DESCRIPTION], now [NEW POSE/EMOTION/SCENE] — reuse the exact same descriptor phrase every generation; consistency comes from repeated wording plus the same model and seed.",
+        ],
+      },
+      {
+        title: "Product & Marketing",
+        prompts: [
+          "commercial product photo of [PRODUCT], floating with dynamic splash of [LIQUID/ELEMENT], studio lighting, dark backdrop, advertising style — Negative: text, watermark, deformed",
+          "[PRODUCT] on marble surface with soft morning window light, minimal styling, premium lifestyle aesthetic — Negative: clutter, oversaturation",
+        ],
+      },
+      {
+        title: "Concept Art & Environments",
+        prompts: [
+          "epic environment concept art, [SCENE DESCRIPTION], dramatic scale, volumetric light rays, matte painting quality — Negative: characters, text, frame",
+          "moody interior of [LOCATION], cinematic lighting, detailed props telling a story, unreal engine render style — Negative: people, blur, distortion",
+        ],
+      },
+    ],
+    tips: [
+      "Pick the model to match the job (Phoenix/photoreal vs stylized models) — the same prompt changes completely across models.",
+      "Always fill the negative prompt: \"text, watermark, blurry, extra fingers, deformed\" fixes half of all bad outputs.",
+      "For character consistency: identical descriptor phrase + same model + fixed seed.",
+      "Use Elements sliders at low strength first — stacking them high overcooks the style.",
+    ],
+  },
+
+  perplexity: {
+    toolName: "Perplexity",
+    toolSlug: "perplexity",
+    title: "Perplexity Prompts for Research",
+    description:
+      "Copy-paste Perplexity prompts for deep research, buying decisions, fact-checking, and staying current — built around cited, source-backed answers.",
+    intro:
+      "Perplexity is a research engine, not a chatbot — the best prompts ask focused questions and demand sources, comparisons, and recency. These patterns get cited answers you can actually verify.",
+    sections: [
+      {
+        title: "Deep Research",
+        prompts: [
+          "Give me a structured overview of [TOPIC]: current state, key players, main debates, and what changed in the last 12 months. Cite sources for each section.",
+          "What does the peer-reviewed research actually say about [CLAIM/TOPIC]? Separate strong evidence from preliminary findings, with citations.",
+          "Build a timeline of [EVENT/DEVELOPMENT] with dates and sources, then summarize the three most important turning points.",
+          "Who are the leading experts/critics on [TOPIC] and what does each argue? One paragraph per person with a source.",
+        ],
+      },
+      {
+        title: "Buying & Comparison Research",
+        prompts: [
+          "Compare [PRODUCT A] vs [PRODUCT B] vs [PRODUCT C] on price, key features, and known problems, using reviews from the last 6 months. Table format, then a recommendation by use case.",
+          "What are the most common complaints about [PRODUCT/SERVICE] in recent user reviews and forums? Group them by theme with sources.",
+          "What's the best [PRODUCT CATEGORY] under [BUDGET] as of right now? Prioritize recent reviews and note anything about to be replaced by a newer model.",
+        ],
+      },
+      {
+        title: "Fact-Checking & Verification",
+        prompts: [
+          "Is this claim accurate: \"[PASTE CLAIM]\"? Rate it true/mostly true/misleading/false, explain the nuance, and cite primary sources.",
+          "Find the original source of this statistic: \"[STAT]\". Who first published it, when, and is it still current?",
+          "What do credible sources on different sides say about [CONTESTED TOPIC]? Present the strongest sourced version of each position.",
+        ],
+      },
+      {
+        title: "Staying Current",
+        prompts: [
+          "What happened in [INDUSTRY/TOPIC] this week? Top 5 developments, one sentence each, with sources, ranked by importance.",
+          "Summarize the latest on [ONGOING STORY] as of today — what's confirmed, what's rumored, what's next.",
+          "What new [TOOLS/PAPERS/PRODUCTS] in [FIELD] launched this month that are worth attention? One line on why each matters.",
+        ],
+      },
+    ],
+    tips: [
+      "Ask one focused question per query — Perplexity's citations get vague when you bundle topics.",
+      "Add \"from the last 6 months\" or \"as of this week\" to force recency.",
+      "Click through to sources on anything important — synthesis is good, but verify before you cite.",
+      "Use Focus modes (Academic, Reddit) to steer which sources it searches.",
+    ],
+  },
 };
 
 export const PROMPT_SLUGS = Object.keys(PROMPT_LIBS);
