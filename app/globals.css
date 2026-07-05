@@ -2273,7 +2273,7 @@ body.v2-shell .starfield { display: none !important; }
 /* page title — same uppercase tech-display family as section titles */
 .v2-pagetitle {
   margin: 0; font-family: var(--font-tech), var(--v2-mono);
-  font-weight: 700; text-transform: uppercase; line-height: 0.94; letter-spacing: -0.015em;
+  font-weight: 700; text-transform: uppercase; line-height: 1.04; letter-spacing: -0.015em;
   font-size: clamp(34px, 5.2vw, 58px); color: var(--ink);
 }
 .v2-pagelead { margin: 17px 0 0; max-width: 600px; font-size: 14px; line-height: 1.62; color: var(--ink-mid); }
