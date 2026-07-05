@@ -456,6 +456,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["High-volume free image generation", "Experimentation with different models", "Social media content", "Design mockups"],
     steps: ["Go to playground.com and sign up for a free account.", "Enter your prompt and adjust quality, guidance scale, and model.", "Generate up to 500 images free per day and download your favorites."],
     url: "https://playground.com",
+
+    tips: [
+      "Pick a style filter before prompting — Playground's curated filters do more heavy lifting than long prompt adjectives.",
+      "Use the canvas editor to outpaint and extend images rather than regenerating from scratch.",
+      "Duplicate a good generation and vary one element at a time; small edits beat new rolls.",
+      "Export at max resolution for print or thumbnails; default sizes are web-optimized.",
+    ],
+    faqs: [
+      { q: "Is Playground AI free?", a: "There's a generous free daily allowance; paid plans raise limits, resolution, and commercial terms." },
+      { q: "What is Playground AI best for?", a: "Fast, filter-styled image generation plus a canvas editor for extending and combining images — friendlier than raw Stable Diffusion." },
+      { q: "Can I use images commercially?", a: "Generally yes, including on free tiers with attribution rules varying by plan — check the current license before commercial use." },
+    ],
   },
   {
     name: "Remove.bg",
@@ -840,6 +852,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Async team communication", "Video meeting replacements", "Product demos and feedback", "Auto-generated video summaries"],
     steps: ["Install Loom at loom.com and record your screen or face.", "AI automatically generates a title, summary, and chapters.", "Share the link, viewers see the AI summary before deciding to watch."],
     url: "https://loom.com",
+
+    tips: [
+      "Record in one take and let AI remove filler words and silences — don't re-record for small stumbles.",
+      "Use auto-generated titles, summaries, and chapters so viewers can skim before watching.",
+      "Keep videos under 5 minutes; completion rates fall off a cliff beyond that.",
+      "Turn on the AI summary in shares so non-watchers still get the message.",
+    ],
+    faqs: [
+      { q: "What is Loom AI?", a: "AI features inside Loom's screen recorder: filler-word removal, auto titles, summaries, chapters, and message drafts from your recordings." },
+      { q: "Is Loom free?", a: "Yes — a free tier with limited video length and count; paid plans unlock AI features, longer videos, and team tools." },
+      { q: "What is Loom best for?", a: "Async updates, walkthroughs, and bug reports — anywhere a 3-minute video replaces a meeting or a wall of text." },
+    ],
   },
   {
     name: "Captions",
@@ -1542,6 +1566,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Google Slides integration", "Converting text to slides", "Quick presentation creation", "Google Workspace users"],
     steps: ["Install SlidesAI from the Google Workspace Marketplace.", "Open a Google Slides presentation and go to Extensions > SlidesAI.", "Paste your text and click Generate, slides are created instantly."],
     url: "https://slidesai.io",
+
+    tips: [
+      "Paste finished text, not bullets — SlidesAI structures your prose into slides better than fragments.",
+      "Pick the presentation type (educational, sales, pitch) first; it changes layout and tone.",
+      "Cap at ~10 slides per generation, then run a second pass for appendices.",
+      "Always review data slides — AI layout is good, but numbers need your verification.",
+    ],
+    faqs: [
+      { q: "What is SlidesAI?", a: "A Google Slides add-on that turns pasted text into a structured, designed presentation automatically." },
+      { q: "Is SlidesAI free?", a: "A free tier covers a few presentations monthly; paid plans add more generations and features." },
+      { q: "Does it work with PowerPoint?", a: "It's built for Google Slides; export from Slides to PowerPoint afterward if needed." },
+    ],
   },
   {
     name: "Decktopus",
@@ -1554,6 +1590,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Fast professional presentations", "Smart design automation", "Presenter notes generation", "Beginner presenters"],
     steps: ["Go to decktopus.com and describe your presentation topic and audience.", "AI generates a complete deck with layouts, images, and talking points.", "Customize colors, fonts, and content, then present directly or export."],
     url: "https://decktopus.com",
+
+    tips: [
+      "Answer the setup questions thoughtfully — audience and goal drive the whole generated structure.",
+      "Use built-in forms and embeds to make decks interactive (lead capture inside the deck).",
+      "Swap the AI images for your real product shots before sharing externally.",
+      "Duplicate a winning deck as a template for the next pitch instead of regenerating.",
+    ],
+    faqs: [
+      { q: "What is Decktopus?", a: "An AI presentation builder that generates complete decks from a few questions, with built-in forms, embeds, and sharing analytics." },
+      { q: "Is Decktopus free?", a: "There's a limited free trial; ongoing use is subscription-based." },
+      { q: "What makes it different from PowerPoint?", a: "It's web-first with guided AI creation, interactive elements, and view analytics — less manual design, more guided output." },
+    ],
   },
   {
     name: "MagicSlides",
@@ -1628,6 +1676,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["B2B lead qualification", "Automated meeting booking", "Sales pipeline generation", "Conversational marketing"],
     steps: ["Set up Drift at drift.com and install the website widget.", "Configure your chatbot playbooks to qualify leads automatically.", "Connect your calendar so Drift books meetings directly."],
     url: "https://www.salesloft.com/platform/drift/",
+
+    tips: [
+      "Route by intent: book meetings for buyers, docs for support — don't send everyone to sales.",
+      "Train the bot on your pricing and FAQ pages first; those are 80% of chats.",
+      "Set working-hours handoff rules so humans grab hot leads live when available.",
+      "Review chat transcripts weekly; they're free voice-of-customer research.",
+    ],
+    faqs: [
+      { q: "What is Drift?", a: "A conversational marketing platform with AI chatbots that qualify leads, book meetings, and route buyers on B2B websites." },
+      { q: "Is Drift free?", a: "Drift is a paid B2B product with demos; no meaningful free tier." },
+      { q: "Who is Drift for?", a: "B2B marketing and sales teams that want the website to convert visitors into booked meetings automatically." },
+    ],
   },
   {
     name: "Zendesk AI",
@@ -1664,6 +1724,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["SMB customer support", "Automated ticket resolution", "Agent assist features", "Free-tier customer service"],
     steps: ["Sign up at freshdesk.com, free for up to 10 agents.", "Enable Freddy AI in settings to activate smart routing and auto-responses.", "Review the AI's suggestions in the dashboard and approve or train it further."],
     url: "https://freshdesk.com",
+
+    tips: [
+      "Feed Freddy AI your knowledge base first — answer quality tracks your docs quality.",
+      "Start with agent-assist (suggested replies) before enabling full auto-resolution.",
+      "Use auto-triage to route and prioritize tickets; it's the quickest win.",
+      "Track deflection AND satisfaction — resolving fast but badly costs more later.",
+    ],
+    faqs: [
+      { q: "What is Freshdesk AI?", a: "Freddy AI inside Freshdesk: auto-replies, agent assist, ticket triage, and summaries for customer support teams." },
+      { q: "Is Freshdesk free?", a: "Freshdesk has a free tier for small teams; Freddy AI capabilities come with paid plans." },
+      { q: "Who is it best for?", a: "SMBs that want solid AI-assisted support without enterprise pricing." },
+    ],
   },
   {
     name: "Forethought",
@@ -1814,6 +1886,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Bulk product description generation", "E-commerce SEO content", "Brand-consistent copywriting", "Catalog content at scale"],
     steps: ["Sign up at hypotenuse.ai and set your brand voice.", "Upload a CSV of product names and attributes.", "Generate descriptions in bulk and export back to your platform."],
     url: "https://hypotenuse.ai",
+
+    tips: [
+      "Bulk-generate product descriptions from a CSV — its killer feature for e-commerce catalogs.",
+      "Set your brand voice and banned-words list before batch runs to avoid mass edits.",
+      "Use the SEO mode with your target keyword per product; thin identical copy hurts rankings.",
+      "Spot-check ~10% of every batch; fix patterns, then regenerate the rest.",
+    ],
+    faqs: [
+      { q: "What is Hypotenuse AI?", a: "An AI writer focused on e-commerce: bulk product descriptions, SEO blog content, and brand-voice controls." },
+      { q: "Is Hypotenuse AI free?", a: "Free trial only; plans scale by word count and catalog size." },
+      { q: "What is it best for?", a: "Stores with large catalogs needing hundreds of unique, on-brand product descriptions fast." },
+    ],
   },
   {
     name: "Longshot AI",
@@ -1826,6 +1910,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Factually accurate blog posts", "Research-backed articles", "SEO long-form content", "Reducing AI hallucinations"],
     steps: ["Create an account at longshot.ai.", "Enter your topic and let FactGPT pull in real-time research sources.", "Generate the full article and verify citations before publishing."],
     url: "https://longshot.ai",
+
+    tips: [
+      "Use Fact-GPT to pull claims with sources, then verify the links yourself before publishing.",
+      "Run the blog workflow end-to-end (research → outline → draft → optimize) instead of ad-hoc prompts.",
+      "Set the semantic SEO score target and revise until you clear it.",
+      "Insert your own experience and examples — factual scaffolding still needs a human voice.",
+    ],
+    faqs: [
+      { q: "What is Longshot AI?", a: "A long-form AI writer focused on factual accuracy, with research-backed claims, citations, and SEO optimization." },
+      { q: "Is Longshot free?", a: "Trial credits, then paid plans by word volume." },
+      { q: "Who is it for?", a: "Bloggers and content teams who need long-form articles that survive fact-checking." },
+    ],
   },
   {
     name: "Ink Editor",
@@ -1838,6 +1934,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["SEO content writing", "Real-time keyword optimisation", "Blog posts and landing pages", "Content scoring and improvement"],
     steps: ["Download the INK desktop app or use the web editor at inkforall.com.", "Enter your target keyword and start writing.", "Follow the SEO score panel to hit the recommended keyword and structure targets."],
     url: "https://inkforall.com",
+
+    tips: [
+      "Watch the SEO score as you write — it grades against live top-ranking pages for your keyword.",
+      "Use the shield/content protection check for AI-detection and plagiarism risk before publishing.",
+      "Start from keyword research inside INK so the article targets a winnable phrase.",
+      "Rewrite intro and conclusion by hand; those benefit most from human voice.",
+    ],
+    faqs: [
+      { q: "What is INK Editor?", a: "An SEO-focused AI writing suite that optimizes content against live SERP competitors as you write." },
+      { q: "Is INK free?", a: "Trial available; full SEO scoring and AI writing are paid." },
+      { q: "What makes INK different?", a: "Real-time SEO scoring while drafting, not as a separate post-write audit." },
+    ],
   },
   {
     name: "TextCortex",
@@ -1968,6 +2076,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Photorealistic image generation", "Accurate text in images", "Google ecosystem integration", "API use via Vertex AI"],
     steps: ["Access Imagen 3 free at labs.google/fx/tools/image-fx.", "Type a detailed text description of the image you want.", "Browse and download generated images, or iterate with new prompts."],
     url: "https://deepmind.google/technologies/imagen-3",
+
+    tips: [
+      "Write natural, detailed sentences — Imagen 3 follows plain-English prompts more literally than tag-style prompts.",
+      "It renders text in images unusually well; ask for signs, labels, and posters explicitly.",
+      "Specify photography terms (lens, lighting) for realism; specify art medium for illustration.",
+      "Iterate in ImageFX with its chip suggestions — tapping chips mutates prompts fast.",
+    ],
+    faqs: [
+      { q: "What is Imagen 3?", a: "Google's flagship text-to-image model, available free through ImageFX at labs.google, known for photorealism and readable in-image text." },
+      { q: "Is Imagen 3 free?", a: "Yes — free via ImageFX with a Google account, with generation limits." },
+      { q: "How does it compare to Midjourney?", a: "Imagen 3 leads on literal prompt-following and text rendering; Midjourney still edges on stylized artistic looks." },
+    ],
   },
   {
     name: "NightCafe",
@@ -1980,6 +2100,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Experimenting with multiple AI models", "AI art community and sharing", "Daily creative challenges", "Beginner-friendly image generation"],
     steps: ["Create a free account at nightcafe.studio.", "Choose an algorithm (Stable Diffusion is recommended for beginners) and enter your prompt.", "Share your creation to the community feed or save it to your collection."],
     url: "https://nightcafe.studio",
+
+    tips: [
+      "Enter daily challenges — they're the fastest way to earn free credits and learn styles.",
+      "Use evolve on a favorite result to refine instead of burning credits on new seeds.",
+      "Try multiple base models on the same prompt; NightCafe's model variety is its edge.",
+      "Bulk-download your gallery before switching accounts; creations are account-bound.",
+    ],
+    faqs: [
+      { q: "Is NightCafe free?", a: "Yes — daily free credits plus earnable credits via challenges and community participation; paid packs for heavy use." },
+      { q: "What is NightCafe best for?", a: "Hobbyist AI art with a strong community: challenges, multiple models, and easy style presets." },
+      { q: "Do I own NightCafe creations?", a: "You get broad usage rights including commercial use on most plans — verify current terms for your tier." },
+    ],
   },
   {
     name: "Artbreeder",
@@ -1992,6 +2124,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Portrait and character creation", "Image blending and remixing", "Creative exploration without prompts", "Fantasy and sci-fi character design"],
     steps: ["Sign up at artbreeder.com — free tier includes generous monthly credits.", "Choose a category (Portraits, Landscapes, etc.) and start with an existing image.", "Use the gene sliders or blend with another image to evolve the result."],
     url: "https://artbreeder.com",
+
+    tips: [
+      "Start from an existing public image and breed variations rather than prompting from zero — that's the core workflow.",
+      "Use the gene sliders (age, style, color) for controlled edits no prompt can match.",
+      "Save lineage: children inherit from parents, so keep strong ancestors for future mixes.",
+      "Use Collager for composition control, then refine with breeding.",
+    ],
+    faqs: [
+      { q: "What is Artbreeder?", a: "A collaborative AI art platform where you create by mixing and evolving images with sliders and 'genes' instead of pure prompting." },
+      { q: "Is Artbreeder free?", a: "Yes — a free tier with limited high-res downloads; subscriptions add resolution and private images." },
+      { q: "What is Artbreeder best for?", a: "Character faces, portrait evolution, and exploratory art where you refine by breeding rather than describing." },
+    ],
   },
 
   // Coding — additional
