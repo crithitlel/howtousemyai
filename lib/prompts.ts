@@ -579,6 +579,258 @@ export const PROMPT_LIBS: Record<string, PromptLibrary> = {
       "Use Focus modes (Academic, Reddit) to steer which sources it searches.",
     ],
   },
+
+  "github-copilot": {
+    toolName: "GitHub Copilot",
+    toolSlug: "github-copilot",
+    title: "GitHub Copilot Prompts & Comment Patterns",
+    description:
+      "Copy-paste comment patterns and Copilot Chat prompts for faster, more accurate code completions and reviews.",
+    intro:
+      "Copilot's quality depends heavily on the context you give it — comments, function names, and open tabs all steer suggestions. These patterns get more accurate completions and better Copilot Chat answers.",
+    sections: [
+      {
+        title: "Comment-Driven Completions",
+        prompts: [
+          "// Validate [INPUT TYPE]: check for [SPECIFIC RULES], throw a descriptive error if invalid",
+          "// Fetch [DATA] from [API/DB], handle timeout and network errors, retry once before failing",
+          "// Convert [FORMAT A] to [FORMAT B], preserving [SPECIFIC FIELDS]",
+          "// TODO: refactor this to use [PATTERN/LIBRARY] instead of [CURRENT APPROACH]",
+        ],
+      },
+      {
+        title: "Copilot Chat — Debugging & Review",
+        prompts: [
+          "/explain why this function might fail with [SPECIFIC INPUT]",
+          "/fix this error, explaining the root cause before the fix: [PASTE ERROR]",
+          "Review this diff for edge cases I might have missed, focusing on null/undefined handling and off-by-one errors.",
+          "Suggest 3 test cases that would have caught this bug: [PASTE BUGGY CODE]",
+        ],
+      },
+      {
+        title: "Copilot Chat — Generating Code",
+        prompts: [
+          "/tests generate unit tests for this function covering happy path, empty input, and error cases",
+          "Write a [LANGUAGE] class for [PURPOSE] following the same style as [OPEN FILE/PATTERN].",
+          "Refactor this function to reduce nesting and improve readability without changing behavior: [PASTE CODE]",
+        ],
+      },
+    ],
+    tips: [
+      "Keep relevant files open in other tabs — Copilot reads open-tab context, not just the current file.",
+      "Write the function signature and a comment first; let Copilot fill the body rather than guessing from nothing.",
+      "Accept partial suggestions (word-by-word with Tab) when only part of a completion is right.",
+      "Use Copilot Chat's /fix and /explain for debugging — faster than pasting into a separate chatbot.",
+    ],
+  },
+
+  "notion-ai": {
+    toolName: "Notion AI",
+    toolSlug: "notion-ai",
+    title: "Notion AI Prompts for Docs & Databases",
+    description:
+      "Copy-paste Notion AI prompts for meeting notes, project docs, database formulas, and knowledge-base writing inside Notion.",
+    intro:
+      "Notion AI works best when it can see the page you're on — these prompts lean into that context, plus database and writing patterns specific to how teams actually use Notion.",
+    sections: [
+      {
+        title: "Meeting Notes & Docs",
+        prompts: [
+          "Summarize this page into: key decisions, action items with owners, and open questions.",
+          "Turn these rough meeting notes into a clean structured doc with headers: [PASTE NOTES]",
+          "Write a project brief for [PROJECT] with sections: Problem, Goal, Scope, Timeline, Success Metrics.",
+          "Draft a Notion wiki page explaining [PROCESS] for new team members, step by step.",
+        ],
+      },
+      {
+        title: "Databases & Organization",
+        prompts: [
+          "Suggest a database schema (properties and types) for tracking [USE CASE, e.g. content calendar, CRM, bug tracker].",
+          "Write a formula that calculates [SPECIFIC LOGIC] based on these properties: [LIST PROPERTIES]",
+          "Generate 10 realistic sample rows for a database tracking [USE CASE] so I can test my views.",
+        ],
+      },
+      {
+        title: "Writing Inside Notion",
+        prompts: [
+          "Continue writing this page in the same tone and structure, picking up from where I left off.",
+          "Improve the writing on this page: clearer, more concise, same key points.",
+          "Translate this page to [LANGUAGE], keeping formatting and headers intact.",
+        ],
+      },
+    ],
+    tips: [
+      "Use AI directly inside a page — it reads page content, so 'summarize this' works without pasting anything.",
+      "For databases, describe the real-world use case; Notion AI suggests properties better than starting blank.",
+      "Ask it to match tone/structure of the existing page when continuing writing — keeps docs consistent.",
+      "Use it for first drafts of wiki/process docs, then have a teammate review for accuracy.",
+    ],
+  },
+
+  grammarly: {
+    toolName: "Grammarly",
+    toolSlug: "grammarly",
+    title: "Grammarly Prompts & Tone Settings",
+    description:
+      "Get more from Grammarly's AI features — rewrite prompts, tone controls, and generative AI patterns for emails and docs.",
+    intro:
+      "Beyond grammar checks, Grammarly's generative AI can draft, rewrite, and adjust tone on demand. These prompts and settings get the most out of it.",
+    sections: [
+      {
+        title: "Rewrite & Tone Prompts",
+        prompts: [
+          "Rewrite this to sound more [CONFIDENT/FRIENDLY/FORMAL] without changing the meaning: [PASTE TEXT]",
+          "Make this email more concise — cut it by a third while keeping the key ask: [PASTE EMAIL]",
+          "Rewrite this so it sounds less apologetic and more direct: [PASTE TEXT]",
+          "Adjust this message for a [SENIOR EXECUTIVE / CUSTOMER / COWORKER] audience: [PASTE TEXT]",
+        ],
+      },
+      {
+        title: "Drafting From Scratch",
+        prompts: [
+          "Draft a follow-up email after [MEETING/EVENT], mentioning [KEY POINTS], with a clear next step.",
+          "Write a short LinkedIn post about [TOPIC] in a professional but personable tone.",
+          "Draft a polite decline to this request, leaving the door open for the future: [PASTE REQUEST]",
+        ],
+      },
+      {
+        title: "Editing Passes",
+        prompts: [
+          "Check this for tone — does it read as passive-aggressive anywhere? Flag specific lines: [PASTE TEXT]",
+          "Simplify this paragraph for a general audience, removing jargon: [PASTE TEXT]",
+        ],
+      },
+    ],
+    tips: [
+      "Set your tone goals (formal, friendly, confident) in settings so suggestions match your actual voice.",
+      "Use the rewrite feature on full paragraphs, not just sentences, for coherent tone shifts.",
+      "Grammarly's AI works everywhere via the browser extension — draft in Gmail, LinkedIn, or Docs directly.",
+      "Review suggested tone changes for your industry — 'friendly' looks different in legal vs. marketing writing.",
+    ],
+  },
+
+  descript: {
+    toolName: "Descript",
+    toolSlug: "descript",
+    title: "Descript Prompts & Editing Patterns",
+    description:
+      "Copy-paste Descript workflows for podcast editing, filler-word removal, and Overdub scripts — edit audio and video like a text doc.",
+    intro:
+      "Descript's core trick is editing audio/video by editing the transcript. These patterns cover the fastest ways to clean up and produce a recording.",
+    sections: [
+      {
+        title: "Cleanup Workflow",
+        prompts: [
+          "Run Studio Sound on the full track first, then remove filler words — cleanup order affects detection accuracy.",
+          "Select all 'uh,' 'um,' and long pauses via Filler Word Detection, review each before bulk-deleting.",
+          "Use Multitrack for interviews so you can edit each speaker's audio independently without affecting the other.",
+        ],
+      },
+      {
+        title: "Overdub Scripts (Voice Cloning)",
+        prompts: [
+          "Write corrected line: [ORIGINAL MISTAKE], generate via Overdub to patch a flubbed word instead of re-recording.",
+          "Draft a short intro/outro script for your podcast to generate consistently across every episode: 'Welcome back to [SHOW]. I'm [HOST]...'",
+        ],
+      },
+      {
+        title: "Repurposing Content",
+        prompts: [
+          "Use Underlord/AI to find the 3 most quotable moments in this episode for social clips.",
+          "Generate chapter markers based on topic shifts in this transcript.",
+          "Write a 2-sentence episode description summarizing the main topic and one key takeaway.",
+        ],
+      },
+    ],
+    tips: [
+      "Edit the transcript text to cut audio/video — deleting a word deletes that moment in the recording.",
+      "Studio Sound fixes bad room audio in one click; always run it before other cleanup.",
+      "Overdub needs your voice trained first (with consent) — use it for small fixes, not full re-writes.",
+      "Export multiple formats (square for social, 16:9 for YouTube) from the same edited project.",
+    ],
+  },
+
+  synthesia: {
+    toolName: "Synthesia",
+    toolSlug: "synthesia",
+    title: "Synthesia Prompts & Script Patterns",
+    description:
+      "Copy-paste Synthesia scripts and avatar-direction patterns for training videos, explainers, and localized content.",
+    intro:
+      "Synthesia turns a script into an AI-avatar video — script quality and pacing matter more than any setting. These patterns produce natural-sounding, well-paced videos.",
+    sections: [
+      {
+        title: "Training & Explainer Scripts",
+        prompts: [
+          "Welcome to this training on [TOPIC]. By the end, you'll be able to [OUTCOME]. Let's get started with the basics.",
+          "Step one: [ACTION]. Once you've done that, move on to step two: [ACTION]. [PAUSE] Take a moment to try this yourself.",
+          "Common mistake to avoid: [MISTAKE]. Instead, always [CORRECT APPROACH].",
+        ],
+      },
+      {
+        title: "Product & Sales Videos",
+        prompts: [
+          "Hi, I'm [NAME/ROLE]. Today I want to show you how [PRODUCT] solves [PROBLEM] in three simple steps.",
+          "Here's what makes [PRODUCT] different: [KEY DIFFERENTIATOR]. Let me show you why that matters.",
+        ],
+      },
+      {
+        title: "Pacing & Delivery Tips (in script form)",
+        prompts: [
+          "Use short sentences. Avatars deliver these more naturally than long, clause-heavy ones.",
+          "Add [PAUSE] markers mentally by using periods and line breaks — Synthesia paces on punctuation.",
+          "Write numbers and acronyms as you want them spoken: 'twenty twenty-six' not '2026'.",
+        ],
+      },
+    ],
+    tips: [
+      "Keep sentences short — under 20 words reads far more naturally from an AI avatar.",
+      "Match the avatar to the content: formal avatars for training, casual ones for social/product videos.",
+      "Break long scripts into scenes; Synthesia handles scene transitions better than one giant block.",
+      "Localize by translating the script, not just dubbing — Synthesia can generate the same video in multiple languages.",
+    ],
+  },
+
+  gamma: {
+    toolName: "Gamma",
+    toolSlug: "gamma",
+    title: "Gamma Prompts for Decks & Docs",
+    description:
+      "Copy-paste Gamma prompts to generate full presentations, one-pagers, and webpages from a topic or outline in seconds.",
+    intro:
+      "Gamma generates a full, styled deck from a single prompt — the more structure you give it, the better the first draft. These patterns cover decks, docs, and quick webpages.",
+    sections: [
+      {
+        title: "Full Presentations",
+        prompts: [
+          "Create a pitch deck for [PRODUCT/COMPANY] targeting [INVESTOR/CLIENT], covering: problem, solution, market size, business model, traction, ask.",
+          "Generate a 10-slide training deck on [TOPIC] for [AUDIENCE], with one key idea per slide and a summary slide at the end.",
+          "Build a project kickoff deck: goals, timeline, team, risks, and next steps for [PROJECT].",
+        ],
+      },
+      {
+        title: "One-Pagers & Docs",
+        prompts: [
+          "Create a one-page project brief for [PROJECT]: objective, scope, timeline, owners.",
+          "Generate a comparison one-pager for [OPTION A] vs [OPTION B] with a recommendation at the bottom.",
+        ],
+      },
+      {
+        title: "Refining Generated Decks",
+        prompts: [
+          "Make this deck more concise — cut to the essential point per slide.",
+          "Rewrite slide 3 to be more persuasive for a skeptical audience.",
+          "Regenerate the visuals on this slide in a more minimal, corporate style.",
+        ],
+      },
+    ],
+    tips: [
+      "Give Gamma structure in the prompt (bullet the sections you want) — it follows outlines closely.",
+      "Use card-by-card editing to regenerate just one slide instead of the whole deck.",
+      "Gamma decks also work as standalone webpages — useful for sharing without a 'presentation' feel.",
+      "Export to PowerPoint/PDF only after refining in Gamma; re-editing after export loses AI regeneration.",
+    ],
+  },
 };
 
 export const PROMPT_SLUGS = Object.keys(PROMPT_LIBS);
