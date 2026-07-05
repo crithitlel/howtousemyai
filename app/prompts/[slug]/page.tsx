@@ -44,7 +44,7 @@ export default async function PromptLibraryPage({ params }: { params: Promise<{ 
   };
 
   return (
-    <div className="v2-root site-bg">
+    <div className="v2-root">
       <SiteHeader />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <main className="v2-sec" style={{ maxWidth: 900, margin: "0 auto", padding: "clamp(28px,4vw,52px) clamp(16px,4vw,44px)" }}>

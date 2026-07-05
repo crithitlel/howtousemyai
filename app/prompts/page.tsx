@@ -19,7 +19,7 @@ export default function PromptsIndex() {
   );
 
   return (
-    <div className="v2-root site-bg">
+    <div className="v2-root">
       <SiteHeader />
       <main className="v2-sec" style={{ maxWidth: 1180, margin: "0 auto", padding: "clamp(28px,4vw,52px) clamp(16px,4vw,44px)" }}>
         <nav className="v2-crumb" aria-label="Breadcrumb">
