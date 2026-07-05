@@ -87,7 +87,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </>
         )}
       </head>
-      <body className="min-h-full flex flex-col bg-[#070d20]" style={{ fontFamily: "var(--font-tech), var(--font-inter), sans-serif" }}>
+      <body className="min-h-full flex flex-col bg-[#070d20]">
         <div className="site-bg" aria-hidden="true" />
         <SystemBackdrop />
         <CommandPalette />

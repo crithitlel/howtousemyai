@@ -911,7 +911,7 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
 
                 <div className="v2-vs-bestfor">
                   <p className="v2-vs-sub" style={{ marginBottom: 5 }}>Best for</p>
-                  <p style={{ margin: 0, fontSize: 12.5, lineHeight: 1.5, color: "var(--ink-mid)" }}>{tool.bestFor}</p>
+                  <p className="v2-trow-desc" style={{ margin: 0 }}>{tool.bestFor}</p>
                 </div>
 
                 <a href={getToolUrl(tool.name, tool.url)} target="_blank" rel="sponsored noopener noreferrer"

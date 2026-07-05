@@ -243,7 +243,7 @@ function RecommendResults() {
                     {tool.isNew && <span className="v2-pill v2-pill-paid">NEW</span>}
                   </div>
                   <p className="v2-trow-desc">{tool.description}</p>
-                  <p className="v2-trow-desc"><span style={{ color: "var(--ink)", fontWeight: 600 }}>Best for:</span> {details.bestFor}</p>
+                  <p className="v2-trow-desc"><span className="v2-strong">Best for:</span> {details.bestFor}</p>
 
                   <div className="v2-steps">
                     <p className="v2-steps-h">How to get started</p>

@@ -32,7 +32,7 @@ export default function GlossaryIndex() {
             <div className="v2-promptgrid">
               {GLOSSARY.filter((g) => g.category === cat).map((g) => (
                 <Link key={g.slug} href={`/glossary/${g.slug}`} className="v2-promptcard v2-panel">
-                  <h2 style={{ fontSize: 18 }}>{g.term}</h2>
+                  <h2>{g.term}</h2>
                   <p>{g.shortDef}</p>
                   <span className="v2-trow-why"><i>▸</i> READ DEFINITION</span>
                 </Link>

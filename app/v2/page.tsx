@@ -588,7 +588,7 @@ export default function V2Page() {
             <a key={w.slug} href={`/workflows/${w.slug}`} className="v2-cell v2-reveal" style={{ transitionDelay: `${i * 45}ms` }}>
               <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" /><i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
               <span className="v2-cell-top">
-                <span className="v2-cell-n" style={{ fontSize: 22 }}>{w.icon}</span>
+                <span className="v2-cell-n v2-cell-n-icon">{w.icon}</span>
                 <span className="v2-cell-id">{w.difficulty.toUpperCase()}</span>
               </span>
               <span className="v2-cell-name">{w.title}</span>
