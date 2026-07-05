@@ -651,7 +651,7 @@ export default function V2Page() {
         <div className="v2-foot-grid">
           <div className="v2-foot-col">
             <span className="v2-foot-h">SYSTEM</span>
-            <a href="/tools">Tools</a><a href="/workflows">Workflows</a><a href="/compare">Compare</a><a href="/free">Free</a><a href="/best-ai-for">Use Cases</a>
+            <a href="/tools">Tools</a><a href="/workflows">Workflows</a><a href="/compare">Compare</a><a href="/free">Free</a><a href="/best-ai-for">Use Cases</a><a href="/prompts">Prompts</a><a href="/glossary">Glossary</a>
           </div>
           <div className="v2-foot-col">
             <span className="v2-foot-h">REGISTRY</span>

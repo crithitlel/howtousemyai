@@ -21,6 +21,8 @@ export default function SiteFooter() {
           <a href="/compare">Compare</a>
           <a href="/free">Free</a>
           <a href="/best-ai-for">Use Cases</a>
+          <a href="/prompts">Prompts</a>
+          <a href="/glossary">Glossary</a>
         </div>
         <div className="v2-foot-col">
           <span className="v2-foot-h">REGISTRY</span>

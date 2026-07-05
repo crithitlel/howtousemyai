@@ -4,6 +4,7 @@ import { WORKFLOWS } from "@/lib/workflows";
 import { ALL_TAGS, toolsByTag } from "@/lib/tags";
 import { COMPARE_SLUGS } from "@/lib/compareSlugs";
 import { PROMPT_SLUGS } from "@/lib/prompts";
+import { GLOSSARY_SLUGS } from "@/lib/glossary";
 
 const BASE_URL = "https://howtousemyai.com";
 
@@ -49,6 +50,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.7,
+  }));
+
+  const glossaryPages = GLOSSARY_SLUGS.map((slug) => ({
+    url: `${BASE_URL}/glossary/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
   }));
 
   // Workflow playbooks — the core differentiator; high-value how-to content.
@@ -145,6 +153,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...useCasePages,
     ...comparePages,
     ...promptPages,
+    ...glossaryPages,
     ...tagPages,
     ...toolPages,
     ...alternativesPages,
