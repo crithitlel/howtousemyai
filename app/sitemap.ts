@@ -154,6 +154,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...comparePages,
     ...promptPages,
     ...glossaryPages,
+    { url: BASE_URL + "/calculator", lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.6 },
     ...tagPages,
     ...toolPages,
     ...alternativesPages,

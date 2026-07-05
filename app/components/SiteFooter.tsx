@@ -23,6 +23,7 @@ export default function SiteFooter() {
           <a href="/best-ai-for">Use Cases</a>
           <a href="/prompts">Prompts</a>
           <a href="/glossary">Glossary</a>
+          <a href="/calculator">Cost Calculator</a>
         </div>
         <div className="v2-foot-col">
           <span className="v2-foot-h">REGISTRY</span>
