@@ -2940,6 +2940,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Summarising web pages instantly", "YouTube video summaries", "In-browser AI research", "Writing assistance in Gmail and LinkedIn"],
     steps: ["Install Merlin from getmerlin.in or your browser's extension store.", "Visit any webpage and click the Merlin icon to summarise.", "Use the chat panel to ask questions about the current page."],
     url: "https://getmerlin.in",
+
+    tips: [
+      "Install the browser extension so it works across any site — Gmail, LinkedIn, Google Docs — not just a standalone chat.",
+      "Use it to summarize long pages or YouTube videos before deciding whether to read/watch in full.",
+      "Switch models (GPT-4, Claude) within the same extension for different tasks without changing tools.",
+      "Use its PDF chat feature to ask questions directly against a document instead of reading it end to end.",
+    ],
+    faqs: [
+      { q: "Is Merlin free?", a: "Yes — a free tier with daily usage limits; paid plans raise limits and unlock more models." },
+      { q: "What is Merlin best for?", a: "Bringing AI chat, summarization, and multiple models into every website you visit via a browser extension." },
+      { q: "Which AI models does Merlin support?", a: "It gives access to several underlying models like GPT-4 and Claude through one unified extension." },
+    ],
   },
   {
     name: "Kagi",
@@ -3000,6 +3012,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Complex multi-step automations", "Data transformation workflows", "Advanced conditional logic", "Zapier alternative with more control"],
     steps: ["Sign up free at make.com.", "Click 'Create a new scenario' and add your first app module.", "Build your workflow visually by connecting modules with conditions and data mappers."],
     url: "https://make.com",
+
+    tips: [
+      "Build flows visually as a flowchart — Make's branching logic handles complex conditional workflows better than simpler linear tools.",
+      "Use its built-in AI modules (OpenAI, Claude) as steps inside larger automations, not just standalone chat.",
+      "Test each module individually before running the full scenario live, to catch errors cheaply.",
+      "Use error handlers on critical scenarios so failures alert you instead of silently breaking.",
+    ],
+    faqs: [
+      { q: "Is Make free?", a: "Yes — a free tier with limited operations per month; paid plans scale with usage and complexity." },
+      { q: "How is Make different from Zapier?", a: "Make offers more visual, flowchart-style automation with stronger branching logic, often at a lower cost for complex workflows." },
+      { q: "What is Make best for?", a: "Building complex, multi-branch automations between apps, including AI steps, with more visual control than simpler tools." },
+    ],
   },
   {
     name: "Clockwise",
@@ -3062,6 +3086,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Complete social posts with visuals", "Brand-consistent social content", "Bulk social media generation", "Small business social marketing"],
     steps: ["Sign up at predis.ai and set up your brand kit.", "Enter a topic or product and select your platform.", "AI generates post copy and branded visual — edit and schedule or download."],
     url: "https://predis.ai",
+
+    tips: [
+      "Give it your product/brand info once so generated posts and captions stay on-brand across platforms.",
+      "Use its competitor analysis feature to see what's working for similar accounts before generating your own content.",
+      "Generate carousel and video posts directly, not just static images — that's where it saves the most manual design time.",
+      "Schedule directly from the app to keep content generation and publishing in one workflow.",
+    ],
+    faqs: [
+      { q: "Is Predis.ai free?", a: "A free trial is available; ongoing use is subscription-based by post volume." },
+      { q: "What is Predis.ai best for?", a: "Generating ready-to-post social media content (captions, carousels, videos) tailored to a brand, plus competitor insights." },
+      { q: "Which platforms does Predis.ai support?", a: "Instagram, Facebook, LinkedIn, and other major social platforms for both content generation and scheduling." },
+    ],
   },
   {
     name: "Lately AI",
@@ -3074,6 +3110,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Content repurposing at scale", "Learning and replicating brand voice", "Podcast and blog to social posts", "Enterprise content marketing teams"],
     steps: ["Connect your social channels at lately.ai to train the AI on your voice.", "Upload a piece of long-form content (blog, podcast transcript, video).", "AI generates a batch of social posts — review, edit, and schedule."],
     url: "https://lately.ai",
+
+    tips: [
+      "Feed it your long-form content (podcasts, videos, blogs) — Lately's core strength is repurposing, not generating from scratch.",
+      "Let its AI learn from your top-performing past posts to guide tone and format for new ones.",
+      "Use it to generate weeks of social content from a single long-form piece rather than writing each post manually.",
+      "Review brand voice settings carefully; repurposed content should still sound like you, not generic AI.",
+    ],
+    faqs: [
+      { q: "Is Lately AI free?", a: "No meaningful free tier — it's a subscription tool aimed at teams and agencies." },
+      { q: "What is Lately AI best for?", a: "Turning long-form content like podcasts, webinars, and blog posts into dozens of social media posts automatically." },
+      { q: "Who uses Lately AI?", a: "Marketing teams and agencies that produce long-form content and want to maximize social distribution from it." },
+    ],
   },
   {
     name: "Clearscope",
@@ -3110,6 +3158,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Brand reputation monitoring", "Competitor tracking", "PR crisis detection", "Influencer identification"],
     steps: ["Sign up at brand24.com and enter your brand name as a keyword.", "Configure additional keywords (competitors, products, industry terms).", "Monitor the feed and set up instant alerts for negative mentions."],
     url: "https://brand24.com",
+
+    tips: [
+      "Set up brand and competitor keyword tracking on day one — the AI sentiment analysis is only useful once mentions are flowing in.",
+      "Use sentiment trends to catch a PR issue early, before it snowballs across social and news.",
+      "Filter by influence score to focus on mentions from accounts that actually move opinion.",
+      "Export weekly reports to share brand-health trends with stakeholders, not just raw mention counts.",
+    ],
+    faqs: [
+      { q: "Is Brand24 free?", a: "A free trial is available; ongoing monitoring is subscription-based by mention volume." },
+      { q: "What is Brand24 best for?", a: "AI-powered social listening and sentiment analysis — tracking brand mentions across social media, news, and forums." },
+      { q: "Does Brand24 track competitors too?", a: "Yes — you can track competitor brand mentions and sentiment alongside your own for comparison." },
+    ],
   },
 
   // Analytics — additional
@@ -3148,6 +3208,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Spreadsheet-to-dashboard conversion", "Non-technical data visualisation", "Shareable team dashboards", "Natural language data queries"],
     steps: ["Upload your spreadsheet or CSV at polymersearch.com.", "AI suggests dashboard layouts and chart types automatically.", "Customise and share a link to your interactive dashboard."],
     url: "https://polymersearch.com",
+
+    tips: [
+      "Upload a spreadsheet and let Polymer auto-suggest visualizations rather than building charts manually from scratch.",
+      "Use its no-code dashboard sharing to give stakeholders live, interactive views instead of static exported charts.",
+      "Ask it questions in plain English about your data to skip manual filtering and pivoting.",
+      "Reuse dashboard templates across similar datasets to save setup time on recurring reports.",
+    ],
+    faqs: [
+      { q: "Is Polymer free?", a: "A free trial is available; ongoing use is subscription-based." },
+      { q: "What is Polymer best for?", a: "No-code, AI-assisted data visualization and dashboards from spreadsheets, marketing data, and other sources." },
+      { q: "Do I need to know SQL or coding?", a: "No — Polymer is built for non-technical users to explore and visualize data without writing queries." },
+    ],
   },
   {
     name: "Hex",
@@ -3160,6 +3232,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Data analysis collaboration", "AI-assisted SQL and Python", "Shareable interactive notebooks", "Modern BI and analytics teams"],
     steps: ["Sign up at hex.tech — free for individual use.", "Create a new project and connect your data warehouse.", "Use Magic AI to generate SQL queries from plain-English questions."],
     url: "https://hex.tech",
+
+    tips: [
+      "Use its AI to generate a starting SQL/Python query from a plain-English question, then refine manually for precision.",
+      "Build reusable notebooks for recurring analyses rather than starting fresh each time.",
+      "Share interactive apps built from notebooks so non-technical stakeholders can explore data themselves.",
+      "Combine SQL and Python cells in one notebook when a single language isn't enough for the analysis.",
+    ],
+    faqs: [
+      { q: "Is Hex free?", a: "A free tier exists for individuals and small teams; paid plans add collaboration and governance features." },
+      { q: "What is Hex best for?", a: "Collaborative data science and analytics notebooks with AI-assisted query generation, popular with data teams." },
+      { q: "Is Hex only for data scientists?", a: "Its notebooks are built for technical users, but the interactive apps it produces are designed for non-technical stakeholders too." },
+    ],
   },
   {
     name: "Equals",
@@ -3172,6 +3256,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Live database-connected spreadsheets", "SQL generation from plain English", "Startup and SaaS analytics", "Replacing manual data exports"],
     steps: ["Connect your database at equals.com — Postgres, MySQL, Snowflake, and more.", "Open a new sheet and ask AI Copilot to write your first query.", "Build charts from query results and share your live spreadsheet with your team."],
     url: "https://equals.com",
+
+    tips: [
+      "Connect your data sources (Stripe, database, warehouse) directly rather than manually exporting CSVs into the spreadsheet.",
+      "Use its AI formula assistant to describe what you want in plain English instead of recalling exact spreadsheet syntax.",
+      "Build live dashboards from spreadsheet models so numbers update automatically instead of going stale.",
+      "Use version history to track model changes over time, especially for shared financial models.",
+    ],
+    faqs: [
+      { q: "Is Equals free?", a: "A free trial is typically available; ongoing use is subscription-based, aimed at startups and finance teams." },
+      { q: "What is Equals best for?", a: "A modern spreadsheet with live data connections and AI assistance, popular for startup finance and reporting." },
+      { q: "How is Equals different from Google Sheets?", a: "Equals focuses on live database/API connections and AI formula help, aimed more squarely at business reporting than general spreadsheet use." },
+    ],
   },
   {
     name: "Deepnote",
@@ -3184,6 +3280,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Collaborative data science", "Python and SQL notebooks", "AI-assisted code generation", "Sharing reproducible analyses"],
     steps: ["Sign up at deepnote.com — free for individuals.", "Create a project and connect your data source.", "Write code with AI autocomplete or use the AI chat to generate entire analysis blocks."],
     url: "https://deepnote.com",
+
+    tips: [
+      "Use its AI copilot to generate starter code and explanations directly inside notebook cells.",
+      "Connect data warehouses directly rather than uploading static files, so notebooks reflect current data.",
+      "Use real-time collaboration to work on the same notebook simultaneously with teammates, like a Google Doc for data science.",
+      "Publish notebooks as shareable reports for stakeholders who don't need to touch the underlying code.",
+    ],
+    faqs: [
+      { q: "Is Deepnote free?", a: "Yes — a free tier for individuals and small teams; paid plans add more compute and collaboration features." },
+      { q: "What is Deepnote best for?", a: "Collaborative, cloud-based data science notebooks with built-in AI assistance and easy sharing." },
+      { q: "How is Deepnote different from Jupyter?", a: "It adds real-time collaboration, cloud infrastructure, and an AI copilot on top of a familiar notebook experience." },
+    ],
   },
 
   // Presentations — additional
@@ -3210,6 +3318,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Instant full deck generation", "Non-designers needing polished slides", "Quick pitch or proposal decks", "Multiple design style options"],
     steps: ["Visit presentations.ai and describe your presentation topic.", "Choose a design style from the generated options.", "Edit individual slides and download as PPTX or share a link."],
     url: "https://presentations.ai",
+
+    tips: [
+      "Describe your audience and goal clearly in the prompt — the generated structure adapts based on who you're presenting to.",
+      "Use the brand kit feature to keep AI-generated decks consistent with your visual identity automatically.",
+      "Regenerate individual slides rather than the whole deck when only one section needs rework.",
+      "Export early to check formatting in PowerPoint/Google Slides if that's your final destination.",
+    ],
+    faqs: [
+      { q: "Is Presentations.ai free?", a: "A free tier or trial is typically available; full features are subscription-based." },
+      { q: "What is Presentations.ai best for?", a: "Generating full, styled presentations from a prompt or outline, with brand-consistent design applied automatically." },
+      { q: "Can I edit the generated slides?", a: "Yes — output lands in an editable deck you can adjust manually after generation." },
+    ],
   },
   {
     name: "Slidesgo",
@@ -3222,6 +3342,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Free professional slide templates", "Google Slides and PowerPoint users", "AI-customised template generation", "Education and business presentations"],
     steps: ["Go to slidesgo.com and search for your topic or use the AI maker.", "Choose a template and click Edit in Google Slides or download for PowerPoint.", "Replace placeholder content with your own and add AI images via Freepik."],
     url: "https://slidesgo.com",
+
+    tips: [
+      "Search by topic or use case first — Slidesgo's real strength is its massive library of ready-made templates, not open generation.",
+      "Use its AI presentation maker for a first draft, then swap in a Slidesgo template for stronger visual polish.",
+      "Filter templates by style (creative, business, education) to match your audience faster.",
+      "Export to Google Slides or PowerPoint depending on where you'll do final edits.",
+    ],
+    faqs: [
+      { q: "Is Slidesgo free?", a: "Yes — many templates are free with attribution; a premium plan removes attribution and unlocks the full library." },
+      { q: "What is Slidesgo best for?", a: "A huge library of professionally designed presentation templates, now paired with AI generation tools." },
+      { q: "Does Slidesgo work with PowerPoint?", a: "Yes — templates and AI-generated decks can be downloaded for both Google Slides and PowerPoint." },
+    ],
   },
 
   // Customer Support — additional
@@ -3236,6 +3368,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Omnichannel customer service CRM", "Full customer conversation history", "AI-assisted agent responses", "High-touch customer service teams"],
     steps: ["Contact Kustomer at kustomer.com to start a trial.", "Import customer data and connect your support channels.", "Use AI routing rules and suggested replies to speed up agent response times."],
     url: "https://kustomer.com",
+
+    tips: [
+      "Centralize customer data (orders, history, past chats) into one timeline so AI responses have full context, not fragments.",
+      "Start AI automation on your highest-volume, lowest-complexity queries (order status, returns) before expanding scope.",
+      "Use its AI-suggested responses as agent-assist first, then graduate to full automation once accuracy is proven.",
+      "Monitor CSAT alongside deflection rate — resolving fast but poorly costs more in the long run.",
+    ],
+    faqs: [
+      { q: "What is Kustomer?", a: "An AI-powered customer service CRM that unifies customer data and conversations across channels, with automation built in." },
+      { q: "Is Kustomer free?", a: "No — it's an enterprise customer service platform sold via custom contracts." },
+      { q: "Who is Kustomer for?", a: "Mid-size to large companies wanting a unified customer view alongside AI-assisted support automation." },
+    ],
   },
   {
     name: "Gladly",
@@ -3248,6 +3392,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Retail and DTC customer service", "People-first support approach", "Lifetime customer conversation view", "High-value customer relationships"],
     steps: ["Contact Gladly at gladly.com to arrange an enterprise demo.", "Connect your support channels and import customer data.", "Configure AI-powered self-service and agent assist features."],
     url: "https://gladly.com",
+
+    tips: [
+      "Center support around the customer, not the ticket — Gladly's model keeps full conversation history across channels tied to one person.",
+      "Let its AI handle simple, repetitive requests so agents focus on complex or high-value customers.",
+      "Use its unified timeline to spot repeat issues from the same customer before they escalate.",
+      "Review AI-automated resolutions periodically to ensure tone matches your brand's customer service style.",
+    ],
+    faqs: [
+      { q: "What is Gladly?", a: "A customer service platform built around a lifelong customer conversation history rather than individual tickets, with AI automation layered in." },
+      { q: "Is Gladly free?", a: "No — it's an enterprise platform with custom pricing based on support volume." },
+      { q: "How is Gladly different from Zendesk?", a: "Gladly organizes support around the customer as a person across all channels, rather than around individual, disconnected tickets." },
+    ],
   },
   {
     name: "Chaindesk",
@@ -3260,6 +3416,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Custom chatbot from your own docs", "Website customer support bot", "Internal knowledge base assistant", "No-code chatbot creation"],
     steps: ["Sign up at chaindesk.ai and create a new agent.", "Upload your documents or enter your website URL for scraping.", "Customise the bot persona and embed it on your website with a snippet."],
     url: "https://chaindesk.ai",
+
+    tips: [
+      "Upload your docs, FAQs, and website content to train the chatbot before launching it publicly.",
+      "Test edge-case questions yourself before going live — no-code chatbots can confidently give wrong answers on gaps in the knowledge base.",
+      "Embed it on your site or connect to Slack/WhatsApp depending on where your users actually ask questions.",
+      "Review chat logs weekly to find missing knowledge-base content and fill the gaps.",
+    ],
+    faqs: [
+      { q: "Is Chaindesk free?", a: "Yes — a free tier exists for building and testing a basic chatbot; paid plans add more usage and integrations." },
+      { q: "What is Chaindesk best for?", a: "Building a custom AI chatbot trained on your own documents and website content, no coding required." },
+      { q: "Can Chaindesk connect to my website?", a: "Yes — it's designed to embed directly into websites, plus integrations with tools like Slack and WhatsApp." },
+    ],
   },
   {
     name: "Botpress",
@@ -3272,6 +3440,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Developer-built custom chatbots", "Open-source chatbot platform", "Complex conversational flows", "Enterprise chatbot deployment"],
     steps: ["Sign up at botpress.com or self-host the open-source version.", "Use the visual Studio to design conversation flows.", "Integrate LLM knowledge bases and deploy to your website, WhatsApp, or Slack."],
     url: "https://botpress.com",
+
+    tips: [
+      "Design the conversation flow visually first, then layer in AI/LLM steps for open-ended questions the flow doesn't cover.",
+      "Use its knowledge base connector to ground answers in your actual docs rather than relying on the model's general knowledge.",
+      "Test extensively in the built-in emulator before deploying to a live channel.",
+      "Start with one channel (website widget) and expand to others (Slack, WhatsApp) once the core flow is solid.",
+    ],
+    faqs: [
+      { q: "Is Botpress free?", a: "Yes — an open-source version and a free cloud tier are both available; paid plans add scale and support." },
+      { q: "What is Botpress best for?", a: "Building custom AI chatbots with visual flow design plus LLM-powered open-ended responses, popular with developers." },
+      { q: "Is Botpress open source?", a: "Yes — it has an open-source core, alongside a hosted cloud offering for teams that don't want to self-manage." },
+    ],
   },
 
   // HR — additional
