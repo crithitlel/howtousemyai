@@ -43,6 +43,18 @@ const COMPARISONS = [
   { slug: "tabnine-vs-github-copilot", tool1: "Tabnine", tool2: "GitHub Copilot", category: "CODE" },
   { slug: "taskade-vs-notion-ai", tool1: "Taskade", tool2: "Notion AI", category: "PRODUCTIVITY" },
   { slug: "sudowrite-vs-jasper", tool1: "Sudowrite", tool2: "Jasper", category: "WRITING" },
+  { slug: "dall-e-3-vs-stable-diffusion", tool1: "DALL·E 3", tool2: "Stable Diffusion", category: "IMAGERY" },
+  { slug: "krea-vs-midjourney", tool1: "Krea", tool2: "Midjourney", category: "IMAGERY" },
+  { slug: "runway-vs-d-id", tool1: "Runway", tool2: "D-ID", category: "VIDEO" },
+  { slug: "pictory-vs-invideo-ai", tool1: "Pictory", tool2: "Invideo AI", category: "VIDEO" },
+  { slug: "capcut-ai-vs-invideo-ai", tool1: "CapCut AI", tool2: "Invideo AI", category: "VIDEO" },
+  { slug: "d-id-vs-heygen", tool1: "D-ID", tool2: "HeyGen", category: "VIDEO" },
+  { slug: "rytr-vs-writesonic", tool1: "Rytr", tool2: "Writesonic", category: "WRITING" },
+  { slug: "rytr-vs-copy-ai", tool1: "Rytr", tool2: "Copy.ai", category: "COPY" },
+  { slug: "anyword-vs-copy-ai", tool1: "Anyword", tool2: "Copy.ai", category: "COPY" },
+  { slug: "capcut-ai-vs-descript", tool1: "CapCut AI", tool2: "Descript", category: "VIDEO" },
+  { slug: "krea-vs-leonardo-ai", tool1: "Krea", tool2: "Leonardo.ai", category: "IMAGERY" },
+  { slug: "zapier-ai-vs-notion-ai", tool1: "Zapier AI", tool2: "Notion AI", category: "PRODUCTIVITY" },
 ];
 
 const schema = {

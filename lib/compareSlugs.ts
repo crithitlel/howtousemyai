@@ -27,6 +27,18 @@ export const COMPARE_SLUGS = new Set<string>([
   "tabnine-vs-github-copilot",
   "taskade-vs-notion-ai",
   "sudowrite-vs-jasper",
+  "dall-e-3-vs-stable-diffusion",
+  "krea-vs-midjourney",
+  "runway-vs-d-id",
+  "pictory-vs-invideo-ai",
+  "capcut-ai-vs-invideo-ai",
+  "d-id-vs-heygen",
+  "rytr-vs-writesonic",
+  "rytr-vs-copy-ai",
+  "anyword-vs-copy-ai",
+  "capcut-ai-vs-descript",
+  "krea-vs-leonardo-ai",
+  "zapier-ai-vs-notion-ai",
 ]);
 
 // Returns the editorial comparison slug for a pair of tool names if one
