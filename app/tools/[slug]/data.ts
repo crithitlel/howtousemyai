@@ -649,6 +649,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["AWS and cloud development", "Security vulnerability scanning", "Python, Java, and TypeScript", "AWS SDK usage"],
     steps: ["Install the AWS Toolkit extension in VS Code or JetBrains.", "Sign in with a free AWS Builder ID, no AWS account required.", "Code with AI suggestions and run the built-in security scans."],
     url: "https://aws.amazon.com/q/developer/",
+
+    tips: [
+      "Comment your intent in plain English right above the cursor — CodeWhisperer completes best from clear comments, not just code context.",
+      "It's tuned for AWS SDK calls; lean on it hardest when writing Lambda, S3, or DynamoDB integration code.",
+      "Run the built-in security scan on generated code before merging — it flags common vulnerabilities automatically.",
+      "Free for individual use — worth trying before paying for a different assistant if you're deep in the AWS ecosystem.",
+    ],
+    faqs: [
+      { q: "Is Amazon CodeWhisperer free?", a: "Yes — free for individual developers with no seat limit; a paid Professional tier adds admin controls and enterprise policy management." },
+      { q: "How is it different from GitHub Copilot?", a: "CodeWhisperer has stronger built-in security scanning and deeper AWS SDK awareness; Copilot has broader general-purpose completion quality across more ecosystems." },
+      { q: "What languages does it support?", a: "Python, Java, JavaScript, TypeScript, C#, and several more, with the strongest completions for AWS-related code." },
+    ],
   },
   {
     name: "Sourcegraph Cody",
@@ -661,6 +673,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Large codebase navigation", "Understanding legacy code", "Contextual code generation", "Enterprise teams"],
     steps: ["Install the Cody extension in VS Code at sourcegraph.com/cody.", "Sign up for a free account and connect your codebase.", "Ask questions about your code or generate code with full context."],
     url: "https://sourcegraph.com/cody",
+
+    tips: [
+      "Cody's edge is codebase-wide context — ask questions about how something works across files, not just the open one.",
+      "Use it to onboard onto unfamiliar repos: 'explain how authentication works in this codebase' beats reading files cold.",
+      "Point it at a specific file or symbol with @-mentions for more precise answers in large monorepos.",
+      "Pair with Sourcegraph search to find all usages before a refactor, then have Cody draft the changes.",
+    ],
+    faqs: [
+      { q: "Is Cody free?", a: "Yes — a free tier for individuals; Enterprise plans add larger context windows and admin controls for teams." },
+      { q: "What makes Cody different?", a: "It's built around whole-codebase context and search, making it strong for large, unfamiliar, or multi-repo projects rather than single-file completion." },
+      { q: "Which IDEs does Cody support?", a: "VS Code, JetBrains IDEs, and Neovim, among others." },
+    ],
   },
   {
     name: "Pieces for Developers",
@@ -948,6 +972,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Royalty-free background music", "YouTube and podcast soundtracks", "Precise duration music generation", "App and game soundscapes"],
     steps: ["Go to mubert.com/generate and select your use case.", "Set mood, genre, BPM, and exact duration.", "Generate, preview, and download with a royalty-free license."],
     url: "https://mubert.com",
+
+    tips: [
+      "Pick a mood/genre tag rather than free text — Mubert's tag-based generation is more reliable than open prompts.",
+      "Use the API/for-creators tier if you need royalty-cleared music inside an app or video product.",
+      "Generate longer loops than you need and trim in your editor; seams are cleaner than requesting exact lengths.",
+      "Save favorites — Mubert's catalog updates, and a track you liked may shift or rotate out.",
+    ],
+    faqs: [
+      { q: "Is Mubert free?", a: "There's a free tier for personal use with limits; commercial licensing and API access are paid." },
+      { q: "What is Mubert best for?", a: "Royalty-free background and ambient music for videos, streams, and apps, generated instantly by mood or genre." },
+      { q: "Can I use Mubert music commercially?", a: "Only with a commercial license/paid plan — the free tier is for personal, non-commercial use." },
+    ],
   },
   {
     name: "Soundraw",
@@ -960,6 +996,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Customizable background music", "YouTube and content creator soundtracks", "Mood-specific music generation", "Royalty-free music libraries"],
     steps: ["Go to soundraw.io and choose a mood, genre, and length.", "AI generates multiple tracks, pick the closest match.", "Customize instruments, tempo, and structure section by section, then download."],
     url: "https://soundraw.io",
+
+    tips: [
+      "Filter by mood, genre, and length first, then fine-tune energy curves per section (intro/build/drop) for the exact arc you need.",
+      "Soundraw is built for commercial release — confirm your plan tier includes the rights for where you'll publish (YouTube, streaming, ads).",
+      "Regenerate the same structure with a different 'theme' to keep song length and section timing while changing the vibe.",
+      "Export stems if your plan includes them, for finer mixing control in your own DAW.",
+    ],
+    faqs: [
+      { q: "Is Soundraw free?", a: "There's a free tier to create and preview; downloading and commercial use require a paid plan." },
+      { q: "Is Soundraw good for YouTube?", a: "Yes — it's specifically built for royalty-free use in videos, with plans covering monetized YouTube content." },
+      { q: "What is Soundraw best for?", a: "Creators who want customizable, royalty-free background music with control over structure and mood, not just a random loop." },
+    ],
   },
   {
     name: "Boomy",
@@ -972,6 +1020,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Creating and releasing music", "Passive income from AI songs", "Beginner music producers", "Quick song generation"],
     steps: ["Go to boomy.com and click Create Song.", "Choose a music style and let AI generate a complete track.", "Customize, claim ownership, and submit to streaming platforms."],
     url: "https://boomy.com",
+
+    tips: [
+      "Start from a genre template, then use the mixing tools to adjust before saving — raw generations are a starting point.",
+      "Use Boomy's distribution feature to release finished tracks to Spotify and other platforms directly from the app.",
+      "Layer multiple generated sections (intro, verse, drop) into one track rather than accepting a single generation as final.",
+      "Check current rights terms before monetizing — commercial release usually requires a paid plan.",
+    ],
+    faqs: [
+      { q: "Is Boomy free?", a: "Yes — free to create songs; a paid plan is needed to release and monetize tracks on streaming platforms." },
+      { q: "Can I release Boomy songs on Spotify?", a: "Yes — Boomy has built-in distribution to major streaming platforms on its paid release plans." },
+      { q: "What is Boomy best for?", a: "Quickly generating and releasing original songs without any music production background." },
+    ],
   },
   {
     name: "Loudly",
@@ -984,6 +1044,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Royalty-free music library access", "Mood and energy-based search", "Content creator soundtracks", "Podcast and video music"],
     steps: ["Go to loudly.com and sign up for a free account.", "Choose mood, energy, genre, and instruments to describe your track.", "Generate AI music or search the library, then download royalty-free."],
     url: "https://loudly.com",
+
+    tips: [
+      "Use genre and mood sliders together — combining both narrows results faster than either alone.",
+      "Loudly's Soundtrack tool is built for creators needing music matched to video length; input your exact runtime.",
+      "Try the Studio for finer edits (stems, tempo) once you've found a generation you like.",
+      "Confirm license type per use case — social content, ads, and apps may need different tiers.",
+    ],
+    faqs: [
+      { q: "Is Loudly free?", a: "A free tier covers limited generations and previews; full downloads and commercial rights are paid." },
+      { q: "What is Loudly best for?", a: "Generating royalty-free music matched to a specific video length, plus a mobile-friendly workflow for creators." },
+      { q: "Does Loudly offer stems?", a: "Yes, on higher tiers — useful for remixing or adjusting the balance of a generated track." },
+    ],
   },
 
   // Research
@@ -1070,6 +1142,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Free academic paper search", "Citation network exploration", "Discovering influential papers", "AI-summarized paper highlights"],
     steps: ["Go to semanticscholar.org, completely free, no account needed.", "Search your topic and use filters for year, field, and study type.", "Click a paper to see AI-generated highlights and its citation network."],
     url: "https://semanticscholar.org",
+
+    tips: [
+      "Use the TL;DR summaries to triage dozens of papers fast before reading any in full.",
+      "Follow the 'highly influential citations' filter to find papers that actually shaped a field, not just any citation.",
+      "Set up alerts for an author or topic so new relevant papers surface automatically.",
+      "Use the API if you're building a research tool — it's free and well-documented.",
+    ],
+    faqs: [
+      { q: "Is Semantic Scholar free?", a: "Yes — fully free, funded by the Allen Institute for AI, including API access." },
+      { q: "What is Semantic Scholar best for?", a: "Fast literature discovery with AI-generated summaries and influence-based citation ranking, mostly for STEM fields." },
+      { q: "How is it different from Google Scholar?", a: "It adds AI summaries, influential-citation filtering, and a cleaner API — Google Scholar has broader coverage across more fields." },
+    ],
   },
   {
     name: "Scite",
@@ -1082,6 +1166,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Citation context analysis", "Credibility assessment of papers", "Identifying contested research", "Systematic evidence review"],
     steps: ["Go to scite.ai and search for a paper or claim.", "See whether citing papers support, contrast, or just mention the original.", "Filter by citation type to find the most relevant supporting or contradicting evidence."],
     url: "https://scite.ai",
+
+    tips: [
+      "Check 'Smart Citations' to see whether a paper's later citations support or contradict its findings, not just cite it.",
+      "Use it to vet a claim before relying on it — a highly-cited paper with many contradicting citations is a red flag.",
+      "Combine with a reference manager; Scite has browser and Zotero integrations to check papers as you collect them.",
+      "Use the dashboard view for a quick supporting-vs-contrasting ratio before deep-diving a paper.",
+    ],
+    faqs: [
+      { q: "Is Scite free?", a: "A limited free tier exists; full Smart Citations access is subscription-based." },
+      { q: "What is Scite best for?", a: "Verifying whether a paper's claims have held up — seeing if later research supports, contradicts, or just mentions it." },
+      { q: "Who uses Scite?", a: "Researchers, students, and fact-checkers who need to gauge the reliability of a paper beyond raw citation count." },
+    ],
   },
   {
     name: "Research Rabbit",
@@ -1094,6 +1190,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Literature discovery", "Citation network visualization", "Finding related papers", "Building reading lists"],
     steps: ["Go to researchrabbitapp.com and create a free account.", "Add a paper you know is relevant to start building your collection.", "Let AI surface related papers and visualize the citation network."],
     url: "https://researchrabbitapp.com",
+
+    tips: [
+      "Add a few seed papers you already trust, then explore the visual network of related work it builds around them.",
+      "Use the 'Similar Work' and 'Earlier/Later Work' views to trace how a research area evolved over time.",
+      "Set collections to auto-update when new relevant papers publish, functioning like a personalized research feed.",
+      "It's free — pair with Scite or Semantic Scholar for verifying claims once you've mapped the landscape.",
+    ],
+    faqs: [
+      { q: "Is Research Rabbit free?", a: "Yes — it's completely free to use." },
+      { q: "What is Research Rabbit best for?", a: "Visually mapping a research field from a few seed papers, discovering related and foundational work you'd otherwise miss." },
+      { q: "Does it replace Google Scholar?", a: "No — it complements it; Research Rabbit is for discovery and mapping, not full-text search or citation counts." },
+    ],
   },
   {
     name: "Explainpaper",
@@ -1106,6 +1214,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Understanding technical papers", "Students reading outside their field", "Quick paper comprehension", "Making research accessible"],
     steps: ["Go to explainpaper.com and upload a PDF paper.", "Highlight any confusing text and click Explain.", "Ask follow-up questions to go deeper on any concept."],
     url: "https://explainpaper.com",
+
+    tips: [
+      "Upload the PDF and highlight the exact confusing sentence or term — targeted highlights get far better explanations than asking generally.",
+      "Ask follow-up questions in the chat next to the highlight; it keeps the paper's context loaded.",
+      "Use it for dense math or jargon-heavy sections first; it adds the most value where papers are least readable.",
+      "Cross-check key explanations against the actual paper — it's a reading aid, not a substitute for the source.",
+    ],
+    faqs: [
+      { q: "Is Explainpaper free?", a: "Yes — free to use with reasonable limits; it's a lightweight tool aimed at students and researchers." },
+      { q: "What is Explainpaper best for?", a: "Making dense academic papers readable by explaining highlighted passages in plain language." },
+      { q: "Does Explainpaper replace reading the paper?", a: "No — it's a comprehension aid for hard passages, not a summarizer or replacement for the full text." },
+    ],
   },
 
   // Productivity
@@ -1188,6 +1308,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Automatic note organization", "Knowledge base Q&A", "Meeting note capture", "Personal knowledge management"],
     steps: ["Sign up at mem.ai and start creating notes, no folder structure needed.", "Capture notes naturally and Mem's AI tags and connects them automatically.", "Use the chat feature to ask questions across your entire knowledge base."],
     url: "https://mem.ai",
+
+    tips: [
+      "Write notes fast without organizing — Mem's AI auto-connects related notes so you don't need folders.",
+      "Use Mem Chat to ask questions across your entire notes history in natural language.",
+      "Let auto-tagging run rather than manually tagging everything; review and correct occasionally instead.",
+      "Pin a 'daily note' as your capture point, then let related notes surface automatically over time.",
+    ],
+    faqs: [
+      { q: "Is Mem free?", a: "There's a limited free tier; full AI features and larger note libraries are subscription-based." },
+      { q: "What is Mem best for?", a: "Note-taking without manual organization — its AI links related notes automatically instead of relying on folders and tags." },
+      { q: "Is Mem good for teams?", a: "It's built primarily for individual knowledge management; team features are more limited than dedicated wiki tools." },
+    ],
   },
   {
     name: "Taskade",
@@ -1418,6 +1550,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Content repurposing at scale", "Podcast to social posts", "Blog post distribution", "Automated social content"],
     steps: ["Sign up at recently.ai and connect your content sources.", "Add a blog post, podcast episode, or video URL.", "AI generates platform-specific posts and schedules them across your accounts."],
     url: "https://recently.ai",
+
+    tips: [
+      "Feed it your existing content library so it can surface genuinely relevant 'recently published' angles, not generic ones.",
+      "Use its trend-matching to time posts around what's actually gaining traction in your niche right now.",
+      "Combine outputs with your own brand voice — repurposing tools save time drafting, not tone.",
+      "Review suggested hashtags/timing against your own analytics before trusting them blindly.",
+    ],
+    faqs: [
+      { q: "Is Recently.ai free?", a: "A limited free trial is typically available; ongoing use is subscription-based." },
+      { q: "What is Recently.ai best for?", a: "Surfacing timely content ideas and repurposing existing content for social media based on current trends." },
+      { q: "Who should use Recently.ai?", a: "Marketers and creators who publish frequently and want AI help spotting trend-relevant angles." },
+    ],
   },
   {
     name: "Phrasee",
