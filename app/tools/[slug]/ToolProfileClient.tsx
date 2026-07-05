@@ -10,6 +10,7 @@ import DossierActions from "../../components/DossierActions";
 import SiteHeader from "../../components/SiteHeader";
 import SiteFooter from "../../components/SiteFooter";
 import { TOOLS_DATA, type ToolData, slugify, PRICING_STYLES } from "./data";
+import { PROMPT_LIBS } from "@/lib/prompts";
 
 export function ToolProfileClient({ slug }: { slug: string }) {
   const router = useRouter();
@@ -303,6 +304,15 @@ export function ToolProfileClient({ slug }: { slug: string }) {
           ▸ Visit {tool.name}
         </a>
       </div>
+
+      {/* Prompt library cross-link — send readers to the copy-paste prompts for this tool */}
+      {PROMPT_LIBS[slugify(tool.name)] && (
+        <div className="border-t border-[#233150] px-6 py-6">
+          <Link href={`/prompts/${slugify(tool.name)}`} className="dossier-launch" style={{ background: "transparent", color: "#7fb0ff", borderColor: "rgba(24,119,242,0.4)" }}>
+            ▸ {tool.name} prompt library — copy-paste prompts →
+          </Link>
+        </div>
+      )}
 
       {/* Used in these workflows — positions the tool inside complete, multi-tool jobs */}
       {usedInWorkflows.length > 0 && (
