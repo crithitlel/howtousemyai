@@ -1,11 +1,12 @@
 import { ImageResponse } from "next/og";
+import { TOOLS as ALL_TOOLS } from "@/lib/tools";
 
 export const runtime = "edge";
 export const alt = "HowToUseMyAI - Find the Perfect AI Tool";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const TOOLS = [
+const DISPLAY_TOOLS = [
   { icon: "💬", name: "ChatGPT",    pricing: "Freemium" },
   { icon: "🎨", name: "Midjourney", pricing: "Paid" },
   { icon: "💻", name: "Cursor",     pricing: "Freemium" },
@@ -66,7 +67,7 @@ export default function Image() {
 
           {/* Stats */}
           <div style={{ display: "flex", gap: 0 }}>
-            {[["160+", "AI Tools"], ["Free", "To Use"], ["23", "Categories"]].map(([val, label], i) => (
+            {[[`${ALL_TOOLS.length}+`, "AI Tools"], ["Free", "To Use"], [`${new Set(ALL_TOOLS.map((t) => t.category)).size}`, "Categories"]].map(([val, label], i) => (
               <div key={label} style={{
                 display: "flex", flexDirection: "column", gap: 3,
                 paddingRight: 28, marginRight: 28,
@@ -102,7 +103,7 @@ export default function Image() {
           {/* 2-col grid of cards */}
           <div style={{ display: "flex", gap: 14 }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
-              {TOOLS.slice(0, 3).map((t) => (
+              {DISPLAY_TOOLS.slice(0, 3).map((t) => (
                 <div key={t.name} style={{
                   background: "#ffffff",
                   border: "1px solid #e4e6ea",
@@ -133,7 +134,7 @@ export default function Image() {
               ))}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
-              {TOOLS.slice(3, 6).map((t) => (
+              {DISPLAY_TOOLS.slice(3, 6).map((t) => (
                 <div key={t.name} style={{
                   background: "#ffffff",
                   border: "1px solid #e4e6ea",
