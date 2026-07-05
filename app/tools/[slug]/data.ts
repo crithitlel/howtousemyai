@@ -2360,6 +2360,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["End-to-end feature implementation", "Autonomous bug fixing", "Long-horizon engineering tasks", "Delegating repetitive dev work"],
     steps: ["Request access at cognition.ai and set up your workspace.", "Assign Devin a task in natural language — it plans its own approach.", "Monitor progress in the dashboard and review changes before merging."],
     url: "https://cognition.ai",
+
+    tips: [
+      "Give it a well-scoped ticket, not a vague goal — Devin plans and executes better against clear acceptance criteria.",
+      "Review its plan before it starts coding; catching a wrong approach early saves far more time than fixing code after.",
+      "Use it for self-contained tasks (bug fixes, small features, test writing) rather than sprawling architecture changes.",
+      "Treat its PRs like a junior engineer's — review thoroughly before merging, especially edge cases.",
+    ],
+    faqs: [
+      { q: "What is Devin?", a: "An autonomous AI software engineer that plans, writes, tests, and debugs code with minimal supervision, aimed at handling full tickets rather than just suggestions." },
+      { q: "Is Devin free?", a: "No — it's a paid, enterprise-oriented product; pricing is usage/seat based rather than a consumer free tier." },
+      { q: "Is Devin ready to replace developers?", a: "No — it's best used for well-defined, self-contained tasks under human review, not as an unsupervised replacement for a dev team." },
+    ],
   },
   {
     name: "Aider",
@@ -2372,6 +2384,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Terminal-first developers", "Open-source AI coding", "Git-integrated AI edits", "Using your own API keys"],
     steps: ["Install with pip: pip install aider-chat.", "Run aider in your project directory with your preferred model.", "Describe changes in plain English — Aider edits files and commits automatically."],
     url: "https://aider.chat",
+
+    tips: [
+      "Run it inside your actual git repo — Aider commits its own changes, so work in a branch you can easily diff and revert.",
+      "Add files to context explicitly (/add) rather than letting it guess; precise context gives much better edits.",
+      "Use /diff and /undo liberally — reviewing every change before moving on keeps quality high.",
+      "Pick a strong underlying model (Claude/GPT-4-class) in settings; Aider's quality depends heavily on the model behind it.",
+    ],
+    faqs: [
+      { q: "What is Aider?", a: "An open-source AI pair-programmer that runs in your terminal, editing your local codebase and committing changes via git as you chat." },
+      { q: "Is Aider free?", a: "Aider itself is free and open-source; you pay only for the API calls to whichever model you connect it to." },
+      { q: "How is Aider different from Copilot?", a: "Aider works at the whole-repo/terminal level with git integration, while Copilot is primarily inline autocomplete inside your editor." },
+    ],
   },
   {
     name: "Continue",
@@ -2384,6 +2408,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Open-source AI code assistant", "Local LLM integration", "VS Code and JetBrains users", "Privacy-first AI coding"],
     steps: ["Install Continue from the VS Code or JetBrains marketplace.", "Configure your preferred model (Ollama, OpenAI, Anthropic, etc.) in config.json.", "Open the chat sidebar to ask questions or select code and ask for edits."],
     url: "https://continue.dev",
+
+    tips: [
+      "Configure it with your preferred model (including local/open models) — Continue is editor tooling, not a single model.",
+      "Use inline edit (Cmd+I style) for targeted changes and chat mode for broader questions about the codebase.",
+      "Add custom context providers (docs, codebase search) so answers reflect your actual project, not generic knowledge.",
+      "Great pick if you want to self-host or control which model sees your code.",
+    ],
+    faqs: [
+      { q: "What is Continue?", a: "An open-source AI coding assistant for VS Code and JetBrains that lets you plug in any model — cloud or local — for autocomplete and chat." },
+      { q: "Is Continue free?", a: "Yes — the extension itself is free and open-source; costs depend on which model/API you connect." },
+      { q: "Why choose Continue over Copilot?", a: "Model flexibility and privacy — you can point Continue at local or self-hosted models instead of sending code to a single vendor." },
+    ],
   },
   {
     name: "Mistral AI",
@@ -2396,6 +2432,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Fast, efficient code generation", "Open-weight model deployment", "API integration for developers", "European-hosted AI alternative"],
     steps: ["Try Le Chat free at chat.mistral.ai.", "For coding, select Mistral Large or Codestral models.", "For API access, sign up at console.mistral.ai and use the REST API or SDK."],
     url: "https://mistral.ai",
+
+    tips: [
+      "Le Chat (Mistral's chat product) is fast and capable for everyday tasks — good default before reaching for a bigger model.",
+      "Use Mistral's open models directly via API if you want to self-host or fine-tune without vendor lock-in.",
+      "It's strong at multilingual tasks, especially European languages — good pick for non-English content work.",
+      "Codestral (their code model) is worth trying specifically for coding tasks over the general chat model.",
+    ],
+    faqs: [
+      { q: "Is Mistral AI free?", a: "Le Chat has a free tier; API usage is paid per token, and several Mistral models are open-weight and free to self-host." },
+      { q: "What makes Mistral different?", a: "It offers genuinely open-weight models alongside its hosted chat product, appealing to developers who want control and lower cost." },
+      { q: "Is Mistral as good as GPT-4 or Claude?", a: "Its flagship models are competitive for many tasks and excel at efficiency and multilingual use, though top proprietary models often lead on the hardest reasoning benchmarks." },
+    ],
   },
 
   // Video — additional
@@ -2432,6 +2480,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Realistic AI video generation", "Image-to-video animation", "Long AI video clips", "Realistic human motion"],
     steps: ["Create an account at klingai.com.", "Choose Text to Video or Image to Video and enter your prompt.", "Select duration and quality settings, then generate and download."],
     url: "https://klingai.com",
+
+    tips: [
+      "Write prompts with explicit camera motion ('slow pan', 'zoom in') — Kling responds strongly to camera-language cues.",
+      "Use image-to-video mode with a strong reference photo for the most consistent, controllable results.",
+      "Keep single, clear subject actions per clip; multiple simultaneous movements tend to blur or distort.",
+      "Generate a few short takes before committing credits to longer, more expensive renders.",
+    ],
+    faqs: [
+      { q: "What is Kling AI?", a: "A text-to-video and image-to-video AI model known for strong physics and motion realism, competing with Runway and Sora-class models." },
+      { q: "Is Kling AI free?", a: "There's a free tier with limited generations; higher resolution, length, and volume require paid credits." },
+      { q: "What is Kling AI best for?", a: "Realistic motion and physics in generated video clips — a strong pick when movement quality matters more than stylization." },
+    ],
   },
   {
     name: "Opus Clip",
@@ -2536,6 +2596,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Cinematic and orchestral music", "Game and film soundtracks", "Royalty-free background music", "Music with downloadable stems"],
     steps: ["Sign up for free at aiva.ai.", "Choose a style preset (Cinematic, Ambient, Electronic, etc.) and set duration.", "Download the generated track — stems available on paid plans."],
     url: "https://aiva.ai",
+
+    tips: [
+      "Pick a preset style (cinematic, fantasy, corporate) close to your target — it's easier to tweak than to build from a blank template.",
+      "Use the Influence feature to steer generations toward reference tracks you like.",
+      "Export MIDI if you want to edit the composition further in a DAW rather than using the raw audio.",
+      "Check your plan's licensing tier before using a track commercially — free-tier compositions have usage limits.",
+    ],
+    faqs: [
+      { q: "Is AIVA free?", a: "Yes — a free tier allows composing with limited monthly downloads and non-commercial use; paid plans add commercial rights." },
+      { q: "What is AIVA best for?", a: "Original orchestral and cinematic music composition — film, game, and trailer scoring in particular." },
+      { q: "Can I edit AIVA's compositions?", a: "Yes — you can export MIDI and audio stems on paid plans to further edit tracks in your own software." },
+    ],
   },
   {
     name: "Beatoven.ai",
@@ -2548,6 +2620,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["YouTube and podcast background music", "Mood-specific music generation", "Section-by-section mood control", "Royalty-free licensing"],
     steps: ["Create a free account at beatoven.ai.", "Set your track duration and choose a genre and mood.", "Optionally split the track into sections and assign different moods to each."],
     url: "https://beatoven.ai",
+
+    tips: [
+      "Describe the emotional arc of your scene, not just a genre — Beatoven is built to score mood changes across a timeline.",
+      "Match music length to your video's exact runtime using the timeline editor rather than trimming afterward.",
+      "Use the mood tags (happy, sad, tense) to steer generation more reliably than free-text alone.",
+      "Preview multiple variations before committing — regenerating is fast and often improves fit.",
+    ],
+    faqs: [
+      { q: "Is Beatoven.ai free?", a: "A free tier allows previewing and limited downloads; commercial use and full-quality downloads require a paid plan." },
+      { q: "What is Beatoven.ai best for?", a: "Royalty-free background music generated to match the mood and length of videos, podcasts, and games." },
+      { q: "Can I use Beatoven music on YouTube?", a: "Yes, on paid plans that include commercial licensing — check your tier's terms before monetized use." },
+    ],
   },
   {
     name: "Musicfy",
@@ -2560,6 +2644,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["AI song covers and remixes", "Voice cloning for music", "Vocal style transfer", "Music content creation"],
     steps: ["Go to musicfy.lol and sign in for free.", "Upload or paste the song you want to convert.", "Select an AI voice style and generate your cover."],
     url: "https://musicfy.lol",
+
+    tips: [
+      "Use AI voice covers responsibly — only use voice models you have rights to or that are explicitly provided for that purpose.",
+      "Isolate vocals/stems first if you want to remix or apply a voice model cleanly.",
+      "Combine Musicfy's voice tools with your own instrumental for the most natural-sounding results.",
+      "Preview short clips before generating full-length tracks to save credits.",
+    ],
+    faqs: [
+      { q: "Is Musicfy free?", a: "A limited free tier exists; full features and downloads are subscription-based." },
+      { q: "What is Musicfy best for?", a: "AI voice covers, vocal isolation, and voice-based music creation tools." },
+      { q: "Is it legal to use AI voice covers?", a: "Only for voices you have permission to use or that are officially licensed — always check rights before publishing voice-clone content." },
+    ],
   },
   {
     name: "Stable Audio",
@@ -2572,6 +2668,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["High-quality music generation", "Sound effect creation", "Genre and instrument control", "Long-form audio generation"],
     steps: ["Sign up at stability.ai/stable-audio.", "Write a detailed prompt including genre, instruments, BPM, and mood.", "Generate and download — iterate by adjusting the prompt."],
     url: "https://stability.ai/stable-audio",
+
+    tips: [
+      "Describe instrumentation and tempo explicitly ('120bpm, driving bassline, analog synths') for more predictable results.",
+      "Use it for royalty-free background tracks and sound design rather than expecting full mixed songs with vocals.",
+      "Generate multiple short variations and splice the best sections together in an editor.",
+      "Check the license tier — Stable Audio's commercial rights depend on your subscription level.",
+    ],
+    faqs: [
+      { q: "Is Stable Audio free?", a: "A free tier exists with limited generations; commercial use and longer tracks need a paid plan." },
+      { q: "What is Stable Audio best for?", a: "Royalty-free instrumental music and sound design, built on Stability AI's audio diffusion models." },
+      { q: "Does Stable Audio generate vocals?", a: "It's primarily instrumental-focused; vocal generation is limited compared to tools like Suno or Udio." },
+    ],
   },
 
   // Research — additional
@@ -2630,6 +2738,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Cited research with web sources", "Competitive and market research", "Multi-step research reports", "Ad-free AI search"],
     steps: ["Go to you.com — no account needed for basic use.", "Type your research question and select Research mode for deep multi-source analysis.", "Review the cited answer and click through to primary sources."],
     url: "https://you.com",
+
+    tips: [
+      "Use it like a search engine that also drafts and reasons — ask direct questions rather than open-ended chat.",
+      "Switch between its various modes (research, code, create) depending on the task rather than staying in default chat.",
+      "It cites sources like Perplexity — click through on anything you plan to rely on.",
+      "Good multi-model access lets you compare answers from different underlying models on the same question.",
+    ],
+    faqs: [
+      { q: "Is You.com free?", a: "Yes — a free tier with generous daily usage; paid plans add more searches and premium model access." },
+      { q: "What is You.com best for?", a: "AI-powered search with cited answers plus built-in tools for coding, writing, and research in one interface." },
+      { q: "How does it compare to Perplexity?", a: "Both offer cited AI search; You.com adds more built-in productivity modes, while Perplexity is more focused purely on research quality." },
+    ],
   },
   {
     name: "Typeset (SciSpace)",
@@ -2688,6 +2808,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Ad-free, private search", "Universal web page summaries", "Unbiased search results", "Power users who value privacy"],
     steps: ["Sign up at kagi.com — $5/month for 300 searches.", "Use FastGPT for instant AI answers at the top of results.", "Install the browser extension and use the Universal Summariser on any URL."],
     url: "https://kagi.com",
+
+    tips: [
+      "Use it as your default search engine for genuinely ad-free, fast results — that's the core value, not a chatbot replacement.",
+      "Try Kagi's AI summarizer on long pages or videos before reading/watching in full.",
+      "Customize result rankings (boost or block sites) to tune your search over time — a feature ad-funded engines don't offer.",
+      "Use FastGPT within Kagi for quick factual answers without leaving search.",
+    ],
+    faqs: [
+      { q: "Is Kagi free?", a: "No — Kagi is a paid, subscription search engine (with a free trial), funded by users instead of ads." },
+      { q: "Why pay for search?", a: "Kagi argues ad-free, non-tracking search gives more relevant, unbiased results, and lets you customize rankings — a trade some users find worth paying for." },
+      { q: "What is Kagi best for?", a: "Privacy-conscious users who want cleaner, customizable search results and built-in AI summarization without ads." },
+    ],
   },
 
   // Productivity — additional
@@ -2736,6 +2868,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["Creating deep work blocks", "Team meeting scheduling", "Calendar optimisation", "Protecting focus time"],
     steps: ["Connect your Google Calendar at getclockwise.com.", "Set your Focus Time preferences (hours, protected periods).", "Let Clockwise auto-schedule meetings and protect your focus blocks."],
     url: "https://getclockwise.com",
+
+    tips: [
+      "Let it auto-optimize your calendar for a week before manually rearranging — its scheduling engine often finds better slots than manual blocking.",
+      "Set 'Focus Time' goals so it protects deep-work blocks automatically across your team.",
+      "Use it for cross-team meeting scheduling; its real value is finding times that work for everyone with minimal back-and-forth.",
+      "Sync team preferences (no-meeting days, core hours) so the AI respects real constraints.",
+    ],
+    faqs: [
+      { q: "Is Clockwise free?", a: "Yes — a free tier for individuals; team and enterprise features are paid." },
+      { q: "What is Clockwise best for?", a: "Automatically optimizing calendars to protect focus time and simplify team meeting scheduling." },
+      { q: "Does Clockwise work with Google Calendar?", a: "Yes — it's built primarily around Google Calendar, with growing support for other calendar platforms." },
+    ],
   },
 
   // Marketing — additional
@@ -2750,6 +2894,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["E-commerce email marketing", "AI-powered segmentation", "SMS and email automation", "Shopify and WooCommerce integration"],
     steps: ["Connect your store at klaviyo.com — free up to 250 contacts.", "Set up AI-recommended flows: abandoned cart, welcome series, post-purchase.", "Use AI subject line suggestions when drafting campaigns."],
     url: "https://klaviyo.com",
+
+    tips: [
+      "Feed it your store's product and customer data — its AI segmentation and copy suggestions are only as good as the data behind them.",
+      "Use AI-generated subject lines as a starting point for A/B tests, not a final answer.",
+      "Let predictive analytics (like churn risk) drive your segments rather than manual guesswork.",
+      "Combine AI copy suggestions with your brand voice guide before sending at scale.",
+    ],
+    faqs: [
+      { q: "Is Klaviyo AI free?", a: "Klaviyo has a free tier for small lists; AI features are increasingly available across plans but scale with paid tiers." },
+      { q: "What is Klaviyo AI best for?", a: "E-commerce email and SMS marketing — AI-assisted segmentation, send-time optimization, and copy generation." },
+      { q: "Is Klaviyo good for small stores?", a: "Yes — its free and entry tiers make it accessible, with AI features that scale up as your list grows." },
+    ],
   },
   {
     name: "Predis.ai",
@@ -2786,6 +2942,18 @@ export const TOOLS_DATA: ToolData[] = [
     bestFor: ["SEO content optimisation", "Content briefs for writers", "Google Docs SEO integration", "Editorial content strategy"],
     steps: ["Create a report at clearscope.io by entering your target keyword.", "Review the recommended terms and content grade targets.", "Write or paste your content into the editor and optimise to hit an A or A+ grade."],
     url: "https://clearscope.io",
+
+    tips: [
+      "Write to the target content grade, but don't force every suggested keyword in — natural writing still ranks better than keyword-stuffed copy.",
+      "Use Clearscope's outline suggestions before drafting, not just as a post-write checklist.",
+      "Compare your draft against top-ranking competitors it surfaces, not just the raw score.",
+      "Re-run reports periodically — 'ranking' keywords shift over time as competitors update content.",
+    ],
+    faqs: [
+      { q: "Is Clearscope free?", a: "No — Clearscope is a paid, subscription-only SEO content optimization tool aimed at content teams." },
+      { q: "What is Clearscope best for?", a: "Optimizing content to rank well by comparing your draft against real top-ranking pages for a target keyword." },
+      { q: "How is it different from Surfer SEO?", a: "Both grade content against competitors; Clearscope is often seen as more enterprise-focused and integrates tightly with Google Docs and WordPress." },
+    ],
   },
   {
     name: "Brand24",
