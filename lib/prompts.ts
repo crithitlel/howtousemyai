@@ -831,6 +831,235 @@ export const PROMPT_LIBS: Record<string, PromptLibrary> = {
       "Export to PowerPoint/PDF only after refining in Gamma; re-editing after export loses AI regeneration.",
     ],
   },
+
+  "dall-e-3": {
+    toolName: "DALL-E 3",
+    toolSlug: "dall-e-3",
+    title: "DALL-E 3 Prompts That Actually Work",
+    description: "Copy-paste DALL-E 3 prompts for illustrations, logos, product shots, and social graphics — written the way ChatGPT's image tool actually responds best.",
+    intro: "DALL-E 3 (inside ChatGPT) understands natural sentences better than keyword-stuffed prompts. Describe the scene like you're talking to an illustrator, not typing tags.",
+    sections: [
+      { title: "Illustrations & Concepts", prompts: [
+        "a flat-design illustration of [SUBJECT], soft pastel color palette, simple shapes, minimal shadow, white background",
+        "a whimsical children's-book style illustration of [SUBJECT], warm colors, soft outlines, friendly and inviting",
+        "an isometric illustration of [SCENE/OBJECT], clean vector style, soft gradients, tech-startup aesthetic",
+        "a detailed line-art illustration of [SUBJECT], black ink on white, intricate cross-hatching, editorial style",
+      ]},
+      { title: "Logos & Icons", prompts: [
+        "a minimal, modern logo for a brand called [NAME], featuring a [SIMPLE OBJECT/ANIMAL], flat design, two colors, on a plain white background",
+        "a set of 4 simple app icons representing [CONCEPTS], consistent flat style, rounded corners, matching color palette",
+      ]},
+      { title: "Product & Social Graphics", prompts: [
+        "a clean product photo of [PRODUCT] on a soft gradient background, studio lighting, minimal shadows, e-commerce style",
+        "a social media graphic announcing [ANNOUNCEMENT], bold typography space at the top, modern colorful background, room for text overlay",
+        "a realistic photo of [SCENE], shot on a 50mm lens, natural lighting, shallow depth of field, photojournalism style",
+      ]},
+    ],
+    tips: [
+      "Write full sentences describing the scene, lighting, and mood — DALL-E 3 (via ChatGPT) follows natural language better than tag lists.",
+      "Ask ChatGPT to revise the prompt itself if a result is close but not quite right — it can adjust its own generation prompt for you.",
+      "Specify 'leave empty space for text' when making social graphics or banners you'll add copy to later.",
+      "If text in the image comes out garbled, simplify to one short word or remove text requests entirely — it's still not fully reliable.",
+    ],
+  },
+
+  "stable-diffusion": {
+    toolName: "Stable Diffusion",
+    toolSlug: "stable-diffusion",
+    title: "Stable Diffusion Prompts & Settings",
+    description: "Copy-paste Stable Diffusion prompts plus the negative-prompt and settings combos that actually clean up common generation problems.",
+    intro: "Stable Diffusion rewards precise, comma-separated tags plus a strong negative prompt more than natural sentences. These formulas cover the most common styles and the settings that fix typical flaws.",
+    sections: [
+      { title: "Photorealistic", prompts: [
+        "photo of [SUBJECT], 85mm lens, natural window lighting, shallow depth of field, ultra detailed, 8k, professional photography",
+        "portrait of [SUBJECT], studio lighting, Rembrandt lighting setup, sharp focus on eyes, skin texture detail, DSLR photo",
+      ]},
+      { title: "Illustration & Art Styles", prompts: [
+        "[SUBJECT], digital painting, trending on artstation, dramatic lighting, highly detailed, concept art",
+        "[SUBJECT], watercolor painting, soft edges, paper texture, muted color palette, loose brushstrokes",
+        "[SUBJECT], anime style, cel shaded, vibrant colors, clean lineart, studio quality",
+      ]},
+      { title: "Negative Prompts (paste alongside any prompt above)", prompts: [
+        "blurry, low quality, distorted, deformed hands, extra fingers, watermark, text, signature, cropped, out of frame",
+        "oversaturated, low contrast, jpeg artifacts, duplicate, mutated, bad anatomy, poorly drawn face",
+      ]},
+    ],
+    tips: [
+      "Always pair a positive prompt with a negative prompt — it fixes the majority of common flaws (bad hands, watermarks, blur).",
+      "Order matters: put the most important subject/style words first — later tokens carry less weight.",
+      "Use a CFG scale around 7-9 for balanced prompt adherence; higher values overcook the image, lower values ignore your prompt.",
+      "Pick a checkpoint/model suited to your style (photoreal vs anime vs illustration) — the same prompt varies hugely across models.",
+    ],
+  },
+
+  jasper: {
+    toolName: "Jasper",
+    toolSlug: "jasper",
+    title: "Jasper Prompts for Marketing Copy",
+    description: "Copy-paste Jasper prompts for ad copy, email campaigns, landing pages, and brand-voice content — built for how Jasper's templates actually work.",
+    intro: "Jasper is tuned for marketing output at scale. These prompts work well inside its Chat/Docs mode when you want more control than a template.",
+    sections: [
+      { title: "Ads & Social", prompts: [
+        "Write 8 Facebook ad headlines for [PRODUCT/OFFER] targeting [AUDIENCE]. Mix curiosity, urgency, and clear benefit angles. Max 40 characters each.",
+        "Write 5 Instagram captions for [POST TOPIC] in a [BRAND VOICE] tone, each under 150 characters with one relevant hashtag.",
+        "Generate 3 Google Ads headline sets (3 headlines + 2 descriptions each) for [PRODUCT], focused on [KEY BENEFIT].",
+      ]},
+      { title: "Email Campaigns", prompts: [
+        "Write a 3-email welcome sequence for new subscribers to [BRAND/PRODUCT]. Email 1: welcome + set expectations. Email 2: best content/social proof. Email 3: soft product pitch.",
+        "Write a cart-abandonment email for [PRODUCT], friendly but urgent tone, one clear CTA, under 150 words.",
+      ]},
+      { title: "Landing Pages & Brand Voice", prompts: [
+        "Write landing page copy for [PRODUCT]: headline, subheadline, 3 benefit bullets, one testimonial placeholder, and a CTA button. Audience: [WHO]. Tone: [TONE].",
+        "Analyze this sample of our writing and describe our brand voice in 5 adjectives plus 3 words/phrases we should avoid: [PASTE SAMPLE]",
+      ]},
+    ],
+    tips: [
+      "Set up your Brand Voice profile first — every generation afterward stays more consistent without you re-explaining tone each time.",
+      "Use Jasper's Chat mode for anything that needs back-and-forth refinement; templates are faster for one-shot, standard formats.",
+      "Feed it a real example of copy that performed well for you — it anchors tone far better than an abstract description.",
+      "Generate 3-5 variants per asset and pick the best rather than accepting the first result.",
+    ],
+  },
+
+  "copy-ai": {
+    toolName: "Copy.ai",
+    toolSlug: "copy-ai",
+    title: "Copy.ai Prompts for Fast Marketing Copy",
+    description: "Copy-paste Copy.ai prompts for ads, emails, and social captions — organized for its Chat and Workflow modes.",
+    intro: "Copy.ai is built for speed — short, punchy prompts that generate many variants fast. These are tuned for quick iteration rather than long-form output.",
+    sections: [
+      { title: "Ad & Social Copy", prompts: [
+        "Write 10 short ad headlines for [PRODUCT], focused on the benefit of [KEY BENEFIT]. Punchy, under 8 words each.",
+        "Write 5 tweet-length posts (under 280 characters) promoting [PRODUCT/OFFER] in a witty, conversational tone.",
+        "Generate 5 LinkedIn post hooks (first line only) about [TOPIC] designed to stop the scroll.",
+      ]},
+      { title: "Email & Outreach", prompts: [
+        "Write a cold outreach email to [TARGET ROLE] about [PRODUCT/SERVICE]. Keep it under 100 words, one clear ask, no hard sell.",
+        "Write 3 subject line options for an email announcing [ANNOUNCEMENT], mixing curiosity and directness.",
+      ]},
+      { title: "Product & Website Copy", prompts: [
+        "Write a product description for [PRODUCT] highlighting [TOP 3 FEATURES], for an e-commerce listing, under 100 words.",
+        "Write 3 different taglines for [BRAND/PRODUCT] that capture [CORE VALUE PROPOSITION].",
+      ]},
+    ],
+    tips: [
+      "Generate in bulk (5-10 variants) and pick — Copy.ai is optimized for volume, not single perfect outputs.",
+      "Be specific about length constraints (character/word counts) — it follows numeric limits reasonably well when stated clearly.",
+      "Use Workflows for repeatable, multi-step content jobs instead of re-prompting from scratch each time.",
+      "Edit for your specific brand facts afterward — generated copy is a strong first draft, not final claims-checked copy.",
+    ],
+  },
+
+  writesonic: {
+    toolName: "Writesonic",
+    toolSlug: "writesonic",
+    title: "Writesonic Prompts for SEO & Content",
+    description: "Copy-paste Writesonic prompts for blog articles, product descriptions, and ad copy — tuned for its SEO-focused writing mode.",
+    intro: "Writesonic leans into SEO content at volume. These prompts work well in its Chatsonic/Article Writer modes when you want more control than the guided wizard.",
+    sections: [
+      { title: "SEO Articles", prompts: [
+        "Write an SEO-optimized outline for an article targeting the keyword '[KEYWORD]'. Include an H1, 5-6 H2 subheadings, and a meta description under 155 characters.",
+        "Write a 1200-word article on '[TOPIC]' targeting the keyword '[KEYWORD]', for [AUDIENCE], with short paragraphs and a clear takeaway in the conclusion.",
+        "Write 5 FAQ questions and answers about [TOPIC] to add to the bottom of an article, formatted for FAQ schema.",
+      ]},
+      { title: "Product & E-commerce Copy", prompts: [
+        "Write a product description for [PRODUCT] in [TONE] tone, highlighting [KEY FEATURES], under 120 words, ending with a soft CTA.",
+        "Write 5 short bullet points for a product listing of [PRODUCT], focused on benefits over features.",
+      ]},
+      { title: "Ads & Landing Copy", prompts: [
+        "Write 5 Google Ads headlines (max 30 characters) and 2 descriptions (max 90 characters) for [PRODUCT/OFFER].",
+        "Write a landing page headline and subheadline for [PRODUCT] targeting [AUDIENCE PAIN POINT].",
+      ]},
+    ],
+    tips: [
+      "Feed it your target keyword explicitly in the prompt — Writesonic's strength is SEO structure, so give it something to optimize around.",
+      "Use the outline-first, then full-draft two-step approach — better structure than asking for a finished article in one shot.",
+      "Run output through a plagiarism/AI-detection check before publishing if that matters for your site's policies.",
+      "Add real examples, data, or opinions by hand afterward — generated SEO content reads generic until you add first-hand specifics.",
+    ],
+  },
+
+  "otter-ai": {
+    toolName: "Otter.ai",
+    toolSlug: "otter-ai",
+    title: "Otter.ai Prompts & Workflow Tips",
+    description: "Get the most out of Otter.ai's transcription and AI meeting summaries — prompts for its AI Chat feature plus workflow tips for cleaner transcripts.",
+    intro: "Otter.ai's AI Chat can query your transcripts directly. These prompts help you extract more than a raw transcript — action items, decisions, and summaries.",
+    sections: [
+      { title: "Otter AI Chat Prompts (post-meeting)", prompts: [
+        "Summarize this meeting in 3 bullet points, then list every action item with who owns it and any mentioned deadline.",
+        "What decisions were made in this meeting, and were there any disagreements or open questions left unresolved?",
+        "Extract every question that was asked during this meeting and whether it was answered.",
+        "Write a short recap email for people who missed this meeting, in a friendly, concise tone, under 150 words.",
+      ]},
+      { title: "Using Transcripts for Content", prompts: [
+        "Pull the 5 most quotable or insightful moments from this transcript, with timestamps if available.",
+        "Turn this interview transcript into a Q&A-style blog post, cleaning up filler words and false starts but keeping the speaker's voice.",
+      ]},
+    ],
+    tips: [
+      "Say names and technical terms clearly early in a meeting — Otter's speaker labels and vocabulary improve once it 'learns' unusual words in context.",
+      "Use the AI Chat on a finished transcript rather than mid-meeting — it works best summarizing complete context, not partial live transcripts.",
+      "Manually correct a few speaker labels early in long recurring meetings — it improves auto-labeling accuracy going forward.",
+      "Export the clean summary immediately after a call while context is still fresh, rather than batching multiple meetings' cleanup later.",
+    ],
+  },
+
+  heygen: {
+    toolName: "HeyGen",
+    toolSlug: "heygen",
+    title: "HeyGen Scripts & Avatar Video Tips",
+    description: "Copy-paste HeyGen script patterns for training videos, sales outreach, and product demos, plus tips for natural-sounding avatar delivery.",
+    intro: "HeyGen quality depends heavily on script pacing and punctuation, since the avatar lip-syncs and paces speech based on your text. These patterns are built for that.",
+    sections: [
+      { title: "Training & Onboarding Scripts", prompts: [
+        "Hi, and welcome to [COMPANY]. In this video, I'll walk you through [TOPIC] in just a few minutes. Let's get started. ... First, [STEP 1]. ... Next, [STEP 2]. ... And finally, [STEP 3]. That's it — you're ready to go.",
+        "Today we're covering [POLICY/PROCESS]. This matters because [WHY IT MATTERS]. Here's what you need to know: [KEY POINT 1], [KEY POINT 2], and [KEY POINT 3]. Questions? Reach out to [CONTACT].",
+      ]},
+      { title: "Sales & Outreach Scripts", prompts: [
+        "Hi [NAME], I wanted to send you a quick personal video instead of another email. I noticed [PERSONALIZED OBSERVATION], and I think [PRODUCT] could help with [SPECIFIC BENEFIT]. Worth a quick chat?",
+        "Thanks for signing up for [PRODUCT]! Here's a quick video to help you get the most out of your first week: [KEY TIP 1], [KEY TIP 2]. Reply to this if you have any questions.",
+      ]},
+      { title: "Product Demo Scripts", prompts: [
+        "Let me show you how [PRODUCT] solves [PROBLEM]. Here's the before: [PAIN POINT]. And here's how it works: [STEP-BY-STEP DEMO NARRATION]. The result: [OUTCOME].",
+      ]},
+    ],
+    tips: [
+      "Use ellipses (...) and short sentences to create natural pauses — long run-on sentences make the avatar's pacing feel rushed.",
+      "Record or type numbers, acronyms, and brand names exactly how they should sound spoken (e.g. spell out tricky pronunciations).",
+      "Keep training/demo videos under 3-4 minutes; completion rates fall sharply on longer avatar videos.",
+      "Match the avatar's tone to the script's formality — a casual script with a very formal avatar reads oddly.",
+    ],
+  },
+
+  cursor: {
+    toolName: "Cursor",
+    toolSlug: "cursor",
+    title: "Cursor Prompts for Faster Coding",
+    description: "Copy-paste prompt patterns for Cursor's inline edit, chat, and codebase-aware features — for debugging, refactoring, and building faster.",
+    intro: "Cursor's edge is codebase context — it can see your whole project, not just the open file. These prompts lean into that for real refactors and debugging, not just autocomplete.",
+    sections: [
+      { title: "Debugging", prompts: [
+        "I'm getting this error: [PASTE ERROR]. Here's the relevant file. Explain the root cause before suggesting a fix, then show the minimal patch.",
+        "This function behaves unexpectedly: [DESCRIBE BEHAVIOR]. Walk through the logic step by step to find where it diverges from what I expect.",
+      ]},
+      { title: "Refactoring & Codebase Questions", prompts: [
+        "@codebase How is [FEATURE/PATTERN] implemented across this project? List every file involved and how they connect.",
+        "Refactor this function for readability without changing its behavior. Explain each change and why it's safer or clearer.",
+        "Find all usages of [FUNCTION/COMPONENT] across the codebase using @codebase, then suggest the safest order to refactor them.",
+      ]},
+      { title: "Building New Features", prompts: [
+        "I want to add [FEATURE] to this project. Given the existing patterns in @codebase, propose an implementation plan before writing code.",
+        "Write a [LANGUAGE] function that [EXACT BEHAVIOR], matching the style and error-handling conventions already used in this file.",
+      ]},
+    ],
+    tips: [
+      "Use @codebase or @file references explicitly — precise context produces far better answers than letting it guess what's relevant.",
+      "Ask for a plan before code on anything non-trivial; review the plan, then generate — catches wrong approaches before they cost time.",
+      "Use inline edit (Cmd+K) for small, local changes and full chat for anything spanning multiple files.",
+      "Review every diff before accepting — treat Cursor's output like a fast junior engineer's PR, not a finished commit.",
+    ],
+  },
 };
 
 export const PROMPT_SLUGS = Object.keys(PROMPT_LIBS);

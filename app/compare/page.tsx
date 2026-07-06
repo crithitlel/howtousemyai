@@ -55,6 +55,13 @@ const COMPARISONS = [
   { slug: "capcut-ai-vs-descript", tool1: "CapCut AI", tool2: "Descript", category: "VIDEO" },
   { slug: "krea-vs-leonardo-ai", tool1: "Krea", tool2: "Leonardo.ai", category: "IMAGERY" },
   { slug: "zapier-ai-vs-notion-ai", tool1: "Zapier AI", tool2: "Notion AI", category: "PRODUCTIVITY" },
+  { slug: "dall-e-3-vs-adobe-firefly", tool1: "DALL·E 3", tool2: "Adobe Firefly", category: "IMAGERY" },
+  { slug: "copy-ai-vs-writesonic", tool1: "Copy.ai", tool2: "Writesonic", category: "COPY" },
+  { slug: "runway-vs-pika", tool1: "Runway", tool2: "Pika", category: "VIDEO" },
+  { slug: "cursor-vs-github-copilot", tool1: "Cursor", tool2: "GitHub Copilot", category: "CODE" },
+  { slug: "zapier-ai-vs-semrush", tool1: "Zapier AI", tool2: "Semrush", category: "PRODUCTIVITY" },
+  { slug: "synthesia-vs-d-id", tool1: "Synthesia", tool2: "D-ID", category: "VIDEO" },
+  { slug: "beautiful-ai-vs-pitch", tool1: "Beautiful.ai", tool2: "Pitch", category: "SLIDES" },
 ];
 
 const schema = {

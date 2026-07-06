@@ -39,6 +39,13 @@ export const COMPARE_SLUGS = new Set<string>([
   "capcut-ai-vs-descript",
   "krea-vs-leonardo-ai",
   "zapier-ai-vs-notion-ai",
+  "dall-e-3-vs-adobe-firefly",
+  "copy-ai-vs-writesonic",
+  "runway-vs-pika",
+  "cursor-vs-github-copilot",
+  "zapier-ai-vs-semrush",
+  "synthesia-vs-d-id",
+  "beautiful-ai-vs-pitch",
 ]);
 
 // Returns the editorial comparison slug for a pair of tool names if one
