@@ -1,10 +1,37 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { TOOLS } from "@/lib/tools";
+import { TOOLS, slugify } from "@/lib/tools";
 import SiteHeader from "../components/SiteHeader";
 import SiteFooter from "../components/SiteFooter";
 import ToolsBrowser from "../components/ToolsBrowser";
+
+// ToolsBrowser is a client component gated behind useSearchParams, so on a
+// cached/static response crawlers only ever see this Suspense fallback —
+// it must contain a real link to every tool, not just a loading message.
+function ToolsIndexFallback() {
+  const categories = Array.from(new Set(TOOLS.map((t) => t.category))).sort();
+  return (
+    <div className="py-8">
+      {categories.map((cat) => (
+        <div key={cat} className="mb-8">
+          <h2 className="mono text-[10px] tracking-[0.18em] text-[#5d6f93] mb-3">{cat.toUpperCase()}</h2>
+          <div className="flex flex-wrap gap-x-4 gap-y-2">
+            {TOOLS.filter((t) => t.category === cat).map((t) => (
+              <Link
+                key={t.name}
+                href={`/tools/${slugify(t.name)}`}
+                className="mono text-[12px] text-[#dbe6fb] hover:text-[#4da3ff] underline decoration-[#5d6f93]/40"
+              >
+                {t.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export const metadata: Metadata = {
   title: "All AI Tools Directory — HowToUseMyAI",
@@ -59,7 +86,7 @@ export default function ToolsIndexPage() {
         </div>
 
         {/* Interactive filter / sort browser */}
-        <Suspense fallback={<div className="mono text-[10px] tracking-[0.18em] text-[#5d6f93] py-8">LOADING INDEX…</div>}>
+        <Suspense fallback={<ToolsIndexFallback />}>
           <ToolsBrowser />
         </Suspense>
       </main>
