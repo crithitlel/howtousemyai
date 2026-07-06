@@ -1060,6 +1060,228 @@ export const PROMPT_LIBS: Record<string, PromptLibrary> = {
       "Review every diff before accepting — treat Cursor's output like a fast junior engineer's PR, not a finished commit.",
     ],
   },
+
+  sora: {
+    toolName: "Sora",
+    toolSlug: "sora",
+    title: "Sora Prompts for Realistic AI Video",
+    description: "Copy-paste Sora prompts for cinematic shots, realistic scenes, and stylized clips — written the way OpenAI's video model responds best to camera and motion language.",
+    intro: "Sora rewards prompts that describe a shot like a director would: subject, action, setting, camera movement, and lighting, in that order. Vague prompts produce vague, drifting video.",
+    sections: [
+      { title: "Cinematic Realism", prompts: [
+        "A drone shot slowly rising over [LOCATION] at golden hour, warm sunlight, gentle camera movement, photorealistic, 4k",
+        "A close-up tracking shot following [SUBJECT] walking through [SETTING], shallow depth of field, natural lighting, handheld camera feel",
+        "A static wide shot of [SCENE], soft morning fog, muted colors, slow subtle motion in the background, cinematic color grade",
+      ]},
+      { title: "Stylized & Concept Clips", prompts: [
+        "A stop-motion style animation of [SUBJECT] doing [ACTION], claymation texture, warm studio lighting, playful tone",
+        "A slow-motion shot of [SUBJECT/OBJECT], dramatic side lighting, dust particles in the air, high contrast, moody atmosphere",
+      ]},
+      { title: "Product & Object Focus", prompts: [
+        "A 360-degree rotating shot of [PRODUCT] on a clean studio background, soft even lighting, subtle reflections, commercial style",
+        "A macro shot of [OBJECT/TEXTURE], extreme close-up, shallow focus, soft natural light, satisfying visual detail",
+      ]},
+    ],
+    tips: [
+      "Describe camera movement explicitly (drone, tracking, static, handheld) — Sora treats this as a real instruction, not flavor text.",
+      "Keep the core subject and action in the first sentence; save style/mood descriptors for after.",
+      "Shorter, focused prompts hold together better over the clip's duration than prompts stacking many unrelated details.",
+      "Generate a few variations of the same prompt — output varies more between runs than image models do.",
+    ],
+  },
+
+  notebooklm: {
+    toolName: "NotebookLM",
+    toolSlug: "notebooklm",
+    title: "NotebookLM Prompts for Research & Study",
+    description: "Copy-paste NotebookLM prompts for turning your own documents into summaries, study guides, and source-grounded answers.",
+    intro: "NotebookLM only answers from the sources you upload, so the best prompts point it at specific documents and ask for a specific structure — not open-ended questions it has to invent an answer to.",
+    sections: [
+      { title: "Summarizing Sources", prompts: [
+        "Summarize the uploaded sources in 5 bullet points, citing which source each point comes from.",
+        "What are the 3 main arguments across these documents, and where do the sources agree or disagree with each other?",
+        "Give me a one-paragraph executive summary of these sources suitable for someone who hasn't read them.",
+      ]},
+      { title: "Study Guides & Learning", prompts: [
+        "Create a study guide from these sources: key terms with definitions, 5 potential exam questions, and a one-page summary.",
+        "Explain [CONCEPT] from these sources as if teaching a beginner, using an example from the source material.",
+        "Generate 10 quiz questions (with answers) based only on the uploaded sources.",
+      ]},
+      { title: "Research & Cross-Referencing", prompts: [
+        "Find every place across these sources that mentions [TOPIC], and summarize what each one says about it.",
+        "What questions does this source material leave unanswered about [TOPIC]?",
+      ]},
+    ],
+    tips: [
+      "Upload the actual source documents (PDFs, docs, links) first — NotebookLM is only as good as what you feed it, unlike general chat AI.",
+      "Ask it to cite which source a claim came from — this is one of its biggest advantages over general-purpose chatbots.",
+      "Use the Audio Overview feature for a spoken-conversation-style summary when you want to 'listen' to your notes instead of reading them.",
+      "Keep notebooks scoped to one project or topic — mixing unrelated source sets makes answers less focused.",
+    ],
+  },
+
+  ideogram: {
+    toolName: "Ideogram",
+    toolSlug: "ideogram",
+    title: "Ideogram Prompts (Especially for Text-in-Image)",
+    description: "Copy-paste Ideogram prompts for logos, posters, and designs with clean readable text — Ideogram's strongest differentiator vs other image generators.",
+    intro: "Ideogram's edge is rendering legible text inside images. These prompts lean into that, plus general style prompts for when you don't need text.",
+    sections: [
+      { title: "Text-in-Image (Logos, Posters, Signs)", prompts: [
+        'A minimalist poster design with the text "[YOUR TEXT]" in bold sans-serif font, centered, clean background, high contrast',
+        'A logo design for a brand called "[NAME]", modern flat style, the brand name in a clean geometric font, simple icon beside it',
+        'A vintage-style sign that reads "[YOUR TEXT]", weathered wood texture, warm lighting, hand-painted lettering look',
+      ]},
+      { title: "Illustration & Design Styles", prompts: [
+        "[SUBJECT], flat vector illustration, bold colors, simple shapes, modern editorial style",
+        "[SUBJECT], retro 1970s poster art style, warm color palette, grainy texture, bold typography-friendly composition",
+      ]},
+    ],
+    tips: [
+      "Put the exact text you want rendered in quotation marks inside the prompt — this is what triggers Ideogram's text-rendering strength.",
+      "Keep requested text short (a few words) — long sentences still degrade in legibility.",
+      "Specify font style in words (bold sans-serif, script, geometric) since you can't pick an actual font file.",
+      "Use it over other image generators specifically when the output needs to include real, readable words.",
+    ],
+  },
+
+  krea: {
+    toolName: "Krea",
+    toolSlug: "krea",
+    title: "Krea Prompts for Real-Time AI Image Generation",
+    description: "Copy-paste Krea prompts optimized for its real-time generation and upscaling tools, plus tips for using its live-canvas mode.",
+    intro: "Krea's real-time canvas means you can iterate on a prompt in seconds and watch it update — these prompts are built to be tweaked live rather than written once and submitted.",
+    sections: [
+      { title: "Real-Time Canvas Starters", prompts: [
+        "[SUBJECT], photorealistic, soft natural lighting, detailed texture, high resolution",
+        "[SUBJECT], concept art style, dramatic lighting, painterly brush strokes, trending on artstation",
+        "[SCENE], isometric illustration, clean vector style, soft shadows, minimal color palette",
+      ]},
+      { title: "Upscaling & Enhancement Prompts", prompts: [
+        "Enhance this image: increase detail and sharpness while preserving the original composition and colors",
+        "Upscale and add realistic texture detail to [SUBJECT] without changing the overall style",
+      ]},
+    ],
+    tips: [
+      "Use the real-time canvas to nudge the prompt in small increments rather than rewriting it fully each time — you'll converge faster.",
+      "Sketch a rough shape on the canvas alongside your prompt when you care about composition, not just style.",
+      "Krea's upscaler works best on images that are already reasonably clean — heavily flawed source images upscale their flaws too.",
+      "Save prompt variations that work well; Krea's fast iteration makes it easy to lose track of which version you liked best.",
+    ],
+  },
+
+  "replit-ai": {
+    toolName: "Replit AI",
+    toolSlug: "replit-ai",
+    title: "Replit AI Prompts for Building Apps Fast",
+    description: "Copy-paste Replit AI (Agent) prompts for scaffolding full apps, fixing bugs, and adding features — tuned for its build-and-deploy workflow.",
+    intro: "Replit AI's Agent mode can scaffold a whole working app from a description. These prompts are structured to give it enough constraints to build something usable on the first pass.",
+    sections: [
+      { title: "Scaffolding a New App", prompts: [
+        "Build a [TYPE OF APP] app that lets users [CORE FEATURE]. Use [FRAMEWORK/LANGUAGE IF YOU HAVE A PREFERENCE]. Include a simple UI and basic error handling.",
+        "Create a landing page for [PRODUCT/IDEA] with a hero section, 3 feature blocks, and an email signup form. Keep the design clean and modern.",
+      ]},
+      { title: "Adding Features to Existing Projects", prompts: [
+        "Add [FEATURE] to this project. Match the existing code style and don't break any current functionality.",
+        "Add user authentication (email/password) to this app, including a login and signup page.",
+      ]},
+      { title: "Debugging & Fixing", prompts: [
+        "This app throws this error when I [ACTION]: [PASTE ERROR]. Find the root cause and fix it.",
+        "Review this project for bugs or edge cases I might have missed, and fix the most important ones.",
+      ]},
+    ],
+    tips: [
+      "Describe the core feature and any hard constraints (framework, data storage) up front — Agent mode fills in the rest, so vague constraints get vague results.",
+      "Ask for one feature at a time on larger projects rather than a giant multi-feature request — easier to review and less likely to break something.",
+      "Review the generated code before deploying, especially anything touching auth, payments, or user data.",
+      "Use the chat to ask 'why' after a fix — understanding the change makes the next prompt more precise.",
+    ],
+  },
+
+  "bolt-new": {
+    toolName: "Bolt.new",
+    toolSlug: "bolt-new",
+    title: "Bolt.new Prompts for Instant Web Apps",
+    description: "Copy-paste Bolt.new prompts for generating full-stack web apps from a single description, plus tips for iterating without breaking things.",
+    intro: "Bolt.new builds and runs a full app in-browser from one prompt. Being specific about stack, layout, and data up front avoids generic scaffolding you'll have to redo.",
+    sections: [
+      { title: "Full App Generation", prompts: [
+        "Build a [TYPE OF APP] using React and Tailwind CSS. It should let users [CORE FEATURES]. Use a clean, modern UI with a dark theme.",
+        "Create a simple [TYPE] dashboard with a sidebar nav, a main content area showing [DATA/METRICS], and a header with a search bar.",
+      ]},
+      { title: "Iterating on an Existing App", prompts: [
+        "Add a [FEATURE] to the current app. Keep the existing design system and don't change unrelated pages.",
+        "Make the app responsive for mobile — the [SPECIFIC COMPONENT] currently breaks on small screens.",
+      ]},
+      { title: "Styling & Polish", prompts: [
+        "Improve the visual design of this app: better spacing, consistent typography, and a more polished color palette. Don't change functionality.",
+        "Add loading states and empty states to every list/data view in this app.",
+      ]},
+    ],
+    tips: [
+      "Name your stack explicitly (React + Tailwind, etc.) — Bolt.new defaults to sensible choices but being specific avoids a mismatch with what you actually want.",
+      "Make one clear change per prompt when iterating — bundling multiple unrelated asks increases the odds of an unwanted side effect.",
+      "Ask it to explain what changed after each iteration if you're not reading the code yourself, so you know what to test.",
+      "Export/download the project periodically once it's in good shape — treat each working checkpoint as a save point.",
+    ],
+  },
+
+  "v0-by-vercel": {
+    toolName: "V0 by Vercel",
+    toolSlug: "v0-by-vercel",
+    title: "V0 by Vercel Prompts for UI Components",
+    description: "Copy-paste v0 prompts for generating polished React/Tailwind UI components and full page layouts.",
+    intro: "v0 is tuned specifically for UI — it responds best to prompts that describe layout, components, and visual style rather than backend logic.",
+    sections: [
+      { title: "Components", prompts: [
+        "A pricing table with 3 tiers, the middle tier highlighted as 'Most Popular', clean modern design, using Tailwind CSS",
+        "A responsive navbar with a logo on the left, nav links in the center, and a CTA button on the right. Include a mobile hamburger menu.",
+        "A dashboard stat card showing a metric name, a large number, and a small trend indicator (up/down arrow with percentage)",
+      ]},
+      { title: "Full Page Layouts", prompts: [
+        "A SaaS landing page with a hero section (headline, subheadline, CTA button), a 3-column features section, and a footer with links",
+        "A login page with email/password fields, a 'remember me' checkbox, a forgot-password link, and a clean card-based layout",
+      ]},
+      { title: "Refining Generated Components", prompts: [
+        "Make this component's spacing tighter and reduce the font sizes slightly so it feels more compact",
+        "Convert this component to support a dark mode variant using Tailwind's dark: classes",
+      ]},
+    ],
+    tips: [
+      "Describe the layout structure explicitly (columns, sections, order) — v0 follows structural instructions more reliably than vague style requests.",
+      "Ask for Tailwind CSS explicitly if that's your stack; v0 defaults to it but stating it avoids ambiguity in edge cases.",
+      "Generate a component, then refine in follow-up prompts rather than trying to describe every detail in the first prompt.",
+      "Copy the generated code into your actual project and adjust for your design tokens — treat v0 output as a strong starting point, not final production code.",
+    ],
+  },
+
+  sudowrite: {
+    toolName: "Sudowrite",
+    toolSlug: "sudowrite",
+    title: "Sudowrite Prompts for Fiction Writing",
+    description: "Copy-paste Sudowrite prompts for scene writing, character development, and overcoming writer's block — built for its Write, Describe, and Brainstorm tools.",
+    intro: "Sudowrite is built specifically for fiction, so its best prompts give it narrative context (POV, tone, what just happened) rather than generic writing instructions.",
+    sections: [
+      { title: "Continuing a Scene", prompts: [
+        "Continue this scene in the same POV and tense. [CHARACTER] just [EVENT]. Keep the tone [TONE] and the pacing tense.",
+        "Write the next 300 words of this scene, focusing on dialogue between [CHARACTER A] and [CHARACTER B] that reveals their conflict over [TOPIC].",
+      ]},
+      { title: "Description & Sensory Detail", prompts: [
+        "Describe [SETTING] using vivid sensory detail (sight, sound, smell) in a way that reflects [CHARACTER]'s emotional state of [EMOTION].",
+        "Rewrite this description to be more visceral and immersive, without changing the actual events.",
+      ]},
+      { title: "Character & Plot Development", prompts: [
+        "Brainstorm 5 possible motivations for why [CHARACTER] would do [ACTION], ranging from sympathetic to villainous.",
+        "Give me 3 different ways this chapter could end, each implying a different direction for the next chapter.",
+      ]},
+    ],
+    tips: [
+      "Feed it your actual manuscript text as context — Sudowrite's Story Engine matches your existing voice far better when it can read what you've already written.",
+      "Use Describe for sensory detail specifically; use Write/Continue for plot and dialogue — they're tuned for different jobs.",
+      "Ask for options (3-5 variants) on character motivation or plot direction rather than a single answer — better for brainstorming than a final draft.",
+      "Always rewrite AI output in your own voice before it goes in a finished manuscript — it's a drafting aid, not a ghostwriter for the final prose.",
+    ],
+  },
 };
 
 export const PROMPT_SLUGS = Object.keys(PROMPT_LIBS);
