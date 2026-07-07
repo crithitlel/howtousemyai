@@ -2405,6 +2405,10 @@ body.v2-shell .starfield { display: none !important; }
 .v2-vs-name { font-family: var(--font-tech), var(--v2-mono); font-weight: 700; font-size: 16px;
   letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink); }
 .v2-vs-tag { font-size: 12px; line-height: 1.55; color: var(--ink-mid); margin: 0 0 16px; }
+.v2-vs-price { display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-tech), var(--v2-mono);
+  font-size: 12px; font-weight: 600; color: var(--v2-blue); margin: -6px 0 16px; text-decoration: none; }
+a.v2-vs-price:hover { text-decoration: underline; }
+span.v2-vs-price { color: var(--ink-mid); font-weight: 500; }
 .v2-vs-sub { font-family: var(--font-tech), var(--v2-mono); font-size: 9.5px; letter-spacing: 0.16em;
   text-transform: uppercase; color: var(--v2-dim); margin: 0 0 9px; }
 .v2-vs-list { list-style: none; margin: 0 0 16px; padding: 0; display: flex; flex-direction: column; gap: 7px; }

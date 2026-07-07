@@ -6,6 +6,9 @@ import SiteFooter from "../../components/SiteFooter";
 import NewsletterSignup from "../../components/NewsletterSignup";
 import { TOOLS, slugify } from "@/lib/tools";
 import { getToolUrl } from "@/lib/affiliates";
+import { PRICED_TOOLS } from "@/lib/pricing";
+
+const PRICE_BY_NAME = new Map(PRICED_TOOLS.map((p) => [p.name, p]));
 
 // Base facts (name, domain, pricing, url) are the single source of truth in
 // lib/tools.ts. A comparison entry only declares its page-unique editorial
@@ -37,19 +40,37 @@ interface CompareTool {
   cons: string[];
   bestFor: string;
   url: string;
+  priceLabel: string;
+  priceUrl?: string;
+}
+
+function priceInfo(name: string, pricing: "Free" | "Freemium" | "Paid", url: string): { label: string; url?: string } {
+  const priced = PRICE_BY_NAME.get(name);
+  if (priced) {
+    return { label: `From $${priced.monthlyUSD}/mo${priced.note ? ` (${priced.note})` : ""}`, url: priced.pricingUrl };
+  }
+  if (pricing === "Free") return { label: "Free" };
+  if (pricing === "Freemium") return { label: "Free plan available", url };
+  return { label: "Paid — see current pricing", url };
 }
 
 function resolveTool(c: CompareToolContent): CompareTool {
   const base = c.slug ? BY_SLUG.get(c.slug) : undefined;
+  const name = c.name ?? base?.name ?? "";
+  const pricing = c.pricing ?? base?.pricing ?? "Freemium";
+  const url = c.url ?? base?.url ?? "";
+  const price = priceInfo(name, pricing, url);
   return {
-    name: c.name ?? base?.name ?? "",
+    name,
     domain: c.domain ?? base?.domain ?? "",
-    pricing: c.pricing ?? base?.pricing ?? "Freemium",
-    url: c.url ?? base?.url ?? "",
+    pricing,
+    url,
     tagline: c.tagline,
     pros: c.pros,
     cons: c.cons,
     bestFor: c.bestFor,
+    priceLabel: price.label,
+    priceUrl: price.url,
   };
 }
 
@@ -1033,6 +1054,14 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
                     <span className={`v2-pill v2-pill-${tool.pricing.toLowerCase()}`} style={{ marginTop: 4 }}>{tool.pricing}</span>
                   </div>
                 </div>
+
+                {tool.priceUrl ? (
+                  <a href={tool.priceUrl} target="_blank" rel="noopener noreferrer" className="v2-vs-price">
+                    {tool.priceLabel} ↗
+                  </a>
+                ) : (
+                  <span className="v2-vs-price">{tool.priceLabel}</span>
+                )}
                 <p className="v2-vs-tag">{tool.tagline}</p>
 
                 <p className="v2-vs-sub">Pros</p>
