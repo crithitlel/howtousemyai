@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { TOOLS, slugify, type Tool } from "@/lib/tools";
 import { tagsForTool, tagLabel, activeTags } from "@/lib/tags";
@@ -32,12 +32,26 @@ type SortMode = "sector" | "az" | "za";
 
 const catParam = (c: string) => c.toLowerCase().replace(/\s+/g, "-");
 
-function Card({ tool }: { tool: Tool }) {
-  const { isPinned, toggle: togglePin } = usePins();
-  const { inCompare, toggle: toggleCompare, isFull } = useCompare();
-  const pinned = isPinned(tool.name);
-  const comparing = inCompare(tool.name);
-
+// Pin/compare state is subscribed ONCE in ToolsBrowser and passed down as
+// plain booleans, with Card wrapped in memo — so toggling one tool's pin
+// only re-renders that one card, not all 165 (previously a shared
+// window-event subscription in every card meant one pin click forced every
+// card to re-render, a measured ~120ms main-thread block).
+const Card = memo(function Card({
+  tool,
+  pinned,
+  comparing,
+  isFull,
+  onTogglePin,
+  onToggleCompare,
+}: {
+  tool: Tool;
+  pinned: boolean;
+  comparing: boolean;
+  isFull: boolean;
+  onTogglePin: (name: string) => void;
+  onToggleCompare: (name: string) => void;
+}) {
   const stop = (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); };
 
   return (
@@ -61,7 +75,7 @@ function Card({ tool }: { tool: Tool }) {
               <button
                 type="button"
                 className={`tcard-cmp ${comparing ? "is-on" : ""}`}
-                onClick={(e) => { stop(e); toggleCompare(tool.name); }}
+                onClick={(e) => { stop(e); onToggleCompare(tool.name); }}
                 disabled={!comparing && isFull}
                 title={comparing ? "Remove from compare" : isFull ? `Compare is full (${MAX_COMPARE} max)` : "Add to compare"}
                 aria-label="Toggle compare"
@@ -69,7 +83,7 @@ function Card({ tool }: { tool: Tool }) {
               <button
                 type="button"
                 className={`tcard-pin ${pinned ? "is-on" : ""}`}
-                onClick={(e) => { stop(e); togglePin(tool.name); }}
+                onClick={(e) => { stop(e); onTogglePin(tool.name); }}
                 title={pinned ? "Unpin node" : "Pin node"}
                 aria-label="Toggle pin"
               >{pinned ? "★" : "☆"}</button>
@@ -94,9 +108,11 @@ function Card({ tool }: { tool: Tool }) {
       </div>
     </Link>
   );
-}
+});
 
 export default function ToolsBrowser() {
+  const { isPinned, toggle: togglePin } = usePins();
+  const { inCompare, toggle: toggleCompare, isFull } = useCompare();
   const categories = useMemo(() => Array.from(new Set(TOOLS.map((t) => t.category))).sort(), []);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -223,7 +239,17 @@ export default function ToolsBrowser() {
                     <span className="v2-catbar-count">{String(catTools.length).padStart(2, "0")} UNITS</span>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {catTools.map((tool) => <Card key={tool.name} tool={tool} />)}
+                    {catTools.map((tool) => (
+                      <Card
+                        key={tool.name}
+                        tool={tool}
+                        pinned={isPinned(tool.name)}
+                        comparing={inCompare(tool.name)}
+                        isFull={isFull}
+                        onTogglePin={togglePin}
+                        onToggleCompare={toggleCompare}
+                      />
+                    ))}
                   </div>
                 </section>
               );
@@ -231,7 +257,17 @@ export default function ToolsBrowser() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {filtered.map((tool) => <Card key={tool.name} tool={tool} />)}
+          {filtered.map((tool) => (
+            <Card
+              key={tool.name}
+              tool={tool}
+              pinned={isPinned(tool.name)}
+              comparing={inCompare(tool.name)}
+              isFull={isFull}
+              onTogglePin={togglePin}
+              onToggleCompare={toggleCompare}
+            />
+          ))}
         </div>
       )}
     </div>
