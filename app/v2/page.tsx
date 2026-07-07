@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Logo from "../components/Logo";
 import BrandMark from "../components/BrandMark";
@@ -11,20 +10,13 @@ import HeroCanvas from "../components/HeroCanvas";
 import HeroGlobe from "../components/HeroGlobe";
 import PinnedStrip from "../components/PinnedStrip";
 import NewsletterSignup from "../components/NewsletterSignup";
-import { TOOLS, slugify, type Tool } from "@/lib/tools";
-import { searchTools } from "@/lib/search";
+import LiveClock from "../components/LiveClock";
+import GlitchHeadline from "../components/GlitchHeadline";
+import ScrollRail from "../components/ScrollRail";
+import ToolCountUp from "../components/ToolCountUp";
+import HeroSearch from "../components/HeroSearch";
+import { TOOLS, slugify } from "@/lib/tools";
 import { WORKFLOWS } from "@/lib/workflows";
-
-/* ── HUD corner-bracket frame wrapper ── */
-function Frame({ className = "", children }: { className?: string; children: React.ReactNode }) {
-  return (
-    <div className={`v2-frame ${className}`}>
-      <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" />
-      <i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
-      {children}
-    </div>
-  );
-}
 
 /* ── Technical section-break divider ── */
 function SectionBreak({ code, label, reveal = true }: { code: string; label: string; reveal?: boolean }) {
@@ -58,138 +50,15 @@ const COMPARE = [
   { slug: "github-copilot-vs-cursor", a: "GITHUB COPILOT", b: "CURSOR",   label: "CODE",       code: "DUEL.03" },
 ];
 
-const PLACEHOLDERS = [
-  "CREATE A YOUTUBE VIDEO",
-  "WRITE A COVER LETTER",
-  "GENERATE BRAND IMAGERY",
-  "DEBUG MY SOURCE CODE",
-];
-
 const SECTOR_COUNT = new Set(TOOLS.map((t) => t.category)).size;
 // Real, computed stat — tools with a free or freemium tier you can start without paying.
 const FREE_TO_TRY = TOOLS.filter((t) => t.pricing !== "Paid").length;
 
 export default function V2Page() {
-  const [query, setQuery] = useState("");
-  const [count, setCount] = useState(0);
-  const [ph, setPh] = useState("");
-  const [clock, setClock] = useState("--:--:--");
-  const [glitch, setGlitch] = useState(false);
-  const [scrollPct, setScrollPct] = useState(0);
+  const [searchFocus, setSearchFocus] = useState(false);
   const heroRef = useRef<HTMLDivElement | null>(null);
-  const magnetRef = useRef<HTMLButtonElement | null>(null);
-  const router = useRouter();
 
   const featured = TOOLS.filter((t) => t.isFeatured).slice(0, 6);
-
-  // hero search typeahead
-  const [sugOpen, setSugOpen] = useState(false);
-  const [sugActive, setSugActive] = useState(-1);
-  const [searchFocus, setSearchFocus] = useState(false);
-  const wrapRef = useRef<HTMLDivElement | null>(null);
-  const [sugRect, setSugRect] = useState<{ left: number; top: number; width: number; maxHeight: number } | null>(null);
-  const updateRect = () => {
-    const r = wrapRef.current?.getBoundingClientRect();
-    if (r) setSugRect({ left: r.left, top: r.bottom + 8, width: r.width, maxHeight: window.innerHeight - r.bottom - 24 });
-  };
-  // Intent-aware suggestions (synonyms, capabilities, use-cases) — not just substring.
-  const suggestions = useMemo(() => {
-    const term = query.trim();
-    if (!term) return [] as Tool[];
-    return searchTools(term, 6) as unknown as Tool[];
-  }, [query]);
-
-  const submit = (q: string) => {
-    const t = q.trim();
-    if (t) router.push(`/recommend?q=${encodeURIComponent(t)}`);
-  };
-
-  const onSearchKey = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setSugOpen(true);
-      setSugActive((a) => Math.min(a + 1, suggestions.length - 1));
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setSugActive((a) => Math.max(a - 1, -1));
-    } else if (e.key === "Enter") {
-      if (sugOpen && sugActive >= 0 && suggestions[sugActive]) {
-        router.push(`/tools/${slugify(suggestions[sugActive].name)}`);
-      } else {
-        submit(query);
-      }
-    } else if (e.key === "Escape") {
-      setSugOpen(false);
-      setSugActive(-1);
-    }
-  };
-
-  // keep typeahead popover anchored to the search box
-  useEffect(() => {
-    if (!sugOpen) return;
-    updateRect();
-    const on = () => updateRect();
-    window.addEventListener("scroll", on, true);
-    window.addEventListener("resize", on);
-    return () => {
-      window.removeEventListener("scroll", on, true);
-      window.removeEventListener("resize", on);
-    };
-  }, [sugOpen]);
-
-  // count-up for hero annotation + lead
-  useEffect(() => {
-    const nodeTarget = TOOLS.length;
-    const start = performance.now();
-    let raf = 0;
-    const step = (now: number) => {
-      const p = Math.min((now - start) / 1600, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setCount(Math.round(eased * nodeTarget));
-      if (p < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  // typewriter
-  useEffect(() => {
-    let i = 0, pos = 0, del = false, timer: ReturnType<typeof setTimeout>;
-    const tick = () => {
-      const txt = PLACEHOLDERS[i];
-      if (!del) { pos++; setPh(txt.slice(0, pos)); if (pos === txt.length) { del = true; timer = setTimeout(tick, 1700); return; } timer = setTimeout(tick, 55); }
-      else { pos--; setPh(txt.slice(0, pos)); if (pos === 0) { del = false; i = (i + 1) % PLACEHOLDERS.length; timer = setTimeout(tick, 280); return; } timer = setTimeout(tick, 22); }
-    };
-    timer = setTimeout(tick, 800);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // live Eastern Time clock (auto EST/EDT)
-  useEffect(() => {
-    const fmt = () => {
-      setClock(
-        new Date().toLocaleTimeString("en-US", {
-          timeZone: "America/New_York",
-          hour12: false,
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        })
-      );
-    };
-    fmt();
-    const id = setInterval(fmt, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  // periodic headline glitch
-  useEffect(() => {
-    const id = setInterval(() => {
-      setGlitch(true);
-      setTimeout(() => setGlitch(false), 220);
-    }, 4200);
-    return () => clearInterval(id);
-  }, []);
 
   // hero parallax (crosshair + rings track cursor)
   useEffect(() => {
@@ -206,37 +75,10 @@ export default function V2Page() {
     return () => el.removeEventListener("mousemove", move);
   }, []);
 
-  // magnetic CTA
-  useEffect(() => {
-    const btn = magnetRef.current;
-    if (!btn) return;
-    const move = (e: MouseEvent) => {
-      const r = btn.getBoundingClientRect();
-      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-      const dx = e.clientX - cx, dy = e.clientY - cy;
-      if (Math.hypot(dx, dy) < 110) btn.style.transform = `translate(${dx * 0.22}px, ${dy * 0.22}px)`;
-      else btn.style.transform = "";
-    };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
-  }, []);
-
   // dark full-bleed shell for this route only
   useEffect(() => {
     document.body.classList.add("v2-shell");
     return () => document.body.classList.remove("v2-shell");
-  }, []);
-
-  // scroll progress
-  useEffect(() => {
-    const onScroll = () => {
-      const h = document.documentElement;
-      const max = h.scrollHeight - h.clientHeight;
-      setScrollPct(max > 0 ? Math.round((h.scrollTop / max) * 100) : 0);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // scroll reveal
@@ -275,11 +117,7 @@ export default function V2Page() {
       <div className="v2-noise" aria-hidden="true" />
 
       {/* fixed scroll-progress rail */}
-      <div className="v2-scrollrail" aria-hidden="true">
-        <span className="v2-scrollrail-pct">{String(scrollPct).padStart(3, "0")}<em>%</em></span>
-        <span className="v2-scrollrail-track"><i style={{ height: `${scrollPct}%` }} /></span>
-        <span className="v2-scrollrail-label">SCROLL // DEPTH</span>
-      </div>
+      <ScrollRail />
 
       {/* ════ COMMAND BAR ════ */}
       <header className="v2-topbar">
@@ -303,7 +141,7 @@ export default function V2Page() {
           >
             <span className="v2-cmdk-ico">⌘</span>K<span className="v2-cmdk-txt">SEARCH</span>
           </button>
-          <span className="v2-stat v2-mono">{clock} ET</span>
+          <LiveClock />
         </div>
       </header>
 
@@ -365,7 +203,7 @@ export default function V2Page() {
 
         {/* floating annotations */}
         <span className="v2-anno v2-anno-tl" aria-hidden="true">▸ RENDER OK · 60FPS</span>
-        <span className="v2-anno v2-anno-tr" aria-hidden="true">NODE.MAINFRAME // {count}</span>
+        <span className="v2-anno v2-anno-tr" aria-hidden="true">NODE.MAINFRAME // <ToolCountUp target={TOOLS.length} /></span>
         <span className="v2-anno v2-anno-bl" aria-hidden="true">BUILD 1.9.{new Date().getFullYear()}</span>
 
         {/* rotating hex emblem */}
@@ -387,7 +225,7 @@ export default function V2Page() {
 
         {/* corner HUD statistics (shown in compact / search-primary compositions) */}
         <div className="v2-herostats" aria-hidden="true">
-          <span className="v2-hs-cell"><b>{count}</b><em>TOOLS</em></span>
+          <span className="v2-hs-cell"><b><ToolCountUp target={TOOLS.length} /></b><em>TOOLS</em></span>
           <span className="v2-hs-sep" />
           <span className="v2-hs-cell"><b>{SECTOR_COUNT}</b><em>CATEGORIES</em></span>
           <span className="v2-hs-sep" />
@@ -399,70 +237,9 @@ export default function V2Page() {
             <i className="v2-haz" /><span>// DISCOVER + LEARN · THE AI DIRECTORY THAT TEACHES</span><i className="v2-haz" />
           </div>
 
-          <h1 className={`v2-display ${glitch ? "is-glitch" : ""}`} data-text="Find the right AI">
-            Find the <span className="v2-display-blue">right AI</span><span className="v2-display-red">.</span>
-          </h1>
+          <GlitchHeadline />
 
-          <div className="v2-console-wrap" ref={wrapRef}>
-            <Frame className="v2-console">
-              <span className="v2-console-tag">DESCRIBE YOUR TASK</span>
-              <div className="v2-console-row">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <input
-                  value={query}
-                  onChange={(e) => { setQuery(e.target.value); setSugOpen(true); setSugActive(-1); }}
-                  onKeyDown={onSearchKey}
-                  onFocus={() => { setSearchFocus(true); if (query.trim()) { setSugOpen(true); updateRect(); } }}
-                  onBlur={() => { setSearchFocus(false); setTimeout(() => setSugOpen(false), 120); }}
-                  placeholder={ph ? `> ${ph}_` : "State your objective..."}
-                  role="combobox"
-                  aria-expanded={sugOpen && suggestions.length > 0}
-                  aria-controls="v2-sug-list"
-                  autoComplete="off"
-                />
-                <button ref={magnetRef} className="v2-cta" onClick={() => submit(query)}>
-                  <span>SEARCH</span><i className="v2-cta-arrow">▸</i>
-                </button>
-              </div>
-            </Frame>
-
-            {sugOpen && suggestions.length > 0 && (
-              <div
-                className="v2-sug"
-                id="v2-sug-list"
-                role="listbox"
-                style={sugRect ? { left: sugRect.left, top: sugRect.top, width: sugRect.width, maxHeight: sugRect.maxHeight } : undefined}
-              >
-                <div className="v2-sug-head">
-                  <span className="v2-sug-prompt">{">"}</span> MATCHING NODES
-                  <span className="v2-sug-count">{suggestions.length}</span>
-                </div>
-                {suggestions.map((t, i) => (
-                  <button
-                    key={t.name}
-                    role="option"
-                    aria-selected={i === sugActive}
-                    className={`v2-sug-row ${i === sugActive ? "is-active" : ""}`}
-                    onMouseEnter={() => setSugActive(i)}
-                    onMouseDown={(e) => e.preventDefault()}
-                    onClick={() => router.push(`/tools/${slugify(t.name)}`)}
-                  >
-                    <span className="v2-sug-ico">{t.icon}</span>
-                    <span className="v2-sug-name">{t.name}</span>
-                    <span className="v2-sug-meta">{t.category} · {t.pricing}</span>
-                    <span className="v2-sug-go">↵</span>
-                  </button>
-                ))}
-                <button
-                  className="v2-sug-foot"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => submit(query)}
-                >
-                  <span className="v2-sug-prompt">▸</span> Get a recommendation for “{query.trim()}”
-                </button>
-              </div>
-            )}
-          </div>
+          <HeroSearch onFocusChange={setSearchFocus} />
 
           <HeroReadout />
           <PinnedStrip />
