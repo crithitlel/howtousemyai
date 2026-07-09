@@ -694,10 +694,16 @@ export default function HeroCanvas() {
       }
     };
 
+    // touch devices: cap to ~30fps — the slow constellation drift reads the
+    // same at 30 as 60, at half the constant CPU/battery cost
+    const frameCap = window.matchMedia("(pointer: coarse)").matches ? 31 : 0;
+    let lastFrame = -1e9;
     const loop = (now: number) => {
+      raf = requestAnimationFrame(loop);
+      if (now - lastFrame < frameCap) return;
+      lastFrame = now;
       if (!start0) start0 = now;
       draw(now - start0);
-      raf = requestAnimationFrame(loop);
     };
 
     const startLoop = () => {

@@ -69,19 +69,27 @@
 ::-webkit-scrollbar-thumb:hover { background: #1877F2; }
 
 body {
-  background:
-    /* v2 cockpit grid — matches the homepage */
-    linear-gradient(rgba(24,119,242,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(24,119,242,0.05) 1px, transparent 1px),
-    radial-gradient(ellipse 110% 60% at 50% -8%, #0e1838, transparent 70%),
-    #070d20 !important;
-  background-size: 46px 46px, 46px 46px, auto, auto !important;
-  background-attachment: fixed;
+  background: #070d20 !important;
   color: #dbe6fb;
   font-family: var(--font-tech), var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 0.01em;
+}
+/* v2 cockpit grid — one viewport-fixed compositor layer instead of
+   background-attachment: fixed, which repaints the whole gradient stack on
+   every scroll frame (notorious jank on mobile Safari). Identical look. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(24,119,242,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24,119,242,0.05) 1px, transparent 1px),
+    radial-gradient(ellipse 110% 60% at 50% -8%, #0e1838, transparent 70%);
+  background-size: 46px 46px, 46px 46px, auto;
 }
 
 /* Hero display headline — Rajdhani, animated gradient sheen, blue aura */
@@ -319,6 +327,18 @@ body {
 .tcard {
   position: relative;
   transition: transform 0.26s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  /* skip layout/paint for offscreen cards — the directory renders 165 at once */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 150px;
+}
+/* Directory cards drop the live backdrop blur: 165 simultaneous blur(14px)
+   layers made /tools scroll paint-bound. Alpha raised to visually match the
+   old blurred-glass tone over the dark grid; hero/modal surfaces keep real
+   .glass-card blur. */
+.tcard.glass-card {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: linear-gradient(160deg, rgba(20, 33, 60, 0.92), rgba(9, 15, 30, 0.94));
 }
 .tcard::after {
   content: '';
@@ -1006,18 +1026,29 @@ body {
 .v2-root {
   /* design tokens live in :root — no re-declaration needed here */
   position: relative;
+  z-index: 0; /* own stacking context so ::before (-1) stays inside it, still occluding SystemBackdrop */
   color: #dbe6fb;
+  overflow-x: clip;
+  /* inherit body's font stack (Space Grotesk / Inter) — do not default plain
+     text to system monospace here; HUD/label elements set var(--font-tech),
+     var(--v2-mono) explicitly wherever that look is intended. */
+}
+/* Same cockpit grid as before, but as a viewport-fixed layer instead of
+   background-attachment: fixed (scroll-repaint jank). The opaque #070d20
+   base is kept so this still hides the global SystemBackdrop exactly like
+   the old opaque background did. */
+.v2-root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background:
     linear-gradient(rgba(24,119,242,0.05) 1px, transparent 1px),
     linear-gradient(90deg, rgba(24,119,242,0.05) 1px, transparent 1px),
     radial-gradient(ellipse 110% 60% at 50% -8%, #0e1838, transparent 70%),
     #070d20;
   background-size: 46px 46px, 46px 46px, auto, auto;
-  background-attachment: fixed;
-  overflow-x: clip;
-  /* inherit body's font stack (Space Grotesk / Inter) — do not default plain
-     text to system monospace here; HUD/label elements set var(--font-tech),
-     var(--v2-mono) explicitly wherever that look is intended. */
 }
 .v2-root a { text-decoration: none; color: inherit; }
 .v2-mono { font-family: var(--v2-mono); }
@@ -1031,12 +1062,17 @@ body.v2-shell .site-frame {
 body.v2-shell .starfield { display: none; }
 
 /* ── global overlays ── */
+/* scanlines + noise merged into ONE fixed compositor layer (was two separate
+   full-viewport fixed divs). The old .v2-noise element opacity of 0.5 is baked
+   into the dot alpha (0.05 × 0.5 = 0.025) so the look is identical. */
 .v2-scan {
   position: fixed; inset: 0; z-index: 9998; pointer-events: none;
-  background: repeating-linear-gradient(180deg, rgba(180,210,255,0.025) 0 1px, transparent 1px 3px);
+  background:
+    repeating-linear-gradient(180deg, rgba(180,210,255,0.025) 0 1px, transparent 1px 3px),
+    radial-gradient(rgba(24,119,242,0.025) 0.5px, transparent 0.5px);
+  background-size: auto, 4px 4px;
 }
-.v2-noise { position: fixed; inset: 0; z-index: 9997; pointer-events: none; opacity: 0.5;
-  background-image: radial-gradient(rgba(24,119,242,0.05) 0.5px, transparent 0.5px); background-size: 4px 4px; }
+.v2-noise { display: none; }
 
 /* ── dots ── */
 .v2-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
@@ -1231,21 +1267,21 @@ body.v2-shell .starfield { display: none; }
 @keyframes v2-boot-cb { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
 
 /* ── focus-reactive console: radar spins up + target-lock framing ── */
-.v2-hero.is-search .v2-sweep { animation-duration: 2.4s; }
+.v2-hero:is(.is-search, :has(.v2-console input:focus)) .v2-sweep { animation-duration: 2.4s; }
 .v2-console { transition: border-color 0.25s, box-shadow 0.25s; }
-.v2-hero.is-search .v2-console {
+.v2-hero:is(.is-search, :has(.v2-console input:focus)) .v2-console {
   border-color: rgba(24,119,242,0.85);
   box-shadow: 0 0 0 1px rgba(24,119,242,0.25), 0 0 60px -10px rgba(24,119,242,0.7), 0 30px 70px -30px rgba(0,0,0,0.7) inset; }
 .v2-console .v2-cb { transition: border-color 0.25s, transform 0.25s, filter 0.25s; }
-.v2-hero.is-search .v2-console .v2-cb { border-color: var(--v2-red); filter: drop-shadow(0 0 5px rgba(228,30,63,0.6)); }
-.v2-hero.is-search .v2-console .v2-cb-tl { transform: translate(3px,3px); }
-.v2-hero.is-search .v2-console .v2-cb-tr { transform: translate(-3px,3px); }
-.v2-hero.is-search .v2-console .v2-cb-bl { transform: translate(3px,-3px); }
-.v2-hero.is-search .v2-console .v2-cb-br { transform: translate(-3px,-3px); }
+.v2-hero:is(.is-search, :has(.v2-console input:focus)) .v2-console .v2-cb { border-color: var(--v2-red); filter: drop-shadow(0 0 5px rgba(228,30,63,0.6)); }
+.v2-hero:is(.is-search, :has(.v2-console input:focus)) .v2-console .v2-cb-tl { transform: translate(3px,3px); }
+.v2-hero:is(.is-search, :has(.v2-console input:focus)) .v2-console .v2-cb-tr { transform: translate(-3px,3px); }
+.v2-hero:is(.is-search, :has(.v2-console input:focus)) .v2-console .v2-cb-bl { transform: translate(3px,-3px); }
+.v2-hero:is(.is-search, :has(.v2-console input:focus)) .v2-console .v2-cb-br { transform: translate(-3px,-3px); }
 .v2-console-wrap::after { content: "▣ TARGET LOCK"; position: absolute; top: -8px; right: 16px; z-index: 6;
   font-family: var(--v2-mono); font-size: 9px; letter-spacing: 0.22em; color: #fff; background: var(--v2-red);
   padding: 1px 9px; opacity: 0; transform: translateY(-3px); transition: opacity 0.2s, transform 0.2s; pointer-events: none; }
-.v2-hero.is-search .v2-console-wrap::after { opacity: 1; transform: none; }
+.v2-hero:is(.is-search, :has(.v2-console input:focus)) .v2-console-wrap::after { opacity: 1; transform: none; }
 .v2-sug { position: fixed; z-index: 60; text-align: left; max-height: 70vh; overflow-y: auto;
   background: rgba(8,14,33,0.97); border: 1px solid #233150; border-radius: 12px;
   box-shadow: 0 24px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(24,119,242,0.06);

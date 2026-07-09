@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, Fraunces, Chakra_Petch } from "next/font/google";
+import { Inter, Space_Grotesk, Chakra_Petch } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import CommandPalette from "./components/CommandPalette";
+import CommandPaletteLauncher from "./components/CommandPaletteLauncher";
 import CompareTray from "./components/CompareTray";
 import SystemBackdrop from "./components/SystemBackdrop";
 import { Analytics } from "@vercel/analytics/next";
@@ -22,19 +22,12 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
 });
 
-// HUD / command-center display — squared technical face for headlines.
+// HUD / command-center display — squared technical face. Only the hero
+// headline (.v2-display, weight 600) uses this face, so load just that weight.
 const chakraPetch = Chakra_Petch({
   variable: "--font-hud",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-// Luxury editorial display serif — high-contrast, optical sizing.
-const fraunces = Fraunces({
-  variable: "--font-display",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz", "SOFT"],
+  weight: ["600"],
 });
 
 export const metadata: Metadata = {
@@ -72,14 +65,14 @@ const websiteSchema = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${chakraPetch.variable} ${fraunces.variable} h-full antialiased`}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${chakraPetch.variable} h-full antialiased`}>
       <head>
         <meta name="impact-site-verification" {...({ value: "4e76035d-5b9a-47aa-8e25-101a120311f2" } as Record<string, string>)} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         {(GA_ID as string) !== "G-XXXXXXXXXX" && (
           <>
-            <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
-            <Script id="ga-init" strategy="afterInteractive">{`
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="lazyOnload" />
+            <Script id="ga-init" strategy="lazyOnload">{`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
@@ -91,7 +84,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-full flex flex-col bg-[#070d20]">
         <div className="site-bg" aria-hidden="true" />
         <SystemBackdrop />
-        <CommandPalette />
+        <CommandPaletteLauncher />
         <CompareTray />
         <div className="relative z-[1] flex flex-col flex-1 min-h-full">
           <div className="site-frame flex flex-col flex-1 min-h-full">

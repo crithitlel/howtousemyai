@@ -1047,7 +1047,7 @@ export default async function ComparePage({ params }: { params: Promise<{ slug: 
                 <div className="v2-vs-top">
                   <span className="v2-mark" style={{ width: 44, height: 44, flexShrink: 0 }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`} alt={tool.name} width={26} height={26} />
+                    <img src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`} alt={tool.name} width={26} height={26} loading="lazy" />
                   </span>
                   <div>
                     <div className="v2-vs-name">{tool.name}</div>

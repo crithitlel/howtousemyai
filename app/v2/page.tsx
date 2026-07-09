@@ -1,6 +1,7 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
+// SERVER component on purpose: everything static (sector grid, priority
+// targets, workflows, comparisons, footer) renders at build time; only the
+// interactive/animated pieces are client islands (HeroSearch, canvases,
+// clock, HomeFX effects holder). TOOLS/WORKFLOWS data stays server-side.
 import Link from "next/link";
 import Logo from "../components/Logo";
 import BrandMark from "../components/BrandMark";
@@ -15,6 +16,8 @@ import GlitchHeadline from "../components/GlitchHeadline";
 import ScrollRail from "../components/ScrollRail";
 import ToolCountUp from "../components/ToolCountUp";
 import HeroSearch from "../components/HeroSearch";
+import HomeFX from "../components/HomeFX";
+import CmdkTrigger from "../components/CmdkTrigger";
 import { TOOLS, slugify } from "@/lib/tools";
 import { WORKFLOWS } from "@/lib/workflows";
 
@@ -55,63 +58,13 @@ const SECTOR_COUNT = new Set(TOOLS.map((t) => t.category)).size;
 const FREE_TO_TRY = TOOLS.filter((t) => t.pricing !== "Paid").length;
 
 export default function V2Page() {
-  const [searchFocus, setSearchFocus] = useState(false);
-  const heroRef = useRef<HTMLDivElement | null>(null);
-
   const featured = TOOLS.filter((t) => t.isFeatured).slice(0, 6);
-
-  // hero parallax (crosshair + rings track cursor)
-  useEffect(() => {
-    const el = heroRef.current;
-    if (!el) return;
-    const move = (e: MouseEvent) => {
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      el.style.setProperty("--px", String(x));
-      el.style.setProperty("--py", String(y));
-    };
-    el.addEventListener("mousemove", move);
-    return () => el.removeEventListener("mousemove", move);
-  }, []);
-
-  // dark full-bleed shell for this route only
-  useEffect(() => {
-    document.body.classList.add("v2-shell");
-    return () => document.body.classList.remove("v2-shell");
-  }, []);
-
-  // scroll reveal
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      (en) => en.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); } }),
-      { threshold: 0.1 }
-    );
-    document.querySelectorAll(".v2-reveal").forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-
-  // cursor-tracking spotlight on glass cards (Linear/Vercel-style light-follows-mouse)
-  useEffect(() => {
-    if (window.matchMedia("(pointer: coarse)").matches) return;
-    let raf = 0;
-    const onMove = (e: PointerEvent) => {
-      const card = (e.target as HTMLElement)?.closest?.(".v2-cell, .v2-duel") as HTMLElement | null;
-      if (!card) return;
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        const r = card.getBoundingClientRect();
-        card.style.setProperty("--mx", `${e.clientX - r.left}px`);
-        card.style.setProperty("--my", `${e.clientY - r.top}px`);
-      });
-    };
-    document.addEventListener("pointermove", onMove, { passive: true });
-    return () => { document.removeEventListener("pointermove", onMove); if (raf) cancelAnimationFrame(raf); };
-  }, []);
 
   return (
     <div className="v2-root">
+      {/* document-level effects (body class, parallax, reveal, spotlight) */}
+      <HomeFX />
+
       {/* global overlays */}
       <div className="v2-scan" aria-hidden="true" />
       <div className="v2-noise" aria-hidden="true" />
@@ -133,20 +86,14 @@ export default function V2Page() {
           ))}
         </nav>
         <div className="v2-sysline">
-          <button
-            type="button"
-            className="v2-cmdk-trigger"
-            onClick={() => window.dispatchEvent(new Event("open-cmdk"))}
-            aria-label="Open command palette"
-          >
-            <span className="v2-cmdk-ico">⌘</span>K<span className="v2-cmdk-txt">SEARCH</span>
-          </button>
+          <CmdkTrigger />
           <LiveClock />
         </div>
       </header>
 
       {/* ════ MAIN VIEWPORT (HERO) ════ */}
-      <section className={`v2-hero${searchFocus ? " is-search" : ""}`} ref={heroRef}>
+      {/* is-search visual state now driven by CSS :has(input:focus) — no React state needed */}
+      <section className="v2-hero">
         <div className="v2-hero-grid" aria-hidden="true" />
         <div className="v2-hero-glow" aria-hidden="true" />
 
@@ -239,7 +186,7 @@ export default function V2Page() {
 
           <GlitchHeadline />
 
-          <HeroSearch onFocusChange={setSearchFocus} />
+          <HeroSearch />
 
           <HeroReadout />
           <PinnedStrip />

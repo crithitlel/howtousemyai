@@ -26,7 +26,7 @@ function Mark({ tool, size = 38 }: { tool: Tool; size?: number }) {
         height={inner}
         onError={(e) => {
           const t = e.currentTarget;
-          if (t.dataset.i === "0") { t.dataset.i = "1"; t.src = `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`; }
+          if (t.dataset.i === "0") { t.dataset.i = "1"; t.src = `https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`; }
           else { t.style.display = "none"; }
         }}
       />

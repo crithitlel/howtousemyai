@@ -97,19 +97,44 @@ export default function HeroSearch({ onFocusChange }: { onFocusChange?: (focused
     return () => clearTimeout(timer);
   }, []);
 
-  // magnetic CTA
+  // magnetic CTA — rAF-throttled with a cached center point instead of a
+  // getBoundingClientRect (forced layout) on every mousemove event.
   useEffect(() => {
     const btn = magnetRef.current;
     if (!btn) return;
-    const move = (e: MouseEvent) => {
+    let cx = 0, cy = 0, has = false;
+    let mx = 0, my = 0;
+    let raf = 0;
+    const measure = () => {
+      // measure with the magnet transform neutralized so the center is stable
+      const prev = btn.style.transform;
+      btn.style.transform = "";
       const r = btn.getBoundingClientRect();
-      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-      const dx = e.clientX - cx, dy = e.clientY - cy;
+      btn.style.transform = prev;
+      cx = r.left + r.width / 2; cy = r.top + r.height / 2;
+      has = true;
+    };
+    const apply = () => {
+      raf = 0;
+      if (!has) measure();
+      const dx = mx - cx, dy = my - cy;
       if (Math.hypot(dx, dy) < 110) btn.style.transform = `translate(${dx * 0.22}px, ${dy * 0.22}px)`;
       else btn.style.transform = "";
     };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
+    const move = (e: MouseEvent) => {
+      mx = e.clientX; my = e.clientY;
+      if (!raf) raf = requestAnimationFrame(apply);
+    };
+    const invalidate = () => { has = false; };
+    window.addEventListener("mousemove", move, { passive: true });
+    window.addEventListener("resize", invalidate);
+    window.addEventListener("scroll", invalidate, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("resize", invalidate);
+      window.removeEventListener("scroll", invalidate);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (

@@ -88,7 +88,7 @@ export default async function TagPage({ params }: { params: Promise<{ id: string
               <span className="v2-trow-rank">{String(i + 1).padStart(2, "0")}</span>
               <span className="v2-mark" style={{ width: 40, height: 40, flexShrink: 0 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`} alt={tool.name} width={23} height={23} loading="lazy" />
+                <img src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`} alt={tool.name} width={23} height={23} loading="lazy" />
               </span>
               <div className="v2-trow-body">
                 <div className="v2-trow-head">

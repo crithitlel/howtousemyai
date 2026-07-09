@@ -21,7 +21,7 @@ export default function BrandMark({ tool, size = 40 }: { tool: Tool; size?: numb
     <span className="v2-mark" style={{ width: size, height: size }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=128`}
+        src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
         data-i="0"
         alt={tool.name}
         width={inner}

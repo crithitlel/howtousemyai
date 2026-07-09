@@ -37,8 +37,11 @@ const TOOL_ITEMS: Item[] = TOOLS.map((t) => ({
 const ALL = [...PAGES, ...TOOL_ITEMS];
 const TOOL_BY_NAME = new Map(TOOL_ITEMS.map((t) => [t.label, t]));
 
-export default function CommandPalette() {
-  const [open, setOpen] = useState(false);
+// Controlled body: mounted only while open. The hotkey listener lives in
+// CommandPaletteLauncher so this module (which pulls in the full TOOLS list
+// and search engine) is code-split out of every page's initial bundle and
+// only downloads on first ⌘K.
+export default function CommandPalette({ onClose }: { onClose: () => void }) {
   const [q, setQ] = useState("");
   const [active, setActive] = useState(0);
   const router = useRouter();
@@ -65,10 +68,10 @@ export default function CommandPalette() {
   }, [q, pins, pinnedItems]);
 
   const close = useCallback(() => {
-    setOpen(false);
     setQ("");
     setActive(0);
-  }, []);
+    onClose();
+  }, [onClose]);
 
   const go = useCallback(
     (it: Item | undefined) => {
@@ -79,37 +82,15 @@ export default function CommandPalette() {
     [close, router]
   );
 
-  // global hotkey: Cmd/Ctrl + K
+  // focus input + lock scroll while mounted (mounted ⇔ open)
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        setOpen((o) => !o);
-      } else if (e.key === "Escape") {
-        setOpen(false);
-      }
-    };
-    const onOpen = () => setOpen(true);
-    window.addEventListener("keydown", onKey);
-    window.addEventListener("open-cmdk", onOpen);
+    document.body.style.overflow = "hidden";
+    const t = setTimeout(() => inputRef.current?.focus(), 30);
     return () => {
-      window.removeEventListener("keydown", onKey);
-      window.removeEventListener("open-cmdk", onOpen);
+      clearTimeout(t);
+      document.body.style.overflow = "";
     };
   }, []);
-
-  // focus input + lock scroll when open
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-      setTimeout(() => inputRef.current?.focus(), 30);
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
 
   // reset active on query change
   useEffect(() => setActive(0), [q]);
@@ -132,8 +113,6 @@ export default function CommandPalette() {
       go(results[active]);
     }
   };
-
-  if (!open) return null;
 
   return (
     <div className="cmdk-overlay" onClick={close} role="dialog" aria-modal="true" aria-label="Command palette">

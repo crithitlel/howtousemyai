@@ -800,7 +800,17 @@ export default function HeroGlobe() {
       }
     }
 
-    const loop = (now: number) => { if (!start0) start0 = now; draw(now - start0); raf = requestAnimationFrame(loop); };
+    // touch devices: cap to ~30fps — halves the constant CPU/battery cost of
+    // the ambient animation without visibly changing the slow planetary motion
+    const frameCap = window.matchMedia("(pointer: coarse)").matches ? 31 : 0;
+    let lastFrame = -1e9;
+    const loop = (now: number) => {
+      raf = requestAnimationFrame(loop);
+      if (now - lastFrame < frameCap) return;
+      lastFrame = now;
+      if (!start0) start0 = now;
+      draw(now - start0);
+    };
     const startLoop = () => { if (running || reduce || !visible) return; running = true; raf = requestAnimationFrame(loop); };
     const stopLoop = () => { running = false; cancelAnimationFrame(raf); };
 

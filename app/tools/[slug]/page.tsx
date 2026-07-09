@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { TOOLS, slugify } from "@/lib/tools";
-import { ToolProfileClient } from "./ToolProfileClient";
+import { ToolProfile } from "./ToolProfile";
 import { TOOLS_DATA } from "./data";
 
 // Pre-render every tool page at build time. Slugs come from the canonical lib
@@ -60,5 +60,5 @@ export default async function ToolPage({
   // Unknown slug → proper Next.js 404, not a degraded inline stub.
   if (!dossier && !basic) notFound();
 
-  return <ToolProfileClient slug={slug} />;
+  return <ToolProfile slug={slug} />;
 }

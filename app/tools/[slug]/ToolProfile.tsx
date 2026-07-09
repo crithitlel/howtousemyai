@@ -1,20 +1,21 @@
-"use client";
-
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { TOOLS, slugify as libSlugify } from "@/lib/tools";
 import { relatedByName, tagsForTool, tagLabel } from "@/lib/tags";
 import { workflowsUsingTool } from "@/lib/workflows";
 import { getToolUrl } from "@/lib/affiliates";
 import DossierActions from "../../components/DossierActions";
+import FaviconImg from "../../components/FaviconImg";
 import SiteHeader from "../../components/SiteHeader";
 import SiteFooter from "../../components/SiteFooter";
 import { TOOLS_DATA, type ToolData, slugify, PRICING_STYLES } from "./data";
 import { PROMPT_LIBS } from "@/lib/prompts";
 
-export function ToolProfileClient({ slug }: { slug: string }) {
-  const router = useRouter();
+// SERVER component on purpose: the 300KB+ dossier dataset (TOOLS_DATA) and the
+// full prompt-library corpus are resolved here at build time and never enter
+// the client bundle. The only client pieces are FaviconImg (onError fallback)
+// and DossierActions (pin/compare) — small isolated islands.
 
+export function ToolProfile({ slug }: { slug: string }) {
   const tool = TOOLS_DATA.find((t) => slugify(t.name) === slug);
 
   // Fallback: look up basic info from the shared tools list
@@ -24,19 +25,14 @@ export function ToolProfileClient({ slug }: { slug: string }) {
     return (
       <div className="min-h-screen">
         <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
-          <button onClick={() => router.push("/")} className="back-link">
+          <Link href="/" className="back-link">
             ‹ Return.To.Index
-          </button>
+          </Link>
         </div>
         <div className="max-w-3xl mx-auto px-6 py-10">
           <div className="flex items-center gap-4 mb-6">
             <div className="w-14 h-14 rounded-2xl bg-[#0d1729] border border-[#233150] flex items-center justify-center text-3xl flex-shrink-0">
-              <img
-                src={`https://www.google.com/s2/favicons?domain=${basicTool.domain}&sz=64`}
-                alt={basicTool.name}
-                className="w-8 h-8 object-contain"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-              />
+              <FaviconImg domain={basicTool.domain} alt={basicTool.name} size={32} className="w-8 h-8 object-contain" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-[#e9eef8]">{basicTool.name}</h1>
@@ -138,9 +134,9 @@ export function ToolProfileClient({ slug }: { slug: string }) {
       {/* Breadcrumb */}
       <div className="px-6 pt-6 pb-2 max-w-3xl mx-auto">
         <div className="v2-crumb">
-          <button onClick={() => router.push("/")}>HOME</button>
+          <Link href="/">HOME</Link>
           <i>//</i>
-          <button onClick={() => router.push("/tools")}>{tool.category}</button>
+          <Link href="/tools">{tool.category}</Link>
           <i>//</i>
           <span className="v2-crumb-cur">{tool.name}</span>
         </div>
@@ -159,19 +155,13 @@ export function ToolProfileClient({ slug }: { slug: string }) {
 
           <div className="flex items-center gap-4 mb-6">
             <div className="w-16 h-16 rounded-2xl bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden flex-shrink-0">
-              <img
-                src={`https://www.google.com/s2/favicons?domain=${tool.domain}&sz=64`}
+              <FaviconImg
+                domain={tool.domain}
                 alt={tool.name}
-                width={48}
-                height={48}
+                size={48}
                 className="rounded-lg object-contain"
-                onError={(e) => {
-                  const el = e.currentTarget;
-                  el.style.display = "none";
-                  if (el.nextElementSibling) (el.nextElementSibling as HTMLElement).style.display = "flex";
-                }}
+                fallbackIcon={tool.icon}
               />
-              <span className="text-3xl hidden items-center justify-center w-full h-full">{tool.icon}</span>
             </div>
             <div>
               <h1 className="display-head text-[30px] sm:text-[34px] font-semibold text-[#e9eef8] leading-tight">
@@ -349,25 +339,20 @@ export function ToolProfileClient({ slug }: { slug: string }) {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {similar.map((t) => (
-                <button
+                <Link
                   key={t.name}
-                  onClick={() => router.push(`/tools/${slugify(t.name)}`)}
+                  href={`/tools/${slugify(t.name)}`}
                   className="tool-card text-left bg-[#101b32] border border-[#233150] rounded-xl p-4 flex flex-col gap-3 overflow-hidden"
                 >
                   <div className="w-9 h-9 rounded-lg bg-[#0d1729] border border-[#233150] flex items-center justify-center overflow-hidden">
-                    <img
-                      src={`https://www.google.com/s2/favicons?domain=${t.domain}&sz=64`}
+                    <FaviconImg
+                      domain={t.domain}
                       alt={t.name}
-                      width={24}
-                      height={24}
+                      size={24}
                       className="rounded object-contain"
-                      onError={(e) => {
-                        const el = e.currentTarget;
-                        el.style.display = "none";
-                        if (el.nextElementSibling) (el.nextElementSibling as HTMLElement).style.display = "flex";
-                      }}
+                      fallbackIcon={t.icon}
+                      fallbackClassName="text-lg hidden items-center justify-center w-full h-full"
                     />
-                    <span className="text-lg hidden items-center justify-center w-full h-full">{t.icon}</span>
                   </div>
                   <div>
                     <h3 className="text-sm font-semibold text-[#e9eef8] group-hover:text-[#1877F2]">
@@ -380,16 +365,16 @@ export function ToolProfileClient({ slug }: { slug: string }) {
                   <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full self-start ${PRICING_STYLES[t.pricing].badge}`}>
                     {t.pricing.toUpperCase()}
                   </span>
-                </button>
+                </Link>
               ))}
             </div>
             <div className="mt-5">
-              <button
-                onClick={() => router.push(`/alternatives/${slugify(tool.name)}`)}
+              <Link
+                href={`/alternatives/${slugify(tool.name)}`}
                 className="text-xs font-semibold tracking-wider text-[#1877F2] hover:text-[#4a9df8] transition-colors"
               >
                 SEE ALL {tool.name.toUpperCase()} ALTERNATIVES →
-              </button>
+              </Link>
             </div>
           </div>
         </div>
