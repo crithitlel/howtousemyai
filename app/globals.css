@@ -1348,7 +1348,7 @@ body.v2-shell .starfield { display: none; }
 .v2-secnum::before { content: ""; width: 22px; height: 1px; background: var(--v2-red); opacity: 0.7; }
 .v2-secnum-on-dark { color: var(--v2-red); }
 .v2-sectitle { grid-row: 2; grid-column: 1; margin: 0; font-family: var(--font-tech), var(--v2-mono); font-weight: 700; text-transform: uppercase;
-  font-size: clamp(32px, 5.4vw, 64px); line-height: 0.92; letter-spacing: -0.02em; color: #f3f7ff; text-shadow: 0 0 40px rgba(24,119,242,0.25); }
+  font-size: clamp(22px, 2.4vw, 28px); line-height: 1.05; letter-spacing: -0.01em; color: #f3f7ff; text-shadow: 0 0 40px rgba(24,119,242,0.25); }
 .v2-on-dark { color: #f3f7ff; text-shadow: 0 0 40px rgba(24,119,242,0.3); }
 .v2-tred { color: var(--v2-red); }
 .v2-secmeta { grid-row: 2; grid-column: 2; align-self: end; justify-self: end; text-align: right; max-width: 30ch;
