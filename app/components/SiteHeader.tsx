@@ -15,12 +15,17 @@ import CmdkTrigger from "./CmdkTrigger";
    for an otherwise static header.
    ────────────────────────────────────────────────────────────── */
 
+// Full site map — every section reachable from the top bar, so nothing
+// important lives only in the footer (Prompts/Glossary/Calculator used to).
 const NAV: [string, string][] = [
-  ["TOOLS", "/tools"],
-  ["WORKFLOWS", "/workflows"],
-  ["COMPARE", "/compare"],
-  ["FREE", "/free"],
-  ["USE CASES", "/best-ai-for"],
+  ["Tools", "/tools"],
+  ["Workflows", "/workflows"],
+  ["Compare", "/compare"],
+  ["Free", "/free"],
+  ["Use Cases", "/best-ai-for"],
+  ["Prompts", "/prompts"],
+  ["Glossary", "/glossary"],
+  ["Calculator", "/calculator"],
 ];
 
 export default function SiteHeader({ active }: { active?: string }) {
@@ -29,8 +34,6 @@ export default function SiteHeader({ active }: { active?: string }) {
       <Link href="/" className="v2-brand">
         <Logo size={22} />
         <span>HOWTOUSEMY<b>AI</b></span>
-        <i className="v2-brand-sep" />
-        <em className="v2-brand-ver">v2</em>
       </Link>
       <nav className="v2-nav">
         {NAV.map(([t, h]) => (
@@ -41,7 +44,6 @@ export default function SiteHeader({ active }: { active?: string }) {
       </nav>
       <div className="v2-sysline">
         <CmdkTrigger />
-        <span className="v2-stat"><i className="v2-dot v2-dot-ok" />ONLINE</span>
         <LiveClock />
       </div>
     </header>

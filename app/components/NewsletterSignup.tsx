@@ -11,10 +11,16 @@ export default function NewsletterSignup({
   compact = false,
   secnum,
   className = "",
+  title,
+  lead,
+  ctaLabel,
 }: {
   compact?: boolean;
   secnum?: string;
   className?: string;
+  title?: React.ReactNode;
+  lead?: string;
+  ctaLabel?: string;
 }) {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<"idle" | "busy" | "done" | "error">("idle");
@@ -40,8 +46,8 @@ export default function NewsletterSignup({
       <i className="v2-cb v2-cb-tl" /><i className="v2-cb v2-cb-tr" />
       <i className="v2-cb v2-cb-bl" /><i className="v2-cb v2-cb-br" />
       {secnum && <span className="v2-secnum v2-secnum-on-dark">{secnum}</span>}
-      <h2 className="v2-news-title">OPEN<span className="v2-tred">.</span>CHANNEL</h2>
-      <p className="v2-news-lead">// WEEKLY TRANSMISSION · THE BEST NEW AI TOOLS, DECRYPTED · ZERO NOISE</p>
+      <h2 className="v2-news-title">{title ?? <>OPEN<span className="v2-tred">.</span>CHANNEL</>}</h2>
+      <p className="v2-news-lead">{lead ?? "// WEEKLY TRANSMISSION · THE BEST NEW AI TOOLS, DECRYPTED · ZERO NOISE"}</p>
       {state === "done" ? (
         <p className="v2-news-done"><i className="v2-dot v2-dot-ok" />CHANNEL OPEN — CHECK YOUR INBOX</p>
       ) : (
@@ -51,13 +57,13 @@ export default function NewsletterSignup({
             <input
               type="email"
               required
-              placeholder="ENTER FREQUENCY // you@email.com"
+              placeholder={compact || !ctaLabel ? "ENTER FREQUENCY // you@email.com" : "you@email.com"}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={state === "busy"}
             />
             <button type="submit" disabled={state === "busy"}>
-              {state === "busy" ? "SENDING…" : "TRANSMIT"}
+              {state === "busy" ? "SENDING…" : (ctaLabel ?? "TRANSMIT")}
             </button>
           </form>
           {state === "error" && (

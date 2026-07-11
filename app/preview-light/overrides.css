@@ -1,0 +1,149 @@
+/* TEMPORARY light-theme preview override — localhost only, not linked anywhere.
+   White ground + blue (primary/interactive) + green (free/nominal) + red
+   (paid/alert) as the three functional accents. Hand-written, not a mechanical
+   recolor, because going light means replacing the dark-space decoration
+   system (starfield, planets, nebula glows, scanlines), not just swapping a
+   hue on an otherwise-unchanged dark base. */
+
+:root {
+  --ink: #12151C;
+  --ink-mid: #5B6472;
+  --ink-dim: #8B93A1;
+  --ink-bright: #1565D8;
+  --navy: #FFFFFF;
+  --navy-mid: #F5F6F8;
+  --panel: #FFFFFF;
+  --panel-alt: #F7F8FA;
+  --line: #E2E5EA;
+  --line-strong: #D1D5DB;
+  --fb-blue: #1565D8;
+  --fb-blue-bright: #2B7FE8;
+  --fb-blue-dark: #0F4FB0;
+  --fb-blue-light: #EAF1FD;
+  --brand-red: #DC2626;
+  --brand-red-deep: #B91C1C;
+  --brand-red-glow: rgba(220,38,38,0.25);
+  --v2-green: #16A34A;
+  --v2-green-rgb: 22, 163, 74;
+  --v2-blue-soft: rgba(21,101,216,0.12);
+  --v2-line: rgba(21,101,216,0.14);
+  --v2-line-2: rgba(21,101,216,0.28);
+  --v2-dark: #F5F6F8;
+}
+
+/* ── base ground ── */
+body.v2-shell,
+.v2-root {
+  background: #FFFFFF !important;
+}
+.v2-hero {
+  background: #FFFFFF !important;
+  color: var(--ink) !important;
+}
+.v2-root::before {
+  background:
+    linear-gradient(rgba(21,101,216,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21,101,216,0.035) 1px, transparent 1px),
+    #FFFFFF !important;
+  background-size: 46px 46px, 46px 46px, auto, auto !important;
+}
+.v2-root { color: var(--ink) !important; }
+
+/* ── strip the dark-space decoration layer entirely — none of it
+   translates to a white ground (starfield, planets, nebula, radar,
+   scanlines, noise, fake telemetry rails) ── */
+.sysbg, .v2-scan, .v2-noise, .v2-herocanvas, .v2-heroglobe,
+.v2-particles, .v2-acq, .v2-deepspace, .v2-rings, .v2-bp, .v2-bp-coord,
+.v2-hero-grid, .v2-hero-glow, .v2-cross, .v2-reticle, .v2-ruler,
+.v2-hex, .v2-rail, .v2-anno, .v2-radar, .sysbg-hud {
+  display: none !important;
+}
+
+/* ── neutralize dark-tuned neon glows broadly — per-selector glow shadows
+   assume a dark ground to read against; on white they just look muddy ── */
+.v2-hero, .v2-console, .v2-cta, .v2-primary, .v2-cell, .v2-duel,
+.v2-panel, .v2-frame, .v2-news, .v2-sug, .cmdk-panel, .glass-card,
+.tcard, .v2-vscard {
+  text-shadow: none !important;
+}
+
+/* ── panels & cards: white surface, soft neutral shadow instead of glow ── */
+.v2-panel, .v2-frame, .v2-cell, .v2-primary, .v2-duel, .v2-console,
+.v2-news, .glass-card, .tcard, .v2-vscard, .cmdk-panel {
+  background: #FFFFFF !important;
+  border-color: var(--line) !important;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 1px 3px rgba(16,24,40,0.06) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.v2-cell:hover, .v2-primary:hover, .v2-duel:hover, .tcard:hover {
+  box-shadow: 0 4px 12px rgba(16,24,40,0.08), 0 0 0 1px var(--fb-blue) !important;
+  border-color: var(--fb-blue) !important;
+}
+.v2-cb { border-color: var(--line-strong) !important; }
+
+/* ── dark sections (Priority Targets, Transmission) — swap to a soft blue-
+   tinted panel instead of navy-on-navy, so they still read as a break ── */
+.v2-sec-dark { background: var(--fb-blue-light) !important; color: var(--ink) !important; }
+.v2-secmeta-dark, .v2-secnum-on-dark { color: var(--ink-mid) !important; }
+
+/* ── headline / display text: no glow, just solid ink ── */
+.v2-display, .v2-sectitle, .v2-news-title, .v2-on-dark {
+  color: var(--ink) !important;
+  text-shadow: none !important;
+}
+.v2-display-blue { color: var(--fb-blue) !important; text-shadow: none !important; }
+.v2-display-red { color: var(--brand-red) !important; }
+.v2-tred { color: var(--brand-red) !important; }
+
+/* ── primary CTA: solid fill, no gradient glow ── */
+.v2-cta {
+  background: var(--fb-blue) !important;
+  border-color: var(--fb-blue) !important;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.1) !important;
+}
+.v2-cta:hover { filter: brightness(1.08); box-shadow: 0 4px 10px rgba(21,101,216,0.3) !important; }
+
+/* ── status dots: keep them meaningful (green = ok, red = alert) ── */
+.v2-dot-ok { background: var(--v2-green) !important; box-shadow: 0 0 4px rgba(22,163,74,0.5) !important; }
+.v2-dot-red { background: var(--brand-red) !important; box-shadow: 0 0 4px rgba(220,38,38,0.5) !important; }
+
+/* ── pricing pills: the actual white/blue/green/red mapping ── */
+.v2-pill-free { border-color: rgba(22,163,74,0.4) !important; background: rgba(22,163,74,0.08) !important; color: #15803D !important; }
+.v2-pill-freemium { border-color: rgba(21,101,216,0.3) !important; background: rgba(21,101,216,0.08) !important; color: var(--fb-blue) !important; }
+.v2-pill-paid { border-color: rgba(220,38,38,0.35) !important; background: rgba(220,38,38,0.08) !important; color: var(--brand-red) !important; }
+
+/* ── footer ── */
+.v2-footer { background: #F7F8FA !important; color: var(--ink-mid) !important; border-top: 1px solid var(--line) !important; }
+.v2-foot-bar i { background: rgba(21,101,216,0.15) !important; }
+
+/* ── top bar ── */
+.v2-topbar { background: rgba(255,255,255,0.85) !important; border-bottom: 1px solid var(--line) !important; backdrop-filter: blur(8px) !important; }
+
+/* ── remaining hardcoded light-on-dark text colors (#eaf1ff/#f3f7ff/#dbe6fb),
+   invisible now that their backgrounds are white ── */
+.brand-mark, .v2-brand, .v2-primary-name, .v2-secitem-name,
+.v2-foot-mono, .v2-foot-logo {
+  color: var(--ink) !important;
+}
+.v2-foot-dim { color: var(--ink-dim) !important; }
+.v2-console input { color: var(--ink) !important; }
+.v2-console input::placeholder { color: var(--ink-dim) !important; }
+.v2-console-row > svg { color: var(--fb-blue) !important; }
+
+/* ── body-level hardcoded dark ground (bakes #070d20 directly, not via token) ── */
+body { background: #FFFFFF !important; color: var(--ink) !important; }
+body::before { display: none !important; }
+
+/* ── command palette (⌘K) — globally mounted, so it renders on this route too ── */
+.cmdk-panel { background: #FFFFFF !important; border-color: var(--line) !important; box-shadow: 0 20px 50px rgba(16,24,40,0.15) !important; }
+.cmdk-ico { background: var(--panel-alt) !important; border-color: var(--line) !important; }
+.cmdk-foot kbd { background: var(--panel-alt) !important; border-color: var(--line-strong) !important; color: var(--ink-mid) !important; }
+.cmdk-label { color: var(--ink) !important; }
+.cmdk-row.is-active { background: var(--fb-blue-light) !important; }
+
+/* ── pinned tools chip + compare tray — globally mounted ── */
+.v2-pinned-chip, .cmp-chip { background: var(--panel-alt) !important; border-color: var(--line) !important; }
+.tcard-cmp { border-color: var(--line-strong) !important; }
+.cmp-drawer { background: #FFFFFF !important; border-color: var(--line) !important; }
+.cmp-col { background: var(--panel-alt) !important; border-color: var(--line) !important; }

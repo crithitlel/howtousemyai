@@ -127,7 +127,7 @@ export default function CommandPalette({ onClose }: { onClose: () => void }) {
           <input
             ref={inputRef}
             className="cmdk-input"
-            placeholder="SEARCH NODES · JUMP TO SECTOR…"
+            placeholder="Search tools and pages…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={onInputKey}
@@ -139,7 +139,7 @@ export default function CommandPalette({ onClose }: { onClose: () => void }) {
 
         <div className="cmdk-list" ref={listRef}>
           {results.length === 0 && (
-            <div className="cmdk-empty">NO SIGNAL · NO MATCHING NODE</div>
+            <div className="cmdk-empty">No matches found</div>
           )}
           {results.map((it, i) => (
             <button
@@ -153,16 +153,16 @@ export default function CommandPalette({ onClose }: { onClose: () => void }) {
               <span className="cmdk-label">{it.label}</span>
               <span className="cmdk-sub">{it.sub}</span>
               {it.kind === "tool" && pins.includes(it.label) && <span className="cmdk-pinmark">★</span>}
-              <span className="cmdk-tag">{it.kind === "page" ? "PAGE" : "NODE"}</span>
+              <span className="cmdk-tag">{it.kind === "page" ? "Page" : "Tool"}</span>
             </button>
           ))}
         </div>
 
         <div className="cmdk-foot">
-          <span><kbd>↑</kbd><kbd>↓</kbd> NAVIGATE</span>
-          <span><kbd>↵</kbd> OPEN</span>
-          <span><kbd>ESC</kbd> CLOSE</span>
-          <span className="cmdk-foot-r">{results.length} RESULTS</span>
+          <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+          <span><kbd>↵</kbd> Open</span>
+          <span><kbd>ESC</kbd> Close</span>
+          <span className="cmdk-foot-r">{results.length} results</span>
         </div>
       </div>
     </div>

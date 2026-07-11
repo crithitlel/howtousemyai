@@ -15,7 +15,7 @@ export default function SiteFooter() {
     <footer className="v2-footer">
       <div className="v2-foot-grid">
         <div className="v2-foot-col">
-          <span className="v2-foot-h">SYSTEM</span>
+          <span className="v2-foot-h">Explore</span>
           <a href="/tools">Tools</a>
           <a href="/workflows">Workflows</a>
           <a href="/compare">Compare</a>
@@ -26,7 +26,7 @@ export default function SiteFooter() {
           <a href="/calculator">Cost Calculator</a>
         </div>
         <div className="v2-foot-col">
-          <span className="v2-foot-h">REGISTRY</span>
+          <span className="v2-foot-h">Company</span>
           <a href="/about">About</a>
           <a href="/submit">Submit</a>
           <a href="/privacy">Privacy</a>
@@ -34,12 +34,9 @@ export default function SiteFooter() {
         </div>
         <div className="v2-foot-brand">
           <div className="v2-foot-logo"><Logo size={20} /><span>HOWTOUSEMY<b>AI</b></span></div>
-          <p className="v2-foot-mono"><span className="v2-tok">{TOOLS.length}</span> AI TOOLS · <span className="v2-tok">{CATEGORIES}</span> CATEGORIES</p>
-          <p className="v2-foot-mono v2-foot-dim">© {new Date().getFullYear()} HOWTOUSEMYAI // ALL SYSTEMS RESERVED</p>
+          <p className="v2-foot-mono"><span className="v2-tok">{TOOLS.length}</span> AI tools · <span className="v2-tok">{CATEGORIES}</span> categories</p>
+          <p className="v2-foot-mono v2-foot-dim">© {new Date().getFullYear()} HowToUseMyAI. All rights reserved.</p>
         </div>
-      </div>
-      <div className="v2-foot-bar" aria-hidden="true">
-        {Array.from({ length: 60 }).map((_, i) => <i key={i} />)}
       </div>
     </footer>
   );

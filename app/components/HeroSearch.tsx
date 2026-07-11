@@ -6,10 +6,10 @@ import { slugify, type Tool } from "@/lib/tools";
 import { searchTools } from "@/lib/search";
 
 const PLACEHOLDERS = [
-  "CREATE A YOUTUBE VIDEO",
-  "WRITE A COVER LETTER",
-  "GENERATE BRAND IMAGERY",
-  "DEBUG MY SOURCE CODE",
+  "Create a YouTube video",
+  "Write a cover letter",
+  "Generate brand imagery",
+  "Debug my source code",
 ];
 
 function Frame({ className = "", children }: { className?: string; children: React.ReactNode }) {
@@ -32,7 +32,6 @@ export default function HeroSearch({ onFocusChange }: { onFocusChange?: (focused
   const [sugActive, setSugActive] = useState(-1);
   const [sugRect, setSugRect] = useState<{ left: number; top: number; width: number; maxHeight: number } | null>(null);
   const wrapRef = useRef<HTMLDivElement | null>(null);
-  const magnetRef = useRef<HTMLButtonElement | null>(null);
   const router = useRouter();
 
   const updateRect = () => {
@@ -97,46 +96,6 @@ export default function HeroSearch({ onFocusChange }: { onFocusChange?: (focused
     return () => clearTimeout(timer);
   }, []);
 
-  // magnetic CTA — rAF-throttled with a cached center point instead of a
-  // getBoundingClientRect (forced layout) on every mousemove event.
-  useEffect(() => {
-    const btn = magnetRef.current;
-    if (!btn) return;
-    let cx = 0, cy = 0, has = false;
-    let mx = 0, my = 0;
-    let raf = 0;
-    const measure = () => {
-      // measure with the magnet transform neutralized so the center is stable
-      const prev = btn.style.transform;
-      btn.style.transform = "";
-      const r = btn.getBoundingClientRect();
-      btn.style.transform = prev;
-      cx = r.left + r.width / 2; cy = r.top + r.height / 2;
-      has = true;
-    };
-    const apply = () => {
-      raf = 0;
-      if (!has) measure();
-      const dx = mx - cx, dy = my - cy;
-      if (Math.hypot(dx, dy) < 110) btn.style.transform = `translate(${dx * 0.22}px, ${dy * 0.22}px)`;
-      else btn.style.transform = "";
-    };
-    const move = (e: MouseEvent) => {
-      mx = e.clientX; my = e.clientY;
-      if (!raf) raf = requestAnimationFrame(apply);
-    };
-    const invalidate = () => { has = false; };
-    window.addEventListener("mousemove", move, { passive: true });
-    window.addEventListener("resize", invalidate);
-    window.addEventListener("scroll", invalidate, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", move);
-      window.removeEventListener("resize", invalidate);
-      window.removeEventListener("scroll", invalidate);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
-
   return (
     <div className="v2-console-wrap" ref={wrapRef}>
       <Frame className="v2-console">
@@ -149,14 +108,14 @@ export default function HeroSearch({ onFocusChange }: { onFocusChange?: (focused
             onKeyDown={onSearchKey}
             onFocus={() => { onFocusChange?.(true); if (query.trim()) { setSugOpen(true); updateRect(); } }}
             onBlur={() => { onFocusChange?.(false); setTimeout(() => setSugOpen(false), 120); }}
-            placeholder={ph ? `> ${ph}_` : "State your objective..."}
+            placeholder={ph || "Describe your task…"}
             role="combobox"
             aria-expanded={sugOpen && suggestions.length > 0}
             aria-controls="v2-sug-list"
             autoComplete="off"
           />
-          <button ref={magnetRef} className="v2-cta" onClick={() => submit(query)}>
-            <span>SEARCH</span><i className="v2-cta-arrow">▸</i>
+          <button className="v2-cta" onClick={() => submit(query)}>
+            <span>Search</span><i className="v2-cta-arrow">→</i>
           </button>
         </div>
       </Frame>
@@ -169,7 +128,7 @@ export default function HeroSearch({ onFocusChange }: { onFocusChange?: (focused
           style={sugRect ? { left: sugRect.left, top: sugRect.top, width: sugRect.width, maxHeight: sugRect.maxHeight } : undefined}
         >
           <div className="v2-sug-head">
-            <span className="v2-sug-prompt">{">"}</span> MATCHING NODES
+            Matching tools
             <span className="v2-sug-count">{suggestions.length}</span>
           </div>
           {suggestions.map((t, i) => (

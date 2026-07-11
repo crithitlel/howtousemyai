@@ -10,7 +10,7 @@ export default function CmdkTrigger() {
       onClick={() => window.dispatchEvent(new Event("open-cmdk"))}
       aria-label="Open command palette"
     >
-      <span className="v2-cmdk-ico">⌘</span>K<span className="v2-cmdk-txt">SEARCH</span>
+      <span className="v2-cmdk-ico">⌘</span>K<span className="v2-cmdk-txt">Search</span>
     </button>
   );
 }

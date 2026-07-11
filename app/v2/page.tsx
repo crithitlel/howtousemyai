@@ -12,7 +12,6 @@ import HeroGlobe from "../components/HeroGlobe";
 import PinnedStrip from "../components/PinnedStrip";
 import NewsletterSignup from "../components/NewsletterSignup";
 import LiveClock from "../components/LiveClock";
-import GlitchHeadline from "../components/GlitchHeadline";
 import ScrollRail from "../components/ScrollRail";
 import ToolCountUp from "../components/ToolCountUp";
 import HeroSearch from "../components/HeroSearch";
@@ -20,6 +19,9 @@ import HomeFX from "../components/HomeFX";
 import CmdkTrigger from "../components/CmdkTrigger";
 import { TOOLS, slugify } from "@/lib/tools";
 import { WORKFLOWS } from "@/lib/workflows";
+import { COMPARE_SLUGS } from "@/lib/compareSlugs";
+import { PROMPT_SLUGS } from "@/lib/prompts";
+import { GLOSSARY } from "@/lib/glossary";
 
 /* ── Technical section-break divider ── */
 function SectionBreak({ code, label, reveal = true }: { code: string; label: string; reveal?: boolean }) {
@@ -57,6 +59,24 @@ const SECTOR_COUNT = new Set(TOOLS.map((t) => t.category)).size;
 // Real, computed stat — tools with a free or freemium tier you can start without paying.
 const FREE_TO_TRY = TOOLS.filter((t) => t.pricing !== "Paid").length;
 
+// ── ATLAS PANEL — WWF "Blue Corridors"-style section index in the hero.
+// Every section of the site, one stacked row each (dot · name · count · +),
+// so Prompts/Glossary/Calculator are no longer discoverable only from the
+// footer. Counts are computed from data (never hardcoded) per house rule;
+// entries without a clean lib-level count simply omit the number.
+// Dot colors stay inside the brand contract: blues + semantic green (free)
+// + semantic red (versus).
+const ATLAS: { label: string; href: string; n: number | null; dot: string }[] = [
+  { label: "Tools",      href: "/tools",       n: TOOLS.length,        dot: "var(--v2-blue-bright)" },
+  { label: "Workflows",  href: "/workflows",   n: WORKFLOWS.length,    dot: "var(--ink-bright)" },
+  { label: "Compare",    href: "/compare",     n: COMPARE_SLUGS.size,  dot: "var(--brand-red)" },
+  { label: "Free Tools", href: "/free",        n: FREE_TO_TRY,         dot: "var(--v2-green)" },
+  { label: "Prompts",    href: "/prompts",     n: PROMPT_SLUGS.length, dot: "var(--v2-blue)" },
+  { label: "Glossary",   href: "/glossary",    n: GLOSSARY.length,     dot: "var(--ink-mid)" },
+  { label: "Use Cases",  href: "/best-ai-for", n: null,                dot: "var(--v2-blue-bright)" },
+  { label: "Calculator", href: "/calculator",  n: null,                dot: "var(--ink-bright)" },
+];
+
 export default function V2Page() {
   const featured = TOOLS.filter((t) => t.isFeatured).slice(0, 6);
 
@@ -81,7 +101,16 @@ export default function V2Page() {
           <em className="v2-brand-ver">v2</em>
         </Link>
         <nav className="v2-nav">
-          {[["TOOLS", "/tools"], ["WORKFLOWS", "/workflows"], ["COMPARE", "/compare"], ["FREE", "/free"], ["USE CASES", "/best-ai-for"]].map(([t, h], i) => (
+          {[
+            ["TOOLS", "/tools"],
+            ["WORKFLOWS", "/workflows"],
+            ["COMPARE", "/compare"],
+            ["FREE", "/free"],
+            ["USE CASES", "/best-ai-for"],
+            ["PROMPTS", "/prompts"],
+            ["GLOSSARY", "/glossary"],
+            ["CALCULATOR", "/calculator"],
+          ].map(([t, h], i) => (
             <Link key={h} href={h}><span className="v2-nav-i">0{i + 1}</span>{t}</Link>
           ))}
         </nav>
@@ -133,10 +162,6 @@ export default function V2Page() {
           <span className="v2-compass" />
         </div>
 
-        <div className="v2-cross v2-cross-x" aria-hidden="true" />
-        <div className="v2-cross v2-cross-y" aria-hidden="true" />
-        <div className="v2-reticle" aria-hidden="true" />
-
         {/* edge measurement rulers */}
         <span className="v2-ruler v2-ruler-t" aria-hidden="true" />
         <span className="v2-ruler v2-ruler-b" aria-hidden="true" />
@@ -149,8 +174,7 @@ export default function V2Page() {
         <i className="v2-cb v2-cb-bl v2-hero-cb" /><i className="v2-cb v2-cb-br v2-hero-cb" />
 
         {/* floating annotations */}
-        <span className="v2-anno v2-anno-tl" aria-hidden="true">▸ RENDER OK · 60FPS</span>
-        <span className="v2-anno v2-anno-tr" aria-hidden="true">NODE.MAINFRAME // <ToolCountUp target={TOOLS.length} /></span>
+        <span className="v2-anno v2-anno-tr" aria-hidden="true">INDEXED // <ToolCountUp target={TOOLS.length} /> TOOLS</span>
         <span className="v2-anno v2-anno-bl" aria-hidden="true">BUILD 1.9.{new Date().getFullYear()}</span>
 
         {/* rotating hex emblem */}
@@ -161,14 +185,6 @@ export default function V2Page() {
             <circle cx="50" cy="50" r="4" fill="#1877F2" />
           </svg>
         </span>
-
-        {/* vertical side rails */}
-        <div className="v2-rail v2-rail-l" aria-hidden="true">
-          <span>LAT 51.5074°N</span><span>LON 0.1278°W</span><span className="v2-bar"><b style={{ height: "62%" }} /></span><span>SEC // 14</span>
-        </div>
-        <div className="v2-rail v2-rail-r" aria-hidden="true">
-          <span className="v2-dot v2-dot-ok" />NAV<span className="v2-dot v2-dot-ok" />IDX<span className="v2-dot v2-dot-red" />NET<span className="v2-dot v2-dot-ok" />PWR
-        </div>
 
         {/* corner HUD statistics (shown in compact / search-primary compositions) */}
         <div className="v2-herostats" aria-hidden="true">
@@ -184,13 +200,32 @@ export default function V2Page() {
             <i className="v2-haz" /><span>// DISCOVER + LEARN · THE AI DIRECTORY THAT TEACHES</span><i className="v2-haz" />
           </div>
 
-          <GlitchHeadline />
+          {/* static headline — the periodic glitch flicker read "hacker movie",
+              off-reference for the scientific-atlas direction (and one less timer) */}
+          <h1 className="v2-display" data-text="Find the right AI">
+            Find the <span className="v2-display-blue">right AI</span><span className="v2-display-red">.</span>
+          </h1>
 
           <HeroSearch />
 
           <HeroReadout />
           <PinnedStrip />
         </div>
+
+        {/* ── ATLAS PANEL — full site index, WWF species-list style.
+            Docked to the left edge on wide screens, stacks under the
+            console on smaller ones. ── */}
+        <aside className="v2-atlas" aria-label="Explore every section">
+          <span className="v2-atlas-tag">▸ EXPLORE // FULL INDEX</span>
+          {ATLAS.map((s) => (
+            <Link key={s.href} href={s.href} className="v2-atlas-row">
+              <i className="v2-atlas-dot" style={{ background: s.dot, boxShadow: `0 0 9px ${s.dot}` }} aria-hidden="true" />
+              <span className="v2-atlas-name">{s.label}</span>
+              {s.n !== null && <span className="v2-atlas-n">{s.n}</span>}
+              <span className="v2-atlas-plus" aria-hidden="true">+</span>
+            </Link>
+          ))}
+        </aside>
 
       </section>
 
@@ -256,12 +291,12 @@ export default function V2Page() {
         </div>
       </section>
 
-      {/* ════ PRIORITY TARGETS (featured) ════ */}
+      {/* ════ FEATURED TOOLS ════ */}
       <section className="v2-sec v2-sec-dark">
         <div className="v2-hero-grid v2-grid-faint" aria-hidden="true" />
         <div className="v2-sechead v2-reveal">
           <span className="v2-secnum v2-secnum-on-dark">[ 02 ]</span>
-          <h2 className="v2-sectitle v2-on-dark">PRIORITY<span className="v2-tred">.</span>TARGETS</h2>
+          <h2 className="v2-sectitle v2-on-dark">FEATURED<span className="v2-tred">.</span>TOOLS</h2>
           <span className="v2-secmeta v2-secmeta-dark">// HIGHEST-SIGNAL INSTRUMENTS</span>
         </div>
 
@@ -270,7 +305,7 @@ export default function V2Page() {
           {featured[0] && (
             <a href={`/tools/${slugify(featured[0].name)}`} className="v2-primary">
               <i className="v2-cb v2-cb-tl v2-cb-on" /><i className="v2-cb v2-cb-tr v2-cb-on" /><i className="v2-cb v2-cb-bl v2-cb-on" /><i className="v2-cb v2-cb-br v2-cb-on" />
-              <span className="v2-primary-tag"><i className="v2-dot v2-dot-red" />PRIMARY TARGET · 01</span>
+              <span className="v2-primary-tag"><i className="v2-dot v2-dot-red" />FEATURED · 01</span>
               <BrandMark tool={featured[0]} size={66} />
               <h3 className="v2-primary-name">{featured[0].name}</h3>
               <p className="v2-primary-desc">{featured[0].description}</p>
@@ -342,7 +377,7 @@ export default function V2Page() {
       <section className="v2-sec">
         <div className="v2-sechead v2-reveal">
           <span className="v2-secnum">[ 04 ]</span>
-          <h2 className="v2-sectitle">COMBAT<span className="v2-tred">.</span>LOG</h2>
+          <h2 className="v2-sectitle">HEAD<span className="v2-tred">.</span>TO<span className="v2-tred">.</span>HEAD</h2>
           <span className="v2-secmeta">// COMPARISONS · TWO TOOLS, HEAD-TO-HEAD</span>
         </div>
 
