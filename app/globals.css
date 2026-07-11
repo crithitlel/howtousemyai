@@ -581,7 +581,13 @@ body::before {
 .tools-deck { border: 1px solid #233150; background: rgba(13,23,41,0.55); border-radius: 12px;
   padding: 12px 14px; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
 .tools-deck-row { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
-.tools-deck-cats { margin-top: 10px; padding-top: 10px; border-top: 1px solid #1a2742; }
+.tools-deck-cats { margin-top: 10px; padding-top: 10px; border-top: 1px solid #1a2742;
+  /* grid instead of ragged flex-wrap: every pill snaps to an equal-width
+     column so rows actually line up, instead of breaking wherever the
+     variable-width labels happen to run out of room. */
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 7px 10px; align-items: stretch; }
+.tools-deck-cats .tools-deck-lbl { grid-column: 1 / -1; margin: 0 0 2px; }
+.tools-deck-cats .deck-chip { justify-content: center; text-align: center; }
 .tools-deck-lbl { font-family: var(--font-tech), var(--v2-mono); font-size: 9px; letter-spacing: 0.18em;
   text-transform: uppercase; color: #5d6f93; margin-right: 4px; }
 .tools-deck-spacer { flex: 1; min-width: 8px; }
