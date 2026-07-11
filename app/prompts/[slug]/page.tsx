@@ -47,7 +47,7 @@ export default async function PromptLibraryPage({ params }: { params: Promise<{ 
     <div className="v2-root">
       <SiteHeader active="/prompts" />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
-      <main className="v2-sec" style={{ maxWidth: 900, margin: "0 auto", padding: "clamp(28px,4vw,52px) clamp(16px,4vw,44px)" }}>
+      <main className="v2-page">
         <nav className="v2-crumb" aria-label="Breadcrumb">
           <Link href="/">HOME</Link> <span className="v2-crumb-sep">{"//"}</span>{" "}
           <Link href="/prompts">PROMPTS</Link> <span className="v2-crumb-sep">{"//"}</span>{" "}
